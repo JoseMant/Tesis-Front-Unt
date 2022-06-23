@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, of, tap, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 
@@ -145,6 +145,23 @@ export class AuthService
     signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
     {
         return this._httpClient.post('api/auth/sign-up', user);
+    }
+
+    /**
+     * Sign up
+     *
+     * @param user
+     */
+    getDocument(document: string): Observable<any>
+    {
+        return this._httpClient.get<any>('http://192.168.5.196:8080/api/personasSga/datosAlumno/'+document).pipe(
+            tap((response) => {
+               console.log(response);
+            //    debugger;
+               //  this._pagination.next(response.pagination);
+               //  this._products.next(response.products);
+            })
+        );
     }
 
     /**
