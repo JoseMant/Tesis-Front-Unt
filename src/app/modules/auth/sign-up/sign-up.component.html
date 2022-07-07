@@ -12,7 +12,7 @@
                 <div>¿Ya tienes una cuenta?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/pages/authentication/sign-in']">Iniciar sesión
+                    [routerLink]="['/sign-in']">Iniciar sesión
                 </a>
             </div>
 
@@ -80,19 +80,9 @@
 
             </form>
 
-            <!-- Alert -->
-            <fuse-alert
-                class="mt-8 -mb-4"
-                *ngIf="showAlert"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="alert.type"
-                [@shake]="alert.type === 'error'">
-                {{alert.message}}
-            </fuse-alert>
-
             <!-- Sign Up form -->
             <form
+                *ngIf="foundDocument"
                 class="mt-8"
                 [formGroup]="signUpForm">
 
@@ -184,6 +174,30 @@
                                     Se requiere correo
                                 </mat-error>
                             </mat-form-field>
+
+                            <div class="flex">
+                                <mat-form-field class="w-1/2 pr-2">
+                                    <mat-label>Usuario</mat-label>
+                                    <input
+                                        id="username"
+                                        matInput
+                                        [attr.disabled]="!foundDocument"
+                                        [formControlName]="'username'">
+                                    <mat-error *ngIf="signUpForm.get('username').hasError('required')">
+                                        Se requiere Usuario
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/2 pl-2">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input
+                                        id="password"
+                                        matInput
+                                        [formControlName]="'password'">
+                                    <mat-error *ngIf="signUpForm.get('password').hasError('required')">
+                                        Se requiere contraseña
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
 
                     </div>

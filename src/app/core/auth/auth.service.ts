@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, tap, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AuthService
@@ -73,9 +74,9 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(environment.baseUrl + 'auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
-
+                console.log(response);
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
 
@@ -97,7 +98,7 @@ export class AuthService
     signInUsingToken(): Observable<any>
     {
         // Renew token
-        return this._httpClient.post('api/auth/refresh-access-token', {
+        return this._httpClient.post(environment.baseUrl + 'auth/refresh-access-token', {
             accessToken: this.accessToken
         }).pipe(
             catchError(() =>
@@ -143,8 +144,9 @@ export class AuthService
      * @param user
      */
     signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/sign-up', user);
+    { 
+        console.log(user);
+        return this._httpClient.post(environment.baseUrl + 'auth/sign-up', user);
     }
 
     /**
@@ -154,12 +156,14 @@ export class AuthService
      */
     getDocument(document: string): Observable<any>
     {
-        return this._httpClient.get<any>('http://192.168.5.196:8080/api/personasSga/datosAlumno/'+document).pipe(
-            tap((response) => {
-               console.log(response);
-            //    debugger;
-               //  this._pagination.next(response.pagination);
-               //  this._products.next(response.products);
+        return this._httpClient.post(environment.baseUrl + 'auth/getAlumnoByDocument', {
+            dni: document
+        }).pipe(
+            switchMap((response: any) => {
+                console.log(response);
+
+                // Return a new observable with the response
+                return of(response);
             })
         );
     }

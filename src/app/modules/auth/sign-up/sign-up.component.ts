@@ -60,7 +60,10 @@ export class AuthSignUpComponent implements OnInit
                 nro_doc         : ['', Validators.required],
                 nro_matricula   : ['', Validators.required],
                 sexo            : ['', Validators.required],
-                tipo_doc        : ['', Validators.required]
+                tipo_doc        : ['', Validators.required],
+                username        : ['', Validators.required],
+                password        : ['', Validators.required],
+                idTipoUsuario   : ['1', Validators.required]
             }
         );
 
@@ -81,7 +84,7 @@ export class AuthSignUpComponent implements OnInit
         {
             return;
         }
-
+        
         // Disable the form
         this.signUpForm.disable();
 
@@ -92,26 +95,26 @@ export class AuthSignUpComponent implements OnInit
         this._authService.signUp(this.signUpForm.value)
             .subscribe(
                 (response) => {
-
+                    console.log(response);
                     // Navigate to the confirmation required page
                     this._router.navigateByUrl('/confirmation-required');
                 },
                 (response) => {
-
                     // Re-enable the form
                     this.signUpForm.enable();
-
+                    
                     // Reset the form
-                    this.signUpNgForm.resetForm();
-
+                    // this.signUpNgForm.resetForm();
+                    
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
                     };
-
+                    
                     // Show the alert
                     this.showAlert = true;
+                    console.log(this.showAlert);
                 }
             );
     }
@@ -149,6 +152,7 @@ export class AuthSignUpComponent implements OnInit
                         correo          : response.datos_alumno.correo,
                         sexo            : response.datos_alumno.sexo,
                         nro_doc         : response.datos_alumno.nro_doc,
+                        username        : response.datos_alumno.nro_doc,
                     });
 
                     this.signUpForm.enable();
@@ -187,8 +191,8 @@ export class AuthSignUpComponent implements OnInit
         this.signUpNgForm.resetForm();
 
         // Re-enable the form
-        this.documentForm.enable();
-        this.signUpForm.disable();
+        // this.documentForm.enable();
+        // this.signUpForm.disable();
 
     }
 }
