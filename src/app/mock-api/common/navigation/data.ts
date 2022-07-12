@@ -8,7 +8,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/example'
-    }
+    },
+    {
+        id   : 'tramites',
+        title: 'Trámites',
+        type : 'collapsable',
+        icon : 'heroicons_outline:pencil-alt',
+        children: [
+            {
+                id   : 'tramites.certificados',
+                title: 'Certificado de Estudios',
+                type : 'basic',
+                link : '/tramites/certificados'
+            },
+            {
+                id   : 'tramites.grados',
+                title: 'Grados y títulos',
+                type : 'basic',
+                link : '/tramites/grados'
+            }
+        ]
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {

@@ -1,0 +1,425 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title
+                class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900"
+                >CERTIFICADO DE ESTUDIOS</mat-card-title
+            >
+            <mat-card-content>
+                <form id="certificadoForm" autocomplete="off" [formGroup]="certificadoForm">
+                    <div class="grid grid-cols-6 gap-y-6">
+                        <mat-form-field
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>APELLIDOS</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.apellidos.toUpperCase()"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>NOMBRES</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.nombres.toUpperCase()"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>TIPO DE DOCUMENTO</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.documento"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>NÚMERO DE {{user.documento}}</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.nro_doc"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>CELULAR</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.celular"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>CORREO ELECTRÓNICO</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.correo"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>NÚMERO DE MATRÍCULA</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="user.nro_matricula"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>SEDE</mat-label>
+                            <input
+                                type="text"
+                                matInput readonly
+                                [value]="'PRINCIPAL'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>UNIDAD</mat-label>
+                        <mat-select
+                        (selectionChange)="selectedUnidad($event.value)"
+                            [formControlName]="'idModalidad_grado'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar unidad...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="1">
+                                    PREGRADO
+                                </mat-option>
+                                <mat-option [value]="2">
+                                    POSTGRADO-MAESTRÍA
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>TRÁMITE</mat-label>
+                        <mat-select
+                            [formControlName]="'idTipo_tramite'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar tipo de tramite...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container *ngFor="let tra of tramites">
+                                <mat-option [value]="tra.idTipo_tramite" disabled>
+                                    {{tra.descripcion}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="!data.idModalidad_grado"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>TRÁMITE</mat-label>
+                        <input
+                                type="text"
+                                matInput readonly
+                                [value]="'Aun no ha seleccionado la unidad'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 1"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>FACULTADES</mat-label>
+                        <mat-select
+                        (selectionChange)="selectedFacultad($event.value)"
+                            [formControlName]="'idFacultad'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar facultad...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="1">
+                                    INGENIERÍA
+                                </mat-option>
+                                <mat-option [value]="2">
+                                    INGENIERÍA QUÍMICA
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 2"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>UNIDADES</mat-label>
+                        <mat-select
+                        (selectionChange)="selectedFacultad($event.value)"
+                            [formControlName]="'idFacultad'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar unidad...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="3">
+                                    CIENCIAS BIOLÓGICAS
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="!data.idModalidad_grado"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>FACULTADES</mat-label>
+                        <input
+                                type="text"
+                                matInput readonly
+                                [value]="'Aun no ha seleccionado la unidad'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="!data.idModalidad_grado"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>ESCUELAS</mat-label>
+                        <input
+                                type="text"
+                                matInput readonly
+                                [value]="'Aun no ha seleccionado la unidad'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 1 && !data.idFacultad"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>ESCUELAS</mat-label>
+                        <input
+                                type="text"
+                                matInput readonly
+                                [value]="'Aun no ha seleccionado la facultad'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 2 && !data.idFacultad"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>PROGRAMAS DE MAESTRÍA</mat-label>
+                        <input
+                                type="text"
+                                matInput readonly
+                                [value]="'Aun no ha seleccionado la unidad'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 1 && data.idFacultad === 1"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>ESCUELAS</mat-label>
+                        <mat-select
+                            [formControlName]="'idEscuela'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar escuela...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="1">
+                                    INGENIERÍA INDUSTRIAL
+                                </mat-option>
+                                <mat-option [value]="2">
+                                    INGENIERÍA DE SISTEMAS
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 1 && data.idFacultad === 2"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>ESCUELAS</mat-label>
+                        <mat-select
+                            [formControlName]="'idEscuela'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar escuela...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="1">
+                                    INGENIERÍA QUÍMICA
+                                </mat-option>
+                                <mat-option [value]="2">
+                                    INGENIERÍA AMBIENTAL
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            *ngIf="data.idModalidad_grado === 2 && data.idFacultad === 3"
+                            class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>PROGRAMAS DE MAESTRÍA</mat-label>
+                        <mat-select
+                            [formControlName]="'idEscuela'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar programa...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="1">
+                                    MAESTRIA EN CIENCIAS, GESTION AMBIENTAL
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>MOTIVO</mat-label>
+                        <mat-select
+                            [formControlName]="'idMotivo'">
+                            <ng-container>
+                                <mat-option [value]="0" disabled>
+                                    Seleccionar motivo...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="1">
+                                    T. EXTERNO - CERTIF. DIGITAL
+                                </mat-option>
+                                <mat-option [value]="2">
+                                    CARPETA DE GRADO Y/O TITULO
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>DESCRIPCION DEL TRAMITE</mat-label>
+                        <input
+                                type="text"
+                                matInput
+                                [formControlName]="'descripcion_estado'"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>BANCOS</mat-label>
+                        <mat-select
+                            [formControlName]="'entidad'">
+                            <ng-container>
+                                <mat-option [value]="'BANCOS'" disabled>
+                                    Seleccionar banco...
+                                </mat-option>
+                            </ng-container>
+                            <ng-container>
+                                <mat-option [value]="'BANCO INTERBANK'">
+                                    BANCO INTERBANK
+                                </mat-option>
+                                <mat-option [value]="'TESORERIA UNT'">
+                                    TESORERIA UNT
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>FECHA DE OPERACION</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="birthday"
+                            [formControlName]="'fecha_operacion'">
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="birthday">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #birthday></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <mat-label>NUMERO DE OPERACION</mat-label>
+                        <input
+                                type="text"
+                                matInput
+                                [formControlName]="'nro_operacion'"
+                            />
+                        </mat-form-field>
+                        <div
+                            *ngIf="data.idTipo_tramite"
+                            class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                            appearance="outline"
+                        >
+                        <ng-container *ngFor="let trami of tramites">
+                            <mat-label *ngIf="data.idTipo_tramite === trami.idTipo_tramite">COMPROBANTE DE PAGO {{trami.pago}} soles</mat-label>
+                        </ng-container>
+                        <input
+                            type="file"
+                            accept=".pdf"
+                            [formControlName]="'archivo'"
+                            (change)="selectFiles($event)"
+                            />
+                        </div>
+                    </div>
+                </form>
+            </mat-card-content>
+            <mat-card-actions class="flex justify-end">
+                <button
+                    mat-button
+                    class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                    cmat-button
+                    (click)="createCertificado()"
+                >
+                    Registrar Trámite
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card>
+</div>

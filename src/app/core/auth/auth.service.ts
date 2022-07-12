@@ -83,8 +83,12 @@ export class AuthService
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
+                let user = response.user;
+                user.avatar = 'assets/images/avatars/brian-hughes.jpg';
+                localStorage.setItem('user', JSON.stringify(user));
+
                 // Store the user on the user service
-                this._userService.user = response.user;
+                this._userService.user = user;
 
                 // Return a new observable with the response
                 return of(response);
@@ -98,7 +102,7 @@ export class AuthService
     signInUsingToken(): Observable<any>
     {
         // Renew token
-        return this._httpClient.post(environment.baseUrl + 'auth/refresh-access-token', {
+        return this._httpClient.post(environment.baseUrl + 'auth/refresh', {
             accessToken: this.accessToken
         }).pipe(
             catchError(() =>
@@ -130,6 +134,7 @@ export class AuthService
     {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -144,7 +149,7 @@ export class AuthService
      * @param user
      */
     signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    { 
+    {
         console.log(user);
         return this._httpClient.post(environment.baseUrl + 'auth/sign-up', user);
     }
