@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0 m-4">
 
     <mat-card class="w-full">
-        <div class="flex flex-col mx-5">
+        <div class="flex flex-col mx-5" *ngIf="!selectedGap">
             <mat-card-title
                 class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900"
                 >CERTIFICADO DE ESTUDIOS</mat-card-title
@@ -17,7 +17,7 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.apellidos.toUpperCase()"
+                                [formControlName]="'apellidos'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -28,7 +28,7 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.nombres.toUpperCase()"
+                                [formControlName]="'nombres'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -39,18 +39,18 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.documento"
+                                [formControlName]="'documento'"
                             />
                         </mat-form-field>
                         <mat-form-field
                             class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                             appearance="outline"
                         >
-                        <mat-label>NÚMERO DE {{user.documento}}</mat-label>
+                        <mat-label>NÚMERO DE DOCUMENTO</mat-label>
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.nro_doc"
+                                [formControlName]="'nro_documento'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -61,7 +61,7 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.celular"
+                                [formControlName]="'celular'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -72,7 +72,7 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.correo"
+                                [formControlName]="'correo'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -83,7 +83,7 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="user.nro_matricula"
+                                [formControlName]="'nro_matricula'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -94,7 +94,7 @@
                             <input
                                 type="text"
                                 matInput readonly
-                                [value]="'PRINCIPAL'"
+                                [formControlName]="'sede'"
                             />
                         </mat-form-field>
                         <mat-form-field
@@ -133,7 +133,7 @@
                                     Seleccionar tipo de tramite...
                                 </mat-option>
                             </ng-container>
-                            <ng-container *ngFor="let tra of tramites">
+                            <ng-container *ngFor="let tra of tipoTramites">
                                 <mat-option [value]="tra.idTipo_tramite" disabled>
                                     {{tra.descripcion}}
                                 </mat-option>
@@ -397,7 +397,7 @@
                             class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                             appearance="outline"
                         >
-                        <ng-container *ngFor="let trami of tramites">
+                        <ng-container *ngFor="let trami of tipoTramites">
                             <mat-label *ngIf="data.idTipo_tramite === trami.idTipo_tramite">COMPROBANTE DE PAGO {{trami.pago}} soles</mat-label>
                         </ng-container>
                         <input
@@ -420,6 +420,16 @@
                     Registrar Trámite
                 </button>
             </mat-card-actions>
+        </div>
+        <div *ngIf="selectedGap" class="flex items-center justify-center mt-20">
+            <!-- <mat-progress-spinner [diameter]="25" [mode]="'indeterminate'" [color]="bg-gray-600"></mat-progress-spinner>
+            <mat-progress-spinner [diameter]="25" [mode]="'indeterminate'"></mat-progress-spinner>
+            <mat-progress-spinner [diameter]="25" [mode]="'indeterminate'"></mat-progress-spinner> -->
+            <div class="spinner">
+              <div class="bounce1" style="background-color: rgb(185, 185, 185);"></div>
+              <div class="bounce2" style="background-color: rgb(185, 185, 185);"></div>
+              <div class="bounce3" style="background-color: rgb(185, 185, 185);"></div>
+          </div>
         </div>
     </mat-card>
 </div>

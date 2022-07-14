@@ -10,8 +10,8 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
-import { CertificadoService } from 'app/modules/admin/tramites/certificados/certificados.service';
-import { CertificadoInterface } from 'app/modules/admin/tramites/certificados/certificados.types';
+import { CertificadoService } from 'app/modules/admin/tramites/tramites.service';
+import { CertificadoInterface } from 'app/modules/admin/tramites/tramites.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -32,6 +32,49 @@ import { User } from 'app/core/user/user.types';
                 padding: 0px !important;
                 height: 0px;
                 min-height: 0px !important;
+            }
+            .spinner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 40px;
+                width: 56px;
+            }
+            .spinner > div {
+                width: 12px;
+                height: 12px;
+                background-color: #1E96F7;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
+                animation: fuse-bouncedelay 1s infinite ease-in-out both;
+            }
+            .spinner .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+            .spinner .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+            @-webkit-keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0)
+                }
+                40% {
+                    -webkit-transform: scale(1.0)
+                }
+            }
+
+            @keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+                40% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                }
             }
         `
     ],
@@ -54,10 +97,11 @@ export class CertificadoListComponent implements OnInit, OnDestroy
     certificadoForm: FormGroup;
     user: any;
     alumno: any;
-    tramites: any;
+    tipoTramites: any;
     abrir: boolean = false;
     bancos: any;
     data: CertificadoInterface;
+    selectedGap: boolean;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -93,6 +137,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this.selectedGap = true;
         // Create the selected maduritylevel form
         this.certificadoForm = this._formBuilder.group({
             idTipo_tramite: [''],
@@ -110,6 +155,13 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             idEscuela: [''],
             idMotivo: [''],
             descipcion_estado: [''],
+            apellidos: [''],
+            nombres: [''],
+            documento: [''],
+            celular: [''],
+            correo: [''],
+            nro_matricula: [''],
+            sede: [''],
         });
 
         this._certificadoService.bancos$
@@ -123,11 +175,11 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             });
 
 
-        this._certificadoService.tramites$
+        this._certificadoService.tipoTramites$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((tramites: any) => {
-                this.tramites = tramites;
-                console.log(tramites);
+            .subscribe((tipoTramites: any) => {
+                this.tipoTramites = tipoTramites;
+                console.log(tipoTramites);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -140,26 +192,28 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             //debugger;
             this.user = user;
             console.log(user);
-            if (this.user.tipo_doc === 1) {
-                this.user['documento'] = 'DNI';
-            }else if (this.user.tipo_doc === 2) {
-                this.user['documento'] = 'PASAPORTE';
-            } else {
-                this.user['documento'] = 'CARNET DE EXTRANJERIA';
-            }
-            // if (this.user.idUsuario) {
-            //     const dni = {dni: this.user.nro_doc};
-            //     console.log(dni);
-            //     this._certificadoService.getDataAlumno(dni).subscribe((response) => {
-            //         this.alumno = response;
-            //         console.log(response);
-            //         // Mark for check
-            //         this._changeDetectorRef.markForCheck();
-            //     });
-            // }
-        });
+            if (this.user.idUsuario) {
+                const dni = {dni: this.user.nro_doc};
+                console.log(dni);
+                this._certificadoService.getDataAlumno(dni).subscribe((response) => {
+                    this.alumno = response;
+                    if (this.alumno.tipo_doc === 1) {
+                        this.alumno['documento'] = 'DNI';
+                    }else if (this.user.tipo_doc === 2) {
+                        this.alumno['documento'] = 'PASAPORTE';
+                    } else {
+                        this.alumno['documento'] = 'CARNET DE EXTRANJERIA';
+                    }
+                    this.certificadoForm.patchValue(response);
 
-        this.createFormulario();
+                    this.createFormulario(this.alumno);
+                    this.selectedGap = false;
+                    console.log(this.alumno);
+                    // Mark for check
+                    this._changeDetectorRef.markForCheck();
+                });
+            }
+        });
     }
 
     /**
@@ -178,7 +232,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
     /**
      * Create formulario
      */
-    createFormulario(): void
+    createFormulario(data): void
     {
         //Create the formulario
         const newCertificado = {
@@ -196,7 +250,14 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             nro_operacion: '',
             fecha_operacion: '',
             idMotivo: 0,
-            archivo: ''
+            archivo: '',
+            apellidos: data.apellidos,
+            nombres: data.nombres,
+            documento: data.documento,
+            celular: data.celular,
+            correo: data.correo,
+            nro_matricula: data.nro_matricula,
+            sede: data.sede,
         };
         this.certificadoForm.patchValue(newCertificado);
         this.data = newCertificado;
@@ -206,13 +267,13 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         if (id === 1) {
             this.certificadoForm.patchValue({idTipo_tramite: 1});
             this.data.idModalidad_grado = 1;
-            this.data.idTipo_tramite = 1;
+            this.data.idTipo_tramite = id;
             this.data.idFacultad = 0;
         }
         if (id === 2) {
             this.certificadoForm.patchValue({idTipo_tramite: 2});
             this.data.idModalidad_grado = 2;
-            this.data.idTipo_tramite = 2;
+            this.data.idTipo_tramite = id;
             this.data.idFacultad = 0;
         }
     }
@@ -289,7 +350,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
                 //this.toggleEditMode(false);
 
                 // Go to new product
-                this.createFormulario();
+                this.createFormulario(this.alumno);
 
                 this.alert = {
                     type   : 'success',

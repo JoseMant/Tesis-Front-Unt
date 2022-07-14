@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { CertificadoInterface } from 'app/modules/admin/tramites/certificados/certificados.types';
+import { CertificadoInterface } from 'app/modules/admin/tramites/tramites.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class CertificadoService
     private _certificado: BehaviorSubject<CertificadoInterface | null> = new BehaviorSubject(null);
     private _certificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
     private _alumno: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    private _tramites: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _tipoTramites: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _bancos: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
@@ -48,8 +48,8 @@ export class CertificadoService
         return this._alumno.asObservable();
     }
 
-    get tramites$(): Observable<any> {
-        return this._tramites.asObservable();
+    get tipoTramites$(): Observable<any> {
+        return this._tipoTramites.asObservable();
     }
 
     get bancos$(): Observable<any> {
@@ -71,7 +71,7 @@ export class CertificadoService
         return this._httpClient.get(environment.baseUrl + 'tipos_tramites').pipe(
             tap((response: any) => {
                 console.log(response);
-                this._tramites.next(response);
+                this._tipoTramites.next(response);
             })
         );
     }

@@ -16,4 +16,11 @@ export interface CertificadoInterface
     idEscuela: number;
     descipcion_estado?: string;
     idMotivo: number;
+    apellidos: string;
+    nombres: string;
+    documento: string;
+    celular: string;
+    correo: string;
+    sede: string;
+    nro_matricula: string;
 }

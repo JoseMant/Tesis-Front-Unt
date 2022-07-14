@@ -31,9 +31,9 @@ import { MatListModule} from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { CertificadosComponent } from './certificados/certificados.component';
-import { CertificadoListComponent } from 'app/modules/admin/tramites/certificados/formulario/formulario.component';
+import { CertificadoListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
 import { certificadosRoutes } from 'app/modules/admin/tramites/tramites.routing';
+import { CertificadosComponent } from './tramites.component';
 
 @NgModule({
     declarations: [
