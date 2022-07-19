@@ -38,7 +38,7 @@
                     <input
                         id="nro_documento"
                         matInput
-                        [attr.disabled]="foundDocument"
+                        [readonly]="foundDocument"
                         [formControlName]="'nro_documento'">
                     <mat-error *ngIf="documentForm.get('nro_documento').hasError('required')">
                         Se requiere número de documento (DNI, C.E., entre otros)
@@ -99,6 +99,7 @@
                                     <input
                                         id="nro_matricula"
                                         matInput
+                                        type="number"
                                         [formControlName]="'nro_matricula'">
                                     <mat-error *ngIf="signUpForm.get('nro_matricula').hasError('required')">
                                         Se requiere número de matrícula
@@ -106,11 +107,21 @@
                                 </mat-form-field>
                                 <mat-form-field class="w-1/2 pl-2">
                                     <mat-label>Tipo documento</mat-label>
-                                    <input
-                                        id="tipo_doc"
-                                        matInput
-                                        [formControlName]="'tipo_doc'">
-                                    <mat-error *ngIf="signUpForm.get('tipo_doc').hasError('required')">
+                                    <mat-select
+                                        id="tipo_documento"
+                                        [formControlName]="'tipo_documento'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar tipo de documento...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let tipo of listTipoDocumentos">
+                                            <mat-option [value]="tipo.id">
+                                                {{tipo.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error *ngIf="signUpForm.get('tipo_documento').hasError('required')">
                                         Se requiere apellidos
                                     </mat-error>
                                 </mat-form-field>
@@ -141,12 +152,23 @@
                             </mat-form-field>
 
                             <div class="flex">
-                                <mat-form-field class="w-1/2 pr-2">
+                                <mat-form-field 
+                                    class="w-1/2 pr-2">
                                     <mat-label>Género</mat-label>
-                                    <input
+                                    <mat-select
                                         id="sexo"
-                                        matInput
                                         [formControlName]="'sexo'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar género...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let genero of listGeneros">
+                                            <mat-option [value]="genero.value">
+                                                {{genero.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
                                     <mat-error *ngIf="signUpForm.get('sexo').hasError('required')">
                                         Se requiere escoger género
                                     </mat-error>
@@ -181,7 +203,7 @@
                                     <input
                                         id="username"
                                         matInput
-                                        [attr.disabled]="!foundDocument"
+                                        [readonly]="foundDocument"
                                         [formControlName]="'username'">
                                     <mat-error *ngIf="signUpForm.get('username').hasError('required')">
                                         Se requiere Usuario
@@ -192,6 +214,7 @@
                                     <input
                                         id="password"
                                         matInput
+                                        type="password"
                                         [formControlName]="'password'">
                                     <mat-error *ngIf="signUpForm.get('password').hasError('required')">
                                         Se requiere contraseña
