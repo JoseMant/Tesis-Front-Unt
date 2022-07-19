@@ -14,8 +14,8 @@ export interface CertificadoInterface
     archivo: string;
     idFacultad: number;
     idEscuela: number;
-    descipcion_estado?: string;
-    idMotivo: number;
+    solicitud_certificado?: string;
+    idMotivo_certificado: number;
     apellidos: string;
     nombres: string;
     documento: string;
@@ -23,4 +23,9 @@ export interface CertificadoInterface
     correo: string;
     sede: string;
     nro_matricula: string;
+    tipo_documento: string;
+    sexoNombre: string;
+    idUnidad: number;
+    idTipo_tramite_unidad: number;
+    archivo_firma: any;
 }

@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { CertificadosComponent } from 'app/modules/admin/tramites/tramites.component';
 import { CertificadoListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
-import { BancosResolver, TramitesResolver  } from 'app/modules/admin/tramites/tramites.resolvers';
+import { BancosResolver, MotivosResolver, TramitesResolver, UnidadesResolver  } from 'app/modules/admin/tramites/tramites.resolvers';
 
 export const certificadosRoutes: Route[] = [
     {
@@ -13,7 +13,9 @@ export const certificadosRoutes: Route[] = [
                 component: CertificadoListComponent,
                 resolve  : {
                     tramites       : TramitesResolver,
-                    //bancos: BancosResolver
+                    bancos: BancosResolver,
+                    unidades: UnidadesResolver,
+                    motivos: MotivosResolver
                 }
             }
         ]

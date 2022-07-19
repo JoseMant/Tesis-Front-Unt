@@ -34,11 +34,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { CertificadoListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
 import { certificadosRoutes } from 'app/modules/admin/tramites/tramites.routing';
 import { CertificadosComponent } from './tramites.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { VisorPdfComponent } from './visorPdf/visorPdf.component';
+import { VisorImagenComponent } from './visorImagen/visorImagen.component';
 
 @NgModule({
     declarations: [
         CertificadosComponent,
         CertificadoListComponent,
+        VisorPdfComponent,
+        VisorImagenComponent
     ],
     imports     : [
         RouterModule.forChild(certificadosRoutes),
@@ -71,7 +76,8 @@ import { CertificadosComponent } from './tramites.component';
         MatSidenavModule,
         MatCardModule,
         MatProgressSpinnerModule,
-        MatGridListModule
+        MatGridListModule,
+        PdfViewerModule
     ],
     providers   : [
         {

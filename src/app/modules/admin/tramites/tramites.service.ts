@@ -16,6 +16,10 @@ export class CertificadoService
     private _alumno: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _tipoTramites: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _bancos: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _unidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _tipoTramiteUnidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _facultadesEscuelas: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _motivos: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -54,6 +58,62 @@ export class CertificadoService
 
     get bancos$(): Observable<any> {
         return this._bancos.asObservable();
+    }
+
+    get unidades$(): Observable<any> {
+        return this._unidades.asObservable();
+    }
+
+    get tipoTramiteUnidades$(): Observable<any> {
+        return this._tipoTramiteUnidades.asObservable();
+    }
+
+    get facultadesEscuelas$(): Observable<any> {
+        return this._facultadesEscuelas.asObservable();
+    }
+
+    get motivos$(): Observable<any> {
+        return this._motivos.asObservable();
+    }
+
+    getMotivos(): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'motivos_certificado').pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._motivos.next(response);
+            })
+        );
+    }
+
+    getFacultadesEscuelas(idUnidad: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'facultades_alumno/' + idUnidad).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._facultadesEscuelas.next(response);
+            })
+        );
+    }
+
+    getTipoTramiteUnidades(idTipoTramite: number, idUnidad: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'tipos_tramites_unidades/' + idTipoTramite + '/' + idUnidad).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._tipoTramiteUnidades.next(response);
+            })
+        );
+    }
+
+    getUnidades(): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'unidades').pipe(
+            tap((response: any) => {
+                console.log(response);
+                this._unidades.next(response);
+            })
+        );
     }
 
     getBancos(): Observable<any>
