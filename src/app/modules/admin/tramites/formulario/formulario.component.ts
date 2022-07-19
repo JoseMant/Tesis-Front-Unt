@@ -164,7 +164,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             idModalidad_grado: [''],
             descripcion_estado: [''],
             codigo: [''],
-            entidad: ['', Validators.required],
+            idEntidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
@@ -183,7 +183,9 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             sexoNombre: [''],
             idUnidad: [''],
             idTipo_tramite_unidad: [''],
-            archivo_firma: ['']
+            archivo_firma: [''],
+            archivoImagen: [''],
+            requisitos: [''],
         });
 
         this._certificadoService.bancos$
@@ -288,7 +290,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             descripcion_estado: '',
             solicitud_certificado: '',
             codigo: '',
-            entidad: 'BANCOS',
+            idEntidad: 0,
             nro_operacion: '',
             fecha_operacion: '',
             idMotivo_certificado: 0,
@@ -304,7 +306,9 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             sexoNombre: data.sexoNombre,
             idUnidad: -1,
             idTipo_tramite_unidad: -1,
-            archivo_firma: ''
+            archivo_firma: '',
+            archivoImagen: '',
+            requisitos: ''
         };
         this.certificadoForm.patchValue(newCertificado);
         this.data = newCertificado;
@@ -331,8 +335,10 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         this.data.archivo = '';
         this._certificadoService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
             this.requisitos = resp.requisitos;
+            this.data.requisitos = resp.requisitos;
             this.tipoTramiteUnidades = resp.tipos_unida_tratmites;
             console.log(resp);
+            this.certificadoForm.patchValue({requisitos: resp.requisitos});
             this._changeDetectorRef.markForCheck();
         });
 
@@ -340,35 +346,74 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             if (resp) {
                 console.log(resp);
                 this.facultades = resp.facultad;
-                const idU = this.facultades[0].idDependencia;
+                const idU = this.facultades[0];
                 console.log(idU);
-                this.data.idFacultad = idU;
-                const idE = idU.escuela[0].idEscuela;
-                console.log(idE);
-                this.data.idEscuela = idE;
+                this.data.idFacultad = idU.idDependencia;
+                if (idU) {
+                    const idE = idU.escuela[0];
+                    console.log(idE);
+                    this.data.idEscuela = idE.idEscuela;
+                    this.data.codigo = idE.nro_matricula;
+                    this.data.sede = idE.sede;
+                    this.certificadoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
+                }
                 console.log(this.facultades);
-                this.certificadoForm.patchValue({idFacultad: idU, idEscuela: idE});
+                this.certificadoForm.patchValue({idFacultad: idU.idDependencia});
                 let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
                 if (first) {
                     this.escuelas = first.escuela;
                     console.log(this.escuelas);
                 }
-                // this.escuelas = resp.facultad.escuela;
-
             }else{
-                // this.data.facultad = '';
-                // this.data.escuela = '';
-                this.data.codigo = '';
-                this.data.sede = '';
-                this.certificadoForm.patchValue({facultad: '', escuela: '',codigo: '', sede: ''});
-                this._changeDetectorRef.markForCheck();
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Acceso denegado',
+                    title: 'Error'
+                };
+                this.openSnack();
             }
-            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
+            this.alert = {
+                type   : 'warn',
+                message: 'Error en la unidad',
+                title: 'Error'
+            };
+            this.openSnack();
         });
+        this._changeDetectorRef.markForCheck();
     }
 
     selectedFacultad(id): void{
+        //falta probar si funciona ya q solo hay una sola facultad
         console.log(id);
+        this.data.idFacultad = id;
+        let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
+        if (first) {
+            const idE = first.escuela[0];
+            if (idE) {
+                this.data.idEscuela = idE.idEscuela;
+                this.data.codigo = idE.nro_matricula;
+                this.data.sede = idE.sede;
+                this.certificadoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
+            }
+            this.escuelas = first.escuela;
+            console.log(this.escuelas);
+            console.log(idE);
+        }
+    }
+
+    selectedEscuela(id): void {
+        console.log(id);
+        this.data.idEscuela = id;
+        for (const itera of this.escuelas) {
+            if (itera.idEscuela === id) {
+                this.data.codigo = itera.nro_matricula;
+                this.data.sede = itera.sede;
+            }
+        }
+        this.certificadoForm.patchValue({idEscuela: id, codigo: this.data.codigo, sede: this.data.sede});
     }
 
     selectedTipoTramiteUnidades(id): void{
@@ -390,8 +435,62 @@ export class CertificadoListComponent implements OnInit, OnDestroy
     selectFirma(event): void {
         const files = event.target.files[0];
         console.log(files);
-        this.certificadoForm.patchValue({archivo_firma: files});
+        this.certificadoForm.patchValue({archivo_firma: files, archivoImagen: files});
         this.data.archivo_firma = files;
+        this.data.archivoImagen = files;
+    }
+
+    selectReqDocumento(event, req): void {
+        const files = event.target.files[0];
+        console.log(files);
+        console.log(req);
+        for (const requ of this.requisitos) {
+            if (requ.idRequisito === req.idRequisito) {
+                requ['archivo'] = files;
+            }
+        }
+        this.data.requisitos = this.requisitos;
+        this.certificadoForm.patchValue({requisitos: this.requisitos});
+        console.log(this.data.requisitos);
+    }
+
+    selectReqImagen(event, req): void {
+        const files = event.target.files[0];
+        console.log(files);
+        console.log(req);
+        for (const requ of this.requisitos) {
+            if (requ.idRequisito === req.idRequisito) {
+                requ['archivoImagen'] = files;
+            }
+        }
+        this.data.requisitos = this.requisitos;
+        this.certificadoForm.patchValue({requisitos: this.requisitos});
+        console.log(this.data.requisitos);
+    }
+
+    verReqDocumento(req): void {
+        console.log(req);
+        const respDial = this.visordialog.open(
+            VisorPdfComponent,
+            {
+                data: req,
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+
+    verReqImagen(req): void {
+        console.log(this.data);
+        const respDial = this.visordialog.open(
+            VisorImagenComponent,
+            {
+                data: req,
+                disableClose: true,
+                width: '60%'
+            }
+        );
     }
 
     verImagen(): void {
@@ -426,21 +525,31 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             console.log('hola');
             return;
         }
-        this.certificadoForm.patchValue({idEstado_tramite: 1});
+        const requis = this.data.requisitos.find(element => element.archivo === undefined && element.extension === 'pdf');
+        if (requis) {
+            this.alert = {
+                type   : 'warn',
+                message: 'Cargar el archivo en el requisito: ' + requis.descripcion,
+                title: 'Error'
+            };
+            this.openSnack();
+        }
         console.log(this.certificadoForm.getRawValue());
         const certificado = {
-            idTipo_tramite: this.certificadoForm.getRawValue().idTipo_tramite,
-            nro_documento: this.certificadoForm.getRawValue().nro_documento,
-            idColacion: this.certificadoForm.getRawValue().idColacion,
-            idEstado_tramite: this.certificadoForm.getRawValue().idEstado_tramite,
-            idModalidad_grado: this.certificadoForm.getRawValue().idModalidad_grado,
-            descripcion_estado: this.certificadoForm.getRawValue().descripcion_estado,
-            codigo: this.certificadoForm.getRawValue().codigo,
-            entidad: this.certificadoForm.getRawValue().entidad,
+            idEntidad: this.certificadoForm.getRawValue().idEntidad,
             nro_operacion: this.certificadoForm.getRawValue().nro_operacion,
             fecha_operacion: this.certificadoForm.getRawValue().fecha_operacion,
             archivo: this.certificadoForm.getRawValue().archivo,
-            solicitud_certificado: this.certificadoForm.getRawValue().solicitud_certificado
+            idTipo_unidad_tramite: this.certificadoForm.getRawValue().idTipo_tramite_unidad,
+            idUnidad: this.certificadoForm.getRawValue().idUnidad,
+            idDependencia: this.certificadoForm.getRawValue().idFacultad,
+            idDependencia_detalle: this.certificadoForm.getRawValue().idEscuela,
+            nro_matricula: this.certificadoForm.getRawValue().codigo,
+            sede: this.certificadoForm.getRawValue().sede,
+            archivo_firma: this.certificadoForm.getRawValue().archivo_firma,
+            idMotivo_certificado: this.certificadoForm.getRawValue().idMotivo_certificado,
+            solicitud_certificado: this.certificadoForm.getRawValue().solicitud_certificado,
+            requisitos: this.certificadoForm.getRawValue().requisitos,
         };
         const cadena = (new Date(certificado.fecha_operacion)).toISOString();
         console.log(cadena);
@@ -449,20 +558,29 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         const fecha = cadena1 + ' ' + cadena2;
         certificado.fecha_operacion = fecha;
         console.log(certificado);
+        debugger
             const formData = new FormData();
-            formData.append('idTipo_tramite', certificado.idTipo_tramite);
-            formData.append('nro_documento', certificado.nro_documento);
-            formData.append('idColacion', certificado.idColacion);
-            formData.append('idEstado_tramite', certificado.idEstado_tramite);
-            formData.append('idModalidad_grado', certificado.idModalidad_grado);
-            formData.append('descripcion_estado', certificado.descripcion_estado);
-            formData.append('codigo', certificado.codigo);
-            formData.append('entidad', certificado.entidad);
+            formData.append('idEntidad', certificado.idEntidad);
             formData.append('nro_operacion', certificado.nro_operacion);
             formData.append('fecha_operacion', certificado.fecha_operacion);
             formData.append('archivo', certificado.archivo);
+            formData.append('idTipo_unidad_tramite', certificado.idTipo_unidad_tramite);
+            formData.append('idUnidad', certificado.idUnidad);
+            formData.append('idDependencia', certificado.idDependencia);
+            formData.append('idDependencia_detalle', certificado.idDependencia_detalle);
+            formData.append('nro_matricula', certificado.nro_matricula);
+            formData.append('sede', certificado.sede);
+            formData.append('archivo_firma', certificado.archivo_firma);
+            formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
             formData.append('solicitud_certificado', certificado.solicitud_certificado);
-            console.log(formData.getAll('archivo'));
+            certificado.requisitos.forEach((element) => {
+                formData.append('requisitos', JSON.stringify(element));
+                if (!element.idEvidence) {
+                    formData.append('files', element.archivo);
+                }
+              });
+            console.log(formData.getAll('requisitos'));
+            console.log(formData.getAll('files'));
             this._certificadoService.createCertificado(formData).subscribe((newMadurity) => {
                 console.log(newMadurity);
                 // Toggle the edit mode off

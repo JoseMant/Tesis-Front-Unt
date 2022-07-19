@@ -103,7 +103,7 @@
                                 <mat-label>TRÁMITES</mat-label>
                                 <mat-select
                                     (selectionChange)="selectedTipoTramite($event.value)"
-                                    [formControlName]="'entidad'">
+                                    [formControlName]="'idTipo_tramite'">
                                     <ng-container>
                                         <mat-option [value]="0" disabled>
                                             Seleccionar trámite...
@@ -139,8 +139,9 @@
                                     </ng-container>
                                 </mat-select>
                                 </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="data.idUnidad === 1">
                                 <mat-form-field
-                                    *ngIf="data.idFacultad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -156,7 +157,6 @@
                                 </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idFacultad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -172,7 +172,7 @@
                                 </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idUnidad > 0 && data.idFacultad"
+                                    *ngIf="data.idUnidad > 0"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -193,7 +193,6 @@
                                 </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idFacultad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -205,7 +204,6 @@
                                     />
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idFacultad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -217,7 +215,6 @@
                                     />
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idFacultad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -236,7 +233,7 @@
                                     </ng-container>
                                 </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline" *ngIf="data.idFacultad">
+                                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
                                     <mat-label>OBJETO DE LA SOLICITUD</mat-label>
                                     <textarea
                                         class="text-justify"
@@ -246,7 +243,7 @@
                                     </textarea>
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="data.idFacultad">
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="data.idUnidad === 1">
                                 <div class="nombre col-span-4 ml-3">
                                     FIRMA
                                 </div>
@@ -263,7 +260,7 @@
                                         <input #fileInput type="file" accept=".jpg, .png, .jpeg" hidden (change)="selectFirma($event)"/>
                                     </div>
                                     <svg
-                                        *ngIf="data.archivo_firma !== ''"
+                                        *ngIf="data.archivoImagen !== ''"
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-6 w-6 mr-3 ml-3"
                                         fill="none"
@@ -299,14 +296,14 @@
                                 >
                                 <mat-label>BANCOS</mat-label>
                                 <mat-select
-                                    [formControlName]="'entidad'">
+                                    [formControlName]="'idEntidad'">
                                     <ng-container>
-                                        <mat-option [value]="'BANCOS'" disabled>
+                                        <mat-option [value]="0" disabled>
                                             Seleccionar banco...
                                         </mat-option>
                                     </ng-container>
                                     <ng-container *ngFor="let bank of bancos">
-                                        <mat-option [value]="bank.ban_abrev">
+                                        <mat-option [value]="bank.ban_id">
                                             {{bank.ban_nombre}}
                                         </mat-option>
                                     </ng-container>
@@ -386,7 +383,92 @@
                     <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;" *ngIf="data.idTipo_tramite_unidad > 0">
                         <mat-card-title><mat-label class="text-base">Requisitos</mat-label></mat-card-title>
                         <mat-card-content>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="data.idTipo_tramite_unidad > 0">
+                                <div class="nombre col-span-4 ml-3">
+                                    <b>Nombre del requisito</b>
+                                </div>
+                                <div class="nombre col-span-2 ml-3">
+                                    <b>Acciones</b>
+                                </div>
+                            </div>
+                            <div *ngIf="data.idTipo_tramite_unidad > 0">
+                                <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let req of requisitos">
+                                    <div class="nombre col-span-4 ml-3">
+                                        {{req.descripcion}}
+                                    </div>
+                                    <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
+                                        <div>
+                                            <button
+                                                matTooltip="Agregar documento"
+                                                (click)="fileInput.click()">
+                                                <mat-icon
+                                                    class="h-6 w-6 mr-3 ml-3"
+                                                    style="color: rgb(6, 11, 88)"
+                                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                            </button>
+                                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,req)"/>
+                                        </div>
+                                        <svg
+                                            *ngIf="req.archivo"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            style="cursor: pointer; color: rgb(6, 11, 88)"
+                                            (click)="verReqDocumento(req)"
+                                            stroke-width="2"
+                                            matTooltip="Ver documento"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'jpg'">
+                                        <div>
+                                            <button
+                                                matTooltip="Agregar imagen"
+                                                (click)="fileInput.click()">
+                                                <mat-icon
+                                                    class="h-6 w-6 mr-3 ml-3"
+                                                    style="color: rgb(6, 11, 88)"
+                                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                            </button>
+                                            <input #fileInput type="file" accept=".jpg, .png, .jpeg" hidden (change)="selectReqImagen($event,req)"/>
+                                        </div>
+                                        <svg
+                                            *ngIf="req.archivoImagen"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            style="cursor: pointer; color: rgb(6, 11, 88)"
+                                            (click)="verReqImagen(req)"
+                                            stroke-width="2"
+                                            matTooltip="Ver Imagen"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                         </mat-card-content>
                     </mat-card>

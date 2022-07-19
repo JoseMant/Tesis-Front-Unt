@@ -8,7 +8,7 @@ export interface CertificadoInterface
     idModalidad_grado: number;
     descripcion_estado: string;
     codigo: string;
-    entidad: string;
+    idEntidad: number;
     nro_operacion: string;
     fecha_operacion: string;
     archivo: string;
@@ -28,4 +28,6 @@ export interface CertificadoInterface
     idUnidad: number;
     idTipo_tramite_unidad: number;
     archivo_firma: any;
+    requisitos: any;
+    archivoImagen: any;
 }
