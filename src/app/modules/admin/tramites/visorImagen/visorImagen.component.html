@@ -1,0 +1,22 @@
+<div
+    mat-dialog-title
+    class="text text-white text-2x1 text-center justify-center flex flex-col -mx-6 -mt-6 py-4 bg-blue-900"
+>
+    <span class="mx-3">{{this.data.archivo_firma.name}}</span>
+</div>
+<div mat-dialog-content >
+    <div class="flex flex-col w-full overflow-y-auto">
+        <img
+        *ngIf="previsualizacion"
+        [src]="previsualizacion">
+    </div>
+</div>
+<div mat-dialog-actions class="flex justify-end">
+    <button
+        mat-button
+        mat-dialog-close
+        class="bg-red-600 hover:bg-red-700 text-white"
+    >
+        Cerrar
+    </button>
+</div>
