@@ -193,13 +193,13 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             this.user = user;
             console.log(user);
             if (this.user.idUsuario) {
-                const dni = {dni: this.user.nro_doc};
+                const dni = {dni: this.user.nro_documento};
                 console.log(dni);
                 this._certificadoService.getDataAlumno(dni).subscribe((response) => {
                     this.alumno = response;
-                    if (this.alumno.tipo_doc === 1) {
+                    if (this.alumno.tipo_documento === 1) {
                         this.alumno['documento'] = 'DNI';
-                    }else if (this.user.tipo_doc === 2) {
+                    }else if (this.alumno.tipo_documento === 2) {
                         this.alumno['documento'] = 'PASAPORTE';
                     } else {
                         this.alumno['documento'] = 'CARNET DE EXTRANJERIA';
