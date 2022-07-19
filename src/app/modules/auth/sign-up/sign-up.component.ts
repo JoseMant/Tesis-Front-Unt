@@ -24,6 +24,15 @@ export class AuthSignUpComponent implements OnInit
     signUpForm: FormGroup;
     showAlert: boolean = false;
     foundDocument: boolean = false;
+    listGeneros = [
+        {id: 1, name: 'MASCULINO', value: 'M'},
+        {id: 2, name: 'FEMENINO', value: 'F'}
+    ];
+    listTipoDocumentos = [
+        {id: 1, name: 'DNI'},
+        {id: 2, name: 'PASAPORTE'},
+        {id: 3, name: 'CARNET DE EXTRANJERÍA'}
+    ]
 
     /**
      * Constructor
@@ -57,13 +66,13 @@ export class AuthSignUpComponent implements OnInit
                 nombres         : ['', Validators.required],
                 celular         : ['', Validators.required],
                 correo          : ['', Validators.required],
-                nro_doc         : ['', Validators.required],
+                nro_documento   : ['', Validators.required],
                 nro_matricula   : ['', Validators.required],
                 sexo            : ['', Validators.required],
-                tipo_doc        : ['', Validators.required],
+                tipo_documento  : ['', Validators.required],
                 username        : ['', Validators.required],
                 password        : ['', Validators.required],
-                idTipoUsuario   : ['1', Validators.required]
+                idTipo_usuario  : ['1', Validators.required]
             }
         );
 
@@ -144,17 +153,17 @@ export class AuthSignUpComponent implements OnInit
                     
                     // Fill the form
                     this.signUpForm.patchValue({
-                        tipo_doc        : response.datos_alumno.tipo_doc,
+                        tipo_documento  : response.datos_alumno.tipo_documento,
                         nro_matricula   : response.datos_alumno.nro_matricula,
                         nombres         : response.datos_alumno.nombres,
                         apellidos       : response.datos_alumno.apellidos,
                         celular         : response.datos_alumno.celular,
                         correo          : response.datos_alumno.correo,
                         sexo            : response.datos_alumno.sexo,
-                        nro_doc         : response.datos_alumno.nro_doc,
-                        username        : response.datos_alumno.nro_doc,
+                        nro_documento   : response.datos_alumno.nro_documento,
+                        username        : response.datos_alumno.nro_documento,
                     });
-
+                    
                     this.signUpForm.enable();
     
                     // Mark for check
@@ -165,7 +174,7 @@ export class AuthSignUpComponent implements OnInit
                     this.foundDocument = false;
     
                     // Re-enable the form
-                    this.documentForm.enable();
+                    // this.documentForm.enable();
     
                     // Reset the form
                     // this.documentNgForm.resetForm();
@@ -187,8 +196,8 @@ export class AuthSignUpComponent implements OnInit
         this.foundDocument = false;
 
         // Reset the form
-        this.documentNgForm.resetForm();
-        this.signUpNgForm.resetForm();
+        // this.documentNgForm.resetForm();
+        // this.signUpNgForm.resetForm();
 
         // Re-enable the form
         // this.documentForm.enable();
