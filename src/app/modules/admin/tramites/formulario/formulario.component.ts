@@ -573,12 +573,12 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
             formData.append('solicitud_certificado', certificado.solicitud_certificado);
             certificado.requisitos.forEach((element) => {
-                formData.append('requisitos', JSON.stringify(element));
+                formData.append('requisitos[]', JSON.stringify(element));
                 if (element.idRequisito && element.extension === 'pdf') {
-                    formData.append('files', element.archivo);
+                    formData.append('files[]', element.archivo);
                 }
                 if (element.idRequisito && element.extension === 'jpg') {
-                    formData.append('files', element.archivoImagen);
+                    formData.append('files[]', element.archivoImagen);
                 }
               });
             console.log(formData.getAll('requisitos'));
