@@ -257,7 +257,7 @@
                                                 style="color: rgb(6, 11, 88)"
                                                 [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                         </button>
-                                        <input #fileInput type="file" accept=".jpg, .png, .jpeg" hidden (change)="selectFirma($event)"/>
+                                        <input #fileInput type="file" accept=".jpg" hidden (change)="selectFirma($event)"/>
                                     </div>
                                     <svg
                                         *ngIf="data.archivoImagen !== ''"
@@ -442,7 +442,7 @@
                                                     style="color: rgb(6, 11, 88)"
                                                     [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                             </button>
-                                            <input #fileInput type="file" accept=".jpg, .png, .jpeg" hidden (change)="selectReqImagen($event,req)"/>
+                                            <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req)"/>
                                         </div>
                                         <svg
                                             *ngIf="req.archivoImagen"

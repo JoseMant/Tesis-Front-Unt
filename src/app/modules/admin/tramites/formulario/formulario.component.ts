@@ -540,7 +540,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             nro_operacion: this.certificadoForm.getRawValue().nro_operacion,
             fecha_operacion: this.certificadoForm.getRawValue().fecha_operacion,
             archivo: this.certificadoForm.getRawValue().archivo,
-            idTipo_unidad_tramite: this.certificadoForm.getRawValue().idTipo_tramite_unidad,
+            idTipo_tramite_unidad: this.certificadoForm.getRawValue().idTipo_tramite_unidad,
             idUnidad: this.certificadoForm.getRawValue().idUnidad,
             idDependencia: this.certificadoForm.getRawValue().idFacultad,
             idDependencia_detalle: this.certificadoForm.getRawValue().idEscuela,
@@ -558,13 +558,12 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         const fecha = cadena1 + ' ' + cadena2;
         certificado.fecha_operacion = fecha;
         console.log(certificado);
-        debugger
             const formData = new FormData();
             formData.append('idEntidad', certificado.idEntidad);
             formData.append('nro_operacion', certificado.nro_operacion);
             formData.append('fecha_operacion', certificado.fecha_operacion);
             formData.append('archivo', certificado.archivo);
-            formData.append('idTipo_unidad_tramite', certificado.idTipo_unidad_tramite);
+            formData.append('idTipo_tramite_unidad', certificado.idTipo_tramite_unidad);
             formData.append('idUnidad', certificado.idUnidad);
             formData.append('idDependencia', certificado.idDependencia);
             formData.append('idDependencia_detalle', certificado.idDependencia_detalle);
@@ -575,8 +574,11 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             formData.append('solicitud_certificado', certificado.solicitud_certificado);
             certificado.requisitos.forEach((element) => {
                 formData.append('requisitos', JSON.stringify(element));
-                if (!element.idEvidence) {
+                if (element.idRequisito && element.extension === 'pdf') {
                     formData.append('files', element.archivo);
+                }
+                if (element.idRequisito && element.extension === 'jpg') {
+                    formData.append('files', element.archivoImagen);
                 }
               });
             console.log(formData.getAll('requisitos'));
