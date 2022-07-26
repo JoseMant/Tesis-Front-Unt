@@ -98,7 +98,17 @@ export class CertificadoService
 
     getTipoTramiteUnidades(idTipoTramite: number, idUnidad: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'tipos_tramites_unidades/' + idTipoTramite + '/' + idUnidad).pipe(
+        return this._httpClient.get(environment.baseUrl + 'tipo_tramites_unidades/' + idTipoTramite + '/' + idUnidad).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._tipoTramiteUnidades.next(response);
+            })
+        );
+    }
+
+    getRequisitos(idTipoTramiteUnidad: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'requisitos/' + idTipoTramiteUnidad).pipe(
             tap((response: any[]) => {
                 console.log(response);
                 this._tipoTramiteUnidades.next(response);

@@ -315,30 +315,21 @@ export class CertificadoListComponent implements OnInit, OnDestroy
     }
 
     selectedTipoTramite(id: number): void {
-        console.log(id);
-        if (id === 1) {
-            this.certificadoForm.patchValue({idTipo_tramite: id,idUnidad: 0});
-            this.data.idTipo_tramite = id;
-            this.data.idUnidad = 0;
-        }
-        if (id === 2) {
-            this.certificadoForm.patchValue({idTipo_tramite: id});
-            this.data.idTipo_tramite = id;
-        }
+      this.certificadoForm.patchValue({idTipo_tramite: id,idUnidad: 0});
+      this.data.idTipo_tramite = id;
+      this.data.idUnidad = 0;
     }
 
     selectedUnidad(id): void{
-        console.log(id);
         this.certificadoForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: ''});
         this.data.idUnidad = id;
         this.data.idTipo_tramite_unidad = 0;
         this.data.archivo = '';
         this._certificadoService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
-            this.requisitos = resp.requisitos;
-            this.data.requisitos = resp.requisitos;
-            this.tipoTramiteUnidades = resp.tipos_unida_tratmites;
-            console.log(resp);
-            this.certificadoForm.patchValue({requisitos: resp.requisitos});
+            // this.requisitos = resp.requisitos;
+            // this.data.requisitos = resp.requisitos;
+            this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
+            // this.certificadoForm.patchValue({requisitos: resp.requisitos});
             this._changeDetectorRef.markForCheck();
         });
 
@@ -417,12 +408,16 @@ export class CertificadoListComponent implements OnInit, OnDestroy
     }
 
     selectedTipoTramiteUnidades(id): void{
-        console.log(id);
         const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
-        console.log(tipo);
         this.costo = tipo.costo;
         this.certificadoForm.patchValue({ idTipo_tramite_unidad: id});
         this.data.idTipo_tramite_unidad = id;
+        this._certificadoService.getRequisitos(id).subscribe((resp)=>{
+          this.requisitos = resp.requisitos;
+          this.data.requisitos = resp.requisitos;
+          this.certificadoForm.patchValue({requisitos: resp.requisitos});
+          this._changeDetectorRef.markForCheck();
+        });
     }
 
     selectFiles(event): void {
@@ -612,5 +607,3 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             });
     }
 }
-
-
