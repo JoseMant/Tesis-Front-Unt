@@ -2,10 +2,9 @@
 
     <mat-card class="w-full">
         <div class="flex flex-col mx-5" *ngIf="!selectedGap">
-            <mat-card-title
-                class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900"
-                >REGISTRO DE TRÁMITE</mat-card-title
-            >
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+              REGISTRO DE TRÁMITE
+            </mat-card-title>
             <mat-card-content>
                 <form id="certificadoForm" autocomplete="off" [formGroup]="certificadoForm">
                     <mat-card style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
@@ -117,7 +116,7 @@
                                 </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="data.idTipo_tramite === 1">
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
                                     *ngIf="data.idTipo_tramite"
                                     class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
@@ -172,7 +171,29 @@
                                 </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idUnidad > 0"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                <mat-label>SEDE</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput readonly
+                                        [formControlName]="'sede'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                <mat-label>NUMERO DE MATRICULA</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput readonly
+                                        [formControlName]="'codigo'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="data.idUnidad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -192,56 +213,57 @@
                                     </ng-container>
                                 </mat-select>
                                 </mat-form-field>
+                                <ng-container *ngIf="data.idTipo_tramite == 1">
+                                  <mat-form-field
+                                      class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                      appearance="outline"
+                                  >
+                                    <mat-label>MOTIVO</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idMotivo_certificado'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar motivo...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let mot of motivos">
+                                            <mat-option [value]="mot.idMotivo_certificado">
+                                                {{mot.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                  </mat-form-field>
+                                  <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
+                                      <mat-label>OBJETO DE LA SOLICITUD</mat-label>
+                                      <textarea
+                                          class="text-justify"
+                                          matInput
+                                          [formControlName]="'solicitud_certificado'"
+                                          [placeholder]="'Indicar en forma clara lo que solicita y detallar documentos que adjunta'">
+                                      </textarea>
+                                  </mat-form-field>
+                              </ng-container>
+                              <ng-container *ngIf="data.idTipo_tramite == 2">
                                 <mat-form-field
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
-                                <mat-label>NUMERO DE MATRICULA</mat-label>
-                                    <input
-                                        type="text"
-                                        matInput readonly
-                                        [formControlName]="'codigo'"
-                                    />
+                                  <mat-label>MOTIVO</mat-label>
+                                  <mat-select
+                                      [formControlName]="'idMotivo_certificado'">
+                                      <ng-container>
+                                          <mat-option [value]="0" disabled>
+                                              Seleccionar motivo...
+                                          </mat-option>
+                                      </ng-container>
+                                      <ng-container *ngFor="let mot of motivos">
+                                          <mat-option [value]="mot.idMotivo_certificado">
+                                              {{mot.nombre}}
+                                          </mat-option>
+                                      </ng-container>
+                                  </mat-select>
                                 </mat-form-field>
-                                <mat-form-field
-                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
-                                    appearance="outline"
-                                >
-                                <mat-label>SEDE</mat-label>
-                                    <input
-                                        type="text"
-                                        matInput readonly
-                                        [formControlName]="'sede'"
-                                    />
-                                </mat-form-field>
-                                <mat-form-field
-                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
-                                    appearance="outline"
-                                >
-                                <mat-label>MOTIVO</mat-label>
-                                <mat-select
-                                    [formControlName]="'idMotivo_certificado'">
-                                    <ng-container>
-                                        <mat-option [value]="0" disabled>
-                                            Seleccionar motivo...
-                                        </mat-option>
-                                    </ng-container>
-                                    <ng-container *ngFor="let mot of motivos">
-                                        <mat-option [value]="mot.idMotivo_certificado">
-                                            {{mot.nombre}}
-                                        </mat-option>
-                                    </ng-container>
-                                </mat-select>
-                                </mat-form-field>
-                                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
-                                    <mat-label>OBJETO DE LA SOLICITUD</mat-label>
-                                    <textarea
-                                        class="text-justify"
-                                        matInput
-                                        [formControlName]="'solicitud_certificado'"
-                                        [placeholder]="'Indicar en forma clara lo que solicita y detallar documentos que adjunta'">
-                                    </textarea>
-                                </mat-form-field>
+                            </ng-container>
                             </div>
                             <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="data.idUnidad === 1">
                                 <div class="nombre col-span-4 ml-3">
@@ -394,7 +416,7 @@
                             <div *ngIf="data.idTipo_tramite_unidad > 0">
                                 <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let req of requisitos">
                                     <div class="nombre col-span-4 ml-3">
-                                        {{req.descripcion}}
+                                        {{req.nombre}}
                                     </div>
                                     <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
                                         <div>
@@ -477,7 +499,7 @@
             <mat-card-actions class="flex justify-end">
                 <button
                     mat-button
-                    class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                    class="rounded-full bg-primary-900 hover:bg-primary-800 text-white"
                     cmat-button
                     (click)="createCertificado()"
                 >
