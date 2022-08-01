@@ -336,12 +336,12 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         this._certificadoService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
             if (resp) {
                 console.log(resp);
-                this.facultades = resp.facultad;
+                this.facultades = resp.facultades;
                 const idU = this.facultades[0];
                 console.log(idU);
                 this.data.idFacultad = idU.idDependencia;
                 if (idU) {
-                    const idE = idU.escuela[0];
+                    const idE = idU.escuelas[0];
                     console.log(idE);
                     this.data.idEscuela = idE.idEscuela;
                     this.data.codigo = idE.nro_matricula;
@@ -349,10 +349,11 @@ export class CertificadoListComponent implements OnInit, OnDestroy
                     this.certificadoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
                 }
                 console.log(this.facultades);
+                console.log(this.data);
                 this.certificadoForm.patchValue({idFacultad: idU.idDependencia});
                 let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
                 if (first) {
-                    this.escuelas = first.escuela;
+                    this.escuelas = first.escuelas;
                     console.log(this.escuelas);
                 }
             }else{
