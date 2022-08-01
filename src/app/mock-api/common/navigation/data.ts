@@ -16,6 +16,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:pencil-alt',
         link : '/tramites/tramites',
     },
+    {
+        id   : 'vouchers',
+        title: 'Vouchers',
+        type : 'collapsable',
+        icon : 'heroicons_outline:pencil-alt',
+        children: [
+            {
+                id   : 'vouchers.vouchersPendientes',
+                title: 'Vouchers Pendientes',
+                type : 'basic',
+                link : '/vouchers/vouchersPendientes'
+            }
+        ]
+    }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
