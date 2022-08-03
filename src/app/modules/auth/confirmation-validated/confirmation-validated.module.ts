@@ -17,6 +17,6 @@ import { authConfirmationValidatedRoutes } from 'app/modules/auth/confirmation-v
         SharedModule
     ]
 })
-export class AuthConfirmationRequiredModule
+export class AuthConfirmationValidatedModule
 {
 }

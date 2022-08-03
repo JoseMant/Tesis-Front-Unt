@@ -1,9 +1,13 @@
 import { Route } from '@angular/router';
-import { AuthConfirmationRequiredComponent } from 'app/modules/auth/confirmation-required/confirmation-required.component';
+import { AuthConfirmationValidatedComponent } from 'app/modules/auth/confirmation-validated/confirmation-validated.component';
+import { ValidationResolver } from 'app/modules/auth/confirmation-validated/confirmation-validated.resolvers';
 
 export const authConfirmationValidatedRoutes: Route[] = [
     {
-        path     : '',
-        component: AuthConfirmationRequiredComponent
+        path     : ':id',
+        component: AuthConfirmationValidatedComponent,
+        resolve  : {
+            validate: ValidationResolver
+        }
     }
 ];

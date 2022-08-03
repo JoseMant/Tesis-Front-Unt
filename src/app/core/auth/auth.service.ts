@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, tap, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
@@ -8,6 +8,7 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class AuthService
 {
+    private _message: BehaviorSubject<any> = new BehaviorSubject(null);
     private _authenticated: boolean = false;
 
     /**
@@ -35,6 +36,9 @@ export class AuthService
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+    get message$(): Observable<any> {
+        return this._message.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -71,7 +75,7 @@ export class AuthService
         // Throw error, if the user is already logged in
         if ( this._authenticated )
         {
-            return throwError('User is already logged in.');
+            return throwError('El usuario ya ha iniciado sesión.');
         }
 
         return this._httpClient.post(environment.baseUrl + 'auth/sign-in', credentials).pipe(
@@ -208,5 +212,19 @@ export class AuthService
 
         // If the access token exists and it didn't expire, sign in using it
         return this.signInUsingToken();
+    }
+
+    /**
+     * Sign in using the access token
+     */
+    validateByCode(code: string): Observable<any>
+    {
+        // validate By Code
+        return this._httpClient.get(environment.baseUrl + 'auth/verify/' + code).pipe(
+          tap((response) => {
+              console.log(response);
+              this._message.next(response);
+            })
+        );
     }
 }
