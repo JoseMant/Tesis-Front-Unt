@@ -66,7 +66,7 @@ export class VoucherPendienteService
     getVouchersPendientes():
     Observable<{vouchers: VoucherInterface[]}> {
       return this._httpClient.get< {vouchers: VoucherInterface[]}>(
-          environment.baseUrl + 'vouchers-pendientes').pipe(
+          environment.baseUrl + 'vouchers/pendientes').pipe(
         tap((response) => {
             console.log(response);
           this._vouchersPendientes.next(response.vouchers);
