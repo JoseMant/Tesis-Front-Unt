@@ -238,7 +238,7 @@
                                       <textarea
                                           class="text-justify"
                                           matInput
-                                          [formControlName]="'solicitud_certificado'"
+                                          [formControlName]="'comentario'"
                                           [placeholder]="'Indicar en forma clara lo que solicita y detallar documentos que adjunta'">
                                       </textarea>
                                   </mat-form-field>
@@ -318,15 +318,15 @@
                                 >
                                 <mat-label>BANCOS</mat-label>
                                 <mat-select
-                                    [formControlName]="'idEntidad'">
+                                    [formControlName]="'entidad'">
                                     <ng-container>
                                         <mat-option [value]="0" disabled>
                                             Seleccionar banco...
                                         </mat-option>
                                     </ng-container>
                                     <ng-container *ngFor="let bank of bancos">
-                                        <mat-option [value]="bank.ban_id">
-                                            {{bank.ban_nombre}}
+                                        <mat-option [value]="bank.ban_descripcion">
+                                            {{bank.ban_descripcion}}
                                         </mat-option>
                                     </ng-container>
                                 </mat-select>

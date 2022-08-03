@@ -8,13 +8,13 @@ export interface CertificadoInterface
     idModalidad_grado: number;
     descripcion_estado: string;
     codigo: string;
-    idEntidad: number;
+    entidad: string;
     nro_operacion: string;
     fecha_operacion: string;
     archivo: string;
     idFacultad: number;
     idEscuela: number;
-    solicitud_certificado?: string;
+    comentario?: string;
     idMotivo_certificado: number;
     apellidos: string;
     nombres: string;

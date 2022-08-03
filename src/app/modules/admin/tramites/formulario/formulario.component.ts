@@ -164,12 +164,12 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             idModalidad_grado: [''],
             descripcion_estado: [''],
             codigo: [''],
-            idEntidad: ['', Validators.required],
+            entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
             idMotivo_certificado: [''],
-            solicitud_certificado: [''],
+            comentario: [''],
             apellidos: [''],
             nombres: [''],
             documento: [''],
@@ -288,9 +288,9 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             idColacion: 1,
             idEstado_tramite: 0,
             descripcion_estado: '',
-            solicitud_certificado: '',
+            comentario: '',
             codigo: '',
-            idEntidad: 0,
+            entidad: '',
             nro_operacion: '',
             fecha_operacion: '',
             idMotivo_certificado: 0,
@@ -532,7 +532,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         }
         console.log(this.certificadoForm.getRawValue());
         const certificado = {
-            idEntidad: this.certificadoForm.getRawValue().idEntidad,
+            entidad: this.certificadoForm.getRawValue().entidad,
             nro_operacion: this.certificadoForm.getRawValue().nro_operacion,
             fecha_operacion: this.certificadoForm.getRawValue().fecha_operacion,
             archivo: this.certificadoForm.getRawValue().archivo,
@@ -544,7 +544,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             sede: this.certificadoForm.getRawValue().sede,
             archivo_firma: this.certificadoForm.getRawValue().archivo_firma,
             idMotivo_certificado: this.certificadoForm.getRawValue().idMotivo_certificado,
-            solicitud_certificado: this.certificadoForm.getRawValue().solicitud_certificado,
+            comentario: this.certificadoForm.getRawValue().comentario,
             requisitos: this.certificadoForm.getRawValue().requisitos,
         };
         const cadena = (new Date(certificado.fecha_operacion)).toISOString();
@@ -555,7 +555,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         certificado.fecha_operacion = fecha;
         console.log(certificado);
             const formData = new FormData();
-            formData.append('idEntidad', certificado.idEntidad);
+            formData.append('entidad', certificado.entidad);
             formData.append('nro_operacion', certificado.nro_operacion);
             formData.append('fecha_operacion', certificado.fecha_operacion);
             formData.append('archivo', certificado.archivo);
@@ -567,7 +567,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             formData.append('sede', certificado.sede);
             formData.append('archivo_firma', certificado.archivo_firma);
             formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
-            formData.append('solicitud_certificado', certificado.solicitud_certificado);
+            formData.append('comentario', certificado.comentario);
             certificado.requisitos.forEach((element) => {
                 formData.append('requisitos[]', JSON.stringify(element));
                 if (element.idRequisito && element.extension === 'pdf') {
