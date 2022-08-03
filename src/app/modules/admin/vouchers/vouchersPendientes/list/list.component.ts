@@ -180,117 +180,117 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
     }
 
     llenarFilas(): void{
-        const vouchersPendientes = [
-            {
-              nro_tramite: '123456',
-              alumno: 'PEREZ SANCHEZ JOSE WILLIAM',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'SI',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/07/31'
-            },
-            {
-              nro_tramite: '123400',
-              alumno: 'MANTILLA SANCHEZ JOSE WILLIAM PEPE LUCASASDA',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'NO',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/08/28'
-            },
-            {
-              nro_tramite: '123456',
-              alumno: 'PEREZ SANCHEZ JOSE WILLIAM',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'SI',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/07/31'
-            },
-            {
-              nro_tramite: '123400',
-              alumno: 'MANTILLA SANCHEZ JOSE WILLIAM',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'NO',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/08/28'
-            },
-            {
-              nro_tramite: '123456',
-              alumno: 'PEREZ SANCHEZ JOSE WILLIAM POPO',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'SI',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/07/31'
-            },
-            {
-              nro_tramite: '123400',
-              alumno: 'MANTILLA SANCHEZ JOSE WILLIAM',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'NO',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/08/28'
-            },
-            {
-              nro_tramite: '123456',
-              alumno: 'PEREZ SANCHEZ JOSE WILLIAM POPO',
-              nro_documento: '72477124',
-              nro_matricula: '1523300417',
-              unidad: 'PREGRADO',
-              descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
-              exonerado: 'SI',
-              entidad: 'BANCO INTERBANK',
-              nro_operacion: '5968754',
-              fecha_operacion: '2022/07/31',
-              idVoucher: 2,
-              idEntidad: 1,
-              archivo: 'aqui va el voucher en File o ruta',
-              des_estado_voucher: 'PENDIENTE',
-              idUsuario_aprobador: 1,
-              validado: 1,
-              estado: 1
-            },
-        ];
-        // this._voucherPendienteService.vouchersPendientes$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((vouchersPendientes: VoucherInterface[]) => {
-        //         console.log(vouchersPendientes);
-        //         this.vouchersPendientes = vouchersPendientes;
-        //         // Update the counts
-        //         this.vouchersPendientesCount = vouchersPendientes.length;
-        //         this.dataSource = new MatTableDataSource(
-        //             this.vouchersPendientes
-        //         );
+        // const vouchersPendientes = [
+        //     {
+        //       nro_tramite: '123456',
+        //       alumno: 'PEREZ SANCHEZ JOSE WILLIAM',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'SI',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/07/31'
+        //     },
+        //     {
+        //       nro_tramite: '123400',
+        //       alumno: 'MANTILLA SANCHEZ JOSE WILLIAM PEPE LUCASASDA',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'NO',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/08/28'
+        //     },
+        //     {
+        //       nro_tramite: '123456',
+        //       alumno: 'PEREZ SANCHEZ JOSE WILLIAM',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'SI',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/07/31'
+        //     },
+        //     {
+        //       nro_tramite: '123400',
+        //       alumno: 'MANTILLA SANCHEZ JOSE WILLIAM',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'NO',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/08/28'
+        //     },
+        //     {
+        //       nro_tramite: '123456',
+        //       alumno: 'PEREZ SANCHEZ JOSE WILLIAM POPO',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'SI',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/07/31'
+        //     },
+        //     {
+        //       nro_tramite: '123400',
+        //       alumno: 'MANTILLA SANCHEZ JOSE WILLIAM',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'NO',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/08/28'
+        //     },
+        //     {
+        //       nro_tramite: '123456',
+        //       alumno: 'PEREZ SANCHEZ JOSE WILLIAM POPO',
+        //       nro_documento: '72477124',
+        //       nro_matricula: '1523300417',
+        //       unidad: 'PREGRADO',
+        //       descripcion: 'CERTIFICADO DE ESTUDIOS 5 AÑOS',
+        //       exonerado: 'SI',
+        //       entidad: 'BANCO INTERBANK',
+        //       nro_operacion: '5968754',
+        //       fecha_operacion: '2022/07/31',
+        //       idVoucher: 2,
+        //       idEntidad: 1,
+        //       archivo: 'aqui va el voucher en File o ruta',
+        //       des_estado_voucher: 'PENDIENTE',
+        //       idUsuario_aprobador: 1,
+        //       validado: 1,
+        //       estado: 1
+        //     },
+        // ];
+        this._voucherPendienteService.vouchersPendientes$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((vouchersPendientes: VoucherInterface[]) => {
+                console.log(vouchersPendientes);
+                this.vouchersPendientes = vouchersPendientes;
+                // Update the counts
+                this.vouchersPendientesCount = vouchersPendientes.length;
+                this.dataSource = new MatTableDataSource(
+                    this.vouchersPendientes
+                );
 
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
-        this.vouchersPendientes = vouchersPendientes;
-        this.dataSource = new MatTableDataSource(
-            this.vouchersPendientes
-        );
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+        // this.vouchersPendientes = vouchersPendientes;
+        // this.dataSource = new MatTableDataSource(
+        //     this.vouchersPendientes
+        // );
     }
 
     /**

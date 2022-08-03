@@ -20,7 +20,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'vouchers',
         title: 'Vouchers',
         type : 'collapsable',
-        icon : 'heroicons_outline:pencil-alt',
+        icon : 'heroicons_outline:archive',
         children: [
             {
                 id   : 'vouchers.vouchersPendientes',

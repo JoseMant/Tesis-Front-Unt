@@ -45,7 +45,7 @@ export class VouchersPendientesResolver implements Resolve<any> {
     //     total: any; from: any; last_page: any; last_page_url: any; next_page_url: any; first_page_url: any; current_page: any; data: VoucherInterface[]; }> {
     //     return this._voucherService.getVouchersPendientes(1,10);
     // }
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<VoucherInterface[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{vouchers: VoucherInterface[]}> {
         return this._voucherService.getVouchersPendientes();
     }
 }
