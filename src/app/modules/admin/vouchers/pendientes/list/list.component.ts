@@ -99,16 +99,16 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
         });
 
         // Get the pagination
-        // this._vouchersService.pagination$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((pagination: VoucherPagination) => {
-        //
-        //         // Update the pagination
-        //         this.pagination = pagination;
-        //
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
+        this._vouchersService.pagination$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((pagination: VoucherPagination) => {
+        
+                // Update the pagination
+                this.pagination = pagination;
+        
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Get the vouchers
         this.vouchers$ = this._vouchersService.vouchers$;
@@ -132,7 +132,7 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._vouchersService.getVouchersPendientes(0, 10, 'name', 'asc', query);
+                    return this._vouchersService.getVouchersPendientes(0, 10, 'alumno', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
