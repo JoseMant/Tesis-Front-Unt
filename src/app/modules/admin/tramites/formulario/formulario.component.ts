@@ -97,7 +97,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         title: '',
     };
     certificado: any | null = null;
-    certificadoForm: FormGroup;
+    tramiteForm: FormGroup;
     user: any;
     unidades: any;
     tipoTramites: any;
@@ -156,7 +156,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
         this.limiteFecha();
         this.selectedGap = true;
         // Create the selected maduritylevel form
-        this.certificadoForm = this._formBuilder.group({
+        this.tramiteForm = this._formBuilder.group({
             idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
@@ -252,7 +252,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             if (this.user.sexo === 'F') {
                 this.user['sexoNombre'] = 'FEMENINO';
             }
-            this.certificadoForm.patchValue(user);
+            this.tramiteForm.patchValue(user);
             this.createFormulario(this.user);
             this.selectedGap = false;
             // Mark for check
@@ -310,18 +310,18 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             archivoImagen: '',
             requisitos: ''
         };
-        this.certificadoForm.patchValue(newCertificado);
+        this.tramiteForm.patchValue(newCertificado);
         this.data = newCertificado;
     }
 
     selectedTipoTramite(id: number): void {
-      this.certificadoForm.patchValue({idTipo_tramite: id,idUnidad: 0});
+      this.tramiteForm.patchValue({idTipo_tramite: id,idUnidad: 0});
       this.data.idTipo_tramite = id;
       this.data.idUnidad = 0;
     }
 
     selectedUnidad(id): void{
-        this.certificadoForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: ''});
+        this.tramiteForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: ''});
         this.data.idUnidad = id;
         this.data.idTipo_tramite_unidad = 0;
         this.data.archivo = '';
@@ -329,7 +329,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             // this.requisitos = resp.requisitos;
             // this.data.requisitos = resp.requisitos;
             this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
-            // this.certificadoForm.patchValue({requisitos: resp.requisitos});
+            // this.tramiteForm.patchValue({requisitos: resp.requisitos});
             this._changeDetectorRef.markForCheck();
         });
 
@@ -346,11 +346,11 @@ export class CertificadoListComponent implements OnInit, OnDestroy
                     this.data.idEscuela = idE.idEscuela;
                     this.data.codigo = idE.nro_matricula;
                     this.data.sede = idE.sede;
-                    this.certificadoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
+                    this.tramiteForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
                 }
                 console.log(this.facultades);
                 console.log(this.data);
-                this.certificadoForm.patchValue({idFacultad: idU.idDependencia});
+                this.tramiteForm.patchValue({idFacultad: idU.idDependencia});
                 let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
                 if (first) {
                     this.escuelas = first.escuelas;
@@ -388,7 +388,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
                 this.data.idEscuela = idE.idEscuela;
                 this.data.codigo = idE.nro_matricula;
                 this.data.sede = idE.sede;
-                this.certificadoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
+                this.tramiteForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
             }
             this.escuelas = first.escuela;
             console.log(this.escuelas);
@@ -405,18 +405,18 @@ export class CertificadoListComponent implements OnInit, OnDestroy
                 this.data.sede = itera.sede;
             }
         }
-        this.certificadoForm.patchValue({idEscuela: id, codigo: this.data.codigo, sede: this.data.sede});
+        this.tramiteForm.patchValue({idEscuela: id, codigo: this.data.codigo, sede: this.data.sede});
     }
 
     selectedTipoTramiteUnidades(id): void{
         const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
         this.costo = tipo.costo;
-        this.certificadoForm.patchValue({ idTipo_tramite_unidad: id});
+        this.tramiteForm.patchValue({ idTipo_tramite_unidad: id});
         this.data.idTipo_tramite_unidad = id;
         this._certificadoService.getRequisitos(id).subscribe((resp)=>{
           this.requisitos = resp.requisitos;
           this.data.requisitos = resp.requisitos;
-          this.certificadoForm.patchValue({requisitos: resp.requisitos});
+          this.tramiteForm.patchValue({requisitos: resp.requisitos});
           this._changeDetectorRef.markForCheck();
         });
     }
@@ -424,14 +424,14 @@ export class CertificadoListComponent implements OnInit, OnDestroy
     selectFiles(event): void {
         const files = event.target.files[0];
         console.log(files);
-        this.certificadoForm.patchValue({archivo: files});
+        this.tramiteForm.patchValue({archivo: files});
         this.data.archivo = files;
     }
 
     selectFirma(event): void {
         const files = event.target.files[0];
         console.log(files);
-        this.certificadoForm.patchValue({archivo_firma: files, archivoImagen: files});
+        this.tramiteForm.patchValue({archivo_firma: files, archivoImagen: files});
         this.data.archivo_firma = files;
         this.data.archivoImagen = files;
     }
@@ -446,7 +446,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             }
         }
         this.data.requisitos = this.requisitos;
-        this.certificadoForm.patchValue({requisitos: this.requisitos});
+        this.tramiteForm.patchValue({requisitos: this.requisitos});
         console.log(this.data.requisitos);
     }
 
@@ -460,7 +460,7 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             }
         }
         this.data.requisitos = this.requisitos;
-        this.certificadoForm.patchValue({requisitos: this.requisitos});
+        this.tramiteForm.patchValue({requisitos: this.requisitos});
         console.log(this.data.requisitos);
     }
 
@@ -516,8 +516,8 @@ export class CertificadoListComponent implements OnInit, OnDestroy
 
     createCertificado(): void{
         // If the confirm button pressed...
-        if (this.certificadoForm.invalid) {
-            this.certificadoForm.markAllAsTouched();
+        if (this.tramiteForm.invalid) {
+            this.tramiteForm.markAllAsTouched();
             console.log('hola');
             return;
         }
@@ -530,22 +530,22 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             };
             this.openSnack();
         }
-        console.log(this.certificadoForm.getRawValue());
+        console.log(this.tramiteForm.getRawValue());
         const certificado = {
-            entidad: this.certificadoForm.getRawValue().entidad,
-            nro_operacion: this.certificadoForm.getRawValue().nro_operacion,
-            fecha_operacion: this.certificadoForm.getRawValue().fecha_operacion,
-            archivo: this.certificadoForm.getRawValue().archivo,
-            idTipo_tramite_unidad: this.certificadoForm.getRawValue().idTipo_tramite_unidad,
-            idUnidad: this.certificadoForm.getRawValue().idUnidad,
-            idDependencia: this.certificadoForm.getRawValue().idFacultad,
-            idDependencia_detalle: this.certificadoForm.getRawValue().idEscuela,
-            nro_matricula: this.certificadoForm.getRawValue().codigo,
-            sede: this.certificadoForm.getRawValue().sede,
-            archivo_firma: this.certificadoForm.getRawValue().archivo_firma,
-            idMotivo_certificado: this.certificadoForm.getRawValue().idMotivo_certificado,
-            comentario: this.certificadoForm.getRawValue().comentario,
-            requisitos: this.certificadoForm.getRawValue().requisitos,
+            entidad: this.tramiteForm.getRawValue().entidad,
+            nro_operacion: this.tramiteForm.getRawValue().nro_operacion,
+            fecha_operacion: this.tramiteForm.getRawValue().fecha_operacion,
+            archivo: this.tramiteForm.getRawValue().archivo,
+            idTipo_tramite_unidad: this.tramiteForm.getRawValue().idTipo_tramite_unidad,
+            idUnidad: this.tramiteForm.getRawValue().idUnidad,
+            idDependencia: this.tramiteForm.getRawValue().idFacultad,
+            idDependencia_detalle: this.tramiteForm.getRawValue().idEscuela,
+            nro_matricula: this.tramiteForm.getRawValue().codigo,
+            sede: this.tramiteForm.getRawValue().sede,
+            archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
+            idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
+            comentario: this.tramiteForm.getRawValue().comentario,
+            requisitos: this.tramiteForm.getRawValue().requisitos,
         };
         const cadena = (new Date(certificado.fecha_operacion)).toISOString();
         console.log(cadena);
@@ -579,10 +579,16 @@ export class CertificadoListComponent implements OnInit, OnDestroy
               });
             console.log(formData.getAll('requisitos'));
             console.log(formData.getAll('files'));
+            // Disable the form
+            this.tramiteForm.disable();
+
             this._certificadoService.createCertificado(formData).subscribe((newMadurity) => {
                 console.log(newMadurity);
                 // Toggle the edit mode off
                 //this.toggleEditMode(false);
+
+                // Re-enable the form
+                this.tramiteForm.enable();
 
                 // Go to new product
                 this.createFormulario(this.user);
@@ -599,6 +605,10 @@ export class CertificadoListComponent implements OnInit, OnDestroy
             },
             (error) => {
                 // console.log(error);
+
+                // Re-enable the form
+                this.tramiteForm.enable();
+                
                 this.alert = {
                     type   : 'warn',
                     message: 'Error al registrar',

@@ -77,8 +77,8 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
             {path: 'tramites', loadChildren: () => import('app/modules/admin/tramites/tramites.module').then(m => m.TramitesModule)},
-            {path: 'vouchers', loadChildren: () => import(
-                'app/modules/admin/vouchers/vouchers.module').then(m => m.VouchersModule)},
+            {path: 'vouchers', loadChildren: () => import('app/modules/admin/vouchers/vouchers.module').then(m => m.VouchersModule)},
+            // {path: 'vouchers2', loadChildren: () => import('app/modules/admin/vouchers2/vouchers.module').then(m => m.VouchersModule)},
         ]
     }
 ];

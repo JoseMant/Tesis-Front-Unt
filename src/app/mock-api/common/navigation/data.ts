@@ -23,10 +23,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:archive',
         children: [
             {
-                id   : 'vouchers.vouchersPendientes',
-                title: 'Vouchers Pendientes',
+                id   : 'vouchers.pendientes',
+                title: 'Pendientes',
                 type : 'basic',
-                link : '/vouchers/vouchersPendientes'
+                link : '/vouchers/pendientes'
+            },
+            {
+                id   : 'vouchers.aprobados',
+                title: 'Aprobados',
+                type : 'basic',
+                link : '/vouchers/aprobados'
+            },
+            {
+                id   : 'vouchers.rechazados',
+                title: 'Rechazados',
+                type : 'basic',
+                link : '/vouchers/rechazados'
             }
         ]
     }
