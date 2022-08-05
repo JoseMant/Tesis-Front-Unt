@@ -99,16 +99,16 @@ export class VouchersAprobadosListComponent implements OnInit, AfterViewInit, On
         });
 
         // Get the pagination
-        // this._vouchersService.pagination$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((pagination: VoucherPagination) => {
-        //
-        //         // Update the pagination
-        //         this.pagination = pagination;
-        //
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
+        this._vouchersService.pagination$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((pagination: VoucherPagination) => {
+        
+                // Update the pagination
+                this.pagination = pagination;
+        
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Get the vouchers
         this.vouchers$ = this._vouchersService.vouchers$;
