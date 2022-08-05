@@ -8,6 +8,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { VoucherPagination, VoucherInterface } from 'app/modules/admin/vouchers/vouchers.types';
 import { VouchersService } from 'app/modules/admin/vouchers/vouchers.service';
+import { MatDialog } from '@angular/material/dialog';
+import { VisorPdfVoucherComponent } from '../visorPdf/visorPdfVoucher.component';
 
 @Component({
     selector       : 'vouchers-pendientes-list',
@@ -15,19 +17,19 @@ import { VouchersService } from 'app/modules/admin/vouchers/vouchers.service';
     styles         : [
         /* language=SCSS */
         `
-            .inventory-grid {
-                grid-template-columns: 96px auto 40px;
+            .pendientes-grid {
+                grid-template-columns: 96px auto 90px;
 
                 @screen sm {
-                    grid-template-columns: 96px 190px auto 72px;
+                    grid-template-columns: 96px 190px auto 90px;
                 }
 
                 @screen md {
-                    grid-template-columns: 96px 190px auto 96px 72px;
+                    grid-template-columns: 96px 190px auto 96px 90px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 96px 190px auto 96px 96px 96px 96px 72px;
+                    grid-template-columns: 96px 190px auto 96px 96px 96px 96px 90px;
                 }
             }
         `
@@ -60,7 +62,8 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _vouchersService: VouchersService
+        private _vouchersService: VouchersService,
+        public visordialog: MatDialog,
     )
     {
     }
@@ -102,10 +105,10 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
         this._vouchersService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: VoucherPagination) => {
-        
+
                 // Update the pagination
                 this.pagination = pagination;
-        
+
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -139,6 +142,19 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                 })
             )
             .subscribe();
+    }
+
+    editarVoucher(dataVou): void {
+        console.log(dataVou);
+        dataVou['archivo'] = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+        const respDial = this.visordialog.open(
+            VisorPdfVoucherComponent,
+            {
+                data: dataVou,
+                disableClose: true,
+                width: '75%',
+            }
+        );
     }
 
     /**

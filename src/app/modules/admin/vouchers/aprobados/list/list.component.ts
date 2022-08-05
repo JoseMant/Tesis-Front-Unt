@@ -15,7 +15,7 @@ import { VouchersService } from 'app/modules/admin/vouchers/vouchers.service';
     styles         : [
         /* language=SCSS */
         `
-            .inventory-grid {
+            .aprobados-grid {
                 grid-template-columns: 96px auto 40px;
 
                 @screen sm {

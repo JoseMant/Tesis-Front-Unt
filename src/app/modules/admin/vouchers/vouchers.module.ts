@@ -21,6 +21,10 @@ import { VouchersAprobadosListComponent } from 'app/modules/admin/vouchers/aprob
 import { VouchersRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
 import { VouchersRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
 import { vouchersRoutes } from 'app/modules/admin/vouchers/vouchers.routing';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { VisorPdfVoucherComponent } from './pendientes/visorPdf/visorPdfVoucher.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
@@ -29,15 +33,19 @@ import { vouchersRoutes } from 'app/modules/admin/vouchers/vouchers.routing';
         VouchersAprobadosComponent,
         VouchersAprobadosListComponent,
         VouchersRechazadosComponent,
-        VouchersRechazadosListComponent
+        VouchersRechazadosListComponent,
+        VisorPdfVoucherComponent
     ],
     imports     : [
         RouterModule.forChild(vouchersRoutes),
         MatButtonModule,
         MatCheckboxModule,
+        MatDialogModule,
+        PdfViewerModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatExpansionModule,
         MatMenuModule,
         MatPaginatorModule,
         MatProgressBarModule,
