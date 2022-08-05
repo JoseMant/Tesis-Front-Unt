@@ -146,7 +146,7 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
 
     editarVoucher(dataVou): void {
         console.log(dataVou);
-        dataVou['archivo'] = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+        // dataVou['archivo'] = 'http://127.0.0.1:8000/storage/vouchers_tramites/001030822.pdf';
         const respDial = this.visordialog.open(
             VisorPdfVoucherComponent,
             {
@@ -166,7 +166,7 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'name',
+                id          : 'nro_tramite',
                 start       : 'asc',
                 disableClear: true
             });

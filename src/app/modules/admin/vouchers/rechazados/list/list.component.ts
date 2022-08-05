@@ -132,7 +132,7 @@ export class VouchersRechazadosListComponent implements OnInit, AfterViewInit, O
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._vouchersService.getVouchersRechazados(0, 10, 'name', 'asc', query);
+                    return this._vouchersService.getVouchersRechazados(0, 10, 'nro_tramite', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -150,7 +150,7 @@ export class VouchersRechazadosListComponent implements OnInit, AfterViewInit, O
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'name',
+                id          : 'nro_tramite',
                 start       : 'asc',
                 disableClear: true
             });

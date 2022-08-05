@@ -34,8 +34,8 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.verArchivo();
         this.cargarFormulario2();
+        this.verArchivo();
     }
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
@@ -82,19 +82,18 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
     }
 
     verArchivo(): void {
-        console.log(this.data.archivo);
         const file = this.data.archivo;
-        console.log(file);
         if (file.type === 'Blob') {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = (e) => {
+                console.log(e);
                 this.pdfSource = e.target.result;
-                console.log(this.pdfSource);
             };
         }
         else{
             this.pdfSource = file;
+            console.log(this.pdfSource)
         }
         // reader.readAsArrayBuffer(this.data.file);
     }

@@ -53,7 +53,7 @@ export class VouchersService
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    getVouchersPendientes(page: number = 0, size: number = 10, sort: string = 'alumno', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getVouchersPendientes(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
     {
         return this._httpClient.get<{ pagination: VoucherPagination, data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/pendientes', {
@@ -73,26 +73,42 @@ export class VouchersService
         );
     }
 
-    getVouchersAprobados(page: number = 0, size: number = 10, sort: string = 'alumno', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-    Observable<{ vouchers: VoucherInterface[] }>
+    getVouchersAprobados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
     {
-      return this._httpClient.get<{ vouchers: VoucherInterface[] }>(environment.baseUrl + 'vouchers/aprobados').pipe(
+      return this._httpClient.get<{ pagination: VoucherPagination, data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/aprobados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
         tap((response) => {
           console.log(response);
-          // this._pagination.next(response.pagination);
-          this._vouchers.next(response.vouchers);
+          this._pagination.next(response.pagination);
+          this._vouchers.next(response.data);
         })
       );
     }
 
-    getVouchersRechazados(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-    Observable<{ vouchers: VoucherInterface[] }>
+    getVouchersRechazados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
     {
-      return this._httpClient.get<{ vouchers: VoucherInterface[] }>(environment.baseUrl + 'vouchers/rechazados').pipe(
+      return this._httpClient.get<{ pagination: VoucherPagination, data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/rechazados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
         tap((response) => {
           console.log(response);
-          // this._pagination.next(response.pagination);
-          this._vouchers.next(response.vouchers);
+          this._pagination.next(response.pagination);
+          this._vouchers.next(response.data);
         })
       );
     }

@@ -74,7 +74,7 @@ export class VouchersRechazadosResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ vouchers: VoucherInterface[] }>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
     {
         return this._vouchersService.getVouchersRechazados();
     }
