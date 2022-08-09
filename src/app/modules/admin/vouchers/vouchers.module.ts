@@ -25,6 +25,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { VisorPdfVoucherComponent } from './pendientes/visorPdf/visorPdfVoucher.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ],
     imports     : [
         RouterModule.forChild(vouchersRoutes),
+        MatSnackBarModule,
         MatButtonModule,
         MatCheckboxModule,
         MatDialogModule,

@@ -54,9 +54,9 @@ export class VouchersService
     // -----------------------------------------------------------------------------------------------------
 
     getVouchersPendientes(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-        Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
+        Observable<{ pagination: VoucherPagination; data: VoucherInterface[] }>
     {
-        return this._httpClient.get<{ pagination: VoucherPagination, data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/pendientes', {
+        return this._httpClient.get<{ pagination: VoucherPagination; data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/pendientes', {
             params: {
                 page: '' + page,
                 size: '' + size,
@@ -74,9 +74,9 @@ export class VouchersService
     }
 
     getVouchersAprobados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-    Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
+    Observable<{ pagination: VoucherPagination; data: VoucherInterface[] }>
     {
-      return this._httpClient.get<{ pagination: VoucherPagination, data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/aprobados', {
+      return this._httpClient.get<{ pagination: VoucherPagination; data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/aprobados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -94,9 +94,9 @@ export class VouchersService
     }
 
     getVouchersRechazados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-    Observable<{ pagination: VoucherPagination, data: VoucherInterface[] }>
+    Observable<{ pagination: VoucherPagination; data: VoucherInterface[] }>
     {
-      return this._httpClient.get<{ pagination: VoucherPagination, data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/rechazados', {
+      return this._httpClient.get<{ pagination: VoucherPagination; data: VoucherInterface[] }>(environment.baseUrl + 'vouchers/rechazados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -144,26 +144,6 @@ export class VouchersService
     }
 
     /**
-     * Create voucher
-     */
-    createVoucher(): Observable<VoucherInterface>
-    {
-        return this.vouchers$.pipe(
-            take(1),
-            switchMap(vouchers => this._httpClient.post<VoucherInterface>('api/apps/vouchers/inventory/voucher', {}).pipe(
-                map((newVoucher) => {
-
-                    // Update the vouchers with the new voucher
-                    this._vouchers.next([newVoucher, ...vouchers]);
-
-                    // Return the new voucher
-                    return newVoucher;
-                })
-            ))
-        );
-    }
-
-    /**
      * Update voucher
      *
      * @param id
@@ -173,66 +153,22 @@ export class VouchersService
     {
         return this.vouchers$.pipe(
             take(1),
-            switchMap(vouchers => this._httpClient.patch<VoucherInterface>('api/apps/vouchers/inventory/voucher', {
-                id,
-                voucher
-            }).pipe(
+            switchMap(vouchers => this._httpClient.patch<VoucherInterface>(environment.baseUrl + 'voucher/' + id, voucher).pipe(
                 map((updatedVoucher) => {
-
+                    console.log(updatedVoucher);
                     // Find the index of the updated voucher
                     const index = vouchers.findIndex(item => item.idVoucher === id);
 
                     // Update the voucher
-                    vouchers[index] = updatedVoucher;
+                    vouchers.splice(index, 1);
 
                     // Update the vouchers
                     this._vouchers.next(vouchers);
 
                     // Return the updated voucher
                     return updatedVoucher;
-                }),
-                switchMap(updatedVoucher => this.voucher$.pipe(
-                    take(1),
-                    filter(item => item && item.idVoucher === id),
-                    tap(() => {
-
-                        // Update the voucher if it's selected
-                        this._voucher.next(updatedVoucher);
-
-                        // Return the updated voucher
-                        return updatedVoucher;
-                    })
-                ))
-            ))
-        );
-    }
-
-    /**
-     * Delete the voucher
-     *
-     * @param id
-     */
-    deleteVoucher(id: number): Observable<boolean>
-    {
-        return this.vouchers$.pipe(
-            take(1),
-            switchMap(vouchers => this._httpClient.delete('api/apps/vouchers/inventory/voucher', {params: {id}}).pipe(
-                map((isDeleted: boolean) => {
-
-                    // Find the index of the deleted voucher
-                    const index = vouchers.findIndex(item => item.idVoucher === id);
-
-                    // Delete the voucher
-                    vouchers.splice(index, 1);
-
-                    // Update the vouchers
-                    this._vouchers.next(vouchers);
-
-                    // Return the deleted status
-                    return isDeleted;
                 })
             ))
         );
     }
-
 }

@@ -47,19 +47,17 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
             alumno: [''],
             archivo: [''],
             des_estado_voucher: [''],
-            descripcion: [''],
+            tramite: [''],
             entidad: [''],
-            estado: [''],
             exonerado: [''],
             fecha_operacion: [''],
-            idUsuario_aprobador: [''],
             idVoucher: [''],
-            nro_documento   : [''],
-            nro_matricula: [''],
             nro_operacion: [''],
             nro_tramite: [''],
-            unidad: [''],
             validado: [''],
+            comentario: [''],
+            idTramite: [''],
+            lectura: [''],
         });
         this.llenarDialog(this.data);
     }
@@ -67,17 +65,19 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
     llenarDialog(data: any): void {
         console.log(data);
         this.formulario2.patchValue({
+            lectura: data.lectura,
             alumno: data.alumno,
             archivo: data.archivo,
-            des_estado_voucher: 'PENDIENTE',
-            descripcion: data.descripcion,
+            des_estado_voucher: data.des_estado_voucher,
+            tramite: data.tramite,
             entidad: data.entidad,
             exonerado: data.exonerado,
             fecha_operacion: data.fecha_operacion,
-            //idUsuario_aprobador: data.idUsuario_aprobador,
-            //idVoucher: data.idVoucher,
+            idTramite: data.idTramite,
+            idVoucher: data.idVoucher,
             nro_operacion: data.nro_operacion,
-            nro_tramite: data.nro_tramite
+            nro_tramite: data.nro_tramite,
+            comentario: data.comentario,
         });
     }
 
@@ -93,16 +93,15 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
         }
         else{
             this.pdfSource = file;
-            console.log(this.pdfSource)
+            console.log(this.pdfSource);
         }
         // reader.readAsArrayBuffer(this.data.file);
     }
-
-    validarVoucher(): void {
-        if (this.formulario2.invalid) {
-            this.formulario2.markAllAsTouched();
-            return;
-        }
-        console.log(this.formulario2.getRawValue());
+    selectedEstado(option: string): void {
+        console.log(option);
+        this.data.des_estado_voucher = option;
+        this.formulario2.patchValue({
+            des_estado_voucher: option
+        });
     }
 }
