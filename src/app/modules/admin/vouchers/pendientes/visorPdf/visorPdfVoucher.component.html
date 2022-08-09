@@ -9,7 +9,7 @@
         <button mat-button (click)="accordion.openAll()">Expandir todo</button>
         <button mat-button (click)="accordion.closeAll()">Contraer todo</button>
     </div>
-    <form id="formulario2" autocomplete="off" [formGroup]="formulario2">
+    <form id="formulario2" autocomplete="off" [formGroup]="formulario2" *ngIf="!data.lectura">
         <mat-accordion class="example-headers-align" multi>
             <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -22,7 +22,7 @@
 
             <div class="grid grid-cols-6 gap-y-6 mb-3">
                 <mat-form-field
-                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
                 <mat-label>ALUMNO</mat-label>
@@ -30,28 +30,6 @@
                         type="text"
                         matInput readonly
                         formControlName="alumno"
-                    />
-                </mat-form-field>
-                <mat-form-field
-                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
-                    appearance="outline"
-                >
-                <mat-label>NUMERO DE DOCUMENTO</mat-label>
-                    <input
-                        type="text"
-                        matInput readonly
-                        formControlName="nro_documento"
-                    />
-                </mat-form-field>
-                <mat-form-field
-                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
-                    appearance="outline"
-                >
-                <mat-label>NUMERO DE MATRICULA</mat-label>
-                    <input
-                        type="text"
-                        matInput readonly
-                        formControlName="nro_matricula"
                     />
                 </mat-form-field>
                 <mat-form-field
@@ -66,36 +44,14 @@
                     />
                 </mat-form-field>
                 <mat-form-field
-                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
-                    appearance="outline"
-                >
-                <mat-label>UNIDAD</mat-label>
-                    <input
-                        type="text"
-                        matInput readonly
-                        formControlName="unidad"
-                    />
-                </mat-form-field>
-                <mat-form-field
-                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
-                    appearance="outline"
-                >
-                <mat-label>ENTIDAD</mat-label>
-                    <input
-                        type="text"
-                        matInput readonly
-                        formControlName="entidad"
-                    />
-                </mat-form-field>
-                <mat-form-field
                     class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>DESCRIPCION</mat-label>
+                <mat-label>TRAMITE</mat-label>
                     <input
                         type="text"
                         matInput readonly
-                        formControlName="descripcion"
+                        formControlName="tramite"
                     />
                 </mat-form-field>
                 <mat-form-field
@@ -110,7 +66,18 @@
                     />
                 </mat-form-field>
                 <mat-form-field
-                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ENTIDAD</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="entidad"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
                 <mat-label>NUMERO DE OPERACION</mat-label>
@@ -121,7 +88,165 @@
                     />
                 </mat-form-field>
                 <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>FECHA DE OPERACION</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="fecha_operacion"
+                    />
+                </mat-form-field>
+            </div>
+
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Voucher
+                </mat-panel-title>
+                <mat-panel-description>Pdf del voucher para validar
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <pdf-viewer [src]="pdfSource"
+                        [render-text]="true"
+                        [original-size]="true"
+                        [fit-to-page]="true"
+                    ></pdf-viewer>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Validación
+                </mat-panel-title>
+                <mat-panel-description>Realizar validación del voucher
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="grid grid-cols-6 gap-y-6 mb-3">
+                <mat-form-field
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ESTADO VOUCHER</mat-label>
+                <mat-select
+                (selectionChange)="selectedEstado($event.value)"
+                    [formControlName]="'des_estado_voucher'">
+                    <ng-container>
+                        <mat-option [value]="'ESTADO'" disabled>
+                            Seleccionar estado...
+                        </mat-option>
+                    </ng-container>
+                    <ng-container>
+                        <mat-option [value]="'PENDIENTE'">
+                            PENDIENTE
+                        </mat-option>
+                        <mat-option [value]="'APROBADO'">
+                            APROBADO
+                        </mat-option>
+                        <mat-option [value]="'RECHAZADO'">
+                            RECHAZADO
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+                </mat-form-field>
+                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher === 'RECHAZADO'">
+                    <mat-label>Descripción del porqué del rechazo</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'comentario'"
+                        [placeholder]="'Comentario'"
+                        [rows]="3"
+                        matTextareaAutosize
+                        [matAutosizeMinRows]="1">
+                    </textarea>
+                </mat-form-field>
+            </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </form>
+    <form id="formulario2" autocomplete="off" [formGroup]="formulario2" *ngIf="data.lectura">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Datos del voucher
+                </mat-panel-title>
+                <mat-panel-description>Datos para verificar y poder validar
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="grid grid-cols-6 gap-y-6 mb-3">
+                <mat-form-field
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ALUMNO</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="alumno"
+                    />
+                </mat-form-field>
+                <mat-form-field
                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>NUMERO DE TRÁMITE</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="nro_tramite"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>TRAMITE</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="tramite"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>EXONERADO DE PAGO CARPETA</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="exonerado"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ENTIDAD</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="entidad"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>NUMERO DE OPERACION</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="nro_operacion"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
                 <mat-label>FECHA DE OPERACION</mat-label>
@@ -172,17 +297,28 @@
                         </mat-option>
                     </ng-container>
                     <ng-container>
-                        <mat-option [value]="'PENDIENTE'">
+                        <mat-option [value]="'PENDIENTE'" disabled>
                             PENDIENTE
                         </mat-option>
-                        <mat-option [value]="'ACEPTADO'">
-                            ACEPTADO
+                        <mat-option [value]="'APROBADO'" disabled>
+                            APROBADO
                         </mat-option>
-                        <mat-option [value]="'RECHAZADO'">
+                        <mat-option [value]="'RECHAZADO'" disabled>
                             RECHAZADO
                         </mat-option>
                     </ng-container>
                 </mat-select>
+                </mat-form-field>
+                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher === 'RECHAZADO'">
+                    <mat-label>Descripción del porqué del rechazo</mat-label>
+                    <textarea
+                        matInput readonly
+                        [formControlName]="'comentario'"
+                        [placeholder]="'Comentario'"
+                        [rows]="3"
+                        matTextareaAutosize
+                        [matAutosizeMinRows]="1">
+                    </textarea>
                 </mat-form-field>
             </div>
             </mat-expansion-panel>
@@ -198,10 +334,12 @@
         Cerrar
     </button>
     <button
+    *ngIf="!data.lectura"
         mat-button
         class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
         cmat-button
-        (click)="validarVoucher()"
+        [mat-dialog-close]="formulario2"
+        cdkFocusInitial
     >
         Guardar
     </button>
