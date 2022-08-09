@@ -5,7 +5,7 @@ import { BancosResolver, MotivosResolver, TramitesResolver, UnidadesResolver  } 
 
 export const certificadosRoutes: Route[] = [
     {
-        path     : 'tramites',
+        path     : '',
         component: CertificadosComponent,
         children : [
             {

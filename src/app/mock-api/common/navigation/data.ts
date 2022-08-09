@@ -14,7 +14,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Trámites',
         type : 'basic',
         icon : 'heroicons_outline:pencil-alt',
-        link : '/tramites/tramites',
+        link : '/tramites',
     },
     {
         id   : 'vouchers',
