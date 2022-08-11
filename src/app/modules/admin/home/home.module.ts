@@ -18,6 +18,11 @@ import { HomeComponent } from 'app/modules/admin/home/home.component';
 import { HomeListComponent } from 'app/modules/admin/home/list/list.component';
 import { homeRoutes } from 'app/modules/admin/home/home.routing';
 
+
+
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
     declarations: [
         HomeComponent,
@@ -38,7 +43,11 @@ import { homeRoutes } from 'app/modules/admin/home/home.routing';
         MatSelectModule,
         MatSlideToggleModule,
         MatTooltipModule,
-        SharedModule
+        SharedModule,
+        // ------
+        MatDividerModule,
+        MatTableModule,
+        NgApexchartsModule
     ]
 })
 export class HomeModule

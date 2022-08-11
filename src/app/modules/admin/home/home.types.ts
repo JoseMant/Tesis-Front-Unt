@@ -1,4 +1,4 @@
-export interface HomeProduct
+export interface HomeTramite
 {
     idTramite: number;
     category?: string;
@@ -17,7 +17,7 @@ export interface HomeProduct
     price: number;
     weight: number;
     thumbnail: string;
-    images: string[];
+    historial: any[];
     active: boolean;
 }
 
@@ -29,32 +29,4 @@ export interface HomePagination
     lastPage: number;
     startIndex: number;
     endIndex: number;
-}
-
-export interface HomeCategory
-{
-    id: string;
-    parentId: string;
-    name: string;
-    slug: string;
-}
-
-export interface HomeBrand
-{
-    id: string;
-    name: string;
-    slug: string;
-}
-
-export interface HomeTag
-{
-    id?: string;
-    title?: string;
-}
-
-export interface HomeVendor
-{
-    id: string;
-    name: string;
-    slug: string;
 }

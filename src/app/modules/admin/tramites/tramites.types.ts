@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-export interface CertificadoInterface
+export interface TramiteInterface
 {
+    idTramite?: number;
     idTipo_tramite: number;
     nro_documento: string;
     idColacion: number;
@@ -15,7 +16,7 @@ export interface CertificadoInterface
     idFacultad: number;
     idEscuela: number;
     comentario?: string;
-    idMotivo_certificado: number;
+    idMotivo_certificado?: number;
     apellidos: string;
     nombres: string;
     documento: string;

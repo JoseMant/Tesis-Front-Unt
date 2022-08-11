@@ -22,8 +22,8 @@ import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
-    selector       : 'tramite-formulario',
-    templateUrl    : './formulario.component.html',
+    selector       : 'tramite-details',
+    templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
         `
@@ -85,7 +85,7 @@ import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class TramiteListComponent implements OnInit, OnDestroy
+export class TramiteDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
@@ -96,7 +96,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
         message: '',
         title: '',
     };
-    tramite: any | null = null;
+    tramite: TramiteInterface | null = null;
+    tramites: TramiteInterface[];
     tramiteForm: FormGroup;
     user: any;
     unidades: any;
@@ -168,7 +169,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
-            idMotivo_tramite: [''],
+            idMotivo_certificado: [''],
             comentario: [''],
             apellidos: [''],
             nombres: [''],
@@ -188,11 +189,29 @@ export class TramiteListComponent implements OnInit, OnDestroy
             requisitos: [''],
         });
 
-        this._tramiteService.bancos$
+        // Get the tramites
+        this._tramiteService.tramites$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((bancos: any) => {
-                this.bancos = bancos;
-                console.log(bancos);
+            .subscribe((tramites: TramiteInterface[]) => {
+                this.tramites = tramites;
+                console.log(tramites);
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the tramite
+        this._tramiteService.tramite$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((tramite: TramiteInterface) => {
+
+                // Get the tramite
+                this.tramite = tramite;
+                console.log(this.tramite);
+                debugger;
+
+                // Patch values to the form
+                this.tramiteForm.patchValue(tramite);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -229,35 +248,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
-        // Subscribe to user changes
-        this._userService.user$
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((user: any) => {
-            //debugger;
-            this.user = user;
-            console.log(user);
-            if (this.user.tipo_documento === '1') {
-                this.user['documento'] = 'DNI';
-            }
-            if (this.user.tipo_documento === '2') {
-                this.user['documento'] = 'PASAPORTE';
-            }
-            if (this.user.tipo_documento === '3') {
-                this.user['documento'] = 'CARNET DE EXTRANJERIA';
-            }
-            if (this.user.sexo === 'M') {
-                this.user['sexoNombre'] = 'MASCULINO';
-            }
-            if (this.user.sexo === 'F') {
-                this.user['sexoNombre'] = 'FEMENINO';
-            }
-            this.tramiteForm.patchValue(user);
-            this.createFormulario(this.user);
-            this.selectedGap = false;
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
     }
 
     /**
@@ -293,7 +283,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             entidad: '',
             nro_operacion: '',
             fecha_operacion: '',
-            idMotivo_tramite: 0,
+            idMotivo_certificado: 0,
             archivo: '',
             apellidos: data.apellidos.toUpperCase(),
             nombres: data.nombres.toUpperCase(),
@@ -531,7 +521,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.openSnack();
         }
         console.log(this.tramiteForm.getRawValue());
-        const tramite = {
+        const certificado = {
             entidad: this.tramiteForm.getRawValue().entidad,
             nro_operacion: this.tramiteForm.getRawValue().nro_operacion,
             fecha_operacion: this.tramiteForm.getRawValue().fecha_operacion,
@@ -543,32 +533,32 @@ export class TramiteListComponent implements OnInit, OnDestroy
             nro_matricula: this.tramiteForm.getRawValue().codigo,
             sede: this.tramiteForm.getRawValue().sede,
             archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
-            idMotivo_tramite: this.tramiteForm.getRawValue().idMotivo_tramite,
+            idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
             comentario: this.tramiteForm.getRawValue().comentario,
             requisitos: this.tramiteForm.getRawValue().requisitos,
         };
-        const cadena = (new Date(tramite.fecha_operacion)).toISOString();
+        const cadena = (new Date(certificado.fecha_operacion)).toISOString();
         console.log(cadena);
         const cadena1 = cadena.substring(0,10);
         const cadena2 = cadena.substring(11,19);
         const fecha = cadena1 + ' ' + cadena2;
-        tramite.fecha_operacion = fecha;
-        console.log(tramite);
+        certificado.fecha_operacion = fecha;
+        console.log(certificado);
             const formData = new FormData();
-            formData.append('entidad', tramite.entidad);
-            formData.append('nro_operacion', tramite.nro_operacion);
-            formData.append('fecha_operacion', tramite.fecha_operacion);
-            formData.append('archivo', tramite.archivo);
-            formData.append('idTipo_tramite_unidad', tramite.idTipo_tramite_unidad);
-            formData.append('idUnidad', tramite.idUnidad);
-            formData.append('idDependencia', tramite.idDependencia);
-            formData.append('idDependencia_detalle', tramite.idDependencia_detalle);
-            formData.append('nro_matricula', tramite.nro_matricula);
-            formData.append('sede', tramite.sede);
-            formData.append('archivo_firma', tramite.archivo_firma);
-            formData.append('idMotivo_tramite', tramite.idMotivo_tramite);
-            formData.append('comentario', tramite.comentario);
-            tramite.requisitos.forEach((element) => {
+            formData.append('entidad', certificado.entidad);
+            formData.append('nro_operacion', certificado.nro_operacion);
+            formData.append('fecha_operacion', certificado.fecha_operacion);
+            formData.append('archivo', certificado.archivo);
+            formData.append('idTipo_tramite_unidad', certificado.idTipo_tramite_unidad);
+            formData.append('idUnidad', certificado.idUnidad);
+            formData.append('idDependencia', certificado.idDependencia);
+            formData.append('idDependencia_detalle', certificado.idDependencia_detalle);
+            formData.append('nro_matricula', certificado.nro_matricula);
+            formData.append('sede', certificado.sede);
+            formData.append('archivo_firma', certificado.archivo_firma);
+            formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
+            formData.append('comentario', certificado.comentario);
+            certificado.requisitos.forEach((element) => {
                 formData.append('requisitos[]', JSON.stringify(element));
                 if (element.idRequisito && element.extension === 'pdf') {
                     formData.append('files[]', element.archivo);

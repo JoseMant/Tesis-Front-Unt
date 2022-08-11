@@ -69,8 +69,8 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     selectedTramiteForm: FormGroup;
     data: any;
     accountBalanceOptions: ApexOptions;
-    historial: MatTableDataSource<any> = new MatTableDataSource();
-    recentTransactionsTableColumns: string[] = ['nro_tramite', 'tramite', 'created_at', 'estado'];
+    recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    recentTransactionsTableColumns: string[] = ['nro_tramite', 'tramite', 'created_at', 'estado', 'opciones'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -202,8 +202,9 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
             .subscribe((tramite) => {
 
                 // Set the selected tramite
+                console.log(tramite);
                 this.selectedTramite = tramite;
-                this.historial.data = tramite.historial;
+                this.recentTransactionsDataSource.data = tramite.historial;
 
                 // Fill the form
                 // this.selectedTramiteForm.patchValue(tramite);

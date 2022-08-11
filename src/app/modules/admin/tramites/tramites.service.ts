@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { CertificadoInterface } from 'app/modules/admin/tramites/tramites.types';
+import { TramiteInterface } from 'app/modules/admin/tramites/tramites.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CertificadoService
+export class TramiteService
 {
     // Private
-    private _certificado: BehaviorSubject<CertificadoInterface | null> = new BehaviorSubject(null);
-    private _certificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
+    private _tramite: BehaviorSubject<TramiteInterface | null> = new BehaviorSubject(null);
+    private _tramites: BehaviorSubject<TramiteInterface[] | null> = new BehaviorSubject(null);
     private _alumno: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _tipoTramites: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _bancos: BehaviorSubject<any | null> = new BehaviorSubject(null);
@@ -35,17 +35,17 @@ export class CertificadoService
     /**
      * Getter for madurity_model
      */
-    get certificado$(): Observable<CertificadoInterface>
+    get tramite$(): Observable<TramiteInterface>
     {
-        return this._certificado.asObservable();
+        return this._tramite.asObservable();
     }
 
     /**
-     * Getter for certificados
+     * Getter for tramites
      */
-    get certificados$(): Observable<CertificadoInterface[]>
+    get tramites$(): Observable<TramiteInterface[]>
     {
-        return this._certificados.asObservable();
+        return this._tramites.asObservable();
     }
 
     get alumno$(): Observable<any> {
@@ -162,16 +162,16 @@ export class CertificadoService
         );
     }
 
-    createCertificado(certificado: any): Observable<CertificadoInterface>
+    createTramite(tramite: any): Observable<TramiteInterface>
     {
-        return this.certificados$.pipe(
+        return this.tramites$.pipe(
             take(1),
-            switchMap(certificados => this._httpClient.post<CertificadoInterface>(environment.baseUrl + 'tramites', certificado).pipe(
-                map((newCertificado) => {
-                    console.log(newCertificado);
+            switchMap(tramites => this._httpClient.post<TramiteInterface>(environment.baseUrl + 'tramites', tramite).pipe(
+                map((newTramite) => {
+                    console.log(newTramite);
 
-                    // Return the new certificado
-                    return newCertificado;
+                    // Return the new tramite
+                    return newTramite;
                 })
             )),
             catchError((error) => {
@@ -180,4 +180,50 @@ export class CertificadoService
             })
         );
     }
+
+    /**
+     * Get tramites
+     */
+     getTramites(): Observable<TramiteInterface[]>
+     {
+         return this._httpClient.get<TramiteInterface[]>(environment.baseUrl + 'tramite/usuario/all').pipe(
+             tap((tramites) => {
+                console.log(tramites);
+                 this._tramites.next(tramites);
+             })
+         );
+     }
+
+    /**
+     * Get tramite by id
+     */
+    getTramiteById(id: number): Observable<TramiteInterface>
+    {
+        return this._tramites.pipe(
+            take(1),
+            map((tramites) => {
+                console.log(tramites);
+
+                // Find the tramite
+                const tramite = tramites.find(item => item.idTramite === id) || null;
+
+                // Update the tramite
+                this._tramite.next(tramite);
+
+                // Return the tramite
+                return tramite;
+            }),
+            switchMap((tramite) => {
+
+                if ( !tramite )
+                {
+                    return throwError('Could not found tramite with id of ' + id + '!');
+                }
+
+                return of(tramite);
+            })
+        );
+    }
+
+
 }

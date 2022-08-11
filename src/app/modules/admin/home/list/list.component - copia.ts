@@ -3,12 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
-import { ApexOptions } from 'ng-apexcharts';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
+import { HomeBrand, HomeCategory, HomePagination, HomeTramite, HomeTag, HomeVendor } from 'app/modules/admin/home/home.types';
 import { HomeService } from 'app/modules/admin/home/home.service';
 
 @Component({
@@ -18,22 +16,6 @@ import { HomeService } from 'app/modules/admin/home/home.service';
         /* language=SCSS */
         `
             .home-grid {
-                grid-template-columns: 96px auto 40px;
-
-                @screen sm {
-                    grid-template-columns: 96px auto 112px 72px;
-                }
-
-                @screen md {
-                    grid-template-columns: 112px auto 112px 190px 72px;
-                }
-
-                @screen lg {
-                    grid-template-columns: 112px auto 112px 224px 72px;
-                }
-            }
-
-            .home-details-grid {
                 grid-template-columns: 96px auto 40px;
 
                 @screen sm {
@@ -61,16 +43,18 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
 
     tramites$: Observable<HomeTramite[]>;
 
+    brands: HomeBrand[];
+    categories: HomeCategory[];
+    filteredTags: HomeTag[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: HomePagination;
     searchInputControl: FormControl = new FormControl();
     selectedTramite: HomeTramite | null = null;
     selectedTramiteForm: FormGroup;
-    data: any;
-    accountBalanceOptions: ApexOptions;
-    historial: MatTableDataSource<any> = new MatTableDataSource();
-    recentTransactionsTableColumns: string[] = ['nro_tramite', 'tramite', 'created_at', 'estado'];
+    tags: HomeTag[];
+    tagsEditMode: boolean = false;
+    vendors: HomeVendor[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -203,7 +187,6 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
 
                 // Set the selected tramite
                 this.selectedTramite = tramite;
-                this.historial.data = tramite.historial;
 
                 // Fill the form
                 // this.selectedTramiteForm.patchValue(tramite);
@@ -246,6 +229,190 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
 
+    /**
+     * Toggle the tags edit mode
+     */
+    toggleTagsEditMode(): void
+    {
+        this.tagsEditMode = !this.tagsEditMode;
+    }
+
+    /**
+     * Filter tags
+     *
+     * @param event
+     */
+    filterTags(event): void
+    {
+        // Get the value
+        const value = event.target.value.toLowerCase();
+
+        // Filter the tags
+        this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
+    }
+
+    /**
+     * Filter tags input key down event
+     *
+     * @param event
+     */
+    filterTagsInputKeyDown(event): void
+    {
+        // Return if the pressed key is not 'Enter'
+        if ( event.key !== 'Enter' )
+        {
+            return;
+        }
+
+        // If there is no tag available...
+        if ( this.filteredTags.length === 0 )
+        {
+            // Create the tag
+            this.createTag(event.target.value);
+
+            // Clear the input
+            event.target.value = '';
+
+            // Return
+            return;
+        }
+
+        // If there is a tag...
+        const tag = this.filteredTags[0];
+        const isTagApplied = this.selectedTramite.tags.find(id => id === tag.id);
+
+        // If the found tag is already applied to the tramite...
+        if ( isTagApplied )
+        {
+            // Remove the tag from the tramite
+            this.removeTagFromTramite(tag);
+        }
+        else
+        {
+            // Otherwise add the tag to the tramite
+            this.addTagToTramite(tag);
+        }
+    }
+
+    /**
+     * Create a new tag
+     *
+     * @param title
+     */
+    createTag(title: string): void
+    {
+        const tag = {
+            title
+        };
+
+        // Create tag on the server
+        this._homeService.createTag(tag)
+            .subscribe((response) => {
+
+                // Add the tag to the tramite
+                this.addTagToTramite(response);
+            });
+    }
+
+    /**
+     * Update the tag title
+     *
+     * @param tag
+     * @param event
+     */
+    updateTagTitle(tag: HomeTag, event): void
+    {
+        // Update the title on the tag
+        tag.title = event.target.value;
+
+        // Update the tag on the server
+        this._homeService.updateTag(tag.id, tag)
+            .pipe(debounceTime(300))
+            .subscribe();
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Delete the tag
+     *
+     * @param tag
+     */
+    deleteTag(tag: HomeTag): void
+    {
+        // Delete the tag from the server
+        this._homeService.deleteTag(tag.id).subscribe();
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Add tag to the tramite
+     *
+     * @param tag
+     */
+    addTagToTramite(tag: HomeTag): void
+    {
+        // Add the tag
+        this.selectedTramite.tags.unshift(tag.id);
+
+        // Update the selected tramite form
+        this.selectedTramiteForm.get('tags').patchValue(this.selectedTramite.tags);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Remove tag from the tramite
+     *
+     * @param tag
+     */
+    removeTagFromTramite(tag: HomeTag): void
+    {
+        // Remove the tag
+        this.selectedTramite.tags.splice(this.selectedTramite.tags.findIndex(item => item === tag.id), 1);
+
+        // Update the selected tramite form
+        this.selectedTramiteForm.get('tags').patchValue(this.selectedTramite.tags);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Toggle tramite tag
+     *
+     * @param tag
+     * @param change
+     */
+    toggleTramiteTag(tag: HomeTag, change: MatCheckboxChange): void
+    {
+        if ( change.checked )
+        {
+            this.addTagToTramite(tag);
+        }
+        else
+        {
+            this.removeTagFromTramite(tag);
+        }
+    }
+
+    /**
+     * Should the create tag button be visible
+     *
+     * @param inputValue
+     */
+    shouldShowCreateTagButton(inputValue: string): boolean
+    {
+        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
+    }
+
+    /**
+     * Create tramite
+     */
     createTramite(): void
     {
         // Create the tramite

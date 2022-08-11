@@ -3,7 +3,7 @@
     <mat-card class="w-full">
         <div class="flex flex-col mx-5" *ngIf="!selectedGap">
             <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
-              REGISTRO DE TRÁMITE
+              DETALLE DEL TRÁMITE
             </mat-card-title>
             <mat-card-content>
                 <form id="tramiteForm" autocomplete="off" [formGroup]="tramiteForm">
@@ -220,14 +220,14 @@
                                   >
                                     <mat-label>MOTIVO</mat-label>
                                     <mat-select
-                                        [formControlName]="'idMotivo_tramite'">
+                                        [formControlName]="'idMotivo_certificado'">
                                         <ng-container>
                                             <mat-option [value]="0" disabled>
                                                 Seleccionar motivo...
                                             </mat-option>
                                         </ng-container>
                                         <ng-container *ngFor="let mot of motivos">
-                                            <mat-option [value]="mot.idMotivo_tramite">
+                                            <mat-option [value]="mot.idMotivo_certificado">
                                                 {{mot.nombre}}
                                             </mat-option>
                                         </ng-container>
@@ -250,14 +250,14 @@
                                 >
                                   <mat-label>MOTIVO</mat-label>
                                   <mat-select
-                                      [formControlName]="'idMotivo_tramite'">
+                                      [formControlName]="'idMotivo_certificado'">
                                       <ng-container>
                                           <mat-option [value]="0" disabled>
                                               Seleccionar motivo...
                                           </mat-option>
                                       </ng-container>
                                       <ng-container *ngFor="let mot of motivos">
-                                          <mat-option [value]="mot.idMotivo_tramite">
+                                          <mat-option [value]="mot.idMotivo_certificado">
                                               {{mot.nombre}}
                                           </mat-option>
                                       </ng-container>

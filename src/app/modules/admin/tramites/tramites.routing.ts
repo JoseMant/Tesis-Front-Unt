@@ -1,22 +1,34 @@
 import { Route } from '@angular/router';
-import { CertificadosComponent } from 'app/modules/admin/tramites/tramites.component';
-import { CertificadoListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
-import { BancosResolver, MotivosResolver, TramitesResolver, UnidadesResolver  } from 'app/modules/admin/tramites/tramites.resolvers';
+import { TramitesComponent } from 'app/modules/admin/tramites/tramites.component';
+import { TramiteListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
+import { TramiteDetalleComponent } from 'app/modules/admin/tramites/detalle/details.component';
+import { BancosResolver, MotivosResolver, TipoTramitesResolver, TramitesResolver, UnidadesResolver, TramiteResolver  } from 'app/modules/admin/tramites/tramites.resolvers';
 
-export const certificadosRoutes: Route[] = [
+export const tramitesRoutes: Route[] = [
     {
         path     : '',
-        component: CertificadosComponent,
+        component: TramitesComponent,
         children : [
             {
                 path     : '',
-                component: CertificadoListComponent,
+                component: TramiteListComponent,
                 resolve  : {
-                    tramites       : TramitesResolver,
+                    tipo_tramites       : TipoTramitesResolver,
                     bancos: BancosResolver,
                     unidades: UnidadesResolver,
-                    motivos: MotivosResolver
-                }
+                    motivos: MotivosResolver,
+                    tramites: TramitesResolver
+                },
+                children : [
+                    {
+                        path         : ':id',
+                        component    : TramiteDetalleComponent,
+                        resolve      : {
+                            tramite  : TramiteResolver,
+                            // countries: ContactsCountriesResolver
+                        },
+                    }
+                ] 
             }
         ]
     }
