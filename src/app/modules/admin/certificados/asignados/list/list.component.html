@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Vouchers pendientes</div>
+            <div class="text-4xl font-extrabold tracking-tight">Certificados asignados</div>
             <div class="ml-0.5 font-medium text-secondary">
-                <ng-container *ngIf="vouchersCount > 0">
-                    {{vouchersCount}}
+                <ng-container *ngIf="certificadosCount > 0">
+                    {{certificadosCount}}
                 </ng-container>
-                {{vouchersCount | i18nPlural: {
-                    '=0'   : 'No hay vouchers pendientes',
-                    '=1'   : 'Voucher pendiente',
-                    'other': 'Vouchers pendientes'
+                {{certificadosCount | i18nPlural: {
+                    '=0'   : 'No hay certificados asignados',
+                    '=1'   : 'Certificado asignado',
+                    'other': 'Certificados asignados'
                 } }}
             </div>
         </div>
@@ -35,7 +35,7 @@
                     matInput
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
-                    [placeholder]="'Buscar vouchers'">
+                    [placeholder]="'Buscar certificados'">
             </mat-form-field>
         </div>
     </div>
@@ -45,93 +45,117 @@
 
         <!-- Vouchers list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container *ngIf="(vouchers$ | async) as vouchers">
-                <ng-container *ngIf="vouchers.length > 0; else noVouchers">
+            <ng-container *ngIf="(certificados$ | async) as certificados" >
+                <ng-container *ngIf="certificados.length > 0; else noVouchers">
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="pendientes-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="asignados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
-                            <!-- Nro. Trámite -->
-                            <div
-                                [mat-sort-header]="'nro_tramite'">
-                                Nro. Trámite
+                            <!-- Nro. -->
+                            <div>
+                                #
                             </div>
 
-                            <!-- Solicitante -->
+                            <!-- Solicitante-->
                             <div
-                                class="hidden sm:block"
-                                [mat-sort-header]="'alumno'">
+                                [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
 
-                            <div [mat-sort-header]="'tramite'">Trámite</div>
+                            <!-- Fecha-->
+                            <div
+                                [mat-sort-header]="'fecha'">
+                                Fecha
+                            </div>
 
-                            <!-- Exonerado -->
+                            <!-- Unidad-->
+                            <div
+                                [mat-sort-header]="'unidad'">
+                                Unidad
+                            </div>
+
+                            <!-- Trámite-->
+                            <div
+                                [mat-sort-header]="'tramite'">
+                                Trámite
+                            </div>
+
+                            <!-- Nro. Trámite -->
+                            <div
+                                [mat-sort-header]="'codigo'">
+                                Nro. Trámite
+                            </div>
+
+                            <!-- Facultad-->
+                            <div
+                                [mat-sort-header]="'facultad'">
+                                Facultad
+                            </div>
+
+                            <!-- Motivo -->
+                            <div [mat-sort-header]="'motivo'">Motivo</div>
+
+                            <!-- Nro Matrícula -->
                             <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'exonerado'">
-                                Exonerado
+                                [mat-sort-header]="'nro_matricula'">
+                                N° Matrícula
                             </div>
 
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'entidad'">
-                                Banco
-                            </div>
-
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'nro_operacion'">
-                                Nro. Oper.
-                            </div>
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'fecha_operacion'">
-                                Fecha Oper.
-                            </div>
+                            <!-- Opciones -->
                             <div class="hidden sm:block">Opciones</div>
                         </div>
                         <!-- Rows -->
-                        <ng-container *ngIf="(vouchers$ | async) as vouchers">
-                            <ng-container *ngFor="let voucher of vouchers; trackBy: trackByFn">
-                                <div class="pendientes-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                        <ng-container *ngIf="(certificados$ | async) as certificados">
+                            <ng-container *ngFor="let certificado of certificados; trackBy: trackByFn let id=index">
+                                <div class="asignados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
-                                    <div class="flex items-center">
-                                        {{voucher.nro_tramite}}
+                                    <div >
+                                        {{id+1}}
                                     </div>
 
                                     <!-- Solicitante -->
-                                    <div class="hidden sm:block truncate">
-                                        {{voucher.alumno}}
+                                    <div >
+                                        {{certificado.solicitante}}
                                     </div>
 
                                     <!-- Trámite -->
-                                    <div class="truncate">
-                                        {{voucher.tramite}}
+                                    <div >
+                                        {{certificado.fecha}}
                                     </div>
 
                                     <!-- Exonerado -->
-                                    <div class="hidden md:block truncate">
-                                        {{voucher.exonerado}}
+                                    <div >
+                                        {{certificado.unidad}}
                                     </div>
 
                                     <!-- Stock -->
-                                    <div class="hidden lg:flex items-center">
-                                        {{voucher.entidad}}
+                                    <div class="truncate">
+                                        {{certificado.tramite}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div class="hidden lg:flex items-center">
-                                        {{voucher.nro_operacion}}
+                                    <div class="flex items-center">
+                                        {{certificado.codigo}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div class="hidden lg:flex items-center">
-                                        {{voucher.fecha_operacion}}
+                                    <div >
+                                        {{certificado.facultad}}
+                                    </div>
+
+                                    <!-- Active -->
+                                    <div >
+                                        {{certificado.motivo}}
+                                    </div>
+
+                                    <!-- Active -->
+                                    <div >
+                                        {{certificado.nro_matricula}}
                                     </div>
 
                                     <!-- Details button -->
@@ -139,20 +163,10 @@
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
-                                            matTooltip="Editar detalle"
-                                            (click)="editarVoucher(voucher, true, 'PENDIENTE')">
+                                            [routerLink]="['/certificados/asignados/'+certificado.idTramite]">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                        </button>
-                                        <button
-                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                            mat-stroked-button
-                                            matTooltip="Editar detalle"
-                                            (click)="editarVoucher(voucher, false, 'PENDIENTE')">
-                                            <mat-icon
-                                                class="icon-size-5"
-                                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                         </button>
                                     </div>
                                 </div>
@@ -173,7 +187,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay vouchers pendientes!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay certificados asignados!</div>
             </ng-template>
 
         </div>

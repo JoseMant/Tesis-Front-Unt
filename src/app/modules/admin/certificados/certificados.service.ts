@@ -73,7 +73,7 @@ export class CertificadosService
     //     );
     // }
 
-    getCertificadosAsignados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getCertificadosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/asignados', {
@@ -92,7 +92,7 @@ export class CertificadosService
         })
       );
     }
-
+    
     // getCertificadosAprobados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     // Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     // {
@@ -121,13 +121,13 @@ export class CertificadosService
         return this._certificados.pipe(
             take(1),
             map((certificados) => {
+                // console.log("service: "+this._certificado);
 
                 // Find the certificado
                 const certificado = certificados.find(item => item.idTramite === id) || null;
 
                 // Update the certificado
                 this._certificado.next(certificado);
-
                 // Return the certificado
                 return certificado;
             }),
@@ -143,32 +143,32 @@ export class CertificadosService
         );
     }
 
-    // /**
-    //  * Update certificado
-    //  *
-    //  * @param id
-    //  * @param certificado
-    //  */
-    // updateCertificado(id: number, certificado: CertificadoInterface): Observable<CertificadoInterface>
-    // {
-    //     return this.certificados$.pipe(
-    //         take(1),
-    //         switchMap(certificados => this._httpClient.patch<CertificadoInterface>(environment.baseUrl + 'certificado/' + id, certificado).pipe(
-    //             map((updatedCertificado) => {
-    //                 console.log(updatedCertificado);
-    //                 // Find the index of the updated certificado
-    //                 const index = certificados.findIndex(item => item.idCertificado === id);
+    /**
+     * Update certificado
+     *
+     * @param id
+     * @param certificado
+     */
+    updateCertificado(id: number, certificado: CertificadoInterface): Observable<CertificadoInterface>
+    {
+        return this.certificados$.pipe(
+            take(1),
+            switchMap(certificados => this._httpClient.patch<CertificadoInterface>(environment.baseUrl + 'certificado/' + id, certificado).pipe(
+                map((updatedCertificado) => {
+                    console.log(updatedCertificado);
+                    // Find the index of the updated certificado
+                    const index = certificados.findIndex(item => item.idTramite === id);
 
-    //                 // Update the certificado
-    //                 certificados.splice(index, 1);
+                    // Update the certificado
+                    certificados.splice(index, 1);
 
-    //                 // Update the certificados
-    //                 this._certificados.next(certificados);
+                    // Update the certificados
+                    this._certificados.next(certificados);
 
-    //                 // Return the updated certificado
-    //                 return updatedCertificado;
-    //             })
-    //         ))
-    //     );
-    // }
+                    // Return the updated certificado
+                    return updatedCertificado;
+                })
+            ))
+        );
+    }
 }

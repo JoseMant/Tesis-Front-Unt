@@ -19,16 +19,14 @@ export const tramitesRoutes: Route[] = [
                     motivos: MotivosResolver,
                     tramites: TramitesResolver
                 },
-                children : [
-                    {
-                        path         : ':id',
-                        component    : TramiteDetalleComponent,
-                        resolve      : {
-                            tramite  : TramiteResolver,
-                            // countries: ContactsCountriesResolver
-                        },
-                    }
-                ] 
+            },
+            {
+                path         : ':id',
+                component    : TramiteDetalleComponent,
+                resolve      : {
+                    tramite  : TramiteResolver,
+                    // countries: ContactsCountriesResolver
+                },
             }
         ]
     }

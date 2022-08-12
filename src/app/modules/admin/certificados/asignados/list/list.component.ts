@@ -15,12 +15,12 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector       : 'certificados-pendientes-list',
+    selector       : 'certificados-asignados-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .pendientes-grid {
+            .asignados-grid {
                 grid-template-columns: 96px auto 90px;
 
                 @screen sm {
@@ -32,7 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                 }
 
                 @screen lg {
-                    grid-template-columns: 96px 190px auto 96px 96px 96px 96px 90px;
+                    grid-template-columns: 50px auto 96px 120px auto 96px 96px 96px 96px 96px;
                 }
             }
             .fondo_snackbar {
@@ -150,7 +150,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(0, 10, 'alumno', 'asc', query);
+                    return this._certificadosService.getCertificadosAsignados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -169,38 +169,38 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         });
     }
 
-    // editarCertificado(dataVou, lectura, estado): void {
-    //     console.log(dataVou);
-    //     dataVou['lectura'] = lectura;
-    //     dataVou['des_estado_certificado'] = estado;
-    //     // dataVou['archivo'] = 'http://127.0.0.1:8000/storage/certificados_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfCertificadoComponent,
-    //         {
-    //             data: dataVou,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const certificadoAsignado = response.getRawValue();
-    //             this._certificadosService.updateCertificado(certificadoAsignado.idCertificado, certificadoAsignado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Certificado actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
+    editarCertificado(dataCer, lectura, estado): void {
+        console.log(dataCer);
+        dataCer['lectura'] = lectura;
+        dataCer['des_estado_certificado'] = estado;
+        // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/certificados_tramites/001030822.pdf';
+        const respDial = this.visordialog.open(
+            VisorPdfCertificadoComponent,
+            {
+                data: dataCer,
+                disableClose: true,
+                width: '75%',
+            }
+        );
+        respDial.afterClosed().subscribe( (response) => {
+            // If the confirm button pressed...
+            if ( response )
+            {
+                console.log(response.getRawValue());
+                const certificadoAsignado = response.getRawValue();
+                this._certificadosService.updateCertificado(certificadoAsignado.idCertificado, certificadoAsignado ).subscribe((updateNew) => {
+                    console.log(updateNew);
+                    // Toggle the edit mode off
+                    this.alert = {
+                        type   : 'success',
+                        message: 'Certificado actualizado correctamente',
+                        title: 'Guardado'
+                    };
+                    this.openSnack();
+                });
+            }
+        });
+    }
 
     /**
      * After view init

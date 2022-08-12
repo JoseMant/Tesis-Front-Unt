@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'vouchers-pendientes',
-    templateUrl    : './pendientes.component.html',
+    selector       : 'certificados-asignados',
+    templateUrl    : './asignados.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
