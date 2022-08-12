@@ -35,7 +35,6 @@ export class CertificadoAsignadoResolver implements Resolve<any>
                    .pipe(
                        // Error here means the requested certificado is not available
                        catchError((error) => {
-                         debugger;
                            // Log the error
                            console.error(error);
 

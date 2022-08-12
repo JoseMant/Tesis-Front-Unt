@@ -16,21 +16,22 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
+import { CertificadoDetalleComponent } from 'app/modules/admin/certificados/asignados/detalle/details.component';
 // import { CertificadosAprobadosComponent } from 'app/modules/admin/vouchers/aprobados/aprobados.component';
 // import { CertificadosAprobadosListComponent } from 'app/modules/admin/vouchers/aprobados/list/list.component';
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
 // import { CertificadosRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
-import { vouchersRoutes } from 'app/modules/admin/vouchers/vouchers.routing';
+import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.routing';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { VisorPdfCertificadoComponent } from './asignados/visorPdf/visorPdfCertificado.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 @NgModule({
     declarations: [
         CertificadosAsignadosComponent,
         CertificadosAsignadosListComponent,
+        CertificadoDetalleComponent,
         // CertificadosAprobadosComponent,
         // CertificadosAprobadosListComponent,
         // CertificadosRechazadosComponent,
@@ -38,7 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         VisorPdfCertificadoComponent
     ],
     imports     : [
-        RouterModule.forChild(vouchersRoutes),
+        RouterModule.forChild(certificadosRoutes),
         MatSnackBarModule,
         MatButtonModule,
         MatCheckboxModule,
