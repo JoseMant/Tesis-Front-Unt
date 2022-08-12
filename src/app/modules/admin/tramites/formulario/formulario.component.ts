@@ -168,7 +168,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
-            idMotivo_tramite: [''],
+            idMotivo_certificado: [''],
             comentario: [''],
             apellidos: [''],
             nombres: [''],
@@ -293,7 +293,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             entidad: '',
             nro_operacion: '',
             fecha_operacion: '',
-            idMotivo_tramite: 0,
+            idMotivo_certificado: 0,
             archivo: '',
             apellidos: data.apellidos.toUpperCase(),
             nombres: data.nombres.toUpperCase(),
@@ -543,7 +543,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             nro_matricula: this.tramiteForm.getRawValue().codigo,
             sede: this.tramiteForm.getRawValue().sede,
             archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
-            idMotivo_tramite: this.tramiteForm.getRawValue().idMotivo_tramite,
+            idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
             comentario: this.tramiteForm.getRawValue().comentario,
             requisitos: this.tramiteForm.getRawValue().requisitos,
         };
@@ -566,7 +566,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             formData.append('nro_matricula', tramite.nro_matricula);
             formData.append('sede', tramite.sede);
             formData.append('archivo_firma', tramite.archivo_firma);
-            formData.append('idMotivo_tramite', tramite.idMotivo_tramite);
+            formData.append('idMotivo_certificado', tramite.idMotivo_certificado);
             formData.append('comentario', tramite.comentario);
             tramite.requisitos.forEach((element) => {
                 formData.append('requisitos[]', JSON.stringify(element));

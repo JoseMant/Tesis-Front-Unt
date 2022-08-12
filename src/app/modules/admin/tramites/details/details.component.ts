@@ -208,7 +208,6 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 // Get the tramite
                 this.tramite = tramite;
                 console.log(this.tramite);
-                debugger;
 
                 // Patch values to the form
                 this.tramiteForm.patchValue(tramite);
@@ -222,7 +221,6 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: any) => {
                 this.unidades = unidades;
-                console.log(unidades);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -233,7 +231,6 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((tipoTramites: any) => {
                 this.tipoTramites = tipoTramites;
-                console.log(tipoTramites);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -243,7 +240,6 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((motivos: any) => {
                 this.motivos = motivos;
-                console.log(motivos);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -269,146 +265,39 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     createFormulario(data): void
     {
         //Create the formulario
-        const newTramite = {
-            idModalidad_grado: 0,
-            idFacultad: 0,
-            idEscuela: 0,
-            idTipo_tramite: 0,
-            nro_documento: this.user.nro_documento,
-            idColacion: 1,
-            idEstado_tramite: 0,
-            descripcion_estado: '',
-            comentario: '',
-            codigo: '',
-            entidad: '',
-            nro_operacion: '',
-            fecha_operacion: '',
-            idMotivo_certificado: 0,
-            archivo: '',
-            apellidos: data.apellidos.toUpperCase(),
-            nombres: data.nombres.toUpperCase(),
-            documento: data.documento,
-            celular: data.celular,
-            correo: data.correo,
-            nro_matricula: data.nro_matricula,
-            sede: data.sede,
-            tipo_documento: data.tipo_documento,
-            sexoNombre: data.sexoNombre,
-            idUnidad: -1,
-            idTipo_tramite_unidad: -1,
-            archivo_firma: '',
-            archivoImagen: '',
-            requisitos: ''
-        };
-        this.tramiteForm.patchValue(newTramite);
-        this.data = newTramite;
-    }
-
-    selectedTipoTramite(id: number): void {
-      this.tramiteForm.patchValue({idTipo_tramite: id,idUnidad: 0});
-      this.data.idTipo_tramite = id;
-      this.data.idUnidad = 0;
-    }
-
-    selectedUnidad(id): void{
-        this.tramiteForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: ''});
-        this.data.idUnidad = id;
-        this.data.idTipo_tramite_unidad = 0;
-        this.data.archivo = '';
-        this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
-            // this.requisitos = resp.requisitos;
-            // this.data.requisitos = resp.requisitos;
-            this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
-            // this.tramiteForm.patchValue({requisitos: resp.requisitos});
-            this._changeDetectorRef.markForCheck();
-        });
-
-        this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
-            if (resp) {
-                console.log(resp);
-                this.facultades = resp.facultades;
-                const idU = this.facultades[0];
-                console.log(idU);
-                this.data.idFacultad = idU.idDependencia;
-                if (idU) {
-                    const idE = idU.escuelas[0];
-                    console.log(idE);
-                    this.data.idEscuela = idE.idEscuela;
-                    this.data.codigo = idE.nro_matricula;
-                    this.data.sede = idE.sede;
-                    this.tramiteForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
-                }
-                console.log(this.facultades);
-                console.log(this.data);
-                this.tramiteForm.patchValue({idFacultad: idU.idDependencia});
-                let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
-                if (first) {
-                    this.escuelas = first.escuelas;
-                    console.log(this.escuelas);
-                }
-            }else{
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Acceso denegado',
-                    title: 'Error'
-                };
-                this.openSnack();
-            }
-        },
-        (error) => {
-            // console.log(error);
-            this.alert = {
-                type   : 'warn',
-                message: 'Error en la unidad',
-                title: 'Error'
-            };
-            this.openSnack();
-        });
-        this._changeDetectorRef.markForCheck();
-    }
-
-    selectedFacultad(id): void{
-        //falta probar si funciona ya q solo hay una sola facultad
-        console.log(id);
-        this.data.idFacultad = id;
-        let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
-        if (first) {
-            const idE = first.escuela[0];
-            if (idE) {
-                this.data.idEscuela = idE.idEscuela;
-                this.data.codigo = idE.nro_matricula;
-                this.data.sede = idE.sede;
-                this.tramiteForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
-            }
-            this.escuelas = first.escuela;
-            console.log(this.escuelas);
-            console.log(idE);
-        }
-    }
-
-    selectedEscuela(id): void {
-        console.log(id);
-        this.data.idEscuela = id;
-        for (const itera of this.escuelas) {
-            if (itera.idEscuela === id) {
-                this.data.codigo = itera.nro_matricula;
-                this.data.sede = itera.sede;
-            }
-        }
-        this.tramiteForm.patchValue({idEscuela: id, codigo: this.data.codigo, sede: this.data.sede});
-    }
-
-    selectedTipoTramiteUnidades(id): void{
-        const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
-        this.costo = tipo.costo;
-        this.tramiteForm.patchValue({ idTipo_tramite_unidad: id});
-        this.data.idTipo_tramite_unidad = id;
-        this._tramiteService.getRequisitos(id).subscribe((resp)=>{
-          this.requisitos = resp.requisitos;
-          this.data.requisitos = resp.requisitos;
-          this.tramiteForm.patchValue({requisitos: resp.requisitos});
-          this._changeDetectorRef.markForCheck();
-        });
+        // const newTramite = {
+        //     idModalidad_grado: 0,
+        //     idFacultad: 0,
+        //     idEscuela: 0,
+        //     idTipo_tramite: 0,
+        //     nro_documento: this.user.nro_documento,
+        //     idColacion: 1,
+        //     idEstado_tramite: 0,
+        //     descripcion_estado: '',
+        //     comentario: '',
+        //     codigo: '',
+        //     entidad: '',
+        //     nro_operacion: '',
+        //     fecha_operacion: '',
+        //     idMotivo_certificado: 0,
+        //     archivo: '',
+        //     apellidos: data.apellidos.toUpperCase(),
+        //     nombres: data.nombres.toUpperCase(),
+        //     documento: data.documento,
+        //     celular: data.celular,
+        //     correo: data.correo,
+        //     nro_matricula: data.nro_matricula,
+        //     sede: data.sede,
+        //     tipo_documento: data.tipo_documento,
+        //     sexoNombre: data.sexoNombre,
+        //     idUnidad: -1,
+        //     idTipo_tramite_unidad: -1,
+        //     archivo_firma: '',
+        //     archivoImagen: '',
+        //     requisitos: ''
+        // };
+        // this.tramiteForm.patchValue(newTramite);
+        // this.data = newTramite;
     }
 
     selectFiles(event): void {

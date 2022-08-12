@@ -34,7 +34,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { TramiteListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
 import { tramitesRoutes } from 'app/modules/admin/tramites/tramites.routing';
 import { TramitesComponent } from './tramites.component';
-import { TramiteDetalleComponent } from 'app/modules/admin/tramites/detalle/details.component';
+import { TramiteDetalleComponent } from 'app/modules/admin/tramites/details/details.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { VisorPdfComponent } from './visorPdf/visorPdf.component';
 import { VisorImagenComponent } from './visorImagen/visorImagen.component';

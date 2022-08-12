@@ -1,0 +1,85 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+                DETALLE DEL TRÁMITE
+            </mat-card-title>
+            <mat-card-content>
+                    <!-- Section -->
+                    <div class="w-full">
+                        <div class="text-xl">Datos del trámite</div>
+                    </div>
+                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                        <!-- Trámite -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Trámite:</b> {{tramite.tipo_tramite}}</div>
+                        </div>
+
+                        <!-- Tipo de trámite -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Tipo de trámite:</b> {{tramite.tipo_tramite_unidad}}</div>
+                        </div>
+
+                        <!-- Unidad -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Unidad:</b> {{tramite.unidad}}</div>
+                        </div>
+
+                        <!-- Facultad -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Facultad:</b> {{tramite.facultad}}</div>
+                        </div>
+
+                        <!-- Motivo -->
+                        <div class="sm:col-span-2" *ngIf="">
+                            <!-- <div class="text-secondary"><b>Escuela:</b> {{tramite.escuela}}</div> -->
+                        </div>
+
+                        <!-- Número de matrícula -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Número de matrícula:</b> {{tramite.nro_matricula}}</div>
+                        </div>
+
+                        <!-- Comentario -->
+                        <div class="sm:col-span-2">
+                            <!-- <div class="text-secondary"><b>Comentario:</b> {{tramite.comentario}}</div> -->
+                        </div>
+                        
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="my-10 border-t"></div>
+                    
+                    <!-- Section -->
+                    <div class="w-full">
+                        <div class="text-xl">Datos del pago</div>
+                    </div>
+                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                        <!-- Tipo Trámite -->
+                        <div class="sm:col-span-4">
+                            <ng-container *ngFor="let tipo of tipoTramites">
+                                <!-- <div *ngIf="tipo.idTipo_tramite == tramite.idTipo_tramite" class="text-secondary"><b>Trámite:</b> {{tipo.descripcion}}</div> -->
+                            </ng-container>
+                        </div>
+                    </div>
+            </mat-card-content>
+            <mat-card-actions class="flex justify-end">
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="tramiteForm.disabled"
+                    (click)="createTramite()">
+                    <span *ngIf="!tramiteForm.disabled">
+                        Registrar Trámite
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="tramiteForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card>
+</div>

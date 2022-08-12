@@ -184,16 +184,16 @@ export class TramiteService
     /**
      * Get tramites
      */
-     getTramites(): Observable<TramiteInterface[]>
-     {
-         return this._httpClient.get<TramiteInterface[]>(environment.baseUrl + 'tramite/usuario/all').pipe(
-             tap((tramites) => {
+    getTramites(): Observable<TramiteInterface[]>
+    {
+       return this._httpClient.get<TramiteInterface[]>(environment.baseUrl + 'tramite/usuario/all').pipe(
+            tap((tramites) => {
                 console.log(tramites);
-                 this._tramites.next(tramites);
-             })
-         );
-     }
-
+                this._tramites.next(tramites);
+            })
+        );
+    }
+    
     /**
      * Get tramite by id
      */

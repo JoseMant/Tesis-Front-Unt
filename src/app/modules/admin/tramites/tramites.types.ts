@@ -3,6 +3,7 @@ export interface TramiteInterface
 {
     idTramite?: number;
     idTipo_tramite: number;
+    tipo_tramite?: string;
     nro_documento: string;
     idColacion: number;
     idEstado_tramite: number;
@@ -14,6 +15,7 @@ export interface TramiteInterface
     fecha_operacion: string;
     archivo: string;
     idFacultad: number;
+    facultad?: string;
     idEscuela: number;
     comentario?: string;
     idMotivo_certificado?: number;
@@ -27,7 +29,9 @@ export interface TramiteInterface
     tipo_documento: string;
     sexoNombre: string;
     idUnidad: number;
+    unidad?: string;
     idTipo_tramite_unidad: number;
+    tipo_tramite_unidad?: string;
     archivo_firma: any;
     requisitos: any;
     archivoImagen: any;
