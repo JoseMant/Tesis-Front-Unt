@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { CertificadosService } from 'app/modules/admin/certificados/certificados.service';
 import { CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -33,8 +34,9 @@ export class CertificadoAsignadoResolver implements Resolve<any>
     {
         return this._certificadosService.getCertificadoById(Number(route.paramMap.get('idTramite')))
                    .pipe(
-                       // Error here means the requested certificado is not available
+                       // Error here means the requested madurity_level is not available
                        catchError((error) => {
+
                            // Log the error
                            console.error(error);
 
@@ -48,6 +50,36 @@ export class CertificadoAsignadoResolver implements Resolve<any>
                            return throwError(error);
                        })
                    );
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class AllCertificadosResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _certificadosService: CertificadosService,
+        private _router: Router)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CertificadoInterface[]>
+    {
+        return this._certificadosService.getAllCertificadosAsignados();
     }
 }
 

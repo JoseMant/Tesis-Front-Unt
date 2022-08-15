@@ -148,7 +148,7 @@ export class TramitesResolver implements Resolve<any>
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
-    {   
+    {
         return this._tramiteService.getTramites();
     }
 }

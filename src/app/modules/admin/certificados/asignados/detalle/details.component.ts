@@ -98,7 +98,7 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
         title: '',
     };
     certificado: CertificadoInterface | null = null;
-    certificados: CertificadoInterface[];
+    allcertificados: CertificadoInterface[];
     certificadoForm: FormGroup;
     contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -175,11 +175,11 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
         });
 
         // Get the certificados
-        this._certificadoService.certificados$
+        this._certificadoService.allcertificados$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((certificados: CertificadoInterface[]) => {
-                this.certificados = certificados;
-                console.log(certificados);
+            .subscribe((allcertificados: CertificadoInterface[]) => {
+                this.allcertificados = allcertificados;
+                console.log(allcertificados);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -189,13 +189,13 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
         this._certificadoService.certificado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((certificado: CertificadoInterface) => {
-                certificado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                certificado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                certificado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                certificado.requisitos[0].nombre = 'PRUEBA';
                 console.log(certificado);
                 // Get the certificado
                 this.certificado = certificado;
+                this.certificado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                this.certificado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                this.certificado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                this.certificado.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.certificadoForm.patchValue(certificado);

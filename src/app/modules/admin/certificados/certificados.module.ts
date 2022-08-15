@@ -16,7 +16,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
-import { CertificadoDetalleComponent } from 'app/modules/admin/certificados/asignados/detalle/details.component';
 // import { CertificadosAprobadosComponent } from 'app/modules/admin/vouchers/aprobados/aprobados.component';
 // import { CertificadosAprobadosListComponent } from 'app/modules/admin/vouchers/aprobados/list/list.component';
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
@@ -29,18 +28,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
-import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
 import { MatListModule } from '@angular/material/list';
+import { CertificadoDetalleComponent } from './asignados/detalle/details.component';
+import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
 
 @NgModule({
     declarations: [
         CertificadosAsignadosComponent,
         CertificadosAsignadosListComponent,
         CertificadoDetalleComponent,
-        // CertificadosAprobadosComponent,
-        // CertificadosAprobadosListComponent,
-        // CertificadosRechazadosComponent,
-        // CertificadosRechazadosListComponent,
         VisorPdfCertificadoComponent,
         RequisitosDialogComponent
     ],
