@@ -31,7 +31,7 @@ export class CertificadoAsignadoResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CertificadoInterface>
     {
-        return this._certificadosService.getCertificadoById(Number(route.paramMap.get('id')))
+        return this._certificadosService.getCertificadoById(Number(route.paramMap.get('idTramite')))
                    .pipe(
                        // Error here means the requested certificado is not available
                        catchError((error) => {
@@ -73,7 +73,7 @@ export class CertificadosAsignadosResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: CertificadoPagination, data: CertificadoInterface[] }>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
         return this._certificadosService.getCertificadosAsignados();
     }

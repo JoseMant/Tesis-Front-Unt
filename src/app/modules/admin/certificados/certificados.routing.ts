@@ -14,11 +14,6 @@ import { CertificadoDetalleComponent } from 'app/modules/admin/certificados/asig
 
 export const certificadosRoutes: Route[] = [
     {
-        path      : '',
-        pathMatch : 'full',
-        redirectTo: 'asignados'
-    },
-    {
         path     : 'asignados',
         component: CertificadosAsignadosComponent,
         children : [
@@ -30,7 +25,7 @@ export const certificadosRoutes: Route[] = [
                 }
             },
             {
-                path         : ':id',
+                path         : ':idTramite',
                 component    : CertificadoDetalleComponent,
                 resolve      : {
                     certificado  : CertificadoAsignadoResolver,

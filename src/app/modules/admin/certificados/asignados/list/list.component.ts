@@ -135,7 +135,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         this._certificadosService.certificados$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: CertificadoInterface[]) => {
-
+                console.log(response);
                 // Update the counts
                 this.certificadosCount = response.length;
 

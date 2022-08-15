@@ -1,15 +1,27 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface CertificadoInterface
 {
+    codigo: string;
+    correo: string;
+    costo: number;
+    entidad: string;
+    escuela: string;
+    exonerado_archivo: any;
+    facultad: string;
+    fecha: string;
+    fut: string;
+    idDependencia_detalle: number;
     idTramite: number;
-    // idEntidad: number;
-    // nro_operacion: string;
-    // fecha_operacion: string;
-    // archivo: any;
-    // des_estado_voucher: string;
-    // idUsuario_aprobador: number;
-    // validado: boolean;
-    // estado: boolean;
+    idUnidad: number;
+    idUsuario: number;
+    motivo: string;
+    nro_documento: string;
+    nro_matricula: string;
+    requisitos: any;
+    solicitante: string;
+    tramite: string;
+    unidad: string;
+    voucher: string;
 }
 export interface CertificadoPagination
 {

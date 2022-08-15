@@ -18,6 +18,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
+import { RequisitosDialogComponent } from '../dialogReq/dialogReq.component';
 // import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
@@ -99,6 +100,7 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
     certificado: CertificadoInterface | null = null;
     certificados: CertificadoInterface[];
     certificadoForm: FormGroup;
+    contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -187,8 +189,11 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
         this._certificadoService.certificado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((certificado: CertificadoInterface) => {
-
-                console.log("hola "+certificado);
+                certificado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                certificado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                certificado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                certificado.requisitos[0].nombre = 'PRUEBA';
+                console.log(certificado);
                 // Get the certificado
                 this.certificado = certificado;
 
@@ -208,6 +213,42 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
     {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.complete();
+    }
+    /**
+     * Track by function for ngFor loops
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
+    }
+
+    rechazarRequisitos(): void {
+        for (const itera of this.certificado.requisitos) {
+            itera['selected'] = false;
+        }
+        const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
+            autoFocus: false,
+            disableClose: true,
+            data: JSON.parse( JSON.stringify( {
+                requisitos: this.certificado.requisitos
+            } ))
+        });
+        dialogRef.afterClosed().subscribe( (response) => {
+            // If the confirm button pressed...
+            if ( response )
+            {
+                console.log(response.getRawValue().requisitos);
+                this.certificado.requisitos = response.getRawValue().requisitos;
+                console.log(this.certificado.requisitos);
+                this.certificadoForm.patchValue({ requisitos: response.getRawValue().requisitos});
+                console.log(this.certificadoForm.getRawValue());
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -549,7 +590,7 @@ export class CertificadoDetalleComponent implements OnInit, OnDestroy
 
     //             // Re-enable the form
     //             this.certificadoForm.enable();
-                
+
     //             this.alert = {
     //                 type   : 'warn',
     //                 message: 'Error al registrar',

@@ -27,6 +27,11 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { VisorPdfCertificadoComponent } from './asignados/visorPdf/visorPdfCertificado.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
+import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
+import { MatListModule } from '@angular/material/list';
+
 @NgModule({
     declarations: [
         CertificadosAsignadosComponent,
@@ -36,10 +41,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         // CertificadosAprobadosListComponent,
         // CertificadosRechazadosComponent,
         // CertificadosRechazadosListComponent,
-        VisorPdfCertificadoComponent
+        VisorPdfCertificadoComponent,
+        RequisitosDialogComponent
     ],
     imports     : [
         RouterModule.forChild(certificadosRoutes),
+        MatTableModule,
+        MatListModule,
         MatSnackBarModule,
         MatButtonModule,
         MatCheckboxModule,
@@ -57,7 +65,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatSelectModule,
         MatSlideToggleModule,
         MatTooltipModule,
-        SharedModule
+        SharedModule,
+        MatCardModule
     ]
 })
 export class CertificadosModule

@@ -52,27 +52,6 @@ export class CertificadosService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    // getCertificadosValidados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-    //     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
-    // {
-    //     return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'certificados/pendientes', {
-    //         params: {
-    //             page: '' + page,
-    //             size: '' + size,
-    //             sort,
-    //             order,
-    //             search
-    //         }
-    //     }).pipe(
-    //         tap((response) => {
-    //             console.log(response);
-    //             this._pagination.next(response.pagination);
-    //             this._certificados.next(response.data);
-    //         })
-    //     );
-    // }
-
     getCertificadosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
@@ -92,26 +71,6 @@ export class CertificadosService
         })
       );
     }
-    
-    // getCertificadosAprobados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-    // Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
-    // {
-    //   return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'certificados/rechazados', {
-    //     params: {
-    //         page: '' + page,
-    //         size: '' + size,
-    //         sort,
-    //         order,
-    //         search
-    //     }
-    // }).pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       this._pagination.next(response.pagination);
-    //       this._certificados.next(response.data);
-    //     })
-    //   );
-    // }
 
     /**
      * Get certificado by id
@@ -121,11 +80,11 @@ export class CertificadosService
         return this._certificados.pipe(
             take(1),
             map((certificados) => {
-                // console.log("service: "+this._certificado);
+                console.log(certificados);
 
                 // Find the certificado
                 const certificado = certificados.find(item => item.idTramite === id) || null;
-
+                console.log(certificado);
                 // Update the certificado
                 this._certificado.next(certificado);
                 // Return the certificado

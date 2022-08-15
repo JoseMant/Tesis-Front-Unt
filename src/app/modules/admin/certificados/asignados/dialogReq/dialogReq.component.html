@@ -1,0 +1,31 @@
+<div class="flex flex-col flex-0 max-h-80 -m-6">
+    <!-- Header -->
+    <div mat-dialog-title class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">Requisitos</div>
+        <button
+            mat-icon-button
+            (click)="matDialogRef.close()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+</div>
+    <div mat-dialog-content>
+        <!-- Card form -->
+        <form
+            class="flex flex-col flex-0 items-start w-full p-6 sm:p-8 space-y-6 overflow-y-auto"
+            [formGroup]="requisitosForm">
+                <mat-selection-list (selectionChange)="selectionChange($event.option)">
+                    <mat-list-option *ngFor="let req of data.requisitos" checkboxPosition="before" [selected]="req.selected"  [value]="req">
+                        {{req.nombre}}
+                    </mat-list-option>
+                </mat-selection-list>
+        </form>
+    </div>
+
+    <mat-dialog-actions class="pr-3 sm:pr-5 pl-6 sm:pl-8" align="end">
+      <button mat-button mat-dialog-close [color]="'warn'">Cancelar</button>
+      <button mat-flat-button [mat-dialog-close]="requisitosForm" [color]="'primary'" cdkFocusInitial>Guardar</button>
+    </mat-dialog-actions>
