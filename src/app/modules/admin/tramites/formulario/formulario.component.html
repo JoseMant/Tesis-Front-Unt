@@ -139,38 +139,73 @@
                                 </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="data.idUnidad === 1">
+                            <div *ngIf="data.idTipo_tramite" class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
+                                    *ngIf="data.idUnidad === 1"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
-                                <mat-label>FACULTAD</mat-label>
-                                <mat-select
-                                    (selectionChange)="selectedFacultad($event.value)"
-                                    [formControlName]="'idFacultad'">
-                                    <ng-container *ngFor="let facu of facultades">
-                                        <mat-option [value]="facu.idDependencia">
-                                            {{facu.nombre}}
-                                        </mat-option>
-                                    </ng-container>
-                                </mat-select>
+                                    <mat-label>FACULTAD</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedFacultad($event.value)"
+                                        [formControlName]="'idDependencia'">
+                                        <ng-container *ngFor="let facultad of dependencias">
+                                            <mat-option [value]="facultad.idDependencia">
+                                                {{facultad.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
+                                    *ngIf="data.idUnidad === 1"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
-                                <mat-label>ESCUELA</mat-label>
-                                <mat-select
-                                    (selectionChange)="selectedEscuela($event.value)"
-                                    [formControlName]="'idEscuela'">
-                                    <ng-container *ngFor="let escu of escuelas">
-                                        <mat-option [value]="escu.idEscuela">
-                                            {{escu.nombre}}
-                                        </mat-option>
-                                    </ng-container>
-                                </mat-select>
+                                    <mat-label>ESCUELA</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedEscuela($event.value)"
+                                        [formControlName]="'idSubdependencia'">
+                                        <ng-container *ngFor="let escuela of subdependencias">
+                                            <mat-option [value]="escuela.idEscuela">
+                                                {{escuela.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
+                                    *ngIf="data.idUnidad === 4"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>ESPECIALIDAD</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedFacultad($event.value)"
+                                        [formControlName]="'idDependencia'">
+                                        <ng-container *ngFor="let dependencia of dependencias">
+                                            <mat-option [value]="dependencia.idDependencia">
+                                                {{dependencia.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="data.idUnidad === 4"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>MENCIÓN</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedEscuela($event.value)"
+                                        [formControlName]="'idSubdependencia'">
+                                        <ng-container *ngFor="let mencion of subdependencias">
+                                            <mat-option [value]="mencion.idMencion">
+                                                {{mencion.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="data.idUnidad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -182,6 +217,7 @@
                                     />
                                 </mat-form-field>
                                 <mat-form-field
+                                    *ngIf="data.idUnidad"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -213,26 +249,27 @@
                                     </ng-container>
                                 </mat-select>
                                 </mat-form-field>
-                                <ng-container *ngIf="data.idTipo_tramite === 1">
-                                  <mat-form-field
-                                      class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
-                                      appearance="outline"
-                                  >
-                                    <mat-label>MOTIVO</mat-label>
-                                    <mat-select
-                                        [formControlName]="'idMotivo_certificado'">
-                                        <ng-container>
-                                            <mat-option [value]="0" disabled>
-                                                Seleccionar motivo...
-                                            </mat-option>
-                                        </ng-container>
-                                        <ng-container *ngFor="let mot of motivos">
-                                            <mat-option [value]="mot.idMotivo_certificado">
-                                                {{mot.nombre}}
-                                            </mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                  </mat-form-field>
+                                <ng-container>
+                                    <mat-form-field
+                                        *ngIf="data.idTipo_tramite === 1"
+                                        class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline"
+                                    >
+                                        <mat-label>MOTIVO</mat-label>
+                                        <mat-select
+                                            [formControlName]="'idMotivo_certificado'">
+                                            <ng-container>
+                                                <mat-option [value]="0" disabled>
+                                                    Seleccionar motivo...
+                                                </mat-option>
+                                            </ng-container>
+                                            <ng-container *ngFor="let mot of motivos">
+                                                <mat-option [value]="mot.idMotivo_certificado">
+                                                    {{mot.nombre}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-select>
+                                    </mat-form-field>
                                   <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
                                       <mat-label>COMENTARIOS</mat-label>
                                       <textarea
@@ -243,8 +280,8 @@
                                       </textarea>
                                   </mat-form-field>
                               </ng-container>
-                              <ng-container *ngIf="data.idTipo_tramite === 2">
-                                <mat-form-field
+                              <ng-container>
+                                <!-- <mat-form-field
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -262,10 +299,10 @@
                                           </mat-option>
                                       </ng-container>
                                   </mat-select>
-                                </mat-form-field>
+                                </mat-form-field> -->
                             </ng-container>
                             </div>
-                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="data.idUnidad === 1">
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2">
                                 <div class="nombre col-span-4 ml-3">
                                     FIRMA
                                 </div>

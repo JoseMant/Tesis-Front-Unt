@@ -14,9 +14,9 @@ export interface TramiteInterface
     nro_operacion: string;
     fecha_operacion: string;
     archivo: string;
-    idFacultad: number;
+    idDependencia: number;
     facultad?: string;
-    idEscuela: number;
+    idSubdependencia: number;
     comentario?: string;
     idMotivo_certificado?: number;
     apellidos: string;

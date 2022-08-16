@@ -106,8 +106,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
     abrir: boolean = false;
     bancos: any;
     data: TramiteInterface;
-    facultades: any;
-    escuelas: any;
+    dependencias: any;
+    subdependencias: any;
     selectedGap: boolean;
     maxDate: any;
     costo: any;
@@ -175,8 +175,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
             documento: [''],
             celular: [''],
             correo: [''],
-            idFacultad: [''],
-            idEscuela: [''],
+            idDependencia: [''],
+            idSubdependencia: [''],
             sede: [''],
             nro_matricula: [''],
             tipo_documento: [''],
@@ -281,8 +281,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
         //Create the formulario
         const newTramite = {
             idModalidad_grado: 0,
-            idFacultad: 0,
-            idEscuela: 0,
+            idDependencia: 0,
+            idSubdependencia: 0,
             idTipo_tramite: 0,
             nro_documento: this.user.nro_documento,
             idColacion: 1,
@@ -336,25 +336,40 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
             if (resp) {
                 console.log(resp);
-                this.facultades = resp.facultades;
-                const idU = this.facultades[0];
-                console.log(idU);
-                this.data.idFacultad = idU.idDependencia;
-                if (idU) {
-                    const idE = idU.escuelas[0];
-                    console.log(idE);
-                    this.data.idEscuela = idE.idEscuela;
-                    this.data.codigo = idE.nro_matricula;
-                    this.data.sede = idE.sede;
-                    this.tramiteForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
+                this.dependencias = resp.dependencias;
+                const dependencia = this.dependencias[0];
+                console.log(dependencia);
+                this.data.idDependencia = dependencia.idDependencia;
+                if (dependencia) {
+                    const subdependencia = dependencia.subdependencias[0];
+                    console.log(subdependencia);
+                    switch (subdependencia.idUnidad) {
+                        case 1:
+                            this.data.idSubdependencia = subdependencia.idEscuela;
+                            break;
+                        case 4:
+                            this.data.idSubdependencia = subdependencia.idMencion;
+                            break;
+                    }
+                    this.data.codigo = subdependencia.nro_matricula;
+                    this.data.sede = subdependencia.sede;
+                    switch (subdependencia.idUnidad) {
+                        case 1:
+                            this.tramiteForm.patchValue({idSubdependencia: subdependencia.idEscuela, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
+                            break;
+                        case 4:
+                            this.tramiteForm.patchValue({idSubdependencia: subdependencia.idMencion, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
+                            break;
+                    }
                 }
-                console.log(this.facultades);
+                console.log(this.dependencias);
                 console.log(this.data);
-                this.tramiteForm.patchValue({idFacultad: idU.idDependencia});
-                let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
+                this.tramiteForm.patchValue({idDependencia: dependencia.idDependencia});
+                let first = this.dependencias.find(item => item.idDependencia === this.data.idDependencia);
+                console.log(first);
                 if (first) {
-                    this.escuelas = first.escuelas;
-                    console.log(this.escuelas);
+                    this.subdependencias = first.subdependencias;
+                    console.log(this.subdependencias);
                 }
             }else{
                 this.alert = {
@@ -379,33 +394,47 @@ export class TramiteListComponent implements OnInit, OnDestroy
 
     selectedFacultad(id): void{
         //falta probar si funciona ya q solo hay una sola facultad
-        console.log(id);
-        this.data.idFacultad = id;
-        let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
+        this.data.idDependencia = id;
+        let first = this.dependencias.find(item => item.idDependencia === this.data.idDependencia);
+        console.log(first);
         if (first) {
-            const idE = first.escuela[0];
-            if (idE) {
-                this.data.idEscuela = idE.idEscuela;
-                this.data.codigo = idE.nro_matricula;
-                this.data.sede = idE.sede;
-                this.tramiteForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
+            const subdependencia = first.subdependencias[0];
+            if (subdependencia) {
+                switch (subdependencia.idUnidad) {
+                    case 1:
+                        this.data.idSubdependencia = subdependencia.idEscuela;
+                        break;
+                    case 4:
+                        this.data.idSubdependencia = subdependencia.idMencion;
+                        break;
+                }
+                this.data.codigo = subdependencia.nro_matricula;
+                this.data.sede = subdependencia.sede;
+                switch (subdependencia.idUnidad) {
+                    case 1:
+                        this.tramiteForm.patchValue({idSubdependencia: subdependencia.idEscuela, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
+                        break;
+                    case 4:
+                        this.tramiteForm.patchValue({idSubdependencia: subdependencia.idMencion, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
+                        break;
+                }
             }
-            this.escuelas = first.escuela;
-            console.log(this.escuelas);
-            console.log(idE);
+            this.subdependencias = first.subdependencias;
+            console.log(this.subdependencias);
+            console.log(subdependencia);
         }
     }
 
     selectedEscuela(id): void {
         console.log(id);
-        this.data.idEscuela = id;
-        for (const itera of this.escuelas) {
-            if (itera.idEscuela === id) {
+        this.data.idSubdependencia = id;
+        for (const itera of this.subdependencias) {
+            if (itera.idSubdependencia === id) {
                 this.data.codigo = itera.nro_matricula;
                 this.data.sede = itera.sede;
             }
         }
-        this.tramiteForm.patchValue({idEscuela: id, codigo: this.data.codigo, sede: this.data.sede});
+        this.tramiteForm.patchValue({idSubdependencia: id, codigo: this.data.codigo, sede: this.data.sede});
     }
 
     selectedTipoTramiteUnidades(id): void{
@@ -538,8 +567,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
             archivo: this.tramiteForm.getRawValue().archivo,
             idTipo_tramite_unidad: this.tramiteForm.getRawValue().idTipo_tramite_unidad,
             idUnidad: this.tramiteForm.getRawValue().idUnidad,
-            idDependencia: this.tramiteForm.getRawValue().idFacultad,
-            idDependencia_detalle: this.tramiteForm.getRawValue().idEscuela,
+            idDependencia: this.tramiteForm.getRawValue().idDependencia,
+            idDependencia_detalle: this.tramiteForm.getRawValue().idSubdependencia,
             nro_matricula: this.tramiteForm.getRawValue().codigo,
             sede: this.tramiteForm.getRawValue().sede,
             archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
