@@ -26,14 +26,22 @@
                             <div class="text-secondary"><b>Unidad:</b> {{tramite.unidad}}</div>
                         </div>
 
-                        <!-- Facultad -->
+                        <!-- Dependencia -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary"><b>Facultad:</b> {{tramite.facultad}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad == 1"><b>Facultad:</b> {{tramite.dependencia}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad == 4"><b>Especialidad:</b> {{tramite.dependencia}}</div>
                         </div>
 
-                        <!-- Motivo -->
-                        <div class="sm:col-span-2" *ngIf="">
+                        <!-- Sub dependencia -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary" *ngIf="tramite.idUnidad == 1"><b>Escuela:</b> {{tramite.subdependencia}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad == 4"><b>Mención:</b> {{tramite.subdependencia}}</div>
                             <!-- <div class="text-secondary"><b>Escuela:</b> {{tramite.escuela}}</div> -->
+                        </div>
+
+                        <!-- Sede -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Sede:</b> {{tramite.sede}}</div>
                         </div>
 
                         <!-- Número de matrícula -->
@@ -43,7 +51,7 @@
 
                         <!-- Comentario -->
                         <div class="sm:col-span-2">
-                            <!-- <div class="text-secondary"><b>Comentario:</b> {{tramite.comentario}}</div> -->
+                            <div class="text-secondary" *ngIf="tramite.comentario_tramite"><b>Comentarios:</b> {{tramite.comentario_tramite}}</div>
                         </div>
                         
                     </div>
@@ -56,29 +64,78 @@
                         <div class="text-xl">Datos del pago</div>
                     </div>
                     <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                        <!-- Trámite -->
-                        <div class="sm:col-span-2">
-                            <div class="text-secondary"><b>N° operación:</b> {{tramite.nro_operacion}}</div>
-                        </div>
-
                         <!-- Tipo de trámite -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-1">
                             <div class="text-secondary"><b>Entidad:</b> {{tramite.entidad}}</div>
                         </div>
 
+                        <!-- Trámite -->
+                        <div class="sm:col-span-1">
+                            <div class="text-secondary"><b>N° operación:</b> {{tramite.nro_operacion}}</div>
+                        </div>
+
                         <!-- Unidad -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-1">
                             <div class="text-secondary"><b>Fecha operación:</b> {{tramite.fecha_operacion}}</div>
                         </div>
 
-                        <!-- Facultad -->
-                        <div class="sm:col-span-2">
-                            <div class="text-secondary"><b>Facultad:</b> {{tramite.facultad}}</div>
+                        <!-- Voucher -->
+                        <div class="sm:col-span-4">
+                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher != 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
+                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher == 'RECHAZADO'">
+                                <b>Comprobante de pago:</b> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}
+                                <button
+                                    matTooltip="Agregar documento"
+                                    (click)="fileInput.click()">
+                                    <mat-icon
+                                        class="h-6 w-6 mr-3 ml-3"
+                                        style="color: rgb(6, 11, 88)"
+                                        [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                </button>
+                                <input #fileInput type="file" accept=".pdf" hidden (change)="selectFiles($event)"/>
+                                <svg
+                                    *ngIf="tramite.voucher !== ''"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 mr-3 ml-3"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    style="cursor: pointer; color: rgb(6, 11, 88)"
+                                    (click)="verDocumento()"
+                                    stroke-width="2"
+                                    matTooltip="Ver documento"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                    />
+                                </svg>
+                            </div>
+                            <div *ngIf="tramite.des_estado_voucher == 'RECHAZADO'">
+                                <div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Motivo -->
-                        <div class="sm:col-span-2" *ngIf="">
-                            <!-- <div class="text-secondary"><b>Escuela:</b> {{tramite.escuela}}</div> -->
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="my-10 border-t"></div>
+                    
+                    <!-- Section -->
+                    <div class="w-full">
+                        <div class="text-xl">Requisitos</div>
+                    </div>
+                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                        <!-- Tipo de trámite -->
+                        <div class="sm:col-span-1">
+                            <div class="text-secondary"><b>Entidad:</b> {{tramite.entidad}}</div>
                         </div>
                     </div>
             </mat-card-content>

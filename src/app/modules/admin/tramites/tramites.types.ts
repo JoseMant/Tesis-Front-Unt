@@ -15,7 +15,7 @@ export interface TramiteInterface
     fecha_operacion: string;
     archivo: string;
     idDependencia: number;
-    facultad?: string;
+    dependencia?: string;
     idSubdependencia: number;
     comentario?: string;
     idMotivo_certificado?: number;
@@ -35,4 +35,6 @@ export interface TramiteInterface
     archivo_firma: any;
     requisitos: any;
     archivoImagen: any;
+    comentario_tramite: string;
+    des_estado_voucher?: string;
 }

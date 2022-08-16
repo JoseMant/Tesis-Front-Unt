@@ -308,7 +308,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
             idTipo_tramite_unidad: -1,
             archivo_firma: '',
             archivoImagen: '',
-            requisitos: ''
+            requisitos: '',
+            comentario_tramite: ''
         };
         this.tramiteForm.patchValue(newTramite);
         this.data = newTramite;
