@@ -84,7 +84,7 @@ export class CertificadosService
     /**
      * Get tramites
      */
-     getAllCertificadosAsignados(): Observable<CertificadoInterface[]>
+     getAllCertificados(): Observable<CertificadoInterface[]>
     {
        return this._httpClient.get<CertificadoInterface[]>(environment.baseUrl + 'tramite/certificados').pipe(
             tap((response) => {

@@ -79,7 +79,7 @@ export class AllCertificadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CertificadoInterface[]>
     {
-        return this._certificadosService.getAllCertificadosAsignados();
+        return this._certificadosService.getAllCertificados();
     }
 }
 
