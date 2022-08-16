@@ -3,6 +3,16 @@ import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/a
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
 import { AllCertificadosResolver, CertificadoAsignadoResolver, CertificadosAsignadosResolver } from 'app/modules/admin/certificados/asignados/asignados.resolvers';
 import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details.component';
+// ------------
+import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
+import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
+import {  CertificadoAprobadoResolver, CertificadosAprobadosResolver } from 'app/modules/admin/certificados/aprobados/aprobados.resolvers';
+import { CertificadoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
+// -------------
+import { CertificadosValidadosComponent } from 'app/modules/admin/certificados/validados/validados.component';
+import { CertificadosValidadosListComponent } from 'app/modules/admin/certificados/validados/list/list.component';
+import {  CertificadoValidadoResolver, CertificadosValidadosResolver } from 'app/modules/admin/certificados/validados/validados.resolvers';
+import { CertificadoValidadoDetalleComponent } from './validados/detalle/details.component';
 
 // import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
 // import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
@@ -34,31 +44,51 @@ export const certificadosRoutes: Route[] = [
                 },
             }
         ]
+    },
+    {
+        path     : 'aprobados',
+        component: CertificadosAprobadosComponent,
+        resolve  : {
+            allcertificados  : AllCertificadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CertificadosAprobadosListComponent,
+                resolve  : {
+                    certificados  : CertificadosAprobadosResolver,
+                }
+            },
+            {
+                path         : ':idTramite',
+                component    : CertificadoAprobadoDetalleComponent,
+                resolve      : {
+                    certificado  : CertificadoAprobadoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'validados',
+        component: CertificadosValidadosComponent,
+        resolve  : {
+            allcertificados  : AllCertificadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CertificadosValidadosListComponent,
+                resolve  : {
+                    certificados  : CertificadosValidadosResolver,
+                }
+            },
+            {
+                path         : ':idTramite',
+                component    : CertificadoValidadoDetalleComponent,
+                resolve      : {
+                    certificado  : CertificadoValidadoResolver,
+                },
+            }
+        ]
     }
-    // {
-    //     path     : 'aprobados',
-    //     component: CertificadosAprobadosComponent,
-    //     children : [
-    //         {
-    //             path     : '',
-    //             component: CertificadosAprobadosListComponent,
-    //             resolve  : {
-    //                 certificados  : CertificadosAprobadosResolver,
-    //             }
-    //         }
-    //     ]
-    // },
-    // {
-    //     path     : 'rechazados',
-    //     component: CertificadosRechazadosComponent,
-    //     children : [
-    //         {
-    //             path     : '',
-    //             component: CertificadosRechazadosListComponent,
-    //             resolve  : {
-    //                 certificados  : CertificadosRechazadosResolver,
-    //             }
-    //         }
-    //     ]
-    // }
 ];

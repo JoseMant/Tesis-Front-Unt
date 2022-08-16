@@ -15,12 +15,12 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector       : 'certificados-asignados-list',
+    selector       : 'certificados-aprobados-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .asignados-grid {
+            .aprobados-grid {
                 grid-template-columns: 96px auto 90px;
 
                 @screen sm {
@@ -47,7 +47,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -150,7 +150,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(0, 10, 'fecha', 'desc', query);
+                    return this._certificadosService.getCertificadosAprobados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -187,8 +187,8 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
     //         if ( response )
     //         {
     //             console.log(response.getRawValue());
-    //             const certificadoAsignado = response.getRawValue();
-    //             this._certificadosService.updateCertificado(certificadoAsignado.idCertificado, certificadoAsignado ).subscribe((updateNew) => {
+    //             const certificadoAprobado = response.getRawValue();
+    //             this._certificadosService.updateCertificado(certificadoAprobado.idCertificado, certificadoAprobado ).subscribe((updateNew) => {
     //                 console.log(updateNew);
     //                 // Toggle the edit mode off
     //                 this.alert = {
@@ -231,7 +231,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._certificadosService.getCertificadosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

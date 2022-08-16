@@ -81,6 +81,47 @@ export class CertificadosService
       );
     }
 
+    getCertificadosAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/aprobados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._certificados.next(response.data);
+        })
+      );
+    }
+
+    getCertificadosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/validados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._certificados.next(response.data);
+        })
+      );
+    }
+
+
     /**
      * Get tramites
      */

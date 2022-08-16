@@ -16,20 +16,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
-// import { CertificadosAprobadosComponent } from 'app/modules/admin/vouchers/aprobados/aprobados.component';
-// import { CertificadosAprobadosListComponent } from 'app/modules/admin/vouchers/aprobados/list/list.component';
+import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
+import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
+import { CertificadosValidadosComponent } from 'app/modules/admin/certificados/validados/validados.component';
+import { CertificadosValidadosListComponent } from 'app/modules/admin/certificados/validados/list/list.component';
+
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
 // import { CertificadosRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
 import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.routing';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { VisorPdfCertificadoComponent } from './asignados/visorPdf/visorPdfCertificado.component';
+// import { VisorPdfCertificadoComponent } from './asignados/visorPdf/visorPdfCertificado.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details.component';
+import { CertificadoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
+import { CertificadoValidadoDetalleComponent } from './validados/detalle/details.component';
 import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
 
 @NgModule({
@@ -37,7 +42,13 @@ import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.compo
         CertificadosAsignadosComponent,
         CertificadosAsignadosListComponent,
         CertificadoAsignadoDetalleComponent,
-        VisorPdfCertificadoComponent,
+        CertificadosAprobadosComponent,
+        CertificadosAprobadosListComponent,
+        CertificadoAprobadoDetalleComponent,
+        CertificadosValidadosComponent,
+        CertificadosValidadosListComponent,
+        CertificadoValidadoDetalleComponent,
+        // VisorPdfCertificadoComponent,
         RequisitosDialogComponent
     ],
     imports     : [

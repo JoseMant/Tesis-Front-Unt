@@ -1,0 +1,142 @@
+<div class="absolute inset-0 flex flex-col flex-auto min-w-0 m-4 overflow-y-auto">
+    <mat-card class="w-full mb-3">
+        <mat-card-title class="mb-3 md:text-2xl lg:text-2xl text-xl font-bold tracking-wider text-black">CODIGO TRÁMITE: {{certificado.codigo}}</mat-card-title>
+        <mat-card-content>
+            <div class="grid grid-cols-12 gap-y-6 mb-3">
+                <div class="sm:col-span-6 col-span-12">
+                    <div class="grid grid-cols-8 gap-y-2.5">
+                        <div class="sm:col-span-3 col-span-8 font-semibold">SOLICITANTE: </div>
+                        <div class="sm:col-span-5 col-span-8">{{certificado.solicitante}}</div>
+                        <div class="sm:col-span-3 col-span-8 font-semibold">NUMERO DE DOCUMENTO: </div>
+                        <div class="sm:col-span-5 col-span-8">{{certificado.nro_documento}}</div>
+                        <div class="sm:col-span-3 col-span-8 font-semibold">ESCUELA: </div>
+                        <div class="sm:col-span-5 col-span-8 -mb-3">{{certificado.escuela}}</div>
+                    </div>
+                </div>
+                <div class="sm:col-span-6 col-span-12">
+                    <div class="grid grid-cols-8 gap-y-2.5">
+                        <div class="sm:col-span-3 col-span-8 font-semibold">FECHA DE REGISTRO: </div>
+                        <div class="sm:col-span-5 col-span-8">{{certificado.fecha | date: 'dd-MM-yyyy'}}</div>
+                        <div class="sm:col-span-3 col-span-8 font-semibold">TRÁMITE: </div>
+                        <div class="sm:col-span-5 col-span-8">{{certificado.tramite}}</div>
+                        <div class="sm:col-span-3 col-span-8 font-semibold">CORREO ELECTRÓNICO: </div>
+                        <div class="sm:col-span-5 col-span-8 -mb-3">{{certificado.correo}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6">
+                <div class="sm:col-span-4 col-span-12 flex justify-center sm:mt-0 mt-3">
+                    <button
+                        mat-button
+                        class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                        cmat-button
+                        [routerLink]="['/certificados/aprobados']"
+                    >
+                        Regresar
+                    </button>
+                </div>
+                <div class="sm:col-span-4 col-span-12 flex justify-center">
+                    <button
+                        mat-button
+                        class="rounded-full bg-red-700 hover:bg-red-600 text-white"
+                        cmat-button
+                        (click)="rechazarRequisitos()"
+                    >
+                        Rechazar Requisitos
+                    </button>
+                </div>
+                <div class="sm:col-span-4 col-span-12 flex justify-center">
+                    <button
+                        mat-button
+                        class="rounded-full bg-green-600 hover:bg-green-500 text-white"
+                        cmat-button
+                    >
+                        Aprobar Requisitos
+                    </button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="w-full mb-6">
+        <mat-card-title class="mb-3 md:text-2xl lg:text-2xl text-xl font-bold tracking-wider text-black">VALIDAR REQUISITOS</mat-card-title>
+        <mat-card-content>
+            <div class="z-10 sticky top-0 grid grid-cols-12 gap-y-6 py-3 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5">
+                <div class="col-span-1">
+                    N°
+                </div>
+                <div class="col-span-6">
+                    REQUISITO
+                </div>
+                <div class="col-span-5 text-center">
+                    DOCUMENTO
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+                <div class="col-span-1">1</div>
+                <div class="col-span-6">FUT</div>
+                <div class="col-span-5 text-center">
+                    <a
+                        mat-button
+                        class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-amber-600 hover:bg-amber-500 text-white"
+                        cmat-button
+                        [href]="certificado.fut"
+                        [target]="'_blank'">
+                        <mat-icon
+                            class="icon-size-5"
+                            style="color: white;"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <span class="hidden sm:block ml-2">FUT</span>
+                    </a>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+                <div class="col-span-1">2</div>
+                <div class="col-span-6">ORDEN DE PAGO</div>
+                <div class="col-span-5 text-center">
+                    <a
+                        mat-button
+                        class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-sky-500 hover:bg-sky-400 text-white"
+                        cmat-button
+                        [href]="certificado.voucher"
+                        [target]="'_blank'">
+                        <mat-icon
+                            class="icon-size-5"
+                            style="color: white;"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <span class="hidden sm:block ml-2">VOUCHER</span>
+                    </a>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+                <div class="col-span-1">3</div>
+                <div class="col-span-6">NÚMERO DE OPERACIÓN - ENTIDAD BANCARIA</div>
+                <div class="col-span-5 text-center">{{certificado.entidad}}</div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+                <div class="col-span-1">4</div>
+                <div class="col-span-6">PRECIO TRÁMITE</div>
+                <div class="col-span-5 text-center">{{certificado.costo}} soles</div>
+            </div>
+            <ng-container *ngFor="let req of certificado.requisitos; let id = index">
+                <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+                    <div class="col-span-1">{{id+1+contador}}</div>
+                    <div class="col-span-6">{{req.nombre}}</div>
+                    <div class="col-span-5 text-center">
+                        <a
+                            mat-button
+                            class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-lime-500 hover:bg-lime-400 text-white"
+                            cmat-button
+                            [href]="req.archivo"
+                            [target]="'_blank'">
+                            <mat-icon
+                                class="icon-size-5"
+                                style="color: white;"
+                                [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            <span class="hidden sm:block ml-2">FOTO</span>
+                        </a>
+                    </div>
+                </div>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
+</div>
