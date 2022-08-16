@@ -29,14 +29,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
-import { CertificadoDetalleComponent } from './asignados/detalle/details.component';
+import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details.component';
 import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
 
 @NgModule({
     declarations: [
         CertificadosAsignadosComponent,
         CertificadosAsignadosListComponent,
-        CertificadoDetalleComponent,
+        CertificadoAsignadoDetalleComponent,
         VisorPdfCertificadoComponent,
         RequisitosDialogComponent
     ],

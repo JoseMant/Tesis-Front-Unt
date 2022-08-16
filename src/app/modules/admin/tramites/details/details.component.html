@@ -56,11 +56,29 @@
                         <div class="text-xl">Datos del pago</div>
                     </div>
                     <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                        <!-- Tipo Trámite -->
-                        <div class="sm:col-span-4">
-                            <ng-container *ngFor="let tipo of tipoTramites">
-                                <!-- <div *ngIf="tipo.idTipo_tramite == tramite.idTipo_tramite" class="text-secondary"><b>Trámite:</b> {{tipo.descripcion}}</div> -->
-                            </ng-container>
+                        <!-- Trámite -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>N° operación:</b> {{tramite.nro_operacion}}</div>
+                        </div>
+
+                        <!-- Tipo de trámite -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Entidad:</b> {{tramite.entidad}}</div>
+                        </div>
+
+                        <!-- Unidad -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Fecha operación:</b> {{tramite.fecha_operacion}}</div>
+                        </div>
+
+                        <!-- Facultad -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary"><b>Facultad:</b> {{tramite.facultad}}</div>
+                        </div>
+
+                        <!-- Motivo -->
+                        <div class="sm:col-span-2" *ngIf="">
+                            <!-- <div class="text-secondary"><b>Escuela:</b> {{tramite.escuela}}</div> -->
                         </div>
                     </div>
             </mat-card-content>

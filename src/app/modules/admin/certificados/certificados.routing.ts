@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
 import { AllCertificadosResolver, CertificadoAsignadoResolver, CertificadosAsignadosResolver } from 'app/modules/admin/certificados/asignados/asignados.resolvers';
-import { CertificadoDetalleComponent } from './asignados/detalle/details.component';
+import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details.component';
 
 // import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
 // import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
@@ -28,7 +28,7 @@ export const certificadosRoutes: Route[] = [
             },
             {
                 path         : ':idTramite',
-                component    : CertificadoDetalleComponent,
+                component    : CertificadoAsignadoDetalleComponent,
                 resolve      : {
                     certificado  : CertificadoAsignadoResolver,
                 },

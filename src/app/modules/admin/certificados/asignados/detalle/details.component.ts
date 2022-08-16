@@ -86,7 +86,7 @@ import { RequisitosDialogComponent } from '../dialogReq/dialogReq.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CertificadoDetalleComponent implements OnInit, OnDestroy
+export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
