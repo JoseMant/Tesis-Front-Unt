@@ -182,6 +182,30 @@ export class TramiteService
     }
 
     /**
+     * Update product
+     *
+     * @param id
+     * @param user
+     */
+    updateVoucher(id: number, tramite: any): Observable<TramiteInterface> {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(tramites => this._httpClient.put<TramiteInterface>(environment.baseUrl + 'tramites/'+ id, tramite).pipe(
+                map((updateUser) => {
+                    console.log(updateUser);
+
+                    // Return the new tramite
+                    return updateUser;
+                })
+            )),
+            catchError((error) => {
+                console.error(error);
+                return throwError(error);
+            })
+        );
+    }
+
+    /**
      * Get tramites
      */
     getTramites(): Observable<TramiteInterface[]>
@@ -193,7 +217,7 @@ export class TramiteService
             })
         );
     }
-    
+
     /**
      * Get tramite by id
      */

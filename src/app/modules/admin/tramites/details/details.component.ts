@@ -164,7 +164,7 @@ import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
                 }
             }
         `
-        
+
     ],
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -272,7 +272,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             idTipo_tramite_unidad: [''],
             archivo_firma: [''],
             archivoImagen: [''],
-            requisitos: [''],
+            requisitos: [[]],
         });
 
         // Get the tramites
@@ -295,25 +295,13 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 this.tramite = tramite;
                 console.log(this.tramite);
 
-                this._tramiteService.getRequisitos(this.tramite.idTipo_tramite_unidad).subscribe((resp)=>{
-                    console.log(resp);
-                    this.requisitos = resp.requisitos;
-                    // this.data.requisitos = resp.requisitos;
-                    this.tramiteForm.patchValue({requisitos: resp.requisitos});
-                    this._changeDetectorRef.markForCheck();
-                  });
-
                 // Patch values to the form
-                this.tramiteForm.patchValue(tramite);
+                this.createFormulario(this.tramite);
+                console.log(this.tramiteForm.getRawValue());
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
-        
-        
-
-
 
         this._tramiteService.unidades$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -363,46 +351,46 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     createFormulario(data): void
     {
         //Create the formulario
-        // const newTramite = {
-        //     idModalidad_grado: 0,
-        //     idFacultad: 0,
-        //     idEscuela: 0,
-        //     idTipo_tramite: 0,
-        //     nro_documento: this.user.nro_documento,
-        //     idColacion: 1,
-        //     idEstado_tramite: 0,
-        //     descripcion_estado: '',
-        //     comentario: '',
-        //     codigo: '',
-        //     entidad: '',
-        //     nro_operacion: '',
-        //     fecha_operacion: '',
-        //     idMotivo_certificado: 0,
-        //     archivo: '',
-        //     apellidos: data.apellidos.toUpperCase(),
-        //     nombres: data.nombres.toUpperCase(),
-        //     documento: data.documento,
-        //     celular: data.celular,
-        //     correo: data.correo,
-        //     nro_matricula: data.nro_matricula,
-        //     sede: data.sede,
-        //     tipo_documento: data.tipo_documento,
-        //     sexoNombre: data.sexoNombre,
-        //     idUnidad: -1,
-        //     idTipo_tramite_unidad: -1,
-        //     archivo_firma: '',
-        //     archivoImagen: '',
-        //     requisitos: ''
-        // };
-        // this.tramiteForm.patchValue(newTramite);
-        // this.data = newTramite;
+        const newTramite = {
+            // idModalidad_grado: 0,
+            // idFacultad: 0,
+            // idEscuela: 0,
+            // idTipo_tramite: 0,
+            // nro_documento: this.user.nro_documento,
+            // idColacion: 1,
+            // idEstado_tramite: 0,
+            // descripcion_estado: '',
+            // comentario: '',
+            // codigo: '',
+            // entidad: '',
+            //nro_operacion: '',
+            //fecha_operacion: '',
+            //idMotivo_certificado: 0,
+            //apellidos: data.apellidos.toUpperCase(),
+            //nombres: data.nombres.toUpperCase(),
+            //documento: data.documento,
+            //celular: data.celular,
+            //correo: data.correo,
+            //nro_matricula: data.nro_matricula,
+            //sede: data.sede,
+            //tipo_documento: data.tipo_documento,
+            //sexoNombre: data.sexoNombre,
+            //idUnidad: -1,
+            //idTipo_tramite_unidad: -1,
+            archivo: data.voucher,
+            archivo_firma: '',
+            archivoImagen: '',
+            idTramite: data.idTramite,
+            requisitos: data.requisitos
+        };
+        this.tramiteForm.patchValue(newTramite);
     }
 
     selectFiles(event): void {
         const files = event.target.files[0];
         console.log(files);
         this.tramiteForm.patchValue({archivo: files});
-        this.data.archivo = files;
+        //this.data.archivo = files;
     }
 
     selectFirma(event): void {
@@ -427,18 +415,19 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         console.log(this.data.requisitos);
     }
 
-    selectReqImagen(event, req): void {
+    selectReqImagen(event, id): void {
         const files = event.target.files[0];
         console.log(files);
-        console.log(req);
-        for (const requ of this.requisitos) {
-            if (requ.idRequisito === req.idRequisito) {
+        console.log(id);
+        const requisitos = this.tramiteForm.getRawValue().requisitos;
+        for (const requ of requisitos) {
+            if (requ.idRequisito === id) {
                 requ['archivoImagen'] = files;
             }
         }
-        // this.data.requisitos = this.requisitos;
-        this.tramiteForm.patchValue({requisitos: this.requisitos});
-        // console.log(this.data.requisitos);
+        //this.data.requisitos = requisitos;
+        this.tramiteForm.patchValue({requisitos: requisitos});
+        console.log(requisitos);
     }
 
     verReqDocumento(req): void {
@@ -479,11 +468,11 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     verDocumento(): void {
-        console.log(this.data);
+        console.log(this.tramiteForm.getRawValue());
         const respDial = this.visordialog.open(
             VisorPdfComponent,
             {
-                data: this.data,
+                data: this.tramiteForm.getRawValue(),
                 disableClose: true,
                 minWidth: '50%',
                 maxWidth: '60%'
@@ -492,77 +481,80 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     updateTramite(): void{
-        const data=this.tramiteForm.getRawValue();
+        const data={
+            idTramite: this.tramiteForm.getRawValue().idTramite,
+            archivo: this.tramiteForm.getRawValue().archivo,
+        };
         console.log(data);
         debugger;
-        // If the confirm button pressed...
-        if (this.tramiteForm.invalid) {
-            this.tramiteForm.markAllAsTouched();
-            console.log('hola');
-            return;
-        }
-        const requis = this.data.requisitos.find(element => element.archivo === undefined && element.extension === 'pdf');
-        if (requis) {
-            this.alert = {
-                type   : 'warn',
-                message: 'Cargar el archivo en el requisito: ' + requis.descripcion,
-                title: 'Error'
-            };
-            this.openSnack();
-        }
-        console.log(this.tramiteForm.getRawValue());
-        const certificado = {
-            entidad: this.tramiteForm.getRawValue().entidad,
-            nro_operacion: this.tramiteForm.getRawValue().nro_operacion,
-            fecha_operacion: this.tramiteForm.getRawValue().fecha_operacion,
-            archivo: this.tramiteForm.getRawValue().archivo,
-            idTipo_tramite_unidad: this.tramiteForm.getRawValue().idTipo_tramite_unidad,
-            idUnidad: this.tramiteForm.getRawValue().idUnidad,
-            idDependencia: this.tramiteForm.getRawValue().idFacultad,
-            idDependencia_detalle: this.tramiteForm.getRawValue().idEscuela,
-            nro_matricula: this.tramiteForm.getRawValue().codigo,
-            sede: this.tramiteForm.getRawValue().sede,
-            archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
-            idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
-            comentario: this.tramiteForm.getRawValue().comentario,
-            requisitos: this.tramiteForm.getRawValue().requisitos,
-        };
-        const cadena = (new Date(certificado.fecha_operacion)).toISOString();
-        console.log(cadena);
-        const cadena1 = cadena.substring(0,10);
-        const cadena2 = cadena.substring(11,19);
-        const fecha = cadena1 + ' ' + cadena2;
-        certificado.fecha_operacion = fecha;
-        console.log(certificado);
+        // // If the confirm button pressed...
+        // if (this.tramiteForm.invalid) {
+        //     this.tramiteForm.markAllAsTouched();
+        //     console.log('hola');
+        //     return;
+        // }
+        // const requis = this.data.requisitos.find(element => element.archivo === undefined && element.extension === 'pdf');
+        // if (requis) {
+        //     this.alert = {
+        //         type   : 'warn',
+        //         message: 'Cargar el archivo en el requisito: ' + requis.descripcion,
+        //         title: 'Error'
+        //     };
+        //     this.openSnack();
+        // }
+        // console.log(this.tramiteForm.getRawValue());
+        // const certificado = {
+        //     entidad: this.tramiteForm.getRawValue().entidad,
+        //     nro_operacion: this.tramiteForm.getRawValue().nro_operacion,
+        //     fecha_operacion: this.tramiteForm.getRawValue().fecha_operacion,
+        //     archivo: this.tramiteForm.getRawValue().archivo,
+        //     idTipo_tramite_unidad: this.tramiteForm.getRawValue().idTipo_tramite_unidad,
+        //     idUnidad: this.tramiteForm.getRawValue().idUnidad,
+        //     idDependencia: this.tramiteForm.getRawValue().idFacultad,
+        //     idDependencia_detalle: this.tramiteForm.getRawValue().idEscuela,
+        //     nro_matricula: this.tramiteForm.getRawValue().codigo,
+        //     sede: this.tramiteForm.getRawValue().sede,
+        //     archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
+        //     idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
+        //     comentario: this.tramiteForm.getRawValue().comentario,
+        //     requisitos: this.tramiteForm.getRawValue().requisitos,
+        // };
+        // const cadena = (new Date(certificado.fecha_operacion)).toISOString();
+        // console.log(cadena);
+        // const cadena1 = cadena.substring(0,10);
+        // const cadena2 = cadena.substring(11,19);
+        // const fecha = cadena1 + ' ' + cadena2;
+        // certificado.fecha_operacion = fecha;
+        // console.log(certificado);
             const formData = new FormData();
-            formData.append('entidad', certificado.entidad);
-            formData.append('nro_operacion', certificado.nro_operacion);
-            formData.append('fecha_operacion', certificado.fecha_operacion);
-            formData.append('archivo', certificado.archivo);
-            formData.append('idTipo_tramite_unidad', certificado.idTipo_tramite_unidad);
-            formData.append('idUnidad', certificado.idUnidad);
-            formData.append('idDependencia', certificado.idDependencia);
-            formData.append('idDependencia_detalle', certificado.idDependencia_detalle);
-            formData.append('nro_matricula', certificado.nro_matricula);
-            formData.append('sede', certificado.sede);
-            formData.append('archivo_firma', certificado.archivo_firma);
-            formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
-            formData.append('comentario', certificado.comentario);
-            certificado.requisitos.forEach((element) => {
-                formData.append('requisitos[]', JSON.stringify(element));
-                if (element.idRequisito && element.extension === 'pdf') {
-                    formData.append('files[]', element.archivo);
-                }
-                if (element.idRequisito && element.extension === 'jpg') {
-                    formData.append('files[]', element.archivoImagen);
-                }
-              });
-            console.log(formData.getAll('requisitos'));
-            console.log(formData.getAll('files'));
-            // Disable the form
-            this.tramiteForm.disable();
+            formData.append('idTramite', data.idTramite);
+            formData.append('archivo', data.archivo);
+            // formData.append('fecha_operacion', certificado.fecha_operacion);
+            // formData.append('archivo', certificado.archivo);
+            // formData.append('idTipo_tramite_unidad', certificado.idTipo_tramite_unidad);
+            // formData.append('idUnidad', certificado.idUnidad);
+            // formData.append('idDependencia', certificado.idDependencia);
+            // formData.append('idDependencia_detalle', certificado.idDependencia_detalle);
+            // formData.append('nro_matricula', certificado.nro_matricula);
+            // formData.append('sede', certificado.sede);
+            // formData.append('archivo_firma', certificado.archivo_firma);
+            // formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
+            // formData.append('comentario', certificado.comentario);
+            // certificado.requisitos.forEach((element) => {
+            //     formData.append('requisitos[]', JSON.stringify(element));
+            //     if (element.idRequisito && element.extension === 'pdf') {
+            //         formData.append('files[]', element.archivo);
+            //     }
+            //     if (element.idRequisito && element.extension === 'jpg') {
+            //         formData.append('files[]', element.archivoImagen);
+            //     }
+            //   });
+            // console.log(formData.getAll('requisitos'));
+            // console.log(formData.getAll('files'));
+            // // Disable the form
+            // this.tramiteForm.disable();
 
-            this._tramiteService.createTramite(formData).subscribe((newMadurity) => {
+            this._tramiteService.updateVoucher(data.idTramite,formData).subscribe((newMadurity) => {
                 console.log(newMadurity);
                 // Toggle the edit mode off
                 //this.toggleEditMode(false);
@@ -571,7 +563,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 this.tramiteForm.enable();
 
                 // Go to new product
-                this.createFormulario(this.user);
+                //this.createFormulario(this.user);
 
                 this.alert = {
                     type   : 'success',
@@ -588,7 +580,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
 
                 // Re-enable the form
                 this.tramiteForm.enable();
-                
+
                 this.alert = {
                     type   : 'warn',
                     message: 'Error al registrar',

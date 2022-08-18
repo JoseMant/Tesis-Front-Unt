@@ -28,14 +28,14 @@
 
                         <!-- Dependencia -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary" *ngIf="tramite.idUnidad == 1"><b>Facultad:</b> {{tramite.facultad}}</div>
-                            <div class="text-secondary" *ngIf="tramite.idUnidad == 4"><b>Especialidad:</b> {{tramite.facultad}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad === 1"><b>Facultad:</b> {{tramite.facultad}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad === 4"><b>Especialidad:</b> {{tramite.facultad}}</div>
                         </div>
 
                         <!-- Sub dependencia -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary" *ngIf="tramite.idUnidad == 1"><b>Escuela:</b> {{tramite.escuela}}</div>
-                            <div class="text-secondary" *ngIf="tramite.idUnidad == 4"><b>Mención:</b> {{tramite.escuela}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad === 1"><b>Escuela:</b> {{tramite.escuela}}</div>
+                            <div class="text-secondary" *ngIf="tramite.idUnidad === 4"><b>Mención:</b> {{tramite.escuela}}</div>
                             <!-- <div class="text-secondary"><b>Escuela:</b> {{tramite.escuela}}</div> -->
                         </div>
 
@@ -53,12 +53,12 @@
                         <div class="sm:col-span-2">
                             <div class="text-secondary" *ngIf="tramite.comentario_tramite"><b>Comentarios:</b> {{tramite.comentario_tramite}}</div>
                         </div>
-                        
+
                     </div>
 
                     <!-- Divider -->
                     <div class="my-10 border-t"></div>
-                    
+
                     <!-- Section -->
                     <div class="w-full">
                         <div class="text-xl">Datos del pago</div>
@@ -81,8 +81,8 @@
 
                         <!-- Voucher -->
                         <div class="sm:col-span-4">
-                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher != 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
-                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher == 'RECHAZADO'">
+                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
+                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
                                 <b>Comprobante de pago:</b> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}
                                 <button
                                     matTooltip="Agregar documento"
@@ -117,7 +117,7 @@
                                     />
                                 </svg>
                             </div>
-                            <div *ngIf="tramite.des_estado_voucher == 'RECHAZADO'">
+                            <div *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
                                 <div>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
 
                     <!-- Divider -->
                     <div class="my-10 border-t"></div>
-                    
+
                     <!-- Section -->
                     <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Requisitos</mat-label></mat-card-title>
@@ -191,7 +191,7 @@
                                                     style="color: rgb(6, 11, 88)"
                                                     [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                             </button>
-                                            <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req)"/>
+                                            <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req.idRequisito)"/>
                                         </div>
                                         <svg
                                             *ngIf="req.archivoImagen"
