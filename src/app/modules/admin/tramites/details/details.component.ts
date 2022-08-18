@@ -486,7 +486,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             archivo: this.tramiteForm.getRawValue().archivo,
         };
         console.log(data);
-        debugger;
+        // debugger;
         // // If the confirm button pressed...
         // if (this.tramiteForm.invalid) {
         //     this.tramiteForm.markAllAsTouched();
