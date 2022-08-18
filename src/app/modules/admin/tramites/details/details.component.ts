@@ -110,6 +110,59 @@ import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
                     grid-template-columns: 112px auto 112px 224px 72px;
                 }
             }
+
+            fuse-alert {
+                margin: 16px 0;
+            }
+            .fondo_snackbar {
+                background-color:transparent !important;
+                padding: 0px !important;
+                height: 0px;
+                min-height: 0px !important;
+            }
+            .spinner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 40px;
+                width: 56px;
+            }
+            .spinner > div {
+                width: 12px;
+                height: 12px;
+                background-color: #1E96F7;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
+                animation: fuse-bouncedelay 1s infinite ease-in-out both;
+            }
+            .spinner .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+            .spinner .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+            @-webkit-keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0)
+                }
+                40% {
+                    -webkit-transform: scale(1.0)
+                }
+            }
+
+            @keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+                40% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                }
+            }
         `
         
     ],
@@ -190,6 +243,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         this.selectedGap = true;
         // Create the selected maduritylevel form
         this.tramiteForm = this._formBuilder.group({
+            idTramite: [''],
             idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
@@ -241,12 +295,24 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 this.tramite = tramite;
                 console.log(this.tramite);
 
+                this._tramiteService.getRequisitos(this.tramite.idTipo_tramite_unidad).subscribe((resp)=>{
+                    console.log(resp);
+                    this.requisitos = resp.requisitos;
+                    // this.data.requisitos = resp.requisitos;
+                    this.tramiteForm.patchValue({requisitos: resp.requisitos});
+                    this._changeDetectorRef.markForCheck();
+                  });
+
                 // Patch values to the form
                 this.tramiteForm.patchValue(tramite);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        
+        
+
 
 
         this._tramiteService.unidades$
@@ -370,9 +436,9 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 requ['archivoImagen'] = files;
             }
         }
-        this.data.requisitos = this.requisitos;
+        // this.data.requisitos = this.requisitos;
         this.tramiteForm.patchValue({requisitos: this.requisitos});
-        console.log(this.data.requisitos);
+        // console.log(this.data.requisitos);
     }
 
     verReqDocumento(req): void {
@@ -425,7 +491,10 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         );
     }
 
-    createTramite(): void{
+    updateTramite(): void{
+        const data=this.tramiteForm.getRawValue();
+        console.log(data);
+        debugger;
         // If the confirm button pressed...
         if (this.tramiteForm.invalid) {
             this.tramiteForm.markAllAsTouched();
