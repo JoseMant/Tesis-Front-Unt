@@ -335,7 +335,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         });
 
         this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
-            if (resp) {
+            if (resp.dependencias.length) {
                 console.log(resp);
                 this.dependencias = resp.dependencias;
                 const dependencia = this.dependencias[0];
@@ -373,6 +373,9 @@ export class TramiteListComponent implements OnInit, OnDestroy
                     console.log(this.subdependencias);
                 }
             }else{
+                this.dependencias = null;
+                this.data.idDependencia = null;
+                this.data.idSubdependencia = null;
                 this.alert = {
                     type   : 'warn',
                     message: 'Acceso denegado',
@@ -380,6 +383,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
                 };
                 this.openSnack();
             }
+            this._changeDetectorRef.markForCheck();
         },
         (error) => {
             // console.log(error);
@@ -638,7 +642,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
 
                 // Re-enable the form
                 this.tramiteForm.enable();
-                
+
                 this.alert = {
                     type   : 'warn',
                     message: 'Error al registrar',

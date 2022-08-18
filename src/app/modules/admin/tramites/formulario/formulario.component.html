@@ -141,7 +141,7 @@
                             </div>
                             <div *ngIf="data.idTipo_tramite" class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
-                                    *ngIf="data.idUnidad === 1"
+                                    *ngIf="data.idUnidad === 1 && dependencias"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -157,7 +157,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idUnidad === 1"
+                                    *ngIf="data.idUnidad === 1 && dependencias"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -173,7 +173,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idUnidad === 4"
+                                    *ngIf="data.idUnidad === 4 && dependencias"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -189,7 +189,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="data.idUnidad === 4"
+                                    *ngIf="data.idUnidad === 4 && dependencias"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
