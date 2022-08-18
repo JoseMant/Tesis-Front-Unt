@@ -79,7 +79,39 @@ import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
                     transform: scale(1.0);
                 }
             }
+            .home-grid {
+                grid-template-columns: 96px auto 40px;
+
+                @screen sm {
+                    grid-template-columns: 96px auto 112px 72px;
+                }
+
+                @screen md {
+                    grid-template-columns: 112px auto 112px 190px 72px;
+                }
+
+                @screen lg {
+                    grid-template-columns: 112px auto 112px 224px 72px;
+                }
+            }
+
+            .home-details-grid {
+                grid-template-columns: 96px auto 40px;
+
+                @screen sm {
+                    grid-template-columns: 96px auto 112px 72px;
+                }
+
+                @screen md {
+                    grid-template-columns: 112px auto 112px 190px 72px;
+                }
+
+                @screen lg {
+                    grid-template-columns: 112px auto 112px 224px 72px;
+                }
+            }
         `
+        
     ],
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -132,10 +132,10 @@
                     <div class="w-full">
                         <div class="text-xl">Requisitos</div>
                     </div>
-                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8" *ngFor="let requisito of tramite.requisitos;let id = index" >
                         <!-- Tipo de trámite -->
                         <div class="sm:col-span-1">
-                            <div class="text-secondary"><b>Entidad:</b> {{tramite.entidad}}</div>
+                            <div class="text-secondary"><b>{{id + 1}}. </b> {{requisito.nombre}}</div>
                         </div>
                     </div>
             </mat-card-content>
