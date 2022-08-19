@@ -98,6 +98,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
 
                 // Get the contact
                 this.contact = contact;
+                this.contact.background = "assets/images/cards/" + "16" + "-640x480.jpg";
 
                 // Clear the emails and phoneNumbers form arrays
                 (this.contactForm.get('emails') as FormArray).clear();
@@ -109,30 +110,30 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                 // Setup the emails form array
                 const emailFormGroups = [];
 
-                if ( contact.emails.length > 0 )
-                {
-                    // Iterate through them
-                    contact.emails.forEach((email) => {
+                // if ( contact.emails.length > 0 )
+                // {
+                //     // Iterate through them
+                //     contact.emails.forEach((email) => {
 
-                        // Create an email form group
-                        emailFormGroups.push(
-                            this._formBuilder.group({
-                                email: [email.email],
-                                label: [email.label]
-                            })
-                        );
-                    });
-                }
-                else
-                {
-                    // Create an email form group
-                    emailFormGroups.push(
-                        this._formBuilder.group({
-                            email: [''],
-                            label: ['']
-                        })
-                    );
-                }
+                //         // Create an email form group
+                //         emailFormGroups.push(
+                //             this._formBuilder.group({
+                //                 email: [email.email],
+                //                 label: [email.label]
+                //             })
+                //         );
+                //     });
+                // }
+                // else
+                // {
+                //     // Create an email form group
+                //     emailFormGroups.push(
+                //         this._formBuilder.group({
+                //             email: [''],
+                //             label: ['']
+                //         })
+                //     );
+                // }
 
                 // Add the email form groups to the emails form array
                 emailFormGroups.forEach((emailFormGroup) => {
@@ -142,32 +143,32 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                 // Setup the phone numbers form array
                 const phoneNumbersFormGroups = [];
 
-                if ( contact.phoneNumbers.length > 0 )
-                {
-                    // Iterate through them
-                    contact.phoneNumbers.forEach((phoneNumber) => {
+                // if ( contact.phoneNumbers.length > 0 )
+                // {
+                //     // Iterate through them
+                //     contact.phoneNumbers.forEach((phoneNumber) => {
 
-                        // Create an email form group
-                        phoneNumbersFormGroups.push(
-                            this._formBuilder.group({
-                                country    : [phoneNumber.country],
-                                phoneNumber: [phoneNumber.phoneNumber],
-                                label      : [phoneNumber.label]
-                            })
-                        );
-                    });
-                }
-                else
-                {
-                    // Create a phone number form group
-                    phoneNumbersFormGroups.push(
-                        this._formBuilder.group({
-                            country    : ['us'],
-                            phoneNumber: [''],
-                            label      : ['']
-                        })
-                    );
-                }
+                //         // Create an email form group
+                //         phoneNumbersFormGroups.push(
+                //             this._formBuilder.group({
+                //                 country    : [phoneNumber.country],
+                //                 phoneNumber: [phoneNumber.phoneNumber],
+                //                 label      : [phoneNumber.label]
+                //             })
+                //         );
+                //     });
+                // }
+                // else
+                // {
+                //     // Create a phone number form group
+                //     phoneNumbersFormGroups.push(
+                //         this._formBuilder.group({
+                //             country    : ['us'],
+                //             phoneNumber: [''],
+                //             label      : ['']
+                //         })
+                //     );
+                // }
 
                 // Add the phone numbers form groups to the phone numbers form array
                 phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {

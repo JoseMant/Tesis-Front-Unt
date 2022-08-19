@@ -18,14 +18,14 @@ export class ContactsListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-    contacts$: Observable<Contact[]>;
+    contacts$: Observable<any[]>;
 
     contactsCount: number = 0;
     contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     countries: Country[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
-    selectedContact: Contact;
+    selectedContact: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -56,8 +56,8 @@ export class ContactsListComponent implements OnInit, OnDestroy
         console.log(this.contacts$);
         this._contactsService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: Contact[]) => {
-                
+            .subscribe((contacts: any[]) => {
+                console.log(contacts);
                 // Update the counts
                 this.contactsCount = contacts.length;
                 console.log(this.contactsCount);
@@ -68,10 +68,11 @@ export class ContactsListComponent implements OnInit, OnDestroy
         // Get the contact
         this._contactsService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contact: Contact) => {
-
+            .subscribe((contact: any) => {
                 // Update the selected contact
                 this.selectedContact = contact;
+
+                console.log(contact);
                 console.log(this.selectedContact);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
