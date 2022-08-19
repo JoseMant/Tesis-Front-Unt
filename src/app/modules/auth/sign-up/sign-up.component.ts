@@ -72,7 +72,7 @@ export class AuthSignUpComponent implements OnInit
                 tipo_documento  : ['', Validators.required],
                 username        : ['', Validators.required],
                 password        : ['', Validators.required],
-                idTipo_usuario  : ['1', Validators.required]
+                idTipo_usuario  : ['4', Validators.required]
             }
         );
 
@@ -93,7 +93,7 @@ export class AuthSignUpComponent implements OnInit
         {
             return;
         }
-        
+
         // Disable the form
         this.signUpForm.disable();
 
@@ -111,16 +111,16 @@ export class AuthSignUpComponent implements OnInit
                 (response) => {
                     // Re-enable the form
                     this.signUpForm.enable();
-                    
+
                     // Reset the form
                     // this.signUpNgForm.resetForm();
-                    
+
                     // Set the alert
                     this.alert = {
                         type   : 'error',
                         message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
                     };
-                    
+
                     // Show the alert
                     this.showAlert = true;
                     console.log(this.showAlert);
@@ -138,19 +138,19 @@ export class AuthSignUpComponent implements OnInit
         {
             return;
         }
-    
+
         // Disable the form
         // this.documentForm.disable();
-    
+
         // Hide the alert
         this.showAlert = false;
-    
+
         // Sign up
         this._authService.getDocument(this.documentForm.value.nro_documento)
             .subscribe(
                 (response) => {
                     this.foundDocument = true;
-                    
+
                     // Fill the form
                     this.signUpForm.patchValue({
                         tipo_documento  : response.datos_alumno.tipo_documento,
@@ -163,28 +163,28 @@ export class AuthSignUpComponent implements OnInit
                         nro_documento   : response.datos_alumno.nro_documento,
                         username        : response.datos_alumno.nro_documento,
                     });
-                    
+
                     this.signUpForm.enable();
-    
+
                     // Mark for check
                     this._changeDetectorRef.markForCheck();
 
                 },
                 (response) => {
                     this.foundDocument = false;
-    
+
                     // Re-enable the form
                     // this.documentForm.enable();
-    
+
                     // Reset the form
                     // this.documentNgForm.resetForm();
-    
+
                     // Set the alert
                     this.alert = {
                         type   : 'error',
                         message: 'Something went wrong, please try again.'
                     };
-    
+
                     // Show the alert
                     this.showAlert = true;
                 }
