@@ -136,16 +136,16 @@
                                 <div class="nombre col-span-4 ml-3">
                                     <b>Nombre del requisito</b>
                                 </div>
-                                <div class="nombre col-span-2 ml-3">
+                                <!-- <div class="nombre col-span-2 ml-3">
                                     <b>Acciones</b>
-                                </div>
+                                </div> -->
                             </div>
                             <div >
                                 <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let req of tramite.requisitos">
                                     <div class="nombre col-span-4 ml-3">
                                         {{req.nombre}}
                                     </div>
-                                    <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
+                                    <!-- <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
                                         <div>
                                             <button
                                                 matTooltip="Agregar documento"
@@ -216,7 +216,7 @@
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                             />
                                         </svg>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </mat-card-content>
