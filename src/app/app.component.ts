@@ -40,12 +40,12 @@ export class AppComponent
                   this._rolesService.addRole(this.user.rol.toUpperCase(), () => {
                     return true;
                   });
-              } else {
-                this._rolesService.addRole('GUEST', () => {
-                  return true;
-                });
+              // } else {
+              //   this._rolesService.addRole('GUEST', () => {
+              //     return true;
+              //   });
               }
-              // console.log(this._rolesService.getRole('ADMIN'));
+              console.log(this._rolesService.getRoles());
           });
 
     }
