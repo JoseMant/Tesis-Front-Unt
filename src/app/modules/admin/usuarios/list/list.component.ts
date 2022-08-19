@@ -67,11 +67,23 @@ export class UsuariosListComponent implements OnInit, OnDestroy
         // Get the usuario
         this._usuariosService.usuario$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((usuario: Usuario) => {
+            .subscribe((contact: Contact) => {
 
-                // Update the selected usuario
-                this.selectedUsuario = usuario;
-                console.log(this.selectedUsuario);
+                // Update the selected contact
+                this.selectedContact = contact;
+                console.log(this.selectedContact);
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the countries
+        this._contactsService.countries$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((countries: Country[]) => {
+
+                // Update the countries
+                this.countries = countries;
+
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });

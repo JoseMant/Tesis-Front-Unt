@@ -101,8 +101,8 @@ export class UsuariosDetailsComponent implements OnInit, OnDestroy
                 // Patch values to the form
                 this.usuarioForm.patchValue(usuario);
 
+
                 // Toggle the edit mode off
-                //Toggle the edit mode off
                 if(!usuario.idUsuario){
                     this.toggleEditMode(true);
                 }else{

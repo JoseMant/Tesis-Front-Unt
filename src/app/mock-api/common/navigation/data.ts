@@ -60,6 +60,38 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id   : 'carnets',
+        title: 'Carnets',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'carnets.validados',
+                title: 'Validados',
+                type : 'basic',
+                link : '/carnets/validados',
+                permissions: ['URAA']
+            },
+            {
+                // Se muestran al usuario para validar requisitos
+                id   : 'carnets.asignados',
+                title: 'Asignados',
+                type : 'basic',
+                link : '/carnets/asignados',
+                permissions: ['URAA']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
+                id   : 'carnets.aprobados',
+                title: 'Aprobados',
+                type : 'basic',
+                link : '/carnets/aprobados',
+                permissions: ['URAA']
+            }
+        ]
+    },
+    {
         id   : 'vouchers',
         title: 'Vouchers',
         type : 'collapsable',
