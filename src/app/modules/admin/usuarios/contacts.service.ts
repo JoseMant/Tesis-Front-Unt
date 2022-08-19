@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Contact, Country, Tag } from 'app/modules/admin/usuarios/contacts.types';
+import { environment } from 'environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -9,8 +10,8 @@ import { Contact, Country, Tag } from 'app/modules/admin/usuarios/contacts.types
 export class ContactsService
 {
     // Private
-    private _contact: BehaviorSubject<Contact | null> = new BehaviorSubject(null);
-    private _contacts: BehaviorSubject<Contact[] | null> = new BehaviorSubject(null);
+    private _contact: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _contacts: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);
     private _tags: BehaviorSubject<Tag[] | null> = new BehaviorSubject(null);
 
@@ -28,7 +29,7 @@ export class ContactsService
     /**
      * Getter for contact
      */
-    get contact$(): Observable<Contact>
+    get contact$(): Observable<any>
     {
         return this._contact.asObservable();
     }
@@ -36,7 +37,7 @@ export class ContactsService
     /**
      * Getter for contacts
      */
-    get contacts$(): Observable<Contact[]>
+    get contacts$(): Observable<any[]>
     {
         return this._contacts.asObservable();
     }
@@ -64,11 +65,13 @@ export class ContactsService
     /**
      * Get contacts
      */
-    getContacts(): Observable<Contact[]>
+    getContacts(): Observable<any[]>
     {
-        return this._httpClient.get<Contact[]>('api/apps/contacts/all').pipe(
+        // return this._httpClient.get<any[]>('api/apps/contacts/all').pipe(
+        return this._httpClient.get<any[]>(environment.baseUrl + 'usuarios').pipe(
             tap((contacts) => {
                 this._contacts.next(contacts);
+                console.log(contacts);
             })
         );
     }
@@ -78,9 +81,9 @@ export class ContactsService
      *
      * @param query
      */
-    searchContacts(query: string): Observable<Contact[]>
+    searchContacts(query: string): Observable<any[]>
     {
-        return this._httpClient.get<Contact[]>('api/apps/contacts/search', {
+        return this._httpClient.get<any[]>('api/apps/contacts/search', {
             params: {query}
         }).pipe(
             tap((contacts) => {
@@ -92,14 +95,15 @@ export class ContactsService
     /**
      * Get contact by id
      */
-    getContactById(id: string): Observable<Contact>
+    getContactById(idUsuario: number): Observable<any>
     {
         return this._contacts.pipe(
             take(1),
             map((contacts) => {
-
+                console.log(contacts);
                 // Find the contact
-                const contact = contacts.find(item => item.id === id) || null;
+                const contact = contacts.find(item => item.idUsuario === idUsuario) || null;
+                console.log(contact);
 
                 // Update the contact
                 this._contact.next(contact);
@@ -111,7 +115,7 @@ export class ContactsService
 
                 if ( !contact )
                 {
-                    return throwError('Could not found contact with id of ' + id + '!');
+                    return throwError('Could not found contact with id of ' + idUsuario + '!');
                 }
 
                 return of(contact);
@@ -122,11 +126,11 @@ export class ContactsService
     /**
      * Create contact
      */
-    createContact(): Observable<Contact>
+    createContact(): Observable<any>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.post<Contact>('api/apps/contacts/contact', {}).pipe(
+            switchMap(contacts => this._httpClient.post<any>('api/apps/contacts/contact', {}).pipe(
                 map((newContact) => {
 
                     // Update the contacts with the new contact
@@ -145,18 +149,18 @@ export class ContactsService
      * @param id
      * @param contact
      */
-    updateContact(id: string, contact: Contact): Observable<Contact>
+    updateContact(idUsuario: number, contact: any): Observable<any>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.patch<Contact>('api/apps/contacts/contact', {
-                id,
+            switchMap(contacts => this._httpClient.patch<any>('api/apps/contacts/contact', {
+                idUsuario,
                 contact
             }).pipe(
                 map((updatedContact) => {
 
                     // Find the index of the updated contact
-                    const index = contacts.findIndex(item => item.id === id);
+                    const index = contacts.findIndex(item => item.idUsuario === idUsuario);
 
                     // Update the contact
                     contacts[index] = updatedContact;
@@ -169,7 +173,7 @@ export class ContactsService
                 }),
                 switchMap(updatedContact => this.contact$.pipe(
                     take(1),
-                    filter(item => item && item.id === id),
+                    filter(item => item && item.idUsuario === idUsuario),
                     tap(() => {
 
                         // Update the contact if it's selected
@@ -188,15 +192,15 @@ export class ContactsService
      *
      * @param id
      */
-    deleteContact(id: string): Observable<boolean>
+    deleteContact(idUsuario: number): Observable<boolean>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.delete('api/apps/contacts/contact', {params: {id}}).pipe(
+            switchMap(contacts => this._httpClient.delete('api/apps/contacts/contact', {params: {idUsuario}}).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted contact
-                    const index = contacts.findIndex(item => item.id === id);
+                    const index = contacts.findIndex(item => item.idUsuario === idUsuario);
 
                     // Delete the contact
                     contacts.splice(index, 1);
@@ -344,12 +348,12 @@ export class ContactsService
      * @param id
      * @param avatar
      */
-    uploadAvatar(id: string, avatar: File): Observable<Contact>
+    uploadAvatar(idUsuario: number, avatar: File): Observable<any>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.post<Contact>('api/apps/contacts/avatar', {
-                id,
+            switchMap(contacts => this._httpClient.post<any>('api/apps/contacts/avatar', {
+                idUsuario,
                 avatar
             }, {
                 headers: {
@@ -360,7 +364,7 @@ export class ContactsService
                 map((updatedContact) => {
 
                     // Find the index of the updated contact
-                    const index = contacts.findIndex(item => item.id === id);
+                    const index = contacts.findIndex(item => item.idUsuario === idUsuario);
 
                     // Update the contact
                     contacts[index] = updatedContact;
@@ -373,7 +377,7 @@ export class ContactsService
                 }),
                 switchMap(updatedContact => this.contact$.pipe(
                     take(1),
-                    filter(item => item && item.id === id),
+                    filter(item => item && item.idUsuario === idUsuario),
                     tap(() => {
 
                         // Update the contact if it's selected

@@ -98,6 +98,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
 
                 // Get the contact
                 this.contact = contact;
+                this.contact.background = "assets/images/cards/" + "16" + "-640x480.jpg";
 
                 // Clear the emails and phoneNumbers form arrays
                 (this.contactForm.get('emails') as FormArray).clear();
@@ -109,30 +110,30 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                 // Setup the emails form array
                 const emailFormGroups = [];
 
-                if ( contact.emails.length > 0 )
-                {
-                    // Iterate through them
-                    contact.emails.forEach((email) => {
+                // if ( contact.emails.length > 0 )
+                // {
+                //     // Iterate through them
+                //     contact.emails.forEach((email) => {
 
-                        // Create an email form group
-                        emailFormGroups.push(
-                            this._formBuilder.group({
-                                email: [email.email],
-                                label: [email.label]
-                            })
-                        );
-                    });
-                }
-                else
-                {
-                    // Create an email form group
-                    emailFormGroups.push(
-                        this._formBuilder.group({
-                            email: [''],
-                            label: ['']
-                        })
-                    );
-                }
+                //         // Create an email form group
+                //         emailFormGroups.push(
+                //             this._formBuilder.group({
+                //                 email: [email.email],
+                //                 label: [email.label]
+                //             })
+                //         );
+                //     });
+                // }
+                // else
+                // {
+                //     // Create an email form group
+                //     emailFormGroups.push(
+                //         this._formBuilder.group({
+                //             email: [''],
+                //             label: ['']
+                //         })
+                //     );
+                // }
 
                 // Add the email form groups to the emails form array
                 emailFormGroups.forEach((emailFormGroup) => {
@@ -142,32 +143,32 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                 // Setup the phone numbers form array
                 const phoneNumbersFormGroups = [];
 
-                if ( contact.phoneNumbers.length > 0 )
-                {
-                    // Iterate through them
-                    contact.phoneNumbers.forEach((phoneNumber) => {
+                // if ( contact.phoneNumbers.length > 0 )
+                // {
+                //     // Iterate through them
+                //     contact.phoneNumbers.forEach((phoneNumber) => {
 
-                        // Create an email form group
-                        phoneNumbersFormGroups.push(
-                            this._formBuilder.group({
-                                country    : [phoneNumber.country],
-                                phoneNumber: [phoneNumber.phoneNumber],
-                                label      : [phoneNumber.label]
-                            })
-                        );
-                    });
-                }
-                else
-                {
-                    // Create a phone number form group
-                    phoneNumbersFormGroups.push(
-                        this._formBuilder.group({
-                            country    : ['us'],
-                            phoneNumber: [''],
-                            label      : ['']
-                        })
-                    );
-                }
+                //         // Create an email form group
+                //         phoneNumbersFormGroups.push(
+                //             this._formBuilder.group({
+                //                 country    : [phoneNumber.country],
+                //                 phoneNumber: [phoneNumber.phoneNumber],
+                //                 label      : [phoneNumber.label]
+                //             })
+                //         );
+                //     });
+                // }
+                // else
+                // {
+                //     // Create a phone number form group
+                //     phoneNumbersFormGroups.push(
+                //         this._formBuilder.group({
+                //             country    : ['us'],
+                //             phoneNumber: [''],
+                //             label      : ['']
+                //         })
+                //     );
+                // }
 
                 // Add the phone numbers form groups to the phone numbers form array
                 phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
@@ -295,12 +296,12 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
             if ( result === 'confirmed' )
             {
                 // Get the current contact's id
-                const id = this.contact.id;
+                const id = this.contact.idUsuario;
 
                 // Get the next/previous contact's id
-                const currentContactIndex = this.contacts.findIndex(item => item.id === id);
+                const currentContactIndex = this.contacts.findIndex(item => item.idUsuario === id);
                 const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
-                const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
+                const nextContactId = (this.contacts.length === 1 && this.contacts[0].idUsuario === id) ? null : this.contacts[nextContactIndex].idUsuario;
 
                 // Delete the contact
                 this._contactsService.deleteContact(id)
@@ -357,7 +358,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         }
 
         // Upload the avatar
-        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.idUsuario, file).subscribe();
     }
 
     /**

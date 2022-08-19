@@ -1,6 +1,6 @@
 export interface Contact
 {
-    id: string;
+    idUsuario: number;
     avatar?: string | null;
     background?: string | null;
     name: string;
@@ -19,6 +19,7 @@ export interface Contact
     address?: string | null;
     notes?: string | null;
     tags: string[];
+    apellidos: string;
 }
 
 export interface Country
