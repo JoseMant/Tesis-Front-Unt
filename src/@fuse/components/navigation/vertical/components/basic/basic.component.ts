@@ -5,6 +5,7 @@ import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/ver
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
 import { FuseUtilsService } from '@fuse/services/utils/utils.service';
+import { NgxRolesService } from 'ngx-permissions';
 
 @Component({
     selector       : 'fuse-vertical-navigation-basic-item',
@@ -26,7 +27,8 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseNavigationService: FuseNavigationService,
-        private _fuseUtilsService: FuseUtilsService
+        private _fuseUtilsService: FuseUtilsService,
+        private _rolesService: NgxRolesService
     )
     {
         // Set the equivalent of {exact: false} as default for active match options.
@@ -77,5 +79,22 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+    }
+
+    permission(req): boolean {
+      let value = false;
+      //console.log(req);
+      if (req.length === 0) {
+          value = true;
+      }else if (this._rolesService.getRole('ADMIN')) {
+        value = true;
+      } else {
+        req.forEach((requerimiento) => {
+          if (this._rolesService.getRole(requerimiento)) {
+            value = true;
+          };
+        });
+      }
+      return value;
     }
 }

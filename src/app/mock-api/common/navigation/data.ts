@@ -7,7 +7,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Inicio',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/home'
+        link : '/home',
+        permissions: []
     },
     {
         id   : 'tramites',
@@ -15,6 +16,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:pencil-alt',
         link : '/tramites',
+        permissions: ['USER']
     },
     {
         id   : 'certificados',
@@ -27,21 +29,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'certificados.validados',
                 title: 'Validados',
                 type : 'basic',
-                link : '/certificados/validados'
+                link : '/certificados/validados',
+                permissions: ['URAA']
             },
             {
                 // Se muestran al usuario para validar requisitos
                 id   : 'certificados.asignados',
                 title: 'Asignados',
                 type : 'basic',
-                link : '/certificados/asignados'
+                link : '/certificados/asignados',
+                permissions: ['URAA']
             },
             {
                 // Se muestran para la firma del jefe de RT
                 id   : 'certificados.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
-                link : '/certificados/aprobados'
+                link : '/certificados/aprobados',
+                permissions: ['URAA']
             }
         ]
     },
@@ -55,19 +60,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'vouchers.pendientes',
                 title: 'Pendientes',
                 type : 'basic',
-                link : '/vouchers/pendientes'
+                link : '/vouchers/pendientes',
+                permissions: ['TESORERÍA']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
-                link : '/vouchers/aprobados'
+                link : '/vouchers/aprobados',
+                permissions: ['TESORERÍA']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
-                link : '/vouchers/rechazados'
+                link : '/vouchers/rechazados',
+                permissions: ['TESORERÍA']
             }
         ]
     }

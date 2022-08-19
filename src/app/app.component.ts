@@ -36,14 +36,16 @@ export class AppComponent
           .subscribe((user: User) => {
               this.user = user;
 
-              console.log(this.user);
               if (this.user.idTipoUsuario) {
-                  this._rolesService.addRole(this.user.rol.toUpperCase(), []);
+                  this._rolesService.addRole(this.user.rol.toUpperCase(), () => {
+                    return true;
+                  });
               } else {
                 this._rolesService.addRole('GUEST', () => {
                   return true;
                 });
               }
+              // console.log(this._rolesService.getRole('ADMIN'));
           });
 
     }

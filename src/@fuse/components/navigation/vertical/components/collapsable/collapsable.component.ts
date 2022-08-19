@@ -6,6 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { NgxRolesService } from 'ngx-permissions';
 
 @Component({
     selector       : 'fuse-vertical-navigation-collapsable-item',
@@ -34,7 +35,8 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _rolesService: NgxRolesService
     )
     {
     }
@@ -264,6 +266,26 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
+    }
+
+    permission(items): boolean {
+      const req = [];
+      items.forEach( (item) => {
+        item.permissions.forEach((per) => {
+          req.push(per);
+        });
+      });
+      let value = false;
+      if (this._rolesService.getRole('ADMIN')) {
+        value = true;
+      } else {
+        req.forEach((requerimiento) => {
+          if (this._rolesService.getRole(requerimiento)) {
+            value = true;
+          };
+        });
+      }
+      return value;
     }
 
     // -----------------------------------------------------------------------------------------------------
