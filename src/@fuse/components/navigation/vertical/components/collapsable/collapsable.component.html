@@ -1,4 +1,5 @@
 <div
+    *ngIf="permission(item.children)"
     class="fuse-vertical-navigation-item-wrapper"
     [class.fuse-vertical-navigation-item-has-subtitle]="!!item.subtitle"
     [ngClass]="item.classes?.wrapper">

@@ -8,6 +8,7 @@ import { VouchersAprobadosResolver } from 'app/modules/admin/vouchers/aprobados/
 import { VouchersRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
 import { VouchersRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
 import { VouchersRechazadosResolver } from 'app/modules/admin/vouchers/rechazados/rechazados.resolvers';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const vouchersRoutes: Route[] = [
     {
@@ -18,6 +19,13 @@ export const vouchersRoutes: Route[] = [
     {
         path     : 'pendientes',
         component: VouchersPendientesComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMIN', 'TESORERÍA'],
+                redirectTo: 'home'
+            }
+        },
         children : [
             {
                 path     : '',
@@ -31,6 +39,13 @@ export const vouchersRoutes: Route[] = [
     {
         path     : 'aprobados',
         component: VouchersAprobadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMIN', 'TESORERÍA'],
+                redirectTo: 'home'
+            }
+        },
         children : [
             {
                 path     : '',
@@ -44,6 +59,13 @@ export const vouchersRoutes: Route[] = [
     {
         path     : 'rechazados',
         component: VouchersRechazadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMIN', 'TESORERÍA'],
+                redirectTo: 'home'
+            }
+        },
         children : [
             {
                 path     : '',

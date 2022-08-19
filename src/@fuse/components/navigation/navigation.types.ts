@@ -3,6 +3,7 @@ import { IsActiveMatchOptions } from '@angular/router';
 export interface FuseNavigationItem
 {
     id?: string;
+    permissions?: any;
     title?: string;
     subtitle?: string;
     type:
