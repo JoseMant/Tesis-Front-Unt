@@ -22,7 +22,7 @@ export const contactsRoutes: Route[] = [
                 },
                 children : [
                     {
-                        path         : ':id',
+                        path         : ':idUsuario',
                         component    : ContactsDetailsComponent,
                         resolve      : {
                             contact  : ContactsContactResolver,

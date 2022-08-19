@@ -1,6 +1,6 @@
 export interface Contact
 {
-    id: string;
+    idUsuario: number;
     avatar?: string | null;
     background?: string | null;
     name: string;

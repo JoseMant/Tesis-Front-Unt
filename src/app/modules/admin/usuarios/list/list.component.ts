@@ -53,13 +53,14 @@ export class ContactsListComponent implements OnInit, OnDestroy
     {
         // Get the contacts
         this.contacts$ = this._contactsService.contacts$;
+        console.log(this.contacts$);
         this._contactsService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contacts: Contact[]) => {
-
+                
                 // Update the counts
                 this.contactsCount = contacts.length;
-
+                console.log(this.contactsCount);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -71,7 +72,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
 
                 // Update the selected contact
                 this.selectedContact = contact;
-
+                console.log(this.selectedContact);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -180,7 +181,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this._contactsService.createContact().subscribe((newContact) => {
 
             // Go to the new contact
-            this._router.navigate(['./', newContact.id], {relativeTo: this._activatedRoute});
+            this._router.navigate(['./', newContact.idUsuario], {relativeTo: this._activatedRoute});
 
             // Mark for check
             this._changeDetectorRef.markForCheck();

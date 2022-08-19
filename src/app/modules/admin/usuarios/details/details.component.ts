@@ -295,12 +295,12 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
             if ( result === 'confirmed' )
             {
                 // Get the current contact's id
-                const id = this.contact.id;
+                const id = this.contact.idUsuario;
 
                 // Get the next/previous contact's id
-                const currentContactIndex = this.contacts.findIndex(item => item.id === id);
+                const currentContactIndex = this.contacts.findIndex(item => item.idUsuario === id);
                 const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
-                const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
+                const nextContactId = (this.contacts.length === 1 && this.contacts[0].idUsuario === id) ? null : this.contacts[nextContactIndex].idUsuario;
 
                 // Delete the contact
                 this._contactsService.deleteContact(id)
@@ -357,7 +357,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         }
 
         // Upload the avatar
-        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.idUsuario, file).subscribe();
     }
 
     /**
