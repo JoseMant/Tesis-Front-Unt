@@ -5,27 +5,26 @@ import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { filter, fromEvent, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Contact, Country } from 'app/modules/admin/usuarios/contacts.types';
-import { ContactsService } from 'app/modules/admin/usuarios/contacts.service';
+import { Usuario } from 'app/modules/admin/usuarios/usuarios.types';
+import { UsuariosService } from 'app/modules/admin/usuarios/usuarios.service';
 
 @Component({
-    selector       : 'contacts-list',
+    selector       : 'usuarios-list',
     templateUrl    : './list.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactsListComponent implements OnInit, OnDestroy
+export class UsuariosListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-    contacts$: Observable<Contact[]>;
+    usuarios$: Observable<Usuario[]>;
 
-    contactsCount: number = 0;
-    contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
-    countries: Country[];
+    usuariosCount: number = 0;
+    usuariosTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
-    selectedContact: Contact;
+    selectedUsuario: Usuario;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -34,7 +33,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _contactsService: ContactsService,
+        private _usuariosService: UsuariosService,
         @Inject(DOCUMENT) private _document: any,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService
@@ -51,40 +50,28 @@ export class ContactsListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Get the contacts
-        this.contacts$ = this._contactsService.contacts$;
-        console.log(this.contacts$);
-        this._contactsService.contacts$
+        // Get the usuarios
+        this.usuarios$ = this._usuariosService.usuarios$;
+        console.log(this.usuarios$);
+        this._usuariosService.usuarios$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: Contact[]) => {
-                
+            .subscribe((usuarios: Usuario[]) => {
+                console.log(usuarios);
                 // Update the counts
-                this.contactsCount = contacts.length;
-                console.log(this.contactsCount);
+                this.usuariosCount = usuarios.length;
+                console.log(this.usuariosCount);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the contact
-        this._contactsService.contact$
+        // Get the usuario
+        this._usuariosService.usuario$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contact: Contact) => {
+            .subscribe((usuario: Usuario) => {
 
-                // Update the selected contact
-                this.selectedContact = contact;
-                console.log(this.selectedContact);
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the countries
-        this._contactsService.countries$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((countries: Country[]) => {
-
-                // Update the countries
-                this.countries = countries;
-
+                // Update the selected usuario
+                this.selectedUsuario = usuario;
+                console.log(this.selectedUsuario);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -96,7 +83,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
                 switchMap(query =>
 
                     // Search
-                    this._contactsService.searchContacts(query)
+                    this._usuariosService.searchUsuarios(query)
                 )
             )
             .subscribe();
@@ -105,8 +92,8 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this.matDrawer.openedChange.subscribe((opened) => {
             if ( !opened )
             {
-                // Remove the selected contact when drawer closed
-                this.selectedContact = null;
+                // Remove the selected usuario when drawer closed
+                this.selectedUsuario = null;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -142,7 +129,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
                 )
             )
             .subscribe(() => {
-                this.createContact();
+                this.createUsuario();
             });
     }
 
@@ -173,19 +160,15 @@ export class ContactsListComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Create contact
+     * Create usuario
      */
-    createContact(): void
+    createUsuario(): void
     {
-        // Create the contact
-        this._contactsService.createContact().subscribe((newContact) => {
+        // Go to the new usuario
+        this._router.navigate(['./', 0], {relativeTo: this._activatedRoute});
 
-            // Go to the new contact
-            this._router.navigate(['./', newContact.idUsuario], {relativeTo: this._activatedRoute});
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
     }
 
     /**
