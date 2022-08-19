@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, of, tap, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { NgxRolesService } from 'ngx-permissions';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -16,7 +17,8 @@ export class AuthService
      */
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService
+        private _userService: UserService,
+        private _rolesService: NgxRolesService
     )
     {
     }
@@ -139,6 +141,7 @@ export class AuthService
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
+        this._rolesService.flushRoles();
 
         // Set the authenticated flag to false
         this._authenticated = false;
