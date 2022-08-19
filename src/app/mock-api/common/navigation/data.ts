@@ -10,6 +10,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/home'
     },
     {
+        id   : 'usuarios',
+        title: 'Usuarios',
+        type : 'basic',
+        icon : 'heroicons_outline:pencil-alt',
+        link : '/usuarios',
+    },
+    {
         id   : 'tramites',
         title: 'Trámites',
         type : 'basic',
