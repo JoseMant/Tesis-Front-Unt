@@ -62,31 +62,25 @@
                     <!-- Nro. Documento -->
                     <ng-container *ngIf="usuario.nro_documento">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <mat-icon [svgIcon]="'heroicons_outline:document'"></mat-icon>
                             <div class="ml-6 leading-6">{{usuario.nro_documento}}</div>
                         </div>
                     </ng-container>
                     
-                    <!-- Nro. Documento -->
-                    <ng-container *ngIf="usuario.nro_documento">
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                            <div class="ml-6 leading-6">{{usuario.nro_documento}}</div>
-                        </div>
-                    </ng-container>
+                    
 
                     <!-- Company -->
                     <ng-container *ngIf="usuario.rol">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:office-building'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.company}}</div>
+                            <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
+                            <div class="ml-6 leading-6">{{usuario.rol}}</div>
                         </div>
                     </ng-container>
 
                     <!-- Emails -->
                     <ng-container *ngIf="usuario.correo">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:office-building'"></mat-icon>
+                            <mat-icon [svgIcon]="'mat_outline:email'"></mat-icon>
                             <div class="ml-6 leading-6">{{usuario.correo}}</div>
                         </div>
                     </ng-container>
@@ -94,7 +88,7 @@
                     <!-- Phone -->
                     <ng-container *ngIf="usuario.celular">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:office-building'"></mat-icon>
+                            <mat-icon [svgIcon]="'heroicons_outline:phone'"></mat-icon>
                             <div class="ml-6 leading-6">{{usuario.celular}}</div>
                         </div>
                     </ng-container>
@@ -108,13 +102,7 @@
                         </div>
                     </ng-container>
 
-                    <!-- Birthday -->
-                    <ng-container *ngIf="usuario.birthday">
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:cake'"></mat-icon>
-                            <div class="ml-6 leading-6">{{usuario.birthday | date:'longDate'}}</div>
-                        </div>
-                    </ng-container>
+                    
 
                     <!-- Notes -->
                     <ng-container *ngIf="usuario.notes">

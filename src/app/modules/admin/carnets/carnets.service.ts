@@ -64,7 +64,7 @@ export class CarnetsService
     getCarnetsAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/certificados/asignados', {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/asignados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -84,7 +84,7 @@ export class CarnetsService
     getCarnetsAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/certificados/aprobados', {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/aprobados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -104,7 +104,7 @@ export class CarnetsService
     getCarnetsValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/certificados/validados', {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/validados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -127,7 +127,7 @@ export class CarnetsService
      */
      getAllCarnets(): Observable<CarnetInterface[]>
     {
-       return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'tramite/certificados').pipe(
+       return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'tramite/carnets').pipe(
             tap((response) => {
                 console.log(response);
                 this._allcarnets.next(response);
@@ -175,7 +175,7 @@ export class CarnetsService
     {
         return this.carnets$.pipe(
             take(1),
-            switchMap(carnets => this._httpClient.patch<CarnetInterface>(environment.baseUrl + 'certificado/' + id, carnet).pipe(
+            switchMap(carnets => this._httpClient.patch<CarnetInterface>(environment.baseUrl + 'carnet/' + id, carnet).pipe(
                 map((updatedCarnet) => {
                     console.log(updatedCarnet);
                     // Find the index of the updated carnet

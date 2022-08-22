@@ -192,10 +192,10 @@ export class CarnetAsignadoDetalleComponent implements OnInit, OnDestroy
                 console.log(carnet);
                 // Get the carnet
                 this.carnet = carnet;
-                this.carnet.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                this.carnet.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                this.carnet.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                this.carnet.requisitos[0].nombre = 'PRUEBA';
+                // this.carnet.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                // this.carnet.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                // this.carnet.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                // this.carnet.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.carnetForm.patchValue(carnet);

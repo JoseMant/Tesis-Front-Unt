@@ -192,10 +192,10 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
                 console.log(certificado);
                 // Get the certificado
                 this.certificado = certificado;
-                this.certificado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                this.certificado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                this.certificado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                this.certificado.requisitos[0].nombre = 'PRUEBA';
+                // this.certificado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                // this.certificado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                // this.certificado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+                // this.certificado.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.certificadoForm.patchValue(certificado);

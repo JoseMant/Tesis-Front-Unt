@@ -79,6 +79,7 @@ export class UsuariosDetailsComponent implements OnInit, OnDestroy
         this._usuariosService.usuarios$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((usuarios: Usuario[]) => {
+                console.log(usuarios);
                 this.usuarios = usuarios;
 
                 // Mark for check
