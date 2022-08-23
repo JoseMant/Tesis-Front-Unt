@@ -13,6 +13,7 @@ import { VisorPdfVoucherComponent } from '../visorPdf/visorPdfVoucher.component'
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'vouchers-pendientes-list',
@@ -238,6 +239,10 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                 })
             ).subscribe();
         }
+    }
+
+    getFileVoucher(fileName: string) {
+        return environment.baseUrlStorage + fileName;
     }
 
     /**
