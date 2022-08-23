@@ -225,17 +225,51 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    rechazarRequisitos(): void {
-        for (const itera of this.certificado.requisitos) {
-            itera['selected'] = false;
-        }
+
+
+    // rechazarRequisitos(dataVou, lectura, estado): void {
+    //     console.log(dataVou);
+    //     dataVou['lectura'] = lectura;
+    //     dataVou['des_estado_voucher'] = estado;
+    //     // dataVou['archivo'] = 'http://127.0.0.1:8000/storage/vouchers_tramites/001030822.pdf';
+    //     const respDial = this.visordialog.open(
+    //         RequisitosDialogComponent,
+    //         {
+    //             data: dataVou,
+    //             disableClose: true,
+    //             width: '75%',
+    //         }
+    //     );
+    //     respDial.afterClosed().subscribe( (response) => {
+    //         // If the confirm button pressed...
+    //         if ( response )
+    //         {
+    //             console.log(response.getRawValue());
+    //             const voucherPendiente = response.getRawValue();
+    //             this._vouchersService.updateVoucher(voucherPendiente.idVoucher, voucherPendiente ).subscribe((updateNew) => {
+    //                 console.log(updateNew);
+    //                 // Toggle the edit mode off
+    //                 this.alert = {
+    //                     type   : 'success',
+    //                     message: 'Voucher actualizado correctamente',
+    //                     title: 'Guardado'
+    //                 };
+    //                 this.openSnack();
+    //             });
+    //         }
+    //     });
+    // }
+    rechazarRequisitos(requisito, lectura, estado): void {
+        requisito['lectura'] = lectura;
+        requisito['des_estado_voucher'] = estado;
         const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
             autoFocus: false,
             disableClose: true,
             data: JSON.parse( JSON.stringify( {
-                requisitos: this.certificado.requisitos
+                requisito
             } ))
         });
+        //--------- desde aquí falta 
         dialogRef.afterClosed().subscribe( (response) => {
             // If the confirm button pressed...
             if ( response )

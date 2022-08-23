@@ -190,7 +190,7 @@ export class TramiteService
     updateVoucher(id: number, tramite: any): Observable<any> {
         return this.tramites$.pipe(
             take(1),
-            switchMap(tramites => this._httpClient.put<any>(environment.baseUrl + 'tramites/'+ id, tramite).pipe(
+            switchMap(tramites => this._httpClient.put<any>(environment.baseUrl + 'vouchers/update'+ id, tramite).pipe(
                 map((updateVoucher) => {
 
                     // Find the index of the updated contact

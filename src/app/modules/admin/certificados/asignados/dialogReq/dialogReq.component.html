@@ -1,31 +1,332 @@
-<div class="flex flex-col flex-0 max-h-80 -m-6">
-    <!-- Header -->
-    <div mat-dialog-title class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-        <div class="text-lg font-medium">Requisitos</div>
-        <button
-            mat-icon-button
-            (click)="matDialogRef.close()"
-            [tabIndex]="-1">
-            <mat-icon
-                class="text-current"
-                [svgIcon]="'heroicons_outline:x'"></mat-icon>
-        </button>
-    </div>
+<div
+    mat-dialog-title
+    class="text text-white text-2x1 text-center justify-center flex flex-col -mx-6 -mt-6 py-4 bg-blue-900"
+>
+    <span class="mx-3">Verificar certificado</span>
 </div>
-    <div mat-dialog-content>
-        <!-- Card form -->
-        <form
-            class="flex flex-col flex-0 items-start w-full p-6 sm:p-8 space-y-6 overflow-y-auto"
-            [formGroup]="requisitosForm">
-                <mat-selection-list (selectionChange)="selectionChange($event.option)">
-                    <mat-list-option *ngFor="let req of data.requisitos" checkboxPosition="before" [selected]="req.selected"  [value]="req">
-                        {{req.nombre}}
-                    </mat-list-option>
-                </mat-selection-list>
-        </form>
+<div mat-dialog-content class="pb-4">
+    <div class="example-action-buttons">
+        <button mat-button (click)="accordion.openAll()">Expandir todo</button>
+        <button mat-button (click)="accordion.closeAll()">Contraer todo</button>
     </div>
+    <form id="formulario2" autocomplete="off" [formGroup]="formulario2" *ngIf="!data.lectura">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Datos del certificado
+                </mat-panel-title>
+                <mat-panel-description>Datos para verificar y poder validar
+                </mat-panel-description>
+            </mat-expansion-panel-header>
 
-    <mat-dialog-actions class="pr-3 sm:pr-5 pl-6 sm:pl-8" align="end">
-      <button mat-button mat-dialog-close [color]="'warn'">Cancelar</button>
-      <button mat-flat-button [mat-dialog-close]="requisitosForm" [color]="'primary'" cdkFocusInitial>Guardar</button>
-    </mat-dialog-actions>
+            <div class="grid grid-cols-6 gap-y-6 mb-3">
+                <mat-form-field
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ALUMNO</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="alumno"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>NUMERO DE TRÁMITE</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="nro_tramite"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>TRAMITE</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="tramite"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>EXONERADO DE PAGO CARPETA</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="exonerado"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ENTIDAD</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="entidad"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>NUMERO DE OPERACION</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="nro_operacion"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>FECHA DE OPERACION</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="fecha_operacion"
+                    />
+                </mat-form-field>
+            </div>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Validación
+                </mat-panel-title>
+                <mat-panel-description>Realizar validación del certificado
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="grid grid-cols-6 gap-y-6 mb-3">
+                <mat-form-field
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ESTADO CERTIFICADO</mat-label>
+                <mat-select
+                (selectionChange)="selectedEstado($event.value)"
+                    [formControlName]="'des_estado_voucher'">
+                    <ng-container>
+                        <mat-option [value]="'ESTADO'" disabled>
+                            Seleccionar estado...
+                        </mat-option>
+                    </ng-container>
+                    <ng-container>
+                        <mat-option [value]="'PENDIENTE'">
+                            PENDIENTE
+                        </mat-option>
+                        <mat-option [value]="'APROBADO'">
+                            APROBADO
+                        </mat-option>
+                        <mat-option [value]="'RECHAZADO'">
+                            RECHAZADO
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+                </mat-form-field>
+                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher === 'RECHAZADO'">
+                    <mat-label>Descripción del porqué del rechazo</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'comentario'"
+                        [placeholder]="'Comentario'"
+                        [rows]="3"
+                        matTextareaAutosize
+                        [matAutosizeMinRows]="1">
+                    </textarea>
+                </mat-form-field>
+            </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </form>
+    <form id="formulario2" autocomplete="off" [formGroup]="formulario2" *ngIf="data.lectura">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Datos del voucher
+                </mat-panel-title>
+                <mat-panel-description>Datos para verificar y poder validar
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="grid grid-cols-6 gap-y-6 mb-3">
+                <mat-form-field
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ALUMNO</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="alumno"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>NUMERO DE TRÁMITE</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="nro_tramite"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>TRAMITE</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="tramite"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>EXONERADO DE PAGO CARPETA</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="exonerado"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ENTIDAD</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="entidad"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>NUMERO DE OPERACION</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="nro_operacion"
+                    />
+                </mat-form-field>
+                <mat-form-field
+                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>FECHA DE OPERACION</mat-label>
+                    <input
+                        type="text"
+                        matInput readonly
+                        formControlName="fecha_operacion"
+                    />
+                </mat-form-field>
+            </div>
+
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Voucher
+                </mat-panel-title>
+                <mat-panel-description>Pdf del voucher para validar
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <pdf-viewer [src]="pdfSource"
+                        [render-text]="true"
+                        [original-size]="true"
+                        [fit-to-page]="true"
+                    ></pdf-viewer>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                Validación
+                </mat-panel-title>
+                <mat-panel-description>Realizar validación del voucher
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="grid grid-cols-6 gap-y-6 mb-3">
+                <mat-form-field
+                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                    appearance="outline"
+                >
+                <mat-label>ESTADO VOUCHER</mat-label>
+                <mat-select
+                    [formControlName]="'des_estado_voucher'">
+                    <ng-container>
+                        <mat-option [value]="'ESTADO'" disabled>
+                            Seleccionar estado...
+                        </mat-option>
+                    </ng-container>
+                    <ng-container>
+                        <mat-option [value]="'PENDIENTE'" disabled>
+                            PENDIENTE
+                        </mat-option>
+                        <mat-option [value]="'APROBADO'" disabled>
+                            APROBADO
+                        </mat-option>
+                        <mat-option [value]="'RECHAZADO'" disabled>
+                            RECHAZADO
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+                </mat-form-field>
+                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher === 'RECHAZADO'">
+                    <mat-label>Descripción del porqué del rechazo</mat-label>
+                    <textarea
+                        matInput readonly
+                        [formControlName]="'comentario'"
+                        [placeholder]="'Comentario'"
+                        [rows]="3"
+                        matTextareaAutosize
+                        [matAutosizeMinRows]="1">
+                    </textarea>
+                </mat-form-field>
+            </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </form>
+</div>
+<div mat-dialog-actions class="flex justify-end">
+    <button
+        mat-button
+        mat-dialog-close
+        class="bg-red-600 hover:bg-red-700 text-white"
+    >
+        Cerrar
+    </button>
+    <button
+    *ngIf="!data.lectura"
+        mat-button
+        class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+        cmat-button
+        [mat-dialog-close]="formulario2"
+        cdkFocusInitial
+    >
+        Guardar
+    </button>
+</div>

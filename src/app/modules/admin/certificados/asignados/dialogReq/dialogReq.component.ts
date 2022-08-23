@@ -8,7 +8,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseAlertService, FuseAlertType } from '@fuse/components/alert';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
-
+import { MatAccordion } from '@angular/material/expansion';
 @Component({
     selector       : 'madurity_model-dialog',
     templateUrl    : './dialogReq.component.html',
@@ -35,133 +35,93 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 })
 export class RequisitosDialogComponent implements OnInit, OnDestroy
 {
-    requisitosForm: FormGroup;
-    methodologieDetailForm: FormGroup;
-    methodologieDetailEditForm: FormGroup;
-    enableEdit = false;
-    enableEditIndex = null;
-    metodologias: any;
-
-    alert: { type: FuseAlertType; message: string; title: string} = {
-        type   : 'success',
-        message: '',
-        title: '',
-    };
-
+    @ViewChild(MatAccordion) accordion: MatAccordion;
+    //@Input() isEdite: boolean = false;
+    //@Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
+    page: number = 1;
+    pdfSource: any;
+    formulario2: FormGroup;
     // Private
+    //pdfSource  = "Voucher.pdf";
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
-    /**
-     * Constructor
-     */
     constructor(
-        public matDialogRef: MatDialogRef<RequisitosDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder,
-        private _fuseConfirmationService: FuseConfirmationService,
-        private snackBar: MatSnackBar
-    )
-    {
+        public dialogRef: MatDialogRef<RequisitosDialogComponent>,
+        private fb: FormBuilder
+    ) {}
+
+    ngOnInit(): void {
+        this.cargarFormulario2();
+        this.verArchivo();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Prepare the card form
-        this.requisitosForm = this._formBuilder.group({
-            requisitos   : [[]]
-        });
-
-        // Fill the form
-        this.requisitosForm.setValue({
-            requisitos : this.data.requisitos
-        });
-        console.log(this.data.requisitos);
-
-        // Get the metodologias
-        // this._methodologiesService.methodologies$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((metodologias: MethodologieInterface[]) => {
-        //         console.log(metodologias);
-        //         // Update the counts
-        //         this.metodologias = metodologias;
-        //         console.log(this.metodologias);
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
-
-        //     this.data.methodologies.forEach((element) =>{
-        //         const key = this.metodologias.indexOf(element2 => element2.idMethodologie = element.idMethodologie);
-        //         console.log(key);
-        //         this.metodologias.splice(key, 0);
-        //         console.log(this.metodologias.splice(key, 0));
-        //     });
-        //     this.metodologias.forEach((element,key) =>{
-        //         element['selected'] = false;
-        //         this.data.methodologies.forEach((element2)=>{
-        //             if (element.idMethodologie === element2.idMethodologie) {
-        //                 element['selected'] = true;
-        //             }
-        //         });
-        //     });
-        //     console.log(this.metodologias);
-        //     console.log(this.data.methodologies);
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-        //this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
 
-    selectionChange(option): void {
-        console.log(option.value);
-        //const metodo = this.data.methodologies;
-        //if (this.selectFile) {
-        //     if (option.selected) {
-        //         const newMetodo = {
-        //             idMethodologie: option.value.idMethodologie,
-        //         };
-        //         metodo.push(newMetodo);
-        //         this.data.methodologies = metodo;
-        //         console.log(this.data.methodologies);
-        //         console.log(this.methodologieForm.getRawValue().methodologies);
-        //     } else {
-        //         //const key = metodo.find(item => item.idMethodologie !== option.value.idMethodologie);
-        //         const eliminate = [];
-        //         for (const met of metodo) {
-        //             if (met.idMethodologie !== option.value.idMethodologie) {
-        //                 eliminate.push(met);
-        //             }
-        //         }
-        //         this.data.methodologies = eliminate;
-        //         console.log(this.data.methodologies);
-        //         this.methodologieForm.patchValue({methodologies: eliminate});
-        //         console.log(this.methodologieForm.getRawValue().methodologies);
-        //     // Mark for check
-        //     this._changeDetectorRef.markForCheck();
-        // }
+    cargarFormulario2(): void {
+        this.formulario2 = this.fb.group({
+            nombre: [''],
+            alumno: [''],
+            archivo: [''],
+            des_estado_voucher: [''],
+            tramite: [''],
+            entidad: [''],
+            exonerado: [''],
+            fecha_operacion: [''],
+            idVoucher: [''],
+            nro_operacion: [''],
+            nro_tramite: [''],
+            validado: [''],
+            comentario: [''],
+            idTramite: [''],
+            lectura: [''],
+        });
+        this.llenarDialog(this.data);
     }
 
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
-    trackByFn(index: number, item: any): any
-    {
-        return item.id || index;
+    llenarDialog(data: any): void {
+        console.log(data);
+        this.formulario2.patchValue({
+            nombre: data.requisito.nombre,
+            lectura: data.lectura,
+            alumno: data.alumno,
+            archivo: data.archivo,
+            des_estado_voucher: data.des_estado_voucher,
+            tramite: data.tramite,
+            entidad: data.entidad,
+            exonerado: data.exonerado,
+            fecha_operacion: data.fecha_operacion,
+            idTramite: data.idTramite,
+            idVoucher: data.idVoucher,
+            nro_operacion: data.nro_operacion,
+            nro_tramite: data.nro_tramite,
+            comentario: data.comentario,
+        });
+        console.log(this.formulario2);
+    }
+
+    verArchivo(): void {
+        const file = this.data.archivo;
+        if (file.type === 'Blob') {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                console.log(e);
+                this.pdfSource = e.target.result;
+            };
+        }
+        else{
+            this.pdfSource = file;
+            console.log(this.pdfSource);
+        }
+        // reader.readAsArrayBuffer(this.data.file);
+    }
+    selectedEstado(option: string): void {
+        console.log(option);
+        this.data.des_estado_voucher = option;
+        this.formulario2.patchValue({
+            des_estado_voucher: option
+        });
     }
 }
