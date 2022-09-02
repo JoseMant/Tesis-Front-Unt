@@ -2,8 +2,35 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CertificadosService } from 'app/modules/admin/certificados/certificados.service';
-import { CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
+import { UserInterface, CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
 
+@Injectable({
+    providedIn: 'root'
+})
+export class UsersResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _certificadosService: CertificadosService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserInterface[]>
+    {
+        return this._certificadosService.getUsers();
+    }
+}
 
 @Injectable({
     providedIn: 'root'

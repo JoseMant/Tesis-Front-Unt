@@ -11,7 +11,7 @@ import { CertificadoAprobadoDetalleComponent } from './aprobados/detalle/details
 // -------------
 import { CertificadosValidadosComponent } from 'app/modules/admin/certificados/validados/validados.component';
 import { CertificadosValidadosListComponent } from 'app/modules/admin/certificados/validados/list/list.component';
-import {  CertificadoValidadoResolver, CertificadosValidadosResolver } from 'app/modules/admin/certificados/validados/validados.resolvers';
+import { UsersResolver, CertificadoValidadoResolver, CertificadosValidadosResolver } from 'app/modules/admin/certificados/validados/validados.resolvers';
 import { CertificadoValidadoDetalleComponent } from './validados/detalle/details.component';
 
 // import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
@@ -79,6 +79,7 @@ export const certificadosRoutes: Route[] = [
                 path     : '',
                 component: CertificadosValidadosListComponent,
                 resolve  : {
+                    users    : UsersResolver,
                     certificados  : CertificadosValidadosResolver,
                 }
             },

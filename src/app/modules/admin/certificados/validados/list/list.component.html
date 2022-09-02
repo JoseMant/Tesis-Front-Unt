@@ -47,9 +47,9 @@
                 <mat-select
                     [value]="'all'">
                     <mat-option [value]="'all'">Seleccionar usuario a asignar...</mat-option>
-                    <!-- <ng-container *ngFor="let category of categories; trackBy: trackByFn">
-                        <mat-option [value]="category.slug">{{category.title}}</mat-option>
-                    </ng-container> -->
+                    <ng-container *ngFor="let user of users; trackBy: trackByFn">
+                        <mat-option [value]="user.idUsuario">{{ user.nombres }} {{ user.apellidos }}</mat-option>
+                    </ng-container>
                 </mat-select>
             </mat-form-field>
             <!-- <mat-form-field
@@ -166,7 +166,13 @@
 
                                     <!-- Nro. Trámite -->
                                     <div >
-                                        {{id+1}}
+                                        <mat-checkbox
+                                            class="flex items-center h-10 min-h-10 px-4"
+                                            [color]="'primary'"
+                                            [checked]="selectedTramites.includes(certificado.idTramite)"
+                                            (change)="toggleTramite(tag, $event)">
+                                            
+                                        </mat-checkbox>
                                     </div>
 
                                     <!-- Solicitante -->

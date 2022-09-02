@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
+import { UserInterface, CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { environment } from 'environments/environment';
 export class CertificadosService
 {
     // Private
+    private _users: BehaviorSubject<UserInterface[] | null> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<CertificadoPagination | null> = new BehaviorSubject(null);
     private _certificado: BehaviorSubject<CertificadoInterface | null> = new BehaviorSubject(null);
     private _certificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
@@ -27,6 +28,14 @@ export class CertificadosService
     // -----------------------------------------------------------------------------------------------------
 
     /**
+     * Getter for users
+     */
+     get users$(): Observable<UserInterface[]>
+     {
+         return this._users.asObservable();
+     }
+     
+     /**
      * Getter for pagination
      */
     get pagination$(): Observable<CertificadoPagination>
@@ -61,7 +70,21 @@ export class CertificadosService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    getCertificadosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    /**
+     * Get users
+     */
+    getUsers(): Observable<UserInterface[]>
+    {
+        return this._httpClient.get<UserInterface[]>(environment.baseUrl + 'usuario/uraa').pipe(
+            tap((users) => {
+                console.log(users);
+                this._users.next(users);
+            })
+        );
+    }
+    
+     
+     getCertificadosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/asignados', {

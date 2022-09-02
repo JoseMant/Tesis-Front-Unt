@@ -6,13 +6,14 @@ import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
+import { CertificadoPagination, CertificadoInterface, UserInterface } from 'app/modules/admin/certificados/certificados.types';
 import { CertificadosService } from 'app/modules/admin/certificados/certificados.service';
 import { MatDialog } from '@angular/material/dialog';
 // import { VisorPdfCertificadoComponent } from '../visorPdf/visorPdfCertificado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from 'app/core/user/user.types';
 
 @Component({
     selector       : 'certificados-validados-list',
@@ -60,12 +61,13 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
         title: '',
     };
 
+    users: UserInterface[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CertificadoPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedCertificado: CertificadoInterface | null = null;
-    selectedCertificadoForm: FormGroup;
+    selectedTramites = [2];
+    selectedCertificadosForm: FormGroup;
     tagsEditMode: boolean = false;
     certificadosCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -94,29 +96,23 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
     ngOnInit(): void
     {
         // Create the selected certificado form
-        this.selectedCertificadoForm = this._formBuilder.group({
-            id               : [''],
-            category         : [''],
-            name             : ['', [Validators.required]],
-            description      : [''],
-            tags             : [[]],
-            sku              : [''],
-            barcode          : [''],
-            brand            : [''],
-            vendor           : [''],
-            stock            : [''],
-            reserved         : [''],
-            cost             : [''],
-            basePrice        : [''],
-            taxPercent       : [''],
-            price            : [''],
-            weight           : [''],
-            thumbnail        : [''],
-            images           : [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
-            active           : [false]
+        this.selectedCertificadosForm = this._formBuilder.group({
+            idUsuario        : ['', [Validators.required]],
+            tramites         : [[]]
         });
 
+        // Get the users
+        this._certificadosService.users$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((users: UserInterface[]) => {
+
+                // Update the users
+                this.users = users;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+        
         // Get the pagination
         this._certificadosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -238,6 +234,64 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
                 })
             ).subscribe();
         }
+    }
+
+    /**
+     * Add tag to the product
+     *
+     * @param tag
+     */
+    addTramiteToForm(tag: CertificadoInterface): void
+    {
+        // Add the tag
+        this.selectedTramites.unshift(tag.idTramite);
+
+        // Update the selected product form
+        this.selectedCertificadosForm.get('tramites').patchValue(this.selectedTramites);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Remove tramite from the product
+     *
+     * @param tramite
+     */
+    removeTramiteFromForm(tramite: CertificadoInterface): void
+    {
+        // Remove the tramite
+        this.selectedTramites.splice(this.selectedTramites.findIndex(item => item === tramite.idTramite), 1);
+
+        // Update the selected product form
+        this.selectedCertificadosForm.get('tramites').patchValue(this.selectedTramites);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Toggle product tramite
+     *
+     * @param tramite
+     * @param change
+     */
+    toggleTramite(tramite: CertificadoInterface, change: MatCheckboxChange): void
+    {
+        if ( change.checked )
+        {
+            this.addTramiteToForm(tramite);
+        }
+        else
+        {
+            this.removeTramiteFromForm(tramite);
+        }
+    }
+
+
+    validateInclude(idTramite: number): void
+    {
+        console.log(this.selectedTramites.includes(idTramite));
     }
 
     /**
