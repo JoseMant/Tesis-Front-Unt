@@ -1,63 +1,7 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 ">
-        <!-- Loader -->
-        <div
-            class="absolute inset-x-0 bottom-0"
-            *ngIf="isLoading">
-            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-        </div>
-
-        <div>
-            <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Certificados validados</div>
-            <div class="ml-0.5 font-medium text-secondary">
-                <ng-container *ngIf="certificadosCount > 0">
-                    {{certificadosCount}}
-                </ng-container>
-                {{certificadosCount | i18nPlural: {
-                    '=0'   : 'No hay certificados validados',
-                    '=1'   : 'Certificado validado',
-                    'other': 'Certificados validados'
-                } }}
-            </div>
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
-                <mat-select
-                    [value]="'usuario'">
-                    <mat-option [value]="'usuario'">Usuarios</mat-option>
-                    <ng-container>
-                        <mat-option [value]="1">usuario 1</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        
-    </div>
-
-
-    <!-- Header -->
-    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 ">
-        <!-- Filters -->
-        <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
-                <mat-select
-                    [value]="'usuario'">
-                    <mat-option [value]="'usuario'">Usuarios</mat-option>
-                    <ng-container>
-                        <mat-option [value]="1">usuario 1</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            
-        </div>
-        <!-- Courses -->
-    </div>
-
-
-
-    <!-- Header -->
-    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 ">
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 pb-2">
         <!-- Loader -->
         <div
             class="absolute inset-x-0 bottom-0"
@@ -94,19 +38,58 @@
                     [placeholder]="'Buscar certificados'">
             </mat-form-field>
         </div>
+
+    </div>    
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 pt-2">
+        <!-- Filters -->
         <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
+            <mat-form-field class="fuse-mat-no-subscript w-full min-w-64 sm:w-36">
                 <mat-select
-                    [value]="'usuario'">
-                    <mat-option [value]="'usuario'">Usuarios</mat-option>
-                    <ng-container>
-                        <mat-option [value]="1">usuario 1</mat-option>
-                    </ng-container>
+                    [value]="'all'">
+                    <mat-option [value]="'all'">Seleccionar usuario a asignar...</mat-option>
+                    <!-- <ng-container *ngFor="let category of categories; trackBy: trackByFn">
+                        <mat-option [value]="category.slug">{{category.title}}</mat-option>
+                    </ng-container> -->
                 </mat-select>
             </mat-form-field>
-            
+            <!-- <mat-form-field
+                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                [floatLabel]="'always'">
+                <mat-icon
+                    matPrefix
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    placeholder="Search by title or description"
+                    matInput
+                    #query>
+            </mat-form-field> -->
+            <!-- <mat-slide-toggle
+                class=""
+                [color]="'primary'">
+                Hide completed
+            </mat-slide-toggle> -->
+            <!-- <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64 mt-8 sm:mt-0 sm:ml-auto">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    matInput
+                    [formControl]="searchInputControl"
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar certificados'">
+            </mat-form-field> -->
+            <!-- Add product button -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">Asignar</span>
+            </button>
         </div>
-    </div>    
+    </div>
     
     <!-- Main -->
     <div class="flex flex-auto overflow-hidden">

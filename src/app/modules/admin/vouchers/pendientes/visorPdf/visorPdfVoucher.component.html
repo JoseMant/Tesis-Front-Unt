@@ -5,20 +5,17 @@
     <span class="mx-3">Verificar voucher</span>
 </div>
 <div mat-dialog-content class="pb-4">
-    <div class="example-action-buttons">
+    <!-- <div class="example-action-buttons">
         <button mat-button (click)="accordion.openAll()">Expandir todo</button>
         <button mat-button (click)="accordion.closeAll()">Contraer todo</button>
-    </div>
+    </div> -->
     <form id="formulario2" autocomplete="off" [formGroup]="formulario2" *ngIf="!data.lectura">
         <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                Datos del voucher
-                </mat-panel-title>
-                <mat-panel-description>Datos para verificar y poder validar
-                </mat-panel-description>
-            </mat-expansion-panel-header>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Datos del voucher </mat-panel-title>
+                    <mat-panel-description>Datos para verificar y poder validar</mat-panel-description>
+                </mat-expansion-panel-header>
 
             <div class="grid grid-cols-6 gap-y-6 mb-3">
                 <mat-form-field
@@ -101,22 +98,8 @@
             </div>
 
             </mat-expansion-panel>
-            <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                Voucher
-                </mat-panel-title>
-                <mat-panel-description>Pdf del voucher para validar
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <pdf-viewer [src]="pdfSource"
-                        [render-text]="true"
-                        [original-size]="true"
-                        [fit-to-page]="true"
-                    ></pdf-viewer>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
+            
+            <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                 Validación
@@ -258,20 +241,6 @@
                 </mat-form-field>
             </div>
 
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                Voucher
-                </mat-panel-title>
-                <mat-panel-description>Pdf del voucher para validar
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <pdf-viewer [src]="pdfSource"
-                        [render-text]="true"
-                        [original-size]="true"
-                        [fit-to-page]="true"
-                    ></pdf-viewer>
             </mat-expansion-panel>
 
             <mat-expansion-panel>

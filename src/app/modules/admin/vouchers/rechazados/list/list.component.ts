@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { VisorPdfVoucherComponent } from '../../pendientes/visorPdf/visorPdfVoucher.component';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'vouchers-rechazados-list',
@@ -248,6 +249,10 @@ export class VouchersRechazadosListComponent implements OnInit, AfterViewInit, O
                 });
             }
         });
+    }
+
+    getFileVoucher(fileName: string) {
+        return environment.baseUrlStorage + fileName;
     }
 
     // -----------------------------------------------------------------------------------------------------

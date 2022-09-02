@@ -13,6 +13,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { VisorPdfVoucherComponent } from '../../pendientes/visorPdf/visorPdfVoucher.component';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'vouchers-aprobados-list',
@@ -251,6 +252,10 @@ export class VouchersAprobadosListComponent implements OnInit, AfterViewInit, On
                 });
             }
         });
+    }
+
+    getFileVoucher(fileName: string) {
+        return environment.baseUrlStorage + fileName;
     }
 
     /**

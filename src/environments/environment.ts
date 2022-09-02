@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    baseUrl: "http://127.0.0.1:8000/api/"
+    baseUrl: "http://192.168.5.196:8080/api/",
+    baseUrlStorage: "http://192.168.5.196:8080"
 };
 
 /*
