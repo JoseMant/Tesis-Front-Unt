@@ -50,13 +50,18 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="asignados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="certificados-asignados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
                             <!-- Nro. -->
-                            <div>
-                                #
+                            <div>#</div>
+
+                            <!-- Nro. Trámite -->
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'codigo'">
+                                Nro. Trámite
                             </div>
 
                             <!-- Solicitante-->
@@ -65,44 +70,46 @@
                                 Solicitante
                             </div>
 
-                            <!-- Fecha-->
-                            <div
-                                [mat-sort-header]="'fecha'">
-                                Fecha
-                            </div>
-
-                            <!-- Unidad-->
-                            <div
-                                [mat-sort-header]="'unidad'">
-                                Unidad
-                            </div>
-
                             <!-- Trámite-->
                             <div
+                                class="hidden md:block"
                                 [mat-sort-header]="'tramite'">
                                 Trámite
                             </div>
 
-                            <!-- Nro. Trámite -->
+                            <!-- Unidad-->
                             <div
-                                [mat-sort-header]="'codigo'">
-                                Nro. Trámite
+                                class="hidden lg:block"
+                                [mat-sort-header]="'unidad'">
+                                Unidad
                             </div>
 
                             <!-- Facultad-->
-                            <div
+                            <!-- <div
+                                class="hidden lg:block"
                                 [mat-sort-header]="'facultad'">
                                 Facultad
-                            </div>
-
-                            <!-- Motivo -->
-                            <div [mat-sort-header]="'motivo'">Motivo</div>
+                            </div> -->
 
                             <!-- Nro Matrícula -->
                             <div
-                                class="hidden md:block"
+                                class="hidden lg:block"
                                 [mat-sort-header]="'nro_matricula'">
                                 N° Matrícula
+                            </div>
+
+                            <!-- Motivo -->
+                            <div 
+                                class="hidden lg:block"
+                                [mat-sort-header]="'motivo'">
+                                Motivo
+                            </div>
+
+                            <!-- Fecha-->
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'fecha'">
+                                Fecha
                             </div>
 
                             <!-- Opciones -->
@@ -111,51 +118,51 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(certificados$ | async) as certificados">
                             <ng-container *ngFor="let certificado of certificados; trackBy: trackByFn let id=index">
-                                <div class="asignados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="certificados-asignados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
                                         {{id+1}}
                                     </div>
 
+                                    <!-- Active -->
+                                    <div class="hidden sm:block">
+                                        {{certificado.codigo}}
+                                    </div>
+
                                     <!-- Solicitante -->
-                                    <div >
+                                    <div class="truncate">
                                         {{certificado.solicitante}}
                                     </div>
 
                                     <!-- Trámite -->
-                                    <div >
-                                        {{certificado.fecha}}
-                                    </div>
-
-                                    <!-- Exonerado -->
-                                    <div >
-                                        {{certificado.unidad}}
-                                    </div>
-
-                                    <!-- Stock -->
-                                    <div class="truncate">
+                                    <div  class="hidden md:block truncate">
                                         {{certificado.tramite}}
                                     </div>
 
-                                    <!-- Active -->
-                                    <div class="flex items-center">
-                                        {{certificado.codigo}}
+                                    <!-- Exonerado -->
+                                    <div class="hidden lg:block">
+                                        {{certificado.unidad}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div >
+                                    <!-- <div class="hidden lg:block">
                                         {{certificado.facultad}}
+                                    </div> -->
+
+                                    <!-- Active -->
+                                    <div class="hidden lg:block">
+                                        {{certificado.nro_matricula}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div >
+                                    <div class="hidden lg:block">
                                         {{certificado.motivo}}
                                     </div>
-
-                                    <!-- Active -->
-                                    <div >
-                                        {{certificado.nro_matricula}}
+                                    
+                                    <!-- Stock -->
+                                    <div class="hidden lg:block">
+                                        {{certificado.fecha}}
                                     </div>
 
                                     <!-- Details button -->

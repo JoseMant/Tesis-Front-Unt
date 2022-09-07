@@ -216,4 +216,39 @@ export class CertificadosService
             ))
         );
     }
+
+    /**
+     * Update product
+     *
+     * @param id
+     * @param product
+     */
+     asignarUsuarioCertificados(data: any): Observable<any[]>
+    {
+        return this.certificados$.pipe(
+            take(1),
+            switchMap(certificados => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/certificados/asignar', data).pipe(
+                map((updatedCertificados) => {
+
+                    // Update the messages with the new message
+                    // this._certificadosService.getCertificadosValidados(0, 10, 'fecha', 'desc', query);
+                    updatedCertificados.forEach(element => {
+                        // Find the index of the deleted product
+                        const index = certificados.findIndex(item => item.idTramite === element);
+
+                        // Delete the product
+                        certificados.splice(index, 1);
+                    });
+
+                    // Update the certificados
+                    this._certificados.next(certificados);
+
+                    // Return the new message from observable
+                    return certificados;
+                })
+            ))
+        );
+    }
+
+
 }

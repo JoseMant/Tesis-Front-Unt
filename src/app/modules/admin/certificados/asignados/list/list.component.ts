@@ -20,19 +20,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styles         : [
         /* language=SCSS */
         `
-            .asignados-grid {
-                grid-template-columns: 96px auto 90px;
+            .certificados-asignados-grid {
+                grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 96px 190px auto 90px;
+                    grid-template-columns: 48px 112px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 96px 190px auto 96px 90px;
+                    grid-template-columns: 48px 112px 190px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 50px auto 96px 120px auto 96px 96px 96px 96px 96px;
+                    grid-template-columns: 48px 112px 190px auto 96px 112px 190px 190px 72px;
                 }
             }
             .fondo_snackbar {

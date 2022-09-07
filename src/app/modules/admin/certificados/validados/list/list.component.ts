@@ -21,19 +21,19 @@ import { User } from 'app/core/user/user.types';
     styles         : [
         /* language=SCSS */
         `
-            .validados-grid {
-                grid-template-columns: 96px auto 90px;
+            .certificados-validados-grid {
+                grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 96px 190px auto 90px;
+                    grid-template-columns: 48px 112px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 96px 190px auto 96px 90px;
+                    grid-template-columns: 48px 112px 190px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 50px auto 96px 120px auto 96px 96px 96px 96px 96px;
+                    grid-template-columns: 48px 112px 190px auto 96px 112px 190px 190px 72px;
                 }
             }
             .fondo_snackbar {
@@ -66,7 +66,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
     isLoading: boolean = false;
     pagination: CertificadoPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedTramites = [2];
+    selectedTramites = [];
     selectedCertificadosForm: FormGroup;
     tagsEditMode: boolean = false;
     certificadosCount: number = 0;
@@ -97,7 +97,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
     {
         // Create the selected certificado form
         this.selectedCertificadosForm = this._formBuilder.group({
-            idUsuario        : ['', [Validators.required]],
+            idUsuario        : ['all', [Validators.required]],
             tramites         : [[]]
         });
 
@@ -278,6 +278,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
      */
     toggleTramite(tramite: CertificadoInterface, change: MatCheckboxChange): void
     {
+        console.log(tramite);
         if ( change.checked )
         {
             this.addTramiteToForm(tramite);
@@ -294,6 +295,25 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
         console.log(this.selectedTramites.includes(idTramite));
     }
 
+    asignarUsuarioCertificados(): void
+    {
+        // Get the product object
+        const data = this.selectedCertificadosForm.getRawValue();
+        
+        // Update the product on the server
+        this._certificadosService.asignarUsuarioCertificados(data).subscribe(() => {
+
+            this._certificadosService.getCertificadosValidados();
+            
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+
+            // Show a success message
+            this.showFlashMessage('success');
+        });
+    }
+
     /**
      * On destroy
      */
@@ -307,7 +327,29 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    
 
+    /**
+     * Show flash message
+     */
+    showFlashMessage(type: 'success' | 'error'): void
+    {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
+    }
+    
     /**
      * Track by function for ngFor loops
      *
