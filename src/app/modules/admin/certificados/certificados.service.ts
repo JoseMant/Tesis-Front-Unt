@@ -166,10 +166,23 @@ export class CertificadosService
         return this._allcertificados.pipe(
             take(1),
             map((certificados) => {
-                console.log(certificados);
-
+                
                 // Find the certificado
                 const certificado = certificados.find(item => item.idTramite === id) || null;
+                certificado.fut = environment.baseUrl + "fut/" + certificado.fut;
+                certificado.voucher = environment.baseUrlStorage + certificado.voucher;
+                certificado.requisitos.forEach(element => {
+                    if (element.archivo) {
+                        element.archivo = environment.baseUrlStorage + element.archivo;
+                    }
+                    if (!element.validado && !element.idUsuario_aprobador) {
+                        element['des_estado_requisito'] = 'PENDIENTE'
+                    } else if (!element.validado && element.idUsuario_aprobador) {
+                        element['des_estado_requisito'] = 'RECHAZADO'
+                    } else if (element.validado && element.idUsuario_aprobador) {
+                        element['des_estado_requisito'] = 'APROBADO'
+                    }
+                });
                 console.log(certificado);
                 // Update the certificado
                 this._certificado.next(certificado);
@@ -223,11 +236,11 @@ export class CertificadosService
      * @param id
      * @param product
      */
-     asignarUsuarioCertificados(data: any): Observable<any[]>
+    asignarUsuarioCertificados(data: any): Observable<any[]>
     {
         return this.certificados$.pipe(
             take(1),
-            switchMap(certificados => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/certificados/asignar', data).pipe(
+            switchMap(certificados => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/asignar', data).pipe(
                 map((updatedCertificados) => {
 
                     // Update the messages with the new message

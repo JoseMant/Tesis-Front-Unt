@@ -100,7 +100,6 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
     certificado: CertificadoInterface | null = null;
     allcertificados: CertificadoInterface[];
     certificadoForm: FormGroup;
-    contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -259,9 +258,8 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
     //         }
     //     });
     // }
-    rechazarRequisitos(requisito, lectura, estado): void {
+    validarRequisito(requisito, lectura, index): void {
         requisito['lectura'] = lectura;
-        requisito['des_estado_voucher'] = estado;
         const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
             autoFocus: false,
             disableClose: true,
@@ -274,11 +272,15 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
             // If the confirm button pressed...
             if ( response )
             {
-                console.log(response.getRawValue().requisitos);
-                this.certificado.requisitos = response.getRawValue().requisitos;
-                console.log(this.certificado.requisitos);
-                this.certificadoForm.patchValue({ requisitos: response.getRawValue().requisitos});
-                console.log(this.certificadoForm.getRawValue());
+                this.certificado.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
+                if (requisito.des_estado_requisito == 'APROBADO') {
+                    this.certificado.requisitos[index].validado = 1;
+                } else if (requisito.des_estado_requisito == 'RECHAZADO') {
+                    this.certificado.requisitos[index].validado = 0;
+                    this.certificado.requisitos[index].comentario = response.getRawValue().comentario;
+                }
+                this.certificadoForm.patchValue({ requisitos: this.certificado.requisitos});
+                
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             }

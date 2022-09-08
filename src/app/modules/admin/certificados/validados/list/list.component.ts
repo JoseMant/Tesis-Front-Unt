@@ -302,15 +302,18 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
         
         // Update the product on the server
         this._certificadosService.asignarUsuarioCertificados(data).subscribe(() => {
-
-            this._certificadosService.getCertificadosValidados();
             
-
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
             // Mark for check
             this._changeDetectorRef.markForCheck();
 
-            // Show a success message
-            this.showFlashMessage('success');
         });
     }
 

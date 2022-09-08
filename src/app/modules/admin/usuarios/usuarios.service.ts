@@ -52,8 +52,8 @@ export class UsuariosService
         // return this._httpClient.get<Usuario[]>('api/apps/usuarios/all').pipe(
         return this._httpClient.get<Usuario[]>(environment.baseUrl + 'usuarios').pipe(
             tap((usuarios) => {
+                console.log(usuarios);
                 this._usuarios.next(usuarios);
-                console.log( this._usuarios);
             })
         );
     }

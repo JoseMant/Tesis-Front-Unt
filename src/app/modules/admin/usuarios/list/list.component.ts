@@ -52,7 +52,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy
     {
         // Get the usuarios
         this.usuarios$ = this._usuariosService.usuarios$;
-        console.log(this.usuarios$);
+        
         this._usuariosService.usuarios$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((usuarios: Usuario[]) => {

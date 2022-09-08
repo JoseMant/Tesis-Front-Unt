@@ -52,7 +52,7 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
 
     ngOnInit(): void {
         this.cargarFormulario2();
-        this.verArchivo();
+        // this.verArchivo();
     }
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
@@ -62,61 +62,33 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
     cargarFormulario2(): void {
         this.formulario2 = this.fb.group({
             nombre: [''],
-            alumno: [''],
             archivo: [''],
-            des_estado_voucher: [''],
-            tramite: [''],
-            entidad: [''],
-            exonerado: [''],
-            fecha_operacion: [''],
-            idVoucher: [''],
-            nro_operacion: [''],
-            nro_tramite: [''],
-            validado: [''],
             comentario: [''],
-            idTramite: [''],
+            des_estado_requisito: [''],
+            idUsuario_aprobador: [''],
             lectura: [''],
+            validado: [''],
         });
-        this.llenarDialog(this.data);
+        this.formulario2.patchValue(this.data.requisito);
     }
 
-    llenarDialog(data: any): void {
-        console.log(data);
-        this.formulario2.patchValue({
-            nombre: data.requisito.nombre,
-            lectura: data.lectura,
-            alumno: data.alumno,
-            archivo: data.archivo,
-            des_estado_voucher: data.des_estado_voucher,
-            tramite: data.tramite,
-            entidad: data.entidad,
-            exonerado: data.exonerado,
-            fecha_operacion: data.fecha_operacion,
-            idTramite: data.idTramite,
-            idVoucher: data.idVoucher,
-            nro_operacion: data.nro_operacion,
-            nro_tramite: data.nro_tramite,
-            comentario: data.comentario,
-        });
-        console.log(this.formulario2);
-    }
+    // verArchivo(): void {
+    //     const file = this.data.archivo;
+    //     if (file.type === 'Blob') {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onload = (e) => {
+    //             console.log(e);
+    //             this.pdfSource = e.target.result;
+    //         };
+    //     }
+    //     else{
+    //         this.pdfSource = file;
+    //         console.log(this.pdfSource);
+    //     }
+    //     // reader.readAsArrayBuffer(this.data.file);
+    // }
 
-    verArchivo(): void {
-        const file = this.data.archivo;
-        if (file.type === 'Blob') {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                console.log(e);
-                this.pdfSource = e.target.result;
-            };
-        }
-        else{
-            this.pdfSource = file;
-            console.log(this.pdfSource);
-        }
-        // reader.readAsArrayBuffer(this.data.file);
-    }
     selectedEstado(option: string): void {
         console.log(option);
         this.data.des_estado_voucher = option;
