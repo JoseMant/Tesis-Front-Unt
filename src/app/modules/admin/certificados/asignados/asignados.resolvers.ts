@@ -53,35 +53,35 @@ export class CertificadoAsignadoResolver implements Resolve<any>
     }
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+// @Injectable({
+//     providedIn: 'root'
+// })
 
-export class AllCertificadosResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _certificadosService: CertificadosService,
-        private _router: Router)
-    {
-    }
+// export class AllCertificadosResolver implements Resolve<any>
+// {
+//     /**
+//      * Constructor
+//      */
+//     constructor(private _certificadosService: CertificadosService,
+//         private _router: Router)
+//     {
+//     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+//     // -----------------------------------------------------------------------------------------------------
+//     // @ Public methods
+//     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CertificadoInterface[]>
-    {
-        return this._certificadosService.getAllCertificados();
-    }
-}
+//     /**
+//      * Resolver
+//      *
+//      * @param route
+//      * @param state
+//      */
+//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CertificadoInterface[]>
+//     {
+//         return this._certificadosService.getAllCertificados();
+//     }
+// }
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
-import { AllCertificadosResolver, CertificadoAsignadoResolver, CertificadosAsignadosResolver } from 'app/modules/admin/certificados/asignados/asignados.resolvers';
+import { CertificadoAsignadoResolver, CertificadosAsignadosResolver } from 'app/modules/admin/certificados/asignados/asignados.resolvers';
 import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details.component';
 // ------------
 import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
@@ -26,7 +26,7 @@ export const certificadosRoutes: Route[] = [
         path     : 'asignados',
         component: CertificadosAsignadosComponent,
         resolve  : {
-            allcertificados  : AllCertificadosResolver,
+            certificados  : CertificadosAsignadosResolver,
         },
         children : [
             {
@@ -49,15 +49,12 @@ export const certificadosRoutes: Route[] = [
         path     : 'aprobados',
         component: CertificadosAprobadosComponent,
         resolve  : {
-            allcertificados  : AllCertificadosResolver,
+            certificados  : CertificadosAprobadosResolver,
         },
         children : [
             {
                 path     : '',
                 component: CertificadosAprobadosListComponent,
-                resolve  : {
-                    certificados  : CertificadosAprobadosResolver,
-                }
             },
             {
                 path         : ':idTramite',
@@ -72,16 +69,12 @@ export const certificadosRoutes: Route[] = [
         path     : 'validados',
         component: CertificadosValidadosComponent,
         resolve  : {
-            allcertificados  : AllCertificadosResolver,
+            certificados  : CertificadosValidadosResolver,
         },
         children : [
             {
                 path     : '',
                 component: CertificadosValidadosListComponent,
-                resolve  : {
-                    users    : UsersResolver,
-                    certificados  : CertificadosValidadosResolver,
-                }
             },
             {
                 path         : ':idTramite',

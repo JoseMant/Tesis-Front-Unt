@@ -40,7 +40,7 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
     //@Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
     page: number = 1;
     pdfSource: any;
-    formulario2: FormGroup;
+    requisitoForm: FormGroup;
     // Private
     //pdfSource  = "Voucher.pdf";
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -51,6 +51,7 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
     ) {}
 
     ngOnInit(): void {
+        console.log(this.data);
         this.cargarFormulario2();
         // this.verArchivo();
     }
@@ -60,7 +61,7 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
     }
 
     cargarFormulario2(): void {
-        this.formulario2 = this.fb.group({
+        this.requisitoForm = this.fb.group({
             nombre: [''],
             archivo: [''],
             comentario: [''],
@@ -69,7 +70,7 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
             lectura: [''],
             validado: [''],
         });
-        this.formulario2.patchValue(this.data.requisito);
+        this.requisitoForm.patchValue(this.data);
     }
 
     // verArchivo(): void {
@@ -91,9 +92,10 @@ export class RequisitosDialogComponent implements OnInit, OnDestroy
 
     selectedEstado(option: string): void {
         console.log(option);
-        this.data.des_estado_voucher = option;
-        this.formulario2.patchValue({
-            des_estado_voucher: option
+        this.data.des_estado_requisito = option;
+        this.requisitoForm.patchValue({
+            des_estado_requisito: option,
+            comentario: ''
         });
     }
 }

@@ -14,7 +14,7 @@ export class CertificadosService
     private _pagination: BehaviorSubject<CertificadoPagination | null> = new BehaviorSubject(null);
     private _certificado: BehaviorSubject<CertificadoInterface | null> = new BehaviorSubject(null);
     private _certificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
-    private _allcertificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
+    // private _allcertificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -62,10 +62,10 @@ export class CertificadosService
     /**
      * Getter for certificados
      */
-    get allcertificados$(): Observable<CertificadoInterface[]>
-    {
-        return this._allcertificados.asObservable();
-    }
+    // get allcertificados$(): Observable<CertificadoInterface[]>
+    // {
+    //     return this._allcertificados.asObservable();
+    // }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -148,28 +148,28 @@ export class CertificadosService
     /**
      * Get tramites
      */
-     getAllCertificados(): Observable<CertificadoInterface[]>
-    {
-       return this._httpClient.get<CertificadoInterface[]>(environment.baseUrl + 'tramite/certificados').pipe(
-            tap((response) => {
-                console.log(response);
-                this._allcertificados.next(response);
-            })
-        );
-    }
+    //  getAllCertificados(): Observable<CertificadoInterface[]>
+    // {
+    //    return this._httpClient.get<CertificadoInterface[]>(environment.baseUrl + 'tramite/certificados').pipe(
+    //         tap((response) => {
+    //             console.log(response);
+    //             // this._allcertificados.next(response);
+    //         })
+    //     );
+    // }
 
     /**
      * Get certificado by id
      */
     getCertificadoById(id: number): Observable<CertificadoInterface>
     {
-        return this._allcertificados.pipe(
+        return this._certificados.pipe(
             take(1),
             map((certificados) => {
                 
                 // Find the certificado
                 const certificado = certificados.find(item => item.idTramite === id) || null;
-                certificado.fut = environment.baseUrl + "fut/" + certificado.fut;
+                certificado.fut = environment.baseUrl + certificado.fut;
                 certificado.voucher = environment.baseUrlStorage + certificado.voucher;
                 certificado.requisitos.forEach(element => {
                     if (element.archivo) {
@@ -263,5 +263,46 @@ export class CertificadosService
         );
     }
 
+    /**
+     * Update certificado
+     *
+     * @param id
+     * @param certificado
+     */
+    updateRequisitos(id: number, tramite: CertificadoInterface): Observable<CertificadoInterface>
+    {
+        return this.certificados$.pipe(
+            take(1),
+            switchMap(certificados => this._httpClient.patch<CertificadoInterface>(environment.baseUrl + 'tramite/' + id, tramite).pipe(
+                map((updatedCertificado) => {
+
+                    // Find the index of the updated certificado
+                    const index = certificados.findIndex(item => item.idTramite === id);
+
+                    // Update the certificado
+                    certificados[index] = updatedCertificado;
+
+                    // Update the certificados
+                    this._certificados.next(certificados);
+
+                    // Return the updated certificado
+                    return updatedCertificado;
+                }),
+                switchMap(updatedCertificado => this.certificado$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the certificado if it's selected
+                        this._certificado.next(updatedCertificado);
+
+                        // Return the updated certificado
+                        return updatedCertificado;
+                    })
+                ))
+            ))
+        );
+    }
+    
 
 }

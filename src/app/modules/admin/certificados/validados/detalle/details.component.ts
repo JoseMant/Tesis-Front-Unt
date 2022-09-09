@@ -175,15 +175,15 @@ export class CertificadoValidadoDetalleComponent implements OnInit, OnDestroy
         });
 
         // Get the certificados
-        this._certificadoService.allcertificados$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((allcertificados: CertificadoInterface[]) => {
-                this.allcertificados = allcertificados;
-                console.log(allcertificados);
+        // this._certificadoService.allcertificados$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((allcertificados: CertificadoInterface[]) => {
+        //         this.allcertificados = allcertificados;
+        //         console.log(allcertificados);
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        //         // Mark for check
+        //         this._changeDetectorRef.markForCheck();
+        //     });
 
         // Get the certificado
         this._certificadoService.certificado$

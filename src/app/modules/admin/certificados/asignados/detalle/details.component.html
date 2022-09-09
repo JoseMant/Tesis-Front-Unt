@@ -1,31 +1,35 @@
-<div class="absolute inset-0 flex flex-col flex-auto min-w-0 m-4 overflow-y-auto">
-    <mat-card class="w-full mb-3">
-        <mat-card-title class="mb-3 md:text-2xl lg:text-2xl text-xl font-bold tracking-wider text-black">CODIGO TRÁMITE: {{certificado.codigo}}</mat-card-title>
-        <mat-card-content>
-            <div class="grid grid-cols-12 gap-y-6 mb-3">
-                <div class="sm:col-span-6 col-span-12">
-                    <div class="grid grid-cols-8 gap-y-2.5">
-                        <div class="sm:col-span-3 col-span-8 font-semibold">SOLICITANTE: </div>
-                        <div class="sm:col-span-5 col-span-8">{{certificado.solicitante}}</div>
-                        <div class="sm:col-span-3 col-span-8 font-semibold">NUMERO DE DOCUMENTO: </div>
-                        <div class="sm:col-span-5 col-span-8">{{certificado.nro_documento}}</div>
-                        <div class="sm:col-span-3 col-span-8 font-semibold">ESCUELA: </div>
-                        <div class="sm:col-span-5 col-span-8 -mb-3">{{certificado.escuela}}</div>
+<div class="flex flex-col flex-auto min-w-0 m-4">
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+                CODIGO TRÁMITE: {{certificado.codigo}}
+            </mat-card-title>
+            <mat-card-content>
+                <div class="grid grid-cols-12 gap-y-6 mb-3">
+                    <div class="sm:col-span-6 col-span-12">
+                        <div class="grid grid-cols-8 gap-y-2.5">
+                            <div class="sm:col-span-3 col-span-8 font-semibold">SOLICITANTE: </div>
+                            <div class="sm:col-span-5 col-span-8">{{certificado.solicitante}}</div>
+                            <div class="sm:col-span-3 col-span-8 font-semibold">NUMERO DE DOCUMENTO: </div>
+                            <div class="sm:col-span-5 col-span-8">{{certificado.nro_documento}}</div>
+                            <div class="sm:col-span-3 col-span-8 font-semibold">ESCUELA: </div>
+                            <div class="sm:col-span-5 col-span-8 -mb-3">{{certificado.escuela}}</div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-6 col-span-12">
+                        <div class="grid grid-cols-8 gap-y-2.5">
+                            <div class="sm:col-span-3 col-span-8 font-semibold">FECHA DE REGISTRO: </div>
+                            <div class="sm:col-span-5 col-span-8">{{certificado.fecha | date: 'dd-MM-yyyy'}}</div>
+                            <div class="sm:col-span-3 col-span-8 font-semibold">TRÁMITE: </div>
+                            <div class="sm:col-span-5 col-span-8">{{certificado.tramite}}</div>
+                            <div class="sm:col-span-3 col-span-8 font-semibold">CORREO ELECTRÓNICO: </div>
+                            <div class="sm:col-span-5 col-span-8 -mb-3">{{certificado.correo}}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="sm:col-span-6 col-span-12">
-                    <div class="grid grid-cols-8 gap-y-2.5">
-                        <div class="sm:col-span-3 col-span-8 font-semibold">FECHA DE REGISTRO: </div>
-                        <div class="sm:col-span-5 col-span-8">{{certificado.fecha | date: 'dd-MM-yyyy'}}</div>
-                        <div class="sm:col-span-3 col-span-8 font-semibold">TRÁMITE: </div>
-                        <div class="sm:col-span-5 col-span-8">{{certificado.tramite}}</div>
-                        <div class="sm:col-span-3 col-span-8 font-semibold">CORREO ELECTRÓNICO: </div>
-                        <div class="sm:col-span-5 col-span-8 -mb-3">{{certificado.correo}}</div>
-                    </div>
-                </div>
-            </div>
-            
-        </mat-card-content>
+                
+            </mat-card-content>
+        </div>
     </mat-card>
     <mat-card class="w-full mb-6">
         <mat-card-title class="mb-3 md:text-2xl lg:text-2xl text-xl font-bold tracking-wider text-black">VALIDAR REQUISITOS</mat-card-title>
