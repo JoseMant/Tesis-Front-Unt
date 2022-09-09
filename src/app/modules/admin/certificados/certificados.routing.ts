@@ -75,6 +75,9 @@ export const certificadosRoutes: Route[] = [
             {
                 path     : '',
                 component: CertificadosValidadosListComponent,
+                resolve      : {
+                    users  : UsersResolver,
+                },
             },
             {
                 path         : ':idTramite',

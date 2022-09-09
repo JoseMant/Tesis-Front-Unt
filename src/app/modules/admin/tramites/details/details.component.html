@@ -117,10 +117,6 @@
                                     />
                                 </svg>
                             </div>
-                            <div *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
-                                <div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -132,91 +128,44 @@
                     <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Requisitos</mat-label></mat-card-title>
                         <mat-card-content>
-                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" >
-                                <div class="nombre col-span-4 ml-3">
-                                    <b>Nombre del requisito</b>
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let requisito of tramite.requisitos">
+                                <div class="nombre col-span-4 ml-3" *ngIf="requisito.des_estado_requisito !== 'RECHAZADO'">
+                                    <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}}
                                 </div>
-                                <!-- <div class="nombre col-span-2 ml-3">
-                                    <b>Acciones</b>
-                                </div> -->
-                            </div>
-                            <div >
-                                <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let req of tramite.requisitos">
-                                    <div class="nombre col-span-4 ml-3">
-                                        {{req.nombre}}
-                                    </div>
-                                    <!-- <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
-                                        <div>
-                                            <button
-                                                matTooltip="Agregar documento"
-                                                (click)="fileInput.click()">
-                                                <mat-icon
-                                                    class="h-6 w-6 mr-3 ml-3"
-                                                    style="color: rgb(6, 11, 88)"
-                                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                                            </button>
-                                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,req)"/>
-                                        </div>
-                                        <svg
-                                            *ngIf="req.archivo"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                <div class="nombre col-span-4 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
+                                    <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}} - {{requisito.comentario}}
+                                    <button
+                                        matTooltip="Agregar documento"
+                                        (click)="fileInput.click()">
+                                        <mat-icon
                                             class="h-6 w-6 mr-3 ml-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            style="cursor: pointer; color: rgb(6, 11, 88)"
-                                            (click)="verReqDocumento(req)"
-                                            stroke-width="2"
-                                            matTooltip="Ver documento"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'jpg'">
-                                        <div>
-                                            <button
-                                                matTooltip="Agregar imagen"
-                                                (click)="fileInput.click()">
-                                                <mat-icon
-                                                    class="h-6 w-6 mr-3 ml-3"
-                                                    style="color: rgb(6, 11, 88)"
-                                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                                            </button>
-                                            <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req.idRequisito)"/>
-                                        </div>
-                                        <svg
-                                            *ngIf="req.archivoImagen"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-6 w-6 mr-3 ml-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            style="cursor: pointer; color: rgb(6, 11, 88)"
-                                            (click)="verReqImagen(req)"
-                                            stroke-width="2"
-                                            matTooltip="Ver Imagen"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
-                                    </div> -->
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                    </button>
+                                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectFiles($event)"/>
+                                    <svg
+                                        *ngIf="tramite.voucher !== ''"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-6 w-6 mr-3 ml-3"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        style="cursor: pointer; color: rgb(6, 11, 88)"
+                                        (click)="verDocumento()"
+                                        stroke-width="2"
+                                        matTooltip="Ver documento"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        />
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        />
+                                    </svg>
                                 </div>
                             </div>
                         </mat-card-content>

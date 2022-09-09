@@ -175,13 +175,6 @@ export class CertificadosService
                     if (element.archivo) {
                         element.archivo = environment.baseUrlStorage + element.archivo;
                     }
-                    if (!element.validado && !element.idUsuario_aprobador) {
-                        element['des_estado_requisito'] = 'PENDIENTE'
-                    } else if (!element.validado && element.idUsuario_aprobador) {
-                        element['des_estado_requisito'] = 'RECHAZADO'
-                    } else if (element.validado && element.idUsuario_aprobador) {
-                        element['des_estado_requisito'] = 'APROBADO'
-                    }
                 });
                 console.log(certificado);
                 // Update the certificado
@@ -211,7 +204,7 @@ export class CertificadosService
     {
         return this.certificados$.pipe(
             take(1),
-            switchMap(certificados => this._httpClient.patch<CertificadoInterface>(environment.baseUrl + 'certificado/' + id, certificado).pipe(
+            switchMap(certificados => this._httpClient.post<CertificadoInterface>(environment.baseUrl + 'tramite/update', certificado).pipe(
                 map((updatedCertificado) => {
                     console.log(updatedCertificado);
                     // Find the index of the updated certificado
@@ -273,9 +266,9 @@ export class CertificadosService
     {
         return this.certificados$.pipe(
             take(1),
-            switchMap(certificados => this._httpClient.patch<CertificadoInterface>(environment.baseUrl + 'tramite/' + id, tramite).pipe(
+            switchMap(certificados => this._httpClient.put<CertificadoInterface>(environment.baseUrl + 'tramite/update', tramite).pipe(
                 map((updatedCertificado) => {
-
+                    console.log(updatedCertificado);
                     // Find the index of the updated certificado
                     const index = certificados.findIndex(item => item.idTramite === id);
 

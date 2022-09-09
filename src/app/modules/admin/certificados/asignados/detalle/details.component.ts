@@ -142,35 +142,20 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
         // this.selectedGap = true;
         // Create the selected maduritylevel form
         this.certificadoForm = this._formBuilder.group({
-            idTipo_certificado: [''],
-            nro_documento: [''],
-            idColacion: [''],
-            idEstado_certificado: [''],
-            idModalidad_grado: [''],
-            descripcion_estado: [''],
             codigo: [''],
-            entidad: ['', Validators.required],
-            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
-            fecha_operacion: ['', Validators.required],
-            archivo: [''],
-            idMotivo_certificado: [''],
-            comentario: [''],
-            apellidos: [''],
-            nombres: [''],
-            documento: [''],
-            celular: [''],
             correo: [''],
-            idFacultad: [''],
-            idEscuela: [''],
-            sede: [''],
-            nro_matricula: [''],
-            tipo_documento: [''],
-            sexoNombre: [''],
-            idUnidad: [''],
-            idTipo_certificado_unidad: [''],
-            archivo_firma: [''],
-            archivoImagen: [''],
+            escuela: [''],
+            facultad: [''],
+            fecha: [''],
+            fut: [''],
+            idTramite: [''],
+            // motivo: [''],
+            nro_documento: [''],
+            // nro_matricula: [''],
             requisitos: [[]],
+            solicitante: [''],
+            tramite: [''],
+            voucher: [''],
         });
 
         // Get the certificados
@@ -259,12 +244,19 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
     {
         // Get the contact object
         const certificado = this.certificadoForm.getRawValue();
-
+        
         // Update the contact on the server
         this._certificadoService.updateRequisitos(certificado.idTramite, certificado).subscribe(() => {
-
-            // // Toggle the edit mode off
-            // this.toggleEditMode(false);
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
 }
