@@ -153,7 +153,7 @@ export class VouchersService
     {
         return this.vouchers$.pipe(
             take(1),
-            switchMap(vouchers => this._httpClient.patch<VoucherInterface>(environment.baseUrl + 'voucher/' + id, voucher).pipe(
+            switchMap(vouchers => this._httpClient.put<VoucherInterface>(environment.baseUrl + 'voucher/' + id, voucher).pipe(
                 map((updatedVoucher) => {
                     console.log(updatedVoucher);
                     // Find the index of the updated voucher
