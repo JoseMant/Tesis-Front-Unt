@@ -198,6 +198,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     maxDate: any;
     costo: any;
     motivos: any;
+    newVoucher: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -255,6 +256,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
+            voucher: [''],
             idMotivo_certificado: [''],
             comentario: [''],
             apellidos: [''],
@@ -386,11 +388,11 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         this.tramiteForm.patchValue(newTramite);
     }
 
-    selectFiles(event): void {
+    selectNewVoucher(event): void {
         const files = event.target.files[0];
         console.log(files);
         this.tramiteForm.patchValue({archivo: files});
-        //this.data.archivo = files;
+        this.newVoucher = true;
     }
 
     selectFirma(event): void {
@@ -571,6 +573,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                     title: 'Guardado'
                 };
                 this.openSnack();
+                this.newVoucher = false;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

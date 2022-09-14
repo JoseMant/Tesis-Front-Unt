@@ -2,7 +2,7 @@
     "name": "@fuse/starter",
     "version": "14.2.0",
     "description": "Fuse - Angular Admin Template and Starter Project",
-    "author": "https://themeforest.net/user/srcn",
+    "author": "César Urbina",
     "license": "https://themeforest.net/licenses/standard",
     "private": true,
     "scripts": {

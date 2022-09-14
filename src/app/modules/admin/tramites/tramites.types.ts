@@ -37,4 +37,5 @@ export interface TramiteInterface
     archivoImagen: any;
     comentario_tramite: string;
     des_estado_voucher?: string;
+    voucher?: string;
 }

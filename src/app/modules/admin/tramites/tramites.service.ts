@@ -246,6 +246,7 @@ export class TramiteService
 
                 // Find the tramite
                 const tramite = tramites.find(item => item.idTramite === id) || null;
+                tramite.voucher = environment.baseUrlStorage + tramite.voucher;
 
                 // Update the tramite
                 this._tramite.next(tramite);
