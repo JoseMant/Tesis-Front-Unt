@@ -157,6 +157,14 @@
             </mat-card-content>
             <mat-card-actions class="flex justify-end">
                 <button
+                mat-button
+                class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                cmat-button
+                [routerLink]="['/certificados/asignados']"
+            >
+                Regresar
+            </button>
+                <button
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
@@ -173,34 +181,4 @@
             </mat-card-actions>
         </div>
     </mat-card>
-    <div class="grid grid-cols-12 gap-y-6">
-        <div class="sm:col-span-6 col-span-12 flex justify-center sm:mt-0 mt-3">
-            <button
-                mat-button
-                class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
-                cmat-button
-                [routerLink]="['/certificados/asignados']"
-            >
-                Regresar
-            </button>
-        </div>
-        <!-- <div class="sm:col-span-4 col-span-12 flex justify-center">
-            <button
-                mat-button
-                class="rounded-full bg-red-700 hover:bg-red-600 text-white"
-                cmat-button
-            >
-                Rechazar Requisitos
-            </button>
-        </div> -->
-        <div class="sm:col-span-6 col-span-12 flex justify-center">
-            <button
-                mat-button
-                class="rounded-full bg-green-600 hover:bg-green-500 text-white"
-                cmat-button
-            >
-                Guardar
-            </button>
-        </div>
-    </div>
 </div>
