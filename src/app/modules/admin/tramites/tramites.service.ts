@@ -222,6 +222,46 @@ export class TramiteService
     }
 
     /**
+     * Update product
+     *
+     * @param id
+     * @param requisitos
+     */
+    updateRequisitos(id: number, requisitos: any): Observable<any> {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(tramites => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
+                map((updateRequisitos) => {
+                    console.log(updateRequisitos);
+                    // Find the index of the updated contact
+                    const index = tramites.findIndex(item => item.idTramite === id);
+
+                    // Update the contact
+                    tramites[index] = updateRequisitos;
+
+                    // Update the contacts
+                    this._tramites.next(tramites);
+
+                    // Return the updated contact
+                    return updateRequisitos;
+                }),
+                switchMap(updateRequisitos => this.tramite$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the product if it's selected
+                        this._tramite.next(updateRequisitos);
+
+                        // Return the updated product
+                        return updateRequisitos;
+                    })
+                ))
+            ))
+        );
+    }
+
+    /**
      * Get tramites
      */
     getTramites(): Observable<TramiteInterface[]>

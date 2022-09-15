@@ -84,7 +84,7 @@
                             <div class="text-secondary" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
                             <div class="text-secondary" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
                                 <b>Comprobante de pago:</b> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}
-                                
+
                             </div>
                         </div>
                         <div class="sm:col-span-1" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
@@ -133,19 +133,54 @@
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
                                     <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}} - {{requisito.comentario}}
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
+                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf'" >
                                     <button
-                                        matTooltip="Agregar documento"
+                                        matTooltip="Agregar documento en pdf"
                                         (click)="fileInput.click()">
                                         <mat-icon
                                             class="h-6 w-6 mr-3 ml-3"
                                             style="color: rgb(6, 11, 88)"
                                             [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                     </button>
-                                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectFiles($event)"/>
+                                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,requisito)"/>
                                     <button
                                         matTooltip="Ver documento"
-                                        (click)="verDocumento()">
+                                        (click)="verReqDocumento(requisito)">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            style="cursor: pointer; color: rgb(6, 11, 88)"
+                                            stroke-width="2"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            />
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'jpg'" >
+                                    <button
+                                        matTooltip="Agregar documento en jpg"
+                                        (click)="fileInput.click()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                    </button>
+                                    <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,requisito)"/>
+                                    <button
+                                        matTooltip="Ver documento"
+                                        (click)="verReqImagen(requisito)">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-6 w-6 mr-3 ml-3"
@@ -174,6 +209,7 @@
             </mat-card-content>
             <mat-card-actions class="flex justify-end">
                 <button
+                    *ngIf="tramite.des_estado_voucher === 'RECHAZADO'"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
@@ -181,6 +217,21 @@
                     (click)="updateTramite()">
                     <span *ngIf="!tramiteForm.disabled">
                         Registrar Trámite
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="tramiteForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+                <button
+                    *ngIf="tramite.des_estado_voucher === 'APROBADO'"
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="tramiteForm.disabled"
+                    (click)="updateRequisitos()">
+                    <span *ngIf="!tramiteForm.disabled">
+                        Actualizar Requisitos
                     </span>
                     <mat-progress-spinner
                         *ngIf="tramiteForm.disabled"

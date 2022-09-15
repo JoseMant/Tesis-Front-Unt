@@ -407,23 +407,23 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         const files = event.target.files[0];
         console.log(files);
         console.log(req);
-        for (const requ of this.requisitos) {
-            if (requ.idRequisito === req.idRequisito) {
-                requ['archivo'] = files;
-            }
-        }
-        this.data.requisitos = this.requisitos;
-        this.tramiteForm.patchValue({requisitos: this.requisitos});
-        console.log(this.data.requisitos);
+        // for (const requ of this.requisitos) {
+        //     if (requ.idRequisito === req.idRequisito) {
+        //         requ['archivo'] = files;
+        //     }
+        // }
+        // this.data.requisitos = this.requisitos;
+        // this.tramiteForm.patchValue({requisitos: this.requisitos});
+        // console.log(this.data.requisitos);
     }
 
-    selectReqImagen(event, id): void {
+    selectReqImagen(event, req): void {
         const files = event.target.files[0];
         console.log(files);
-        console.log(id);
+        console.log(req);
         const requisitos = this.tramiteForm.getRawValue().requisitos;
         for (const requ of requisitos) {
-            if (requ.idRequisito === id) {
+            if (requ.idRequisito === req.idRequisito) {
                 requ['archivoImagen'] = files;
             }
         }
@@ -446,7 +446,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     verReqImagen(req): void {
-        console.log(this.data);
+        console.log(req);
         const respDial = this.visordialog.open(
             VisorImagenComponent,
             {
@@ -488,73 +488,9 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             archivo: this.tramiteForm.getRawValue().archivo,
         };
         console.log(data);
-        // debugger;
-        // // If the confirm button pressed...
-        // if (this.tramiteForm.invalid) {
-        //     this.tramiteForm.markAllAsTouched();
-        //     console.log('hola');
-        //     return;
-        // }
-        // const requis = this.data.requisitos.find(element => element.archivo === undefined && element.extension === 'pdf');
-        // if (requis) {
-        //     this.alert = {
-        //         type   : 'warn',
-        //         message: 'Cargar el archivo en el requisito: ' + requis.descripcion,
-        //         title: 'Error'
-        //     };
-        //     this.openSnack();
-        // }
-        // console.log(this.tramiteForm.getRawValue());
-        // const certificado = {
-        //     entidad: this.tramiteForm.getRawValue().entidad,
-        //     nro_operacion: this.tramiteForm.getRawValue().nro_operacion,
-        //     fecha_operacion: this.tramiteForm.getRawValue().fecha_operacion,
-        //     archivo: this.tramiteForm.getRawValue().archivo,
-        //     idTipo_tramite_unidad: this.tramiteForm.getRawValue().idTipo_tramite_unidad,
-        //     idUnidad: this.tramiteForm.getRawValue().idUnidad,
-        //     idDependencia: this.tramiteForm.getRawValue().idFacultad,
-        //     idDependencia_detalle: this.tramiteForm.getRawValue().idEscuela,
-        //     nro_matricula: this.tramiteForm.getRawValue().codigo,
-        //     sede: this.tramiteForm.getRawValue().sede,
-        //     archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
-        //     idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
-        //     comentario: this.tramiteForm.getRawValue().comentario,
-        //     requisitos: this.tramiteForm.getRawValue().requisitos,
-        // };
-        // const cadena = (new Date(certificado.fecha_operacion)).toISOString();
-        // console.log(cadena);
-        // const cadena1 = cadena.substring(0,10);
-        // const cadena2 = cadena.substring(11,19);
-        // const fecha = cadena1 + ' ' + cadena2;
-        // certificado.fecha_operacion = fecha;
-        // console.log(certificado);
             const formData = new FormData();
             formData.append('idTramite', data.idTramite);
             formData.append('archivo', data.archivo);
-            // formData.append('fecha_operacion', certificado.fecha_operacion);
-            // formData.append('archivo', certificado.archivo);
-            // formData.append('idTipo_tramite_unidad', certificado.idTipo_tramite_unidad);
-            // formData.append('idUnidad', certificado.idUnidad);
-            // formData.append('idDependencia', certificado.idDependencia);
-            // formData.append('idDependencia_detalle', certificado.idDependencia_detalle);
-            // formData.append('nro_matricula', certificado.nro_matricula);
-            // formData.append('sede', certificado.sede);
-            // formData.append('archivo_firma', certificado.archivo_firma);
-            // formData.append('idMotivo_certificado', certificado.idMotivo_certificado);
-            // formData.append('comentario', certificado.comentario);
-            // certificado.requisitos.forEach((element) => {
-            //     formData.append('requisitos[]', JSON.stringify(element));
-            //     if (element.idRequisito && element.extension === 'pdf') {
-            //         formData.append('files[]', element.archivo);
-            //     }
-            //     if (element.idRequisito && element.extension === 'jpg') {
-            //         formData.append('files[]', element.archivoImagen);
-            //     }
-            //   });
-            // console.log(formData.getAll('requisitos'));
-            // console.log(formData.getAll('files'));
-            // // Disable the form
-            // this.tramiteForm.disable();
 
             this._tramiteService.updateVoucher(data.idTramite,formData).subscribe((newMadurity) => {
                 console.log(newMadurity);
@@ -570,6 +506,64 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 this.alert = {
                     type   : 'success',
                     message: 'Trámite registrado correctamente',
+                    title: 'Guardado'
+                };
+                this.openSnack();
+                this.newVoucher = false;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            },
+            (error) => {
+                // console.log(error);
+
+                // Re-enable the form
+                this.tramiteForm.enable();
+
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Error al registrar',
+                    title: 'Error'
+                };
+                this.openSnack();
+            });
+    }
+
+    updateRequisitos(): void{
+        const data={
+            idTramite: this.tramiteForm.getRawValue().idTramite,
+            requisitos: this.tramiteForm.getRawValue().requisitos,
+        };
+        console.log(data);
+            const formData = new FormData();
+            formData.append('idTramite', data.idTramite);
+            data.requisitos.forEach((element) => {
+                formData.append('requisitos[]', JSON.stringify(element));
+                if (element.idRequisito && element.extension === 'pdf') {
+                    formData.append('files[]', element.archivo);
+                }
+                if (element.idRequisito && element.extension === 'jpg') {
+                    formData.append('files[]', element.archivoImagen);
+                }
+              });
+            console.log(formData.getAll('idTramite'));
+            console.log(formData.getAll('requisitos[]'));
+            console.log(formData.getAll('files[]'));
+
+            this._tramiteService.updateRequisitos(data.idTramite,formData).subscribe((response) => {
+                console.log(response);
+                // Toggle the edit mode off
+                //this.toggleEditMode(false);
+
+                // Re-enable the form
+                this.tramiteForm.enable();
+
+                // Go to new product
+                //this.createFormulario(this.user);
+
+                this.alert = {
+                    type   : 'success',
+                    message: 'Requisitos actualizados correctamente',
                     title: 'Guardado'
                 };
                 this.openSnack();
