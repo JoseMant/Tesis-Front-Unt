@@ -193,4 +193,19 @@ export class CarnetsService
             ))
         );
     }
+
+
+    descargarZip(): Observable<any[]>
+    {
+        return this.carnets$.pipe(
+            take(1),
+            switchMap(carnets => this._httpClient.get<any[]>(environment.baseUrl + 'download/fotos').pipe(
+                map((updatedCertificados) => {
+
+                    // Return the new message from observable
+                    return carnets;
+                })
+            ))
+        );
+    }
 }

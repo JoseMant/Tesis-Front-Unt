@@ -169,6 +169,27 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         });
     }
 
+
+    descargarZip(): void
+    {
+        // Get the product object
+        // const data = this.selectedCertificadosForm.getRawValue();
+        
+        // Update the product on the server
+        this._carnetsService.descargarZip().subscribe(() => {
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+
+        });
+    }
     // editarCarnet(dataCer, lectura, estado): void {
     //     console.log(dataCer);
     //     dataCer['lectura'] = lectura;
