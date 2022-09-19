@@ -102,7 +102,7 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
     certificadoForm: FormGroup;
     contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    newCertificado: boolean = false;
     /**
      * Constructor
      */
@@ -254,7 +254,12 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
+    selectCertificado(event): void {
+        const files = event.target.files[0];
+        this.certificadoForm.patchValue({archivo: files});
+        console.log(this.certificadoForm);
+        this.newCertificado = true;
+    }
     /**
      * Create formulario
      */

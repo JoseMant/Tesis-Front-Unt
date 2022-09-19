@@ -50,9 +50,20 @@
                         mat-button
                         class="rounded-full bg-green-600 hover:bg-green-500 text-white"
                         cmat-button
+                        (click)="fileInput.click()"
                     >
                         Subir Certificado
                     </button>
+                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectCertificado($event)"/>
+                    <!-- <button
+                    matTooltip="Agregar documento"
+                    (click)="fileInput.click()">
+                    <mat-icon
+                        class="h-6 w-6 mr-3 ml-3"
+                        style="color: rgb(6, 11, 88)"
+                        [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                    </button>
+                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectNewVoucher($event)"/> -->
                 </div>
             </div>
         </mat-card-content>
