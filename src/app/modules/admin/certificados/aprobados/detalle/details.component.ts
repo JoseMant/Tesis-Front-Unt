@@ -19,7 +19,7 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
-// import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
+import { VisorPdfCertificadoComponent } from '../visorPdf/visorPdfCertificado.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
@@ -143,7 +143,8 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         // this.selectedGap = true;
         // Create the selected maduritylevel form
         this.certificadoForm = this._formBuilder.group({
-            idTipo_certificado: [''],
+            idTramite: [''],
+            idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
             idEstado_tramite: [''],
@@ -259,6 +260,58 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         this.certificadoForm.patchValue({archivo: files});
         console.log(this.certificadoForm);
         this.newCertificado = true;
+    }
+    verDocumento(): void {
+        console.log(this.certificadoForm.getRawValue());
+        const respDial = this.visordialog.open(
+            VisorPdfCertificadoComponent,
+            {
+                data: this.certificadoForm.getRawValue(),
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+    uploadCertificado(): void{
+        const data={
+            idTramite: this.certificadoForm.getRawValue().idTramite,
+            archivo: this.certificadoForm.getRawValue().archivo,
+        };
+        const formData = new FormData();
+            formData.append('idTramite', data.idTramite);
+            formData.append('archivo', data.archivo);
+        console.log(formData);
+        
+        this._certificadoService.uploadCertificado(data.idTramite,formData).subscribe((newMadurity) => {
+            console.log(newMadurity);
+            // Toggle the edit mode off
+            //this.toggleEditMode(false);
+            // Re-enable the form
+            this.certificadoForm.enable();
+            // Go to new product
+            //this.createFormulario(this.user);
+            this.alert = {
+                type   : 'success',
+                message: 'Certificado cargado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            this.newCertificado = false;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
+            // Re-enable the form
+            this.certificadoForm.enable();
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
     }
     /**
      * Create formulario

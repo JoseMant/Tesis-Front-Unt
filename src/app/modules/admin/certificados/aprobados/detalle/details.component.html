@@ -52,9 +52,36 @@
                         cmat-button
                         (click)="fileInput.click()"
                     >
-                        Subir Certificado
+                    <mat-icon
+                        class="h-6 w-6 mr-3 ml-3"
+                        style="color: rgb(255, 255, 255)"
+                        [svgIcon]="'heroicons_solid:upload'">
+                    </mat-icon>
+                    Certificado
                     </button>
                     <input #fileInput type="file" accept=".pdf" hidden (change)="selectCertificado($event)"/>
+                    <button *ngIf="newCertificado"
+                        matTooltip="Ver documento"
+                        (click)="verDocumento()">
+                        <mat-icon
+                            class="h-6 w-6 mr-3 ml-3"
+                            style="color: rgb(6, 11, 88)"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            
+                    </button>
+                    <button
+                        *ngIf="newCertificado"
+                        class="ml-4"
+                        mat-flat-button
+                        [color]="'primary'"
+                        (click)="uploadCertificado()">
+                        <span>
+                            Subir Certificado
+                        </span>
+                        <mat-progress-spinner
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                    </button>
                     <!-- <button
                     matTooltip="Agregar documento"
                     (click)="fileInput.click()">

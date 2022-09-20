@@ -297,5 +297,39 @@ export class CertificadosService
         );
     }
     
+    uploadCertificado(id: number, tramite: any): Observable<any>
+    {
+        console.log(tramite);
+        return this.certificados$.pipe(
+            take(1),
+            switchMap(certificados => this._httpClient.post<any>(environment.baseUrl + 'certificados/upload/'+ id, tramite).pipe(
+                map((updatedCertificado) => {
+                    console.log(updatedCertificado);
+                    // Find the index of the updated certificado
+                    const index = certificados.findIndex(item => item.idTramite === id);
 
+                    // Update the certificado
+                    certificados[index] = updatedCertificado;
+
+                    // Update the certificados
+                    this._certificados.next(certificados);
+
+                    // Return the updated certificado
+                    return updatedCertificado;
+                }),
+                switchMap(updatedCertificado => this.certificado$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the certificado if it's selected
+                        this._certificado.next(updatedCertificado);
+
+                        // Return the updated certificado
+                        return updatedCertificado;
+                    })
+                ))
+            ))
+        );
+    }
 }

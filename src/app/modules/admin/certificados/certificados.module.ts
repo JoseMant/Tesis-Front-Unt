@@ -26,7 +26,7 @@ import { CertificadosValidadosListComponent } from 'app/modules/admin/certificad
 import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.routing';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
-// import { VisorPdfCertificadoComponent } from './asignados/visorPdf/visorPdfCertificado.component';
+import { VisorPdfCertificadoComponent } from './aprobados/visorPdf/visorPdfCertificado.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
@@ -48,7 +48,7 @@ import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.compo
         CertificadosValidadosComponent,
         CertificadosValidadosListComponent,
         CertificadoValidadoDetalleComponent,
-        // VisorPdfCertificadoComponent,
+        VisorPdfCertificadoComponent,
         RequisitosDialogComponent
     ],
     imports     : [
