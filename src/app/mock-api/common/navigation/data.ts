@@ -50,11 +50,19 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['URAA']
             },
             {
-                // Se muestran para la firma del jefe de RT
+                // Se muestran para subir el certificado
                 id   : 'certificados.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/certificados/aprobados',
+                permissions: ['URAA']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
+                id   : 'certificados.firma_uraa',
+                title: 'Firma URA-a',
+                type : 'basic',
+                link : '/certificados/firma_uraa',
                 permissions: ['URAA']
             }
         ]
@@ -73,24 +81,61 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carnets/validados',
                 permissions: ['URAA']
             },
-            {
-                // Se muestran al usuario para validar requisitos
-                id   : 'carnets.asignados',
-                title: 'Asignados',
-                type : 'basic',
-                link : '/carnets/asignados',
-                permissions: ['URAA']
-            },
-            {
-                // Se muestran para la firma del jefe de RT
-                id   : 'carnets.aprobados',
-                title: 'Aprobados',
-                type : 'basic',
-                link : '/carnets/aprobados',
-                permissions: ['URAA']
-            }
+            // {
+            //     // Se muestran al usuario para validar requisitos
+            //     id   : 'carnets.asignados',
+            //     title: 'Asignados',
+            //     type : 'basic',
+            //     link : '/carnets/asignados',
+            //     permissions: ['URAA']
+            // },
+            // {
+            //     // Se muestran para subir el certificado generado
+            //     id   : 'carnets.aprobados',
+            //     title: 'Aprobados',
+            //     type : 'basic',
+            //     link : '/carnets/aprobados',
+            //     permissions: ['URAA']
+            // },
+            // {
+            //     // Se muestran para la firma del jefe de RT
+            //     id   : 'carnets.aprobados',
+            //     title: 'Aprobados',
+            //     type : 'basic',
+            //     link : '/carnets/aprobados',
+            //     permissions: ['URAA']
+            // }
         ]
     },
+    // {
+    //     id   : 'constancias',
+    //     title: 'Constancias',
+    //     type : 'collapsable',
+    //     icon : 'heroicons_outline:archive',
+    //     children: [
+    //         {
+    //             id   : 'constancias.validadas',
+    //             title: 'Validadas',
+    //             type : 'basic',
+    //             link : '/constancias/validados',
+    //             permissions: ['TESORERÍA']
+    //         },
+    //         {
+    //             id   : 'constancias.aprobados',
+    //             title: 'Aprobados',
+    //             type : 'basic',
+    //             link : '/constancias/aprobados',
+    //             permissions: ['TESORERÍA']
+    //         }
+    //         // {
+    //         //     id   : 'vouchers.rechazados',
+    //         //     title: 'Rechazados',
+    //         //     type : 'basic',
+    //         //     link : '/vouchers/rechazados',
+    //         //     permissions: ['TESORERÍA']
+    //         // }
+    //     ]
+    // },
     {
         id   : 'vouchers',
         title: 'Vouchers',

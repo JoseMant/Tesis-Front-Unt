@@ -145,18 +145,24 @@ export class CertificadosService
     }
 
 
-    /**
-     * Get tramites
-     */
-    //  getAllCertificados(): Observable<CertificadoInterface[]>
-    // {
-    //    return this._httpClient.get<CertificadoInterface[]>(environment.baseUrl + 'tramite/certificados').pipe(
-    //         tap((response) => {
-    //             console.log(response);
-    //             // this._allcertificados.next(response);
-    //         })
-    //     );
-    // }
+    getCertificadosFirmaURAA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/firma_uraa', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._certificados.next(response.data);
+        })
+      );
+    }
 
     /**
      * Get certificado by id
@@ -168,9 +174,13 @@ export class CertificadosService
             map((certificados) => {
                 
                 // Find the certificado
-                const certificado = certificados.find(item => item.idTramite === id) || null;
+                // const certificado = certificados.find(item => item.idTramite === id) || null;
+                const certificado = JSON.parse( JSON.stringify(certificados.find(item => item.idTramite === id) || null) )
                 certificado.fut = environment.baseUrl + certificado.fut;
                 certificado.voucher = environment.baseUrlStorage + certificado.voucher;
+                if (certificado.certificado_final) {
+                    certificado.certificado_final = environment.baseUrlStorage + certificado.certificado_final;
+                }
                 certificado.requisitos.forEach(element => {
                     if (element.archivo) {
                         element.archivo = environment.baseUrlStorage + element.archivo;

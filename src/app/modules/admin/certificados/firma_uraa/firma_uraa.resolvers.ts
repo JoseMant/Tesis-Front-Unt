@@ -107,6 +107,6 @@ export class CertificadosFirmaURAAResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
-        return this._certificadosService.getCertificadosAprobados();
+        return this._certificadosService.getCertificadosFirmaURAA();
     }
 }
