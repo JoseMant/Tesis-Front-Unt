@@ -283,8 +283,8 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
             formData.append('archivo', data.archivo);
         console.log(formData);
         
-        this._certificadoService.uploadCertificado(data.idTramite,formData).subscribe((newMadurity) => {
-            console.log(newMadurity);
+        this._certificadoService.uploadCertificado(data.idTramite,formData).subscribe((newCertificado) => {
+            console.log(newCertificado);
             // Toggle the edit mode off
             //this.toggleEditMode(false);
             // Re-enable the form

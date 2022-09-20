@@ -307,7 +307,13 @@ export class CertificadosService
                     console.log(updatedCertificado);
                     // Find the index of the updated certificado
                     const index = certificados.findIndex(item => item.idTramite === id);
-
+                    updatedCertificado.fut = environment.baseUrl + updatedCertificado.fut;
+                    updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
+                    updatedCertificado.requisitos.forEach(element => {
+                        if (element.archivo) {
+                            element.archivo = environment.baseUrlStorage + element.archivo;
+                        }
+                    });
                     // Update the certificado
                     certificados[index] = updatedCertificado;
 
