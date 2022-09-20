@@ -19,7 +19,7 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
-import { VisorPdfCertificadoComponent } from '../visorPdf/visorPdfCertificado.component';
+import { CertificadoFirmaURAAVisorPdfComponent } from '../visorPdf/visorPdfCertificado.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
@@ -264,7 +264,7 @@ export class CertificadoFirmaURAADetalleComponent implements OnInit, OnDestroy
     verDocumento(): void {
         console.log(this.certificadoForm.getRawValue());
         const respDial = this.visordialog.open(
-            VisorPdfCertificadoComponent,
+            CertificadoFirmaURAAVisorPdfComponent,
             {
                 data: this.certificadoForm.getRawValue(),
                 disableClose: true,

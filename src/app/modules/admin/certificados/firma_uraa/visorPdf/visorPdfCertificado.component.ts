@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
         `
     ]
 })
-export class VisorPdfCertificadoComponent implements OnInit, OnDestroy {
+export class CertificadoFirmaURAAVisorPdfComponent implements OnInit, OnDestroy {
     //@Input() isEdite: boolean = false;
     //@Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
     page: number = 1;
@@ -25,7 +25,7 @@ export class VisorPdfCertificadoComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        public dialogRef: MatDialogRef<VisorPdfCertificadoComponent>,
+        public dialogRef: MatDialogRef<CertificadoFirmaURAAVisorPdfComponent>,
     ) {}
 
     ngOnInit(): void {
