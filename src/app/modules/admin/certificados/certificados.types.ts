@@ -22,6 +22,7 @@ export interface CertificadoInterface
     tramite: string;
     unidad: string;
     voucher: string;
+    certificado_final: string;
 }
 export interface CertificadoPagination
 {

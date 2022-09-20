@@ -5,7 +5,9 @@
 export const environment = {
     production: false,
     baseUrl: "http://127.0.0.1:8000/api/",
+    // baseUrl: "http://192.168.20.239:8000/api/",
     baseUrlStorage: "http://127.0.0.1:8000"
+    // baseUrlStorage: "http://192.168.20.239:8000"
 };
 
 /*
