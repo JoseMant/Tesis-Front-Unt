@@ -68,19 +68,6 @@
                         [svgIcon]="'heroicons_solid:eye'"></mat-icon>
 
                 </button>
-                <button
-                    *ngIf="newCertificado"
-                    class="ml-4"
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="uploadCertificado()">
-                    <span>
-                        Subir Certificado
-                    </span>
-                    <mat-progress-spinner
-                        [diameter]="24"
-                        [mode]="'indeterminate'"></mat-progress-spinner>
-                </button>
             </div>
         </div>
 
@@ -170,6 +157,20 @@
           >
           Regresar
         </button>
+        <button
+          *ngIf="newCertificado"
+          class="ml-4"
+          mat-flat-button
+          [color]="'primary'"
+          (click)="uploadCertificado()">
+          <span *ngIf="!certificadoForm.disabled">
+              Guardar
+          </span>
+          <mat-progress-spinner
+              *ngIf="certificadoForm.disabled"
+              [diameter]="24"
+              [mode]="'indeterminate'"></mat-progress-spinner>
+      </button>
       </mat-card-actions>
     </div>
   </mat-card>
