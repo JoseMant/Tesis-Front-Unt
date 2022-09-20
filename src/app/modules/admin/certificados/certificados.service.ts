@@ -272,8 +272,13 @@ export class CertificadosService
                     // Find the index of the updated certificado
                     const index = certificados.findIndex(item => item.idTramite === id);
 
-                    // Update the certificado
-                    certificados[index] = updatedCertificado;
+                    if (updatedCertificado.idEstado_tramite == 8) {
+                        // Update the certificado
+                        certificados.splice(index, 1);
+                    } else {
+                        // Update the certificado
+                        certificados[index] = updatedCertificado;
+                    }
 
                     // Update the certificados
                     this._certificados.next(certificados);
@@ -307,17 +312,10 @@ export class CertificadosService
                     console.log(updatedCertificado);
                     // Find the index of the updated certificado
                     const index = certificados.findIndex(item => item.idTramite === id);
-                    updatedCertificado.fut = environment.baseUrl + updatedCertificado.fut;
-                    updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
-                    updatedCertificado.certificado_final = environment.baseUrlStorage + updatedCertificado.certificado_final;
-                    updatedCertificado.requisitos.forEach(element => {
-                        if (element.archivo) {
-                            element.archivo = environment.baseUrlStorage + element.archivo;
-                        }
-                    });
+                    
                     // Update the certificado
-                    certificados[index] = updatedCertificado;
-                    console.log(updatedCertificado);
+                    certificados.splice(index, 1);
+
                     // Update the certificados
                     this._certificados.next(certificados);
 
@@ -328,6 +326,15 @@ export class CertificadosService
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
+
+                        updatedCertificado.fut = environment.baseUrl + updatedCertificado.fut;
+                        updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
+                        updatedCertificado.certificado_final = environment.baseUrlStorage + updatedCertificado.certificado_final;
+                        updatedCertificado.requisitos.forEach(element => {
+                            if (element.archivo) {
+                                element.archivo = environment.baseUrlStorage + element.archivo;
+                            }
+                        });
 
                         // Update the certificado if it's selected
                         this._certificado.next(updatedCertificado);
