@@ -15,7 +15,7 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector       : 'certificados-aprobados-list',
+    selector       : 'certificados-firma-uraa-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
@@ -47,7 +47,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CertificadosFirmaURAAListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;

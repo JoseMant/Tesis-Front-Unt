@@ -6,7 +6,7 @@ import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details
 // ------------
 import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
 import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
-import {  CertificadoAprobadoResolver, CertificadosAprobadosResolver } from 'app/modules/admin/certificados/aprobados/aprobados.resolvers';
+import { CertificadoAprobadoResolver, CertificadosAprobadosResolver } from 'app/modules/admin/certificados/aprobados/aprobados.resolvers';
 import { CertificadoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
 // -------------
 import { CertificadosValidadosComponent } from 'app/modules/admin/certificados/validados/validados.component';
@@ -14,14 +14,38 @@ import { CertificadosValidadosListComponent } from 'app/modules/admin/certificad
 import { UsersResolver, CertificadoValidadoResolver, CertificadosValidadosResolver } from 'app/modules/admin/certificados/validados/validados.resolvers';
 import { CertificadoValidadoDetalleComponent } from './validados/detalle/details.component';
 
-// import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
-// import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
-// import { CertificadosAprobadosResolver } from 'app/modules/admin/certificados/aprobados/aprobados.resolvers';
+import { CertificadosFirmaURAAComponent } from 'app/modules/admin/certificados/firma_uraa/firma_uraa.component';
+import { CertificadosFirmaURAAListComponent } from 'app/modules/admin/certificados/firma_uraa/list/list.component';
+import { CertificadoFirmaURAAResolver, CertificadosFirmaURAAResolver } from 'app/modules/admin/certificados/firma_uraa/firma_uraa.resolvers';
+import { CertificadoFirmaURAADetalleComponent } from './firma_uraa/detalle/details.component';
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/certificados/rechazados/rechazados.component';
 // import { CertificadosRechazadosListComponent } from 'app/modules/admin/certificados/rechazados/list/list.component';
 // import { CertificadosRechazadosResolver } from 'app/modules/admin/certificados/rechazados/rechazados.resolvers';
 
 export const certificadosRoutes: Route[] = [
+    {
+      path     : 'validados',
+      component: CertificadosValidadosComponent,
+      resolve  : {
+        certificados  : CertificadosValidadosResolver,
+      },
+      children : [
+        {
+          path     : '',
+          component: CertificadosValidadosListComponent,
+          resolve      : {
+            users  : UsersResolver,
+          },
+        },
+        {
+          path         : ':idTramite',
+          component    : CertificadoValidadoDetalleComponent,
+          resolve      : {
+            certificado  : CertificadoValidadoResolver,
+          },
+        }
+      ]
+    },
     {
         path     : 'asignados',
         component: CertificadosAsignadosComponent,
@@ -32,9 +56,6 @@ export const certificadosRoutes: Route[] = [
             {
                 path     : '',
                 component: CertificadosAsignadosListComponent,
-                resolve  : {
-                    certificados  : CertificadosAsignadosResolver,
-                }
             },
             {
                 path         : ':idTramite',
@@ -66,26 +87,24 @@ export const certificadosRoutes: Route[] = [
         ]
     },
     {
-        path     : 'validados',
-        component: CertificadosValidadosComponent,
+        path     : 'firma_uraa',
+        component: CertificadosFirmaURAAComponent,
         resolve  : {
-            certificados  : CertificadosValidadosResolver,
+            certificados  : CertificadosFirmaURAAResolver,
         },
         children : [
             {
                 path     : '',
-                component: CertificadosValidadosListComponent,
-                resolve      : {
-                    users  : UsersResolver,
-                },
+                component: CertificadosFirmaURAAListComponent,
             },
             {
                 path         : ':idTramite',
-                component    : CertificadoValidadoDetalleComponent,
+                component    : CertificadoFirmaURAADetalleComponent,
                 resolve      : {
-                    certificado  : CertificadoValidadoResolver,
+                    certificado  : CertificadoFirmaURAAResolver,
                 },
             }
         ]
     }
+
 ];
