@@ -209,14 +209,14 @@
             </mat-card-content>
             <mat-card-actions class="flex justify-end">
                 <button
-                    *ngIf="tramite.des_estado_voucher === 'RECHAZADO'"
+                    *ngIf="tramite.idEstado_tramite === 4"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="tramiteForm.disabled"
+                    [disabled]="!newVoucher"
                     (click)="updateTramite()">
                     <span *ngIf="!tramiteForm.disabled">
-                        Registrar Trámite
+                        Actualizar Voucher
                     </span>
                     <mat-progress-spinner
                         *ngIf="tramiteForm.disabled"
@@ -224,7 +224,7 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
                 <button
-                    *ngIf="tramite.des_estado_voucher === 'APROBADO'"
+                    *ngIf="tramite.idEstado_tramite === 9"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"

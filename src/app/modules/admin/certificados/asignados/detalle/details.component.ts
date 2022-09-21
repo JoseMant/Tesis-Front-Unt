@@ -98,7 +98,6 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
         title: '',
     };
     certificado: CertificadoInterface | null = null;
-    allcertificados: CertificadoInterface[];
     certificadoForm: FormGroup;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -129,17 +128,11 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
         });
     }
 
-    // limiteFecha(): void {
-    //     const now = moment();
-    //     this.maxDate = now;
-    // }
     /**
      * On init
      */
     ngOnInit(): void
     {
-        // this.limiteFecha();
-        // this.selectedGap = true;
         // Create the selected maduritylevel form
         this.certificadoForm = this._formBuilder.group({
             codigo: [''],
@@ -158,23 +151,10 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
             voucher: [''],
         });
 
-        // Get the certificados
-        // this._certificadoService.allcertificados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allcertificados: CertificadoInterface[]) => {
-        //         this.allcertificados = allcertificados;
-        //         console.log(allcertificados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
-
         // Get the certificado
         this._certificadoService.certificado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((certificado: CertificadoInterface) => {
-                // console.log(certificado);
-
                 // Get the certificado
                 this.certificado = certificado;
 
@@ -244,9 +224,16 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
     {
         // Get the contact object
         const certificado = this.certificadoForm.getRawValue();
+
+        // Disable the form
+        this.certificadoForm.disable();
         
         // Update the contact on the server
         this._certificadoService.updateRequisitos(certificado.idTramite, certificado).subscribe(() => {
+
+            // Re-enable the form
+            this.certificadoForm.enable();
+
             // Show a success message
             this.alert = {
                 type   : 'success',

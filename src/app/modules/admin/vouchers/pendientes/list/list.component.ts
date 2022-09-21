@@ -189,6 +189,13 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
             {
                 console.log(response.getRawValue());
                 const voucherPendiente = response.getRawValue();
+                // Toggle the edit mode off
+                this.alert = {
+                    type   : 'warning',
+                    message: 'El sistema está cargando...',
+                    title: 'Advertencia'
+                };
+                this.openSnack();
                 this._vouchersService.updateVoucher(voucherPendiente.idVoucher, voucherPendiente ).subscribe((updateNew) => {
                     console.log(updateNew);
                     // Toggle the edit mode off
