@@ -18,6 +18,11 @@ import { CertificadosFirmaURAAComponent } from 'app/modules/admin/certificados/f
 import { CertificadosFirmaURAAListComponent } from 'app/modules/admin/certificados/firma_uraa/list/list.component';
 import { CertificadoFirmaURAAResolver, CertificadosFirmaURAAResolver } from 'app/modules/admin/certificados/firma_uraa/firma_uraa.resolvers';
 import { CertificadoFirmaURAADetalleComponent } from './firma_uraa/detalle/details.component';
+
+import { CertificadosFirmaDecanoComponent } from 'app/modules/admin/certificados/firma_decano/firma_decano.component';
+import { CertificadosFirmaDecanoListComponent } from 'app/modules/admin/certificados/firma_decano/list/list.component';
+import { CertificadoFirmaDecanoResolver, CertificadosFirmaDecanoResolver } from 'app/modules/admin/certificados/firma_decano/firma_decano.resolvers';
+import { CertificadoFirmaDecanoDetalleComponent } from './firma_decano/detalle/details.component';
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/certificados/rechazados/rechazados.component';
 // import { CertificadosRechazadosListComponent } from 'app/modules/admin/certificados/rechazados/list/list.component';
 // import { CertificadosRechazadosResolver } from 'app/modules/admin/certificados/rechazados/rechazados.resolvers';
@@ -102,6 +107,26 @@ export const certificadosRoutes: Route[] = [
                 component    : CertificadoFirmaURAADetalleComponent,
                 resolve      : {
                     certificado  : CertificadoFirmaURAAResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'firma_decano',
+        component: CertificadosFirmaDecanoComponent,
+        resolve  : {
+            certificados  : CertificadosFirmaDecanoResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CertificadosFirmaDecanoListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : CertificadoFirmaDecanoDetalleComponent,
+                resolve      : {
+                    certificado  : CertificadoFirmaDecanoResolver,
                 },
             }
         ]

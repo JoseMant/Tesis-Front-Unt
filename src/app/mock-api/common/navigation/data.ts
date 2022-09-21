@@ -64,6 +64,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/certificados/firma_uraa',
                 permissions: ['URAA']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
+                id   : 'certificados.firma_decano',
+                title: 'Firma Decano',
+                type : 'basic',
+                link : '/certificados/firma_decano',
+                permissions: ['URAA']
             }
         ]
     },

@@ -164,6 +164,24 @@ export class CertificadosService
       );
     }
 
+    getCertificadosFirmaDecano(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/firma_decano', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._certificados.next(response.data);
+        })
+      );
+    }
     /**
      * Get certificado by id
      */

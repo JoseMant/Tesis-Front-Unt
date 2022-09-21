@@ -41,6 +41,11 @@ import { CertificadosFirmaURAAListComponent } from 'app/modules/admin/certificad
 import { CertificadoFirmaURAADetalleComponent } from './firma_uraa/detalle/details.component';
 import { CertificadoFirmaURAAVisorPdfComponent } from './firma_uraa/visorPdf/visorPdfCertificado.component';
 
+import { CertificadosFirmaDecanoComponent } from 'app/modules/admin/certificados/firma_decano/firma_decano.component';
+import { CertificadosFirmaDecanoListComponent } from 'app/modules/admin/certificados/firma_decano/list/list.component';
+import { CertificadoFirmaDecanoDetalleComponent } from './firma_decano/detalle/details.component';
+import { CertificadoFirmaDecanoVisorPdfComponent } from './firma_decano/visorPdf/visorPdfCertificado.component';
+
 import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.routing';
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
 // import { CertificadosRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
@@ -57,6 +62,10 @@ import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.
         CertificadosFirmaURAAListComponent,
         CertificadoFirmaURAADetalleComponent,
         CertificadoFirmaURAAVisorPdfComponent,
+        CertificadosFirmaDecanoComponent,
+        CertificadosFirmaDecanoListComponent,
+        CertificadoFirmaDecanoDetalleComponent,
+        CertificadoFirmaDecanoVisorPdfComponent,
         CertificadosValidadosComponent,
         CertificadosValidadosListComponent,
         CertificadoValidadoDetalleComponent,
