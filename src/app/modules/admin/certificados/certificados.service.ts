@@ -297,13 +297,17 @@ export class CertificadosService
             switchMap(certificados => this._httpClient.put<CertificadoInterface>(environment.baseUrl + 'tramite/update', tramite).pipe(
                 map((updatedCertificado) => {
                     console.log(updatedCertificado);
+                    // debugger;
                     // Find the index of the updated certificado
                     const index = certificados.findIndex(item => item.idTramite === id);
 
                     if (updatedCertificado.idEstado_tramite == 8) {
                         // Update the certificado
                         certificados.splice(index, 1);
-                    } else {
+                    } else if(updatedCertificado.idEstado_tramite == 9){
+                        certificados.splice(index, 1);
+                    }
+                    else {
                         // Update the certificado
                         certificados[index] = updatedCertificado;
                     }
