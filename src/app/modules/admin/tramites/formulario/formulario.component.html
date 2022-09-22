@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0 m-4">
 
     <mat-card class="w-full">
-        <div class="flex flex-col mx-5" *ngIf="!selectedGap">
+        <div class="flex flex-col mx-5">
             <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
               REGISTRO DE TRÁMITE
             </mat-card-title>
@@ -552,13 +552,6 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
             </mat-card-actions>
-        </div>
-        <div *ngIf="selectedGap" class="flex items-center justify-center mt-20">
-            <div class="spinner">
-              <div class="bounce1" style="background-color: rgb(185, 185, 185);"></div>
-              <div class="bounce2" style="background-color: rgb(185, 185, 185);"></div>
-              <div class="bounce3" style="background-color: rgb(185, 185, 185);"></div>
-          </div>
         </div>
     </mat-card>
 </div>
