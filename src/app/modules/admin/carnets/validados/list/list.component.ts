@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'carnets-validados-list',
@@ -170,25 +171,9 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
     }
 
 
-    descargarZip(): void
+    descargarZip(): string
     {
-        // Get the product object
-        // const data = this.selectedCertificadosForm.getRawValue();
-        
-        // Update the product on the server
-        this._carnetsService.descargarZip().subscribe(() => {
-            // Show a success message
-            this.alert = {
-                type   : 'success',
-                message: 'Trámite registrado correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
-            
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-
-        });
+        return environment.baseUrl + 'download/fotos';
     }
     // editarCarnet(dataCer, lectura, estado): void {
     //     console.log(dataCer);
