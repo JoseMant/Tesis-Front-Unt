@@ -108,7 +108,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
     data: TramiteInterface;
     dependencias: any;
     subdependencias: any;
-    selectedGap: boolean;
     maxDate: any;
     costo: any;
     motivos: any;
@@ -154,7 +153,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.limiteFecha();
-        this.selectedGap = true;
+        
         // Create the selected maduritylevel form
         this.tramiteForm = this._formBuilder.group({
             idTipo_tramite: [''],
@@ -254,7 +253,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             }
             this.tramiteForm.patchValue(user);
             this.createFormulario(this.user);
-            this.selectedGap = false;
+
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
