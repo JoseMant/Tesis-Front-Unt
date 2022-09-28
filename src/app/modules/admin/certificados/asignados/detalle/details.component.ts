@@ -165,6 +165,9 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });
 
+
+        // Disable the form
+        this.certificadoForm.disable();
     }
 
     /**
