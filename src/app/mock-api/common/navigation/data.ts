@@ -76,6 +76,54 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id   : 'constancias',
+        title: 'Constancias',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'constancias.validadas',
+                title: 'Validadas',
+                type : 'basic',
+                link : '/constancias/validadas',
+                permissions: ['URAA']
+            },
+            {
+                // Se muestran al usuario para validar requisitos
+                id   : 'constancias.asignadas',
+                title: 'Asignadas',
+                type : 'basic',
+                link : '/constancias/asignadas',
+                permissions: ['URAA']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
+                id   : 'constancias.firma_uraa',
+                title: 'Firma URA-a',
+                type : 'basic',
+                link : '/constancias/firma_uraa',
+                permissions: ['URAA']
+            },
+            // {
+            //     // Se muestran para subir el certificado generado
+            //     id   : 'carnets.aprobados',
+            //     title: 'Aprobados',
+            //     type : 'basic',
+            //     link : '/carnets/aprobados',
+            //     permissions: ['URAA']
+            // },
+            // {
+            //     // Se muestran para la firma del jefe de RT
+            //     id   : 'carnets.aprobados',
+            //     title: 'Aprobados',
+            //     type : 'basic',
+            //     link : '/carnets/aprobados',
+            //     permissions: ['URAA']
+            // }
+        ]
+    },
+    {
         id   : 'carnets',
         title: 'Carnets',
         type : 'collapsable',

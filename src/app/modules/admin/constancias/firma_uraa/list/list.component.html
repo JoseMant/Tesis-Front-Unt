@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Constancias asignadas</div>
+            <div class="text-4xl font-extrabold tracking-tight">Constancias pendientes de firma URA-a</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="constanciasCount > 0">
                     {{constanciasCount}}
                 </ng-container>
                 {{constanciasCount | i18nPlural: {
-                    '=0'   : 'No hay constancias asignadas',
-                    '=1'   : 'Constancia asignada',
-                    'other': 'Constancias asignadas'
+                    '=0'   : 'No hay constancias pendientes',
+                    '=1'   : 'Constancia pendiente',
+                    'other': 'Constancias pendientes'
                 } }}
             </div>
         </div>
@@ -50,13 +50,18 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="asignadas-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="constancias-aprobados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
                             <!-- Nro. -->
-                            <div>
-                                #
+                            <div>#</div>
+
+                            <!-- Nro. Trámite -->
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'codigo'">
+                                Nro. Trámite
                             </div>
 
                             <!-- Solicitante-->
@@ -65,44 +70,46 @@
                                 Solicitante
                             </div>
 
-                            <!-- Fecha-->
-                            <div
-                                [mat-sort-header]="'fecha'">
-                                Fecha
-                            </div>
-
-                            <!-- Unidad-->
-                            <div
-                                [mat-sort-header]="'unidad'">
-                                Unidad
-                            </div>
-
                             <!-- Trámite-->
                             <div
+                                class="hidden md:block"
                                 [mat-sort-header]="'tramite'">
                                 Trámite
                             </div>
 
-                            <!-- Nro. Trámite -->
+                            <!-- Unidad-->
                             <div
-                                [mat-sort-header]="'codigo'">
-                                Nro. Trámite
+                                class="hidden lg:block"
+                                [mat-sort-header]="'unidad'">
+                                Unidad
                             </div>
 
                             <!-- Facultad-->
-                            <div
+                            <!-- <div
+                                class="hidden lg:block"
                                 [mat-sort-header]="'facultad'">
                                 Facultad
-                            </div>
-
-                            <!-- Motivo -->
-                            <div [mat-sort-header]="'motivo'">Motivo</div>
+                            </div> -->
 
                             <!-- Nro Matrícula -->
                             <div
-                                class="hidden md:block"
+                                class="hidden lg:block"
                                 [mat-sort-header]="'nro_matricula'">
                                 N° Matrícula
+                            </div>
+
+                            <!-- Motivo -->
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'motivo'">
+                                Motivo
+                            </div>
+
+                            <!-- Fecha-->
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'fecha'">
+                                Fecha
                             </div>
 
                             <!-- Opciones -->
@@ -111,51 +118,51 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(constancias$ | async) as constancias">
                             <ng-container *ngFor="let constancia of constancias; trackBy: trackByFn let id=index">
-                                <div class="asignadas-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="constancias-aprobados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
                                         {{id+1}}
                                     </div>
 
+                                    <!-- Active -->
+                                    <div class="hidden sm:block">
+                                        {{constancia.codigo}}
+                                    </div>
+
                                     <!-- Solicitante -->
-                                    <div >
+                                    <div class="truncate">
                                         {{constancia.solicitante}}
                                     </div>
 
                                     <!-- Trámite -->
-                                    <div >
-                                        {{constancia.fecha}}
-                                    </div>
-
-                                    <!-- Exonerado -->
-                                    <div >
-                                        {{constancia.unidad}}
-                                    </div>
-
-                                    <!-- Stock -->
-                                    <div class="truncate">
+                                    <div  class="hidden md:block truncate">
                                         {{constancia.tramite}}
                                     </div>
 
-                                    <!-- Active -->
-                                    <div class="flex items-center">
-                                        {{constancia.codigo}}
+                                    <!-- Exonerado -->
+                                    <div class="hidden lg:block">
+                                        {{constancia.unidad}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div >
+                                    <!-- <div class="hidden lg:block">
                                         {{constancia.facultad}}
+                                    </div> -->
+
+                                    <!-- Active -->
+                                    <div class="hidden lg:block">
+                                        {{constancia.nro_matricula}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div >
+                                    <div class="hidden lg:block">
                                         {{constancia.motivo}}
                                     </div>
 
-                                    <!-- Active -->
-                                    <div >
-                                        {{constancia.nro_matricula}}
+                                    <!-- Stock -->
+                                    <div class="hidden lg:block">
+                                        {{constancia.fecha}}
                                     </div>
 
                                     <!-- Details button -->
@@ -187,7 +194,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay constancias asignadas!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay constancias pendientes!</div>
             </ng-template>
 
         </div>

@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Constancias validados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Constancias validadas</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="constanciasCount > 0">
                     {{constanciasCount}}
                 </ng-container>
                 {{constanciasCount | i18nPlural: {
-                    '=0'   : 'No hay constancias validados',
-                    '=1'   : 'Constancia validado',
-                    'other': 'Constancias validados'
+                    '=0'   : 'No hay constancias validadas',
+                    '=1'   : 'Constancia validada',
+                    'other': 'Constancias validadas'
                 } }}
             </div>
         </div>

@@ -15,24 +15,24 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector       : 'constancias-aprobados-list',
+    selector       : 'constancias-firma-uraa-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .asignadas-grid {
-                grid-template-columns: 96px auto 90px;
+            .constancias-aprobados-grid {
+                grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 96px 190px auto 90px;
+                    grid-template-columns: 48px 112px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 96px 190px auto 96px 90px;
+                    grid-template-columns: 48px 112px 190px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 50px auto 96px 120px auto 96px 96px 96px 96px 96px;
+                    grid-template-columns: 48px 112px 190px auto 96px 112px 190px 190px 72px;
                 }
             }
             .fondo_snackbar {
@@ -47,7 +47,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class ConstanciasAprobadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class ConstanciasFirmaURAAListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -150,7 +150,7 @@ export class ConstanciasAprobadosListComponent implements OnInit, AfterViewInit,
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._constanciasService.getConstanciasAsignados(0, 10, 'fecha', 'desc', query);
+                    return this._constanciasService.getConstanciasFirmaURAA(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -231,7 +231,7 @@ export class ConstanciasAprobadosListComponent implements OnInit, AfterViewInit,
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._constanciasService.getConstanciasAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._constanciasService.getConstanciasFirmaURAA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

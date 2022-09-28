@@ -167,7 +167,7 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
 
 
         // Disable the form
-        this.certificadoForm.disable();
+        // this.certificadoForm.disable();
     }
 
     /**

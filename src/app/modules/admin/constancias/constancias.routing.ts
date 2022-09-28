@@ -11,8 +11,13 @@ import { ConstanciaAprobadoDetalleComponent } from './aprobados/detalle/details.
 // -------------
 import { ConstanciasValidadosComponent } from 'app/modules/admin/constancias/validados/validados.component';
 import { ConstanciasValidadosListComponent } from 'app/modules/admin/constancias/validados/list/list.component';
-import { UsersResolver, ConstanciaValidadoResolver, ConstanciasValidadosResolver,AllConstanciasResolver } from 'app/modules/admin/constancias/validados/validados.resolvers';
+import { UsersResolver, ConstanciaValidadoResolver, ConstanciasValidadosResolver } from 'app/modules/admin/constancias/validados/validados.resolvers';
 import { ConstanciaValidadoDetalleComponent } from './validados/detalle/details.component';
+// -------------
+import { ConstanciasFirmaURAAComponent } from 'app/modules/admin/constancias/firma_uraa/firma_uraa.component';
+import { ConstanciasFirmaURAAListComponent } from 'app/modules/admin/constancias/firma_uraa/list/list.component';
+import { ConstanciaFirmaURAAResolver, ConstanciasFirmaURAAResolver } from 'app/modules/admin/constancias/firma_uraa/firma_uraa.resolvers';
+import { ConstanciaFirmaURAADetalleComponent } from './firma_uraa/detalle/details.component';
 
 // import { ConstanciasAprobadosComponent } from 'app/modules/admin/constancias/aprobados/aprobados.component';
 // import { ConstanciasAprobadosListComponent } from 'app/modules/admin/constancias/aprobados/list/list.component';
@@ -45,19 +50,39 @@ export const constanciasRoutes: Route[] = [
     //         }
     //     ]
     // },
+    // {
+    //     path     : 'asignadas',
+    //     component: ConstanciasAprobadosComponent,
+    //     resolve  : {
+    //         allconstancias  : AllConstanciasResolver,
+    //     },
+    //     children : [
+    //         {
+    //             path     : '',
+    //             component: ConstanciasAprobadosListComponent,
+    //             resolve  : {
+    //                 constancias  : ConstanciasAprobadosResolver,
+    //             }
+    //         },
+    //         {
+    //             path         : ':idTramite',
+    //             component    : ConstanciaAprobadoDetalleComponent,
+    //             resolve      : {
+    //                 constancia  : ConstanciaAprobadoResolver,
+    //             },
+    //         }
+    //     ]
+    // },
     {
-        path     : 'aprobados',
+        path     : 'asignadas',
         component: ConstanciasAprobadosComponent,
         resolve  : {
-            allconstancias  : AllConstanciasResolver,
+            constancias  : ConstanciasAprobadosResolver,
         },
         children : [
             {
                 path     : '',
                 component: ConstanciasAprobadosListComponent,
-                resolve  : {
-                    constancias  : ConstanciasAprobadosResolver,
-                }
             },
             {
                 path         : ':idTramite',
@@ -69,10 +94,10 @@ export const constanciasRoutes: Route[] = [
         ]
     },
     {
-        path     : 'validados',
-        component: ConstanciasValidadosComponent,
+        path     : 'validadas',
+        component: ConstanciasAprobadosComponent,
         resolve  : {
-            allconstancias  : AllConstanciasResolver,
+            allconstancias  : ConstanciasValidadosResolver,
         },
         children : [
             {
@@ -88,6 +113,26 @@ export const constanciasRoutes: Route[] = [
                 component    : ConstanciaValidadoDetalleComponent,
                 resolve      : {
                     constancia  : ConstanciaValidadoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'firma_uraa',
+        component: ConstanciasFirmaURAAComponent,
+        resolve  : {
+            constancias  : ConstanciasFirmaURAAResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: ConstanciasFirmaURAAListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : ConstanciaFirmaURAADetalleComponent,
+                resolve      : {
+                    constancia  : ConstanciaFirmaURAAResolver,
                 },
             }
         ]

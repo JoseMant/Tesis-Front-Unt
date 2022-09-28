@@ -20,6 +20,9 @@ import { ConstanciasAprobadosComponent } from 'app/modules/admin/constancias/apr
 import { ConstanciasAprobadosListComponent } from 'app/modules/admin/constancias/aprobados/list/list.component';
 import { ConstanciasValidadosComponent } from 'app/modules/admin/constancias/validados/validados.component';
 import { ConstanciasValidadosListComponent } from 'app/modules/admin/constancias/validados/list/list.component';
+import { ConstanciasFirmaURAAListComponent } from 'app/modules/admin/constancias/firma_uraa/list/list.component';
+import { ConstanciasFirmaURAAComponent } from 'app/modules/admin/constancias/firma_uraa/firma_uraa.component';
+import { ConstanciaFirmaURAADetalleComponent } from 'app/modules/admin/constancias/firma_uraa/detalle/details.component';
 
 // import { ConstanciasRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
 // import { ConstanciasRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
@@ -36,6 +39,8 @@ import { MatListModule } from '@angular/material/list';
 import { ConstanciaAprobadoDetalleComponent } from './aprobados/detalle/details.component';
 import { ConstanciaValidadoDetalleComponent } from './validados/detalle/details.component';
 // import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
+import { VisorPdfConstanciaComponent } from './aprobados/visorPdf/visorPdfConstancia.component';
+import { ConstanciaFirmaURAAVisorPdfComponent } from './firma_uraa/visorPdf/visorPdfConstanciaFirmaUraa.component';
 
 @NgModule({
     declarations: [
@@ -48,7 +53,11 @@ import { ConstanciaValidadoDetalleComponent } from './validados/detalle/details.
         ConstanciasValidadosComponent,
         ConstanciasValidadosListComponent,
         ConstanciaValidadoDetalleComponent,
-        // VisorPdfConstanciaComponent,
+        ConstanciasFirmaURAAComponent,
+        ConstanciasFirmaURAAListComponent,
+        ConstanciaFirmaURAADetalleComponent,
+        VisorPdfConstanciaComponent,
+        ConstanciaFirmaURAAVisorPdfComponent
         // RequisitosDialogComponent
     ],
     imports     : [

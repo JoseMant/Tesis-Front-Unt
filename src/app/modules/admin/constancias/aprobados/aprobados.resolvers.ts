@@ -53,35 +53,35 @@ export class ConstanciaAprobadoResolver implements Resolve<any>
     }
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+// @Injectable({
+//     providedIn: 'root'
+// })
 
-export class AllConstanciasResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _constanciasService: ConstanciasService,
-        private _router: Router)
-    {
-    }
+// export class AllConstanciasResolver implements Resolve<any>
+// {
+//     /**
+//      * Constructor
+//      */
+//     constructor(private _constanciasService: ConstanciasService,
+//         private _router: Router)
+//     {
+//     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+//     // -----------------------------------------------------------------------------------------------------
+//     // @ Public methods
+//     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ConstanciaInterface[]>
-    {
-        return this._constanciasService.getAllConstancias();
-    }
-}
+//     /**
+//      * Resolver
+//      *
+//      * @param route
+//      * @param state
+//      */
+//     // resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ConstanciaInterface[]>
+//     // {
+//     //     return this._constanciasService.getConstancias();
+//     // }
+// }
 
 @Injectable({
     providedIn: 'root'
@@ -107,6 +107,6 @@ export class ConstanciasAprobadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>
     {
-        return this._constanciasService.getConstanciasAprobados();
+        return this._constanciasService.getConstanciasAsignados();
     }
 }

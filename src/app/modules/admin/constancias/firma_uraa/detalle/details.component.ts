@@ -19,11 +19,11 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 // import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
-// import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
+import { ConstanciaFirmaURAAVisorPdfComponent } from '../visorPdf/visorPdfConstanciaFirmaUraa.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
-    selector       : 'constancia-details',
+    selector       : 'constancia-firma-uraa-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -86,7 +86,7 @@ import moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class ConstanciaValidadoDetalleComponent implements OnInit, OnDestroy
+export class ConstanciaFirmaURAADetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
@@ -102,7 +102,7 @@ export class ConstanciaValidadoDetalleComponent implements OnInit, OnDestroy
     constanciaForm: FormGroup;
     contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    newConstancia: boolean = false;
     /**
      * Constructor
      */
@@ -143,10 +143,11 @@ export class ConstanciaValidadoDetalleComponent implements OnInit, OnDestroy
         // this.selectedGap = true;
         // Create the selected maduritylevel form
         this.constanciaForm = this._formBuilder.group({
-            idTipo_constancia: [''],
+            idTramite: [''],
+            idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
-            idEstado_constancia: [''],
+            idEstado_tramite: [''],
             idModalidad_grado: [''],
             descripcion_estado: [''],
             codigo: [''],
@@ -154,7 +155,7 @@ export class ConstanciaValidadoDetalleComponent implements OnInit, OnDestroy
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
-            idMotivo_constancia: [''],
+            idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
             nombres: [''],
@@ -168,13 +169,13 @@ export class ConstanciaValidadoDetalleComponent implements OnInit, OnDestroy
             tipo_documento: [''],
             sexoNombre: [''],
             idUnidad: [''],
-            idTipo_constancia_unidad: [''],
+            idTipo_tramite_unidad: [''],
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
         });
 
-        // // Get the constancias
+        // Get the constancias
         // this._constanciaService.allconstancias$
         //     .pipe(takeUntil(this._unsubscribeAll))
         //     .subscribe((allconstancias: ConstanciaInterface[]) => {
@@ -225,36 +226,93 @@ export class ConstanciaValidadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    rechazarRequisitos(): void {
-        for (const itera of this.constancia.requisitos) {
-            itera['selected'] = false;
-        }
-        // const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-        //     autoFocus: false,
-        //     disableClose: true,
-        //     data: JSON.parse( JSON.stringify( {
-        //         requisitos: this.constancia.requisitos
-        //     } ))
-        // });
-        // dialogRef.afterClosed().subscribe( (response) => {
-        //     // If the confirm button pressed...
-        //     if ( response )
-        //     {
-        //         console.log(response.getRawValue().requisitos);
-        //         this.constancia.requisitos = response.getRawValue().requisitos;
-        //         console.log(this.constancia.requisitos);
-        //         this.constanciaForm.patchValue({ requisitos: response.getRawValue().requisitos});
-        //         console.log(this.constanciaForm.getRawValue());
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     }
-        // });
-    }
+    // rechazarRequisitos(): void {
+    //     for (const itera of this.constancia.requisitos) {
+    //         itera['selected'] = false;
+    //     }
+    //     const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
+    //         autoFocus: false,
+    //         disableClose: true,
+    //         data: JSON.parse( JSON.stringify( {
+    //             requisitos: this.constancia.requisitos
+    //         } ))
+    //     });
+    //     dialogRef.afterClosed().subscribe( (response) => {
+    //         // If the confirm button pressed...
+    //         if ( response )
+    //         {
+    //             console.log(response.getRawValue().requisitos);
+    //             this.constancia.requisitos = response.getRawValue().requisitos;
+    //             console.log(this.constancia.requisitos);
+    //             this.constanciaForm.patchValue({ requisitos: response.getRawValue().requisitos});
+    //             console.log(this.constanciaForm.getRawValue());
+    //             // Mark for check
+    //             this._changeDetectorRef.markForCheck();
+    //         }
+    //     });
+    // }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    selectConstancia(event): void {
+        const files = event.target.files[0];
+        this.constanciaForm.patchValue({archivo: files});
+        console.log(this.constanciaForm);
+        this.newConstancia = true;
+    }
+    verDocumento(): void {
+        console.log(this.constanciaForm.getRawValue());
+        const respDial = this.visordialog.open(
+            ConstanciaFirmaURAAVisorPdfComponent,
+            {
+                data: this.constanciaForm.getRawValue(),
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+    uploadConstancia(): void{
+        const data={
+            idTramite: this.constanciaForm.getRawValue().idTramite,
+            archivo: this.constanciaForm.getRawValue().archivo,
+        };
+        const formData = new FormData();
+            formData.append('idTramite', data.idTramite);
+            formData.append('archivo', data.archivo);
+        console.log(formData);
 
+        this._constanciaService.uploadConstancia(data.idTramite,formData).subscribe((newMadurity) => {
+            console.log(newMadurity);
+            // Toggle the edit mode off
+            //this.toggleEditMode(false);
+            // Re-enable the form
+            this.constanciaForm.enable();
+            // Go to new product
+            //this.createFormulario(this.user);
+            this.alert = {
+                type   : 'success',
+                message: 'Constancia cargado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            this.newConstancia = false;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
+            // Re-enable the form
+            this.constanciaForm.enable();
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
+    }
     /**
      * Create formulario
      */

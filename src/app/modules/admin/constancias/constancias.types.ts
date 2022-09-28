@@ -22,6 +22,8 @@ export interface ConstanciaInterface
     tramite: string;
     unidad: string;
     voucher: string;
+    constancia_final?: string;
+    idEstado_tramite:number;
 }
 export interface ConstanciaPagination
 {

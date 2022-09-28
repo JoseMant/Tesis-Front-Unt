@@ -150,7 +150,7 @@ export class CertificadosFirmaDecanoListComponent implements OnInit, AfterViewIn
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAprobados(0, 10, 'fecha', 'desc', query);
+                    return this._certificadosService.getCertificadosFirmaDecano(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -231,7 +231,7 @@ export class CertificadosFirmaDecanoListComponent implements OnInit, AfterViewIn
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._certificadosService.getCertificadosFirmaDecano(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

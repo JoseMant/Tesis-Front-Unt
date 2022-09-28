@@ -2,40 +2,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ConstanciasService } from 'app/modules/admin/constancias/constancias.service';
-import { UserInterface, ConstanciaPagination, ConstanciaInterface } from 'app/modules/admin/constancias/constancias.types';
+import { ConstanciaPagination, ConstanciaInterface } from 'app/modules/admin/constancias/constancias.types';
+
 
 @Injectable({
     providedIn: 'root'
 })
-export class UsersResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _constanciasService: ConstanciasService)
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserInterface[]>
-    {
-        return this._constanciasService.getUsers();
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class ConstanciaValidadoResolver implements Resolve<any>
+export class ConstanciaFirmaURAAResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -113,7 +86,7 @@ export class ConstanciaValidadoResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class ConstanciasValidadosResolver implements Resolve<any>
+export class ConstanciasFirmaURAAResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -134,6 +107,6 @@ export class ConstanciasValidadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>
     {
-        return this._constanciasService.getConstanciasValidados();
+        return this._constanciasService.getConstanciasFirmaURAA();
     }
 }
