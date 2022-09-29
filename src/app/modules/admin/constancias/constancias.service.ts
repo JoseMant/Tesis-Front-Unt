@@ -181,7 +181,7 @@ export class ConstanciasService
                 // Find the constancia
                 // const constancia = constancias.find(item => item.idTramite === id) || null;
                 const constancia = JSON.parse( JSON.stringify(constancias.find(item => item.idTramite === id) || null) )
-                constancia.fut = environment.baseUrl + constancia.fut;
+                constancia.fut = environment.baseUrlStorage + constancia.fut;
                 constancia.voucher = environment.baseUrlStorage + constancia.voucher;
                 // if (constancia.constancia_final) {
                 //     constancia.constancia_final = environment.baseUrlStorage + constancia.constancia_final;
@@ -273,7 +273,7 @@ export class ConstanciasService
 
      uploadConstancia(id: number, tramite: any): Observable<any>
      {
-         console.log(tramite);
+         console.log(tramite.getAll);
          return this.constancias$.pipe(
              take(1),
              switchMap(constancias => this._httpClient.post<any>(environment.baseUrl + 'constancias/upload/'+ id, tramite).pipe(

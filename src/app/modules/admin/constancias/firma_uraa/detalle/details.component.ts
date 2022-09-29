@@ -21,6 +21,7 @@ import moment from 'moment';
 // import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
 import { ConstanciaFirmaURAAVisorPdfComponent } from '../visorPdf/visorPdfConstanciaFirmaUraa.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'constancia-firma-uraa-details',
@@ -278,11 +279,12 @@ export class ConstanciaFirmaURAADetalleComponent implements OnInit, OnDestroy
             idTramite: this.constanciaForm.getRawValue().idTramite,
             archivo: this.constanciaForm.getRawValue().archivo,
         };
+        console.log(data);
         const formData = new FormData();
-            formData.append('idTramite', data.idTramite);
-            formData.append('archivo', data.archivo);
-        console.log(formData);
-
+        formData.append('idTramite', data.idTramite);
+        formData.append('archivo', data.archivo);
+        console.log(formData.getAll);
+        // debugger;
         this._constanciaService.uploadConstancia(data.idTramite,formData).subscribe((newMadurity) => {
             console.log(newMadurity);
             // Toggle the edit mode off
@@ -312,6 +314,9 @@ export class ConstanciaFirmaURAADetalleComponent implements OnInit, OnDestroy
             };
             this.openSnack();
         });
+    }
+    verConstancia(): string{
+        return environment.baseUrl + 'constancia/'+this.constanciaForm.getRawValue().idTramite;
     }
     /**
      * Create formulario
