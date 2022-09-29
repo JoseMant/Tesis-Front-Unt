@@ -14,7 +14,6 @@ export class CertificadosService
     private _pagination: BehaviorSubject<CertificadoPagination | null> = new BehaviorSubject(null);
     private _certificado: BehaviorSubject<CertificadoInterface | null> = new BehaviorSubject(null);
     private _certificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
-    // private _allcertificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -58,14 +57,6 @@ export class CertificadosService
     {
         return this._certificados.asObservable();
     }
-
-    /**
-     * Getter for certificados
-     */
-    // get allcertificados$(): Observable<CertificadoInterface[]>
-    // {
-    //     return this._allcertificados.asObservable();
-    // }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -204,9 +195,10 @@ export class CertificadosService
                         element.archivo = environment.baseUrlStorage + element.archivo;
                     }
                 });
-                console.log(certificado);
+                
                 // Update the certificado
                 this._certificado.next(certificado);
+                
                 // Return the certificado
                 return certificado;
             }),
@@ -336,7 +328,6 @@ export class CertificadosService
     
     uploadCertificado(id: number, tramite: any): Observable<any>
     {
-        console.log(tramite);
         return this.certificados$.pipe(
             take(1),
             switchMap(certificados => this._httpClient.post<any>(environment.baseUrl + 'certificados/upload/'+ id, tramite).pipe(

@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { CarnetsAsignadosComponent } from 'app/modules/admin/carnets/asignados/asignados.component';
 import { CarnetsAsignadosListComponent } from 'app/modules/admin/carnets/asignados/list/list.component';
-import { AllCarnetsResolver, CarnetAsignadoResolver, CarnetsAsignadosResolver } from 'app/modules/admin/carnets/asignados/asignados.resolvers';
+import { CarnetAsignadoResolver, CarnetsAsignadosResolver } from 'app/modules/admin/carnets/asignados/asignados.resolvers';
 import { CarnetAsignadoDetalleComponent } from './asignados/detalle/details.component';
 // ------------
 import { CarnetsAprobadosComponent } from 'app/modules/admin/carnets/aprobados/aprobados.component';
@@ -11,7 +11,7 @@ import { CarnetAprobadoDetalleComponent } from './aprobados/detalle/details.comp
 // -------------
 import { CarnetsValidadosComponent } from 'app/modules/admin/carnets/validados/validados.component';
 import { CarnetsValidadosListComponent } from 'app/modules/admin/carnets/validados/list/list.component';
-import {  CarnetValidadoResolver, CarnetsValidadosResolver } from 'app/modules/admin/carnets/validados/validados.resolvers';
+import { UsersResolver, CarnetValidadoResolver, CarnetsValidadosResolver } from 'app/modules/admin/carnets/validados/validados.resolvers';
 import { CarnetValidadoDetalleComponent } from './validados/detalle/details.component';
 
 // import { CarnetsAprobadosComponent } from 'app/modules/admin/carnets/aprobados/aprobados.component';
@@ -26,15 +26,12 @@ export const carnetsRoutes: Route[] = [
         path     : 'asignados',
         component: CarnetsAsignadosComponent,
         resolve  : {
-            allcarnets  : AllCarnetsResolver,
+            allcarnets  : CarnetsAsignadosResolver,
         },
         children : [
             {
                 path     : '',
                 component: CarnetsAsignadosListComponent,
-                resolve  : {
-                    carnets  : CarnetsAsignadosResolver,
-                }
             },
             {
                 path         : ':idTramite',
@@ -49,15 +46,12 @@ export const carnetsRoutes: Route[] = [
         path     : 'aprobados',
         component: CarnetsAprobadosComponent,
         resolve  : {
-            allcarnets  : AllCarnetsResolver,
+            allcarnets  : CarnetsAprobadosResolver,
         },
         children : [
             {
                 path     : '',
                 component: CarnetsAprobadosListComponent,
-                resolve  : {
-                    carnets  : CarnetsAprobadosResolver,
-                }
             },
             {
                 path         : ':idTramite',
@@ -72,14 +66,14 @@ export const carnetsRoutes: Route[] = [
         path     : 'validados',
         component: CarnetsValidadosComponent,
         resolve  : {
-            allcarnets  : AllCarnetsResolver,
+            allcarnets  : CarnetsValidadosResolver,
         },
         children : [
             {
                 path     : '',
                 component: CarnetsValidadosListComponent,
                 resolve  : {
-                    carnets  : CarnetsValidadosResolver,
+                    users  : UsersResolver,
                 }
             },
             {

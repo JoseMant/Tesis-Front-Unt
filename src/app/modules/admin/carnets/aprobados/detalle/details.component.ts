@@ -98,7 +98,7 @@ export class CarnetAprobadoDetalleComponent implements OnInit, OnDestroy
         title: '',
     };
     carnet: CarnetInterface | null = null;
-    allcarnets: CarnetInterface[];
+    carnets: CarnetInterface[];
     carnetForm: FormGroup;
     contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -175,11 +175,11 @@ export class CarnetAprobadoDetalleComponent implements OnInit, OnDestroy
         });
 
         // Get the carnets
-        this._carnetService.allcarnets$
+        this._carnetService.carnets$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((allcarnets: CarnetInterface[]) => {
-                this.allcarnets = allcarnets;
-                console.log(allcarnets);
+            .subscribe((carnets: CarnetInterface[]) => {
+                this.carnets = carnets;
+                console.log(carnets);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

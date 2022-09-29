@@ -96,26 +96,7 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
     {
         // Create the selected carnet form
         this.selectedCarnetForm = this._formBuilder.group({
-            id               : [''],
-            category         : [''],
-            name             : ['', [Validators.required]],
-            description      : [''],
-            tags             : [[]],
-            sku              : [''],
-            barcode          : [''],
-            brand            : [''],
-            vendor           : [''],
-            stock            : [''],
-            reserved         : [''],
-            cost             : [''],
-            basePrice        : [''],
-            taxPercent       : [''],
-            price            : [''],
-            weight           : [''],
-            thumbnail        : [''],
-            images           : [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
-            active           : [false]
+            file             : ['', [Validators.required]],
         });
 
         // Get the pagination
@@ -169,44 +150,6 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
             data: this.alert,
         });
     }
-
-
-    descargarZip(): string
-    {
-        return environment.baseUrl + 'download/fotos';
-    }
-    // editarCarnet(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_carnet'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/carnets_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfCarnetComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const carnetValidado = response.getRawValue();
-    //             this._carnetsService.updateCarnet(carnetValidado.idCarnet, carnetValidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Carnet actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
 
     /**
      * After view init
@@ -269,5 +212,53 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
+    }
+
+    descargarZip(): string
+    {
+        return environment.baseUrl + 'download/fotos';
+    }
+
+    selectObservados(event): void {
+        const files = event.target.files[0];
+        this.selectedCarnetForm.patchValue({file: files});
+        // console.log(this.selectedCarnetForm);
+        // this.newCarnet = true;
+    }
+
+    uploadObservados(): void{
+        const formData = new FormData();
+        formData.append('file', this.selectedCarnetForm.getRawValue().archivo);
+        
+        
+        this._carnetsService.updateCarnets(formData).subscribe((newCarnet) => {
+            console.log(newCarnet);
+            // Toggle the edit mode off
+            //this.toggleEditMode(false);
+            // Re-enable the form
+            this.selectedCarnetForm.enable();
+            // Go to new product
+            //this.createFormulario(this.user);
+            this.alert = {
+                type   : 'success',
+                message: 'Certificado cargado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            // this.newCarnet = false;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
+            // Re-enable the form
+            this.selectedCarnetForm.enable();
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
     }
 }

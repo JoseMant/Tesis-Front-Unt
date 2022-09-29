@@ -32,3 +32,15 @@ export interface CarnetPagination
     startIndex: number;
     endIndex: number;
 }
+
+export interface UserInterface
+{
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    status?: string;
+    nro_doc?: string;
+    idTipoUsuario: number;
+    rol: string;
+}

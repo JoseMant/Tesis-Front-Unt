@@ -283,28 +283,27 @@ export class ConstanciaFirmaURAADetalleComponent implements OnInit, OnDestroy
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
         formData.append('archivo', data.archivo);
-        console.log(formData.getAll);
+        // console.log(formData.getAll('archivo'));
         // debugger;
-        this._constanciaService.uploadConstancia(data.idTramite,formData).subscribe((newMadurity) => {
-            console.log(newMadurity);
-            // Toggle the edit mode off
-            //this.toggleEditMode(false);
+        this._constanciaService.uploadConstancia(data.idTramite,formData).subscribe((response) => {
+            console.log(response);
+            
             // Re-enable the form
             this.constanciaForm.enable();
-            // Go to new product
-            //this.createFormulario(this.user);
+            
             this.alert = {
                 type   : 'success',
-                message: 'Constancia cargado correctamente',
+                message: 'Constancia cargada correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             this.newConstancia = false;
+            
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
         (error) => {
-            // console.log(error);
+            console.log(error);
             // Re-enable the form
             this.constanciaForm.enable();
             this.alert = {

@@ -56,36 +56,6 @@ export class CarnetAprobadoResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-
-export class AllCarnetsResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _carnetsService: CarnetsService,
-        private _router: Router)
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CarnetInterface[]>
-    {
-        return this._carnetsService.getAllCarnets();
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
 export class CarnetsAprobadosResolver implements Resolve<any>
 {
     /**

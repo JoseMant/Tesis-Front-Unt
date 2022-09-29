@@ -271,50 +271,44 @@ export class ConstanciasService
          );
      }
 
-     uploadConstancia(id: number, tramite: any): Observable<any>
-     {
-         console.log(tramite.getAll);
-         return this.constancias$.pipe(
-             take(1),
-             switchMap(constancias => this._httpClient.post<any>(environment.baseUrl + 'constancias/upload/'+ id, tramite).pipe(
-                 map((updatedConstancia) => {
-                     console.log(updatedConstancia);
-                     // Find the index of the updated constancia
-                     const index = constancias.findIndex(item => item.idTramite === id);
-                     
-                     // Update the constancia
-                     constancias.splice(index, 1);
- 
-                     // Update the constancias
-                     this._constancias.next(constancias);
- 
-                     // Return the updated constancia
-                     return updatedConstancia;
-                 }),
-                 switchMap(updatedConstancia => this.constancia$.pipe(
-                     take(1),
-                     filter(item => item && item.idTramite === id),
-                     tap(() => {
- 
-                         updatedConstancia.fut = environment.baseUrl + updatedConstancia.fut;
-                         updatedConstancia.voucher = environment.baseUrlStorage + updatedConstancia.voucher;
-                         updatedConstancia.constancia_final = environment.baseUrlStorage + updatedConstancia.constancia_final;
-                         updatedConstancia.requisitos.forEach(element => {
-                             if (element.archivo) {
-                                 element.archivo = environment.baseUrlStorage + element.archivo;
-                             }
-                         });
- 
-                         // Update the constancia if it's selected
-                         this._constancia.next(updatedConstancia);
- 
-                         // Return the updated constancia
-                         return updatedConstancia;
-                     })
-                 ))
-             ))
-         );
-     }
+    uploadConstancia(id: number, tramite: any): Observable<any>
+    {
+        return this.constancias$.pipe(
+            take(1),
+            switchMap(constancias => this._httpClient.post<any>(environment.baseUrl + 'constancias/upload/'+ id, tramite).pipe(
+                map((updatedConstancia) => {
+                    console.log(updatedConstancia);
+                    // Find the index of the updated constancia
+                    const index = constancias.findIndex(item => item.idTramite === id);
+                    
+                    // Update the constancia
+                    constancias.splice(index, 1);
+    
+                    // Update the constancias
+                    this._constancias.next(constancias);
+    
+                    // Return the updated constancia
+                    return updatedConstancia;
+                }),
+                switchMap(updatedConstancia => this.constancia$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+    
+                        updatedConstancia.fut = environment.baseUrl + updatedConstancia.fut;
+                        updatedConstancia.voucher = environment.baseUrlStorage + updatedConstancia.voucher;
+                        updatedConstancia.constancia_final = environment.baseUrlStorage + updatedConstancia.constancia_final;
+                        
+                        // Update the constancia if it's selected
+                        this._constancia.next(updatedConstancia);
+    
+                        // Return the updated constancia
+                        return updatedConstancia;
+                    })
+                ))
+            ))
+        );
+    }
 
      enviarConstancia(id: number): Observable<any>
      {
