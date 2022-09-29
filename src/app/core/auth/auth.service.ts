@@ -10,6 +10,7 @@ import { environment } from 'environments/environment';
 export class AuthService
 {
     private _message: BehaviorSubject<any> = new BehaviorSubject(null);
+    private _code: BehaviorSubject<any> = new BehaviorSubject(null);
     private _authenticated: boolean = false;
 
     /**
@@ -39,8 +40,13 @@ export class AuthService
     {
         return localStorage.getItem('accessToken') ?? '';
     }
+
     get message$(): Observable<any> {
         return this._message.asObservable();
+    }
+    
+    get code$(): Observable<any> {
+        return this._code.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,7 +60,7 @@ export class AuthService
      */
     forgotPassword(email: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/forgot-password', email);
+        return this._httpClient.post(environment.baseUrl + 'auth/forgot-password', {email: email});
     }
 
     /**
@@ -62,9 +68,12 @@ export class AuthService
      *
      * @param password
      */
-    resetPassword(password: string): Observable<any>
+    resetPassword(code: string, password: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/reset-password', password);
+        return this._httpClient.post(environment.baseUrl + 'auth/reset-password', {
+            'code': code, 
+            'password': password 
+        });
     }
 
     /**
@@ -227,6 +236,20 @@ export class AuthService
           tap((response) => {
               console.log(response);
               this._message.next(response);
+            })
+        );
+    }
+
+    /**
+     * Sign in using the access token
+     */
+    resetPasswordByCode(code: string): Observable<any>
+    {
+        // validate By Code
+        return this._httpClient.get(environment.baseUrl + 'auth/verifyCodePassword/' + code).pipe(
+          tap((response) => {
+              console.log(response);
+              this._code.next(response.code)
             })
         );
     }

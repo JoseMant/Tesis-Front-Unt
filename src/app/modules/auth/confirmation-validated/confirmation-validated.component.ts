@@ -29,7 +29,7 @@ export class AuthConfirmationValidatedComponent
         this._authService.message$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: any) => {
-console.log(response);
+                
                 // Update the pagination
                 this.message = response.message;
 

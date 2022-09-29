@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { finalize } from 'rxjs';
+import { Router } from '@angular/router';
+import { finalize, timer, Subject, takeUntil, takeWhile, tap } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseValidators } from '@fuse/validators';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -20,15 +21,21 @@ export class AuthResetPasswordComponent implements OnInit
         type   : 'success',
         message: ''
     };
-    resetPasswordForm: FormGroup;
+    code : any;
+    message : any;
     showAlert: boolean = false;
+    resetPasswordForm: FormGroup;
+    countdown: number = 3;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _authService: AuthService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        public _router: Router
     )
     {
     }
@@ -44,6 +51,7 @@ export class AuthResetPasswordComponent implements OnInit
     {
         // Create the form
         this.resetPasswordForm = this._formBuilder.group({
+                code           : ['', Validators.required],
                 password       : ['', Validators.required],
                 passwordConfirm: ['', Validators.required]
             },
@@ -51,11 +59,28 @@ export class AuthResetPasswordComponent implements OnInit
                 validators: FuseValidators.mustMatch('password', 'passwordConfirm')
             }
         );
+
+        // Get the code
+        this._authService.code$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: any) => {
+                console.log(response);
+                // Update the code
+                this.resetPasswordForm.patchValue({ code: response});
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    redirect(): void
+    {
+        this._router.navigate(['sign-in']);
+    }
 
     /**
      * Reset password
@@ -75,12 +100,9 @@ export class AuthResetPasswordComponent implements OnInit
         this.showAlert = false;
 
         // Send the request to the server
-        this._authService.resetPassword(this.resetPasswordForm.get('password').value)
+        this._authService.resetPassword(this.resetPasswordForm.get('code').value, this.resetPasswordForm.get('password').value)
             .pipe(
                 finalize(() => {
-
-                    // Re-enable the form
-                    this.resetPasswordForm.enable();
 
                     // Reset the form
                     this.resetPasswordNgForm.resetForm();
@@ -95,15 +117,36 @@ export class AuthResetPasswordComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'success',
-                        message: 'Your password has been reset.'
+                        message: 'Tu contraseña ha sido restablecida.'
                     };
+
+                    // Redirect after the countdown
+                    timer(1000, 1000)
+                        .pipe(
+                            finalize(() => {
+                                this._router.navigate(['sign-in']);
+                            }),
+                            takeWhile(() => this.countdown > 0),
+                            takeUntil(this._unsubscribeAll),
+                            tap(() => {
+                                this.alert = {
+                                    type   : 'success',
+                                    message: 'Tu contraseña ha sido restablecida. Redirigiendo en ' + this.countdown
+                                };
+                                this.countdown--
+                            })
+                        )
+                        .subscribe();
                 },
                 (response) => {
+
+                    // Re-enable the form
+                    this.resetPasswordForm.enable();
 
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
                     };
                 }
             );
