@@ -81,7 +81,12 @@ export const appRoutes: Route[] = [
             {path: 'certificados', loadChildren: () => import('app/modules/admin/certificados/certificados.module').then(m => m.CertificadosModule)},
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
-            {path: 'usuarios', loadChildren: () => import('app/modules/admin/usuarios/usuarios.module').then(m => m.UsuariosModule)},
+            // Ajustes
+            // {path: 'settings', loadChildren: () => import('app/modules/admin/settings/settings.module').then(m => m.SettingsModule)},
+            // Masters
+            {path: 'masters', children: [
+                {path: 'access', loadChildren: () => import('app/modules/admin/masters/access/access.module').then(m => m.AccessModule)},
+            ]},
         ]
     }
 ];

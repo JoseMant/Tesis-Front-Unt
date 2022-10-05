@@ -179,11 +179,11 @@ export class CarnetsService
      * @param id
      * @param carnet
      */
-    updateCarnets(carnets: any): Observable<CarnetInterface[]>
+    updateCarnets(fileCarnets: any): Observable<CarnetInterface[]>
     {
         return this.carnets$.pipe(
             take(1),
-            switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import', carnets).pipe(
+            switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import', fileCarnets).pipe(
                 map((updatedCarnets) => {
                     console.log(updatedCarnets);
                     // Find the index of the updated carnet
@@ -200,5 +200,21 @@ export class CarnetsService
                 })
             ))
         );
+    }
+
+    setCarnetsValidados(): Observable<any>
+    {
+      return this._httpClient.get<any>(environment.baseUrl + 'carnets/validacion/sunedu').pipe(
+        tap((response) => {
+          console.log(response);
+        //   debugger;
+        })
+      );
+    //   return this._httpClient.get<any>(environment.baseUrl + 'download/fotos').pipe(
+    //     tap((response) => {
+    //       console.log(response);
+    //       debugger;
+    //     })
+    //   );
     }
 }

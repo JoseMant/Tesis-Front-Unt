@@ -1,15 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil, finalize } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CarnetPagination, CarnetInterface } from 'app/modules/admin/carnets/carnets.types';
 import { CarnetsService } from 'app/modules/admin/carnets/carnets.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfCarnetComponent } from '../visorPdf/visorPdfCarnet.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -52,6 +50,7 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
+    @ViewChild('selectedCarnetNgForm') selectedCarnetNgForm: NgForm;
 
     carnets$: Observable<CarnetInterface[]>;
 
@@ -60,7 +59,7 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         message: '',
         title: '',
     };
-
+    showAlert: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CarnetPagination;
@@ -214,51 +213,92 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         return item.id || index;
     }
 
-    descargarZip(): string
+    descargarZip(): void
     {
-        return environment.baseUrl + 'download/fotos';
+        this._carnetsService.setCarnetsValidados()
+        .pipe(
+            finalize(() => {
+
+                // Show the alert
+                this.openSnack();
+            })
+        )
+        .subscribe(
+            (response) => {
+                let a = document.createElement('a')
+                a.target = '_blanck'
+                a.href = environment.baseUrl + 'download/fotos'
+                a.click();
+                
+                // Set the alert
+                this.alert = {
+                    type   : 'warning',
+                    message: 'Descargando ZIP...',
+                    title  : 'Advertencia'
+                };
+
+            },
+            (response) => {
+
+                // Set the alert
+                this.alert = {
+                    type   : 'error',
+                    message: 'Algo salió mal. Por favor, vuelva a intentarlo.',
+                    title  : 'Error'
+                };
+            }
+        );
     }
 
     selectObservados(event): void {
         const files = event.target.files[0];
+        console.log(files);
         this.selectedCarnetForm.patchValue({file: files});
-        // console.log(this.selectedCarnetForm);
-        // this.newCarnet = true;
+        this.uploadObservados();
     }
 
     uploadObservados(): void{
         const formData = new FormData();
-        formData.append('file', this.selectedCarnetForm.getRawValue().archivo);
+        formData.append('file', this.selectedCarnetForm.getRawValue().file);
         
-        
-        this._carnetsService.updateCarnets(formData).subscribe((newCarnet) => {
-            console.log(newCarnet);
-            // Toggle the edit mode off
-            //this.toggleEditMode(false);
-            // Re-enable the form
-            this.selectedCarnetForm.enable();
-            // Go to new product
-            //this.createFormulario(this.user);
-            this.alert = {
-                type   : 'success',
-                message: 'Certificado cargado correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
-            // this.newCarnet = false;
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        },
-        (error) => {
-            // console.log(error);
-            // Re-enable the form
-            this.selectedCarnetForm.enable();
-            this.alert = {
-                type   : 'warn',
-                message: 'Error al registrar',
-                title: 'Error'
-            };
-            this.openSnack();
-        });
+        // Disable the form
+        this.selectedCarnetForm.disable();
+
+        this._carnetsService.updateCarnets(formData)
+        .pipe(
+            finalize(() => {
+
+                // Re-enable the form
+                this.selectedCarnetForm.enable();
+
+                // Reset the form
+                this.selectedCarnetNgForm.resetForm();
+
+                // Show the alert
+                this.openSnack();
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            })
+        )
+        .subscribe(
+            (newCarnet) => {
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'success',
+                    message: 'Certificado cargado correctamente',
+                    title: 'Guardado'
+                };
+            },
+            (error) => {
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Error al registrar',
+                    title: 'Error'
+                };
+            });
     }
 }
