@@ -76,6 +76,54 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id   : 'grados',
+        title: 'Grados',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.validados',
+                title: 'Validados',
+                type : 'basic',
+                link : '/grados/validados',
+                permissions: ['URAA']
+            },
+            // {
+            //     // Se muestran al usuario para validar requisitos
+            //     id   : 'certificados.asignados',
+            //     title: 'Asignados',
+            //     type : 'basic',
+            //     link : '/certificados/asignados',
+            //     permissions: ['URAA']
+            // },
+            {
+                // Se muestran para subir el certificado
+                id   : 'grados.aprobados',
+                title: 'Aprobados',
+                type : 'basic',
+                link : '/grados/aprobados',
+                permissions: ['URAA']
+            },
+            // {
+            //     // Se muestran para la firma del jefe de RT
+            //     id   : 'certificados.firma_uraa',
+            //     title: 'Firma URA-a',
+            //     type : 'basic',
+            //     link : '/certificados/firma_uraa',
+            //     permissions: ['URAA']
+            // },
+            // {
+            //     // Se muestran para la firma del jefe de RT
+            //     id   : 'certificados.firma_decano',
+            //     title: 'Firma Decano',
+            //     type : 'basic',
+            //     link : '/certificados/firma_decano',
+            //     permissions: ['URAA']
+            // }
+        ]
+    },
+    {
         id   : 'constancias',
         title: 'Constancias',
         type : 'collapsable',

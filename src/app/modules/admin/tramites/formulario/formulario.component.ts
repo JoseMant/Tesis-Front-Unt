@@ -103,6 +103,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     tipoTramites: any;
     tipoTramiteUnidades: any;
     requisitos: any;
+    requisitosCount: number = 0;
     abrir: boolean = false;
     bancos: any;
     data: TramiteInterface;
@@ -448,6 +449,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.data.idTipo_tramite_unidad = id;
         this._tramiteService.getRequisitos(id).subscribe((resp)=>{
           this.requisitos = resp.requisitos;
+          this.requisitosCount = resp.requisitos.length;
           this.data.requisitos = resp.requisitos;
           this.tramiteForm.patchValue({requisitos: resp.requisitos});
           this._changeDetectorRef.markForCheck();
