@@ -215,35 +215,6 @@ export class CertificadosService
     }
 
     /**
-     * Update certificado
-     *
-     * @param id
-     * @param certificado
-     */
-    updateCertificado(id: number, certificado: CertificadoInterface): Observable<CertificadoInterface>
-    {
-        return this.certificados$.pipe(
-            take(1),
-            switchMap(certificados => this._httpClient.post<CertificadoInterface>(environment.baseUrl + 'tramite/update', certificado).pipe(
-                map((updatedCertificado) => {
-                    console.log(updatedCertificado);
-                    // Find the index of the updated certificado
-                    const index = certificados.findIndex(item => item.idTramite === id);
-
-                    // Update the certificado
-                    certificados.splice(index, 1);
-
-                    // Update the certificados
-                    this._certificados.next(certificados);
-
-                    // Return the updated certificado
-                    return updatedCertificado;
-                })
-            ))
-        );
-    }
-
-    /**
      * Update product
      *
      * @param id

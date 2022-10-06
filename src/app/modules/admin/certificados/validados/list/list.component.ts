@@ -165,39 +165,6 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
         });
     }
 
-    // editarCertificado(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_certificado'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/certificados_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfCertificadoComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const certificadoValidado = response.getRawValue();
-    //             this._certificadosService.updateCertificado(certificadoValidado.idCertificado, certificadoValidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Certificado actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
-
     /**
      * After view init
      */

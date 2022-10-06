@@ -82,7 +82,12 @@ export const appRoutes: Route[] = [
             {path: 'grados', loadChildren: () => import('app/modules/admin/grados/grados.module').then(m => m.GradosModule)},
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
-            {path: 'usuarios', loadChildren: () => import('app/modules/admin/usuarios/usuarios.module').then(m => m.UsuariosModule)},
+            // Ajustes
+            // {path: 'settings', loadChildren: () => import('app/modules/admin/settings/settings.module').then(m => m.SettingsModule)},
+            // Masters
+            {path: 'masters', children: [
+                {path: 'access', loadChildren: () => import('app/modules/admin/masters/access/access.module').then(m => m.AccessModule)},
+            ]},
         ]
     }
 ];

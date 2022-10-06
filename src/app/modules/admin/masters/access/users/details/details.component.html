@@ -1,0 +1,434 @@
+<div class="flex flex-col w-full">
+
+    <!-- View mode -->
+    <ng-container *ngIf="!editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="user.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="user.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Cerrar'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- User -->
+        <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+
+                <!-- Avatar and actions -->
+                <div class="flex flex-auto items-end -mt-16">
+                    <!-- Avatar -->
+                    <div class="flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                        <img
+                            class="object-cover w-full h-full"
+                            *ngIf="user.avatar"
+                            [src]="user.avatar">
+                        <div
+                            class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!user.avatar">
+                            {{user.apellidos.charAt(0)}}
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center ml-auto mb-1">
+                        <button
+                            mat-stroked-button
+                            (click)="toggleEditMode(true)">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Editar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Name -->
+                <div class="mt-3 text-4xl font-bold truncate">{{user.apellidos}}, {{user.nombres}}</div>
+
+                <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
+
+                    <!-- Role -->
+                    <ng-container *ngIf="user.rol">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <div class="ml-6 leading-6">{{user.rol}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Emails -->
+                    <ng-container *ngIf="user.correo">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                            <a
+                                class="ml-6 leading-6 hover:underline text-primary-500"
+                                [href]="'mailto:' + user.correo"
+                                target="_blank">
+                                {{user.correo}}
+                            </a>
+                            <div
+                                class="text-md truncate text-secondary">
+                                <span class="mx-2">&bull;</span>
+                                <span *ngIf="user.confirmed" class="font-medium">Validado correctamente</span>
+                                <span *ngIf="!user.confirmed" class="font-medium">Pendiente de validación</span>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Phone -->
+                    <ng-container *ngIf="user.celular">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:phone'"></mat-icon>
+                            <div class="ml-6 leading-6 font-mono">{{user.celular}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Nro documento -->
+                    <ng-container *ngIf="user.nro_documento">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:credit-card'"></mat-icon>
+                            <div class="ml-6 leading-6">{{user.nro_documento}}</div>
+                            <div
+                                class="text-md truncate text-secondary" *ngIf="user.tipo_documento">
+                                <span class="mx-2">&bull;</span>
+                                <span class="font-medium">{{user.tipo_documento | i18nPlural: {
+                                    '=0'   : 'No identificado',
+                                    '=1'   : 'DNI',
+                                    'other': 'No identificado'
+                                } }}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Genero -->
+                    <ng-container *ngIf="user.sexo">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'mat_outline:male'" *ngIf="user.sexo == 'M'"></mat-icon>
+                            <div class="ml-6 leading-6" *ngIf="user.sexo == 'M'">MASCULINO</div>
+                            <mat-icon [svgIcon]="'mat_outline:female'" *ngIf="user.sexo == 'F'"></mat-icon>
+                            <div class="ml-6 leading-6" *ngIf="user.sexo == 'F'">FEMENINO</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- uSUARIO -->
+                    <ng-container *ngIf="user.username">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
+                            <div class="ml-6 leading-6">{{user.username}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Estado -->
+                    <ng-container *ngIf="user.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                            <div class="ml-6 leading-6">Activo</div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!user.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:ban'"></mat-icon>
+                            <div class="ml-6 leading-6">Inactivo</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Birthday -->
+                    <!-- <ng-container *ngIf="user.birthday">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:cake'"></mat-icon>
+                            <div class="ml-6 leading-6">{{user.birthday | date:'longDate'}}</div>
+                        </div>
+                    </ng-container> -->
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Edit mode -->
+    <ng-container *ngIf="editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="user.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="user.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Close'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- User form -->
+        <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+                <form [formGroup]="userForm">
+
+                    <!-- Avatar -->
+                    <div class="flex flex-auto items-end -mt-16">
+                        <div class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                            <!-- Upload / Remove avatar -->
+                            <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+                            <div class="absolute inset-0 flex items-center justify-center z-20">
+                                <div>
+                                    <input
+                                        id="avatar-file-input"
+                                        class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+                                        type="file"
+                                        [multiple]="false"
+                                        [accept]="'image/jpeg, image/png'"
+                                        (change)="uploadAvatar(avatarFileInput.files)"
+                                        #avatarFileInput>
+                                    <label
+                                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
+                                        for="avatar-file-input"
+                                        matRipple>
+                                        <mat-icon
+                                            class="text-white"
+                                            [svgIcon]="'heroicons_outline:camera'"></mat-icon>
+                                    </label>
+                                </div>
+                                <div>
+                                    <button
+                                        mat-icon-button
+                                        (click)="removeAvatar()">
+                                        <mat-icon
+                                            class="text-white"
+                                            [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Image/Letter -->
+                            <img
+                                class="object-cover w-full h-full"
+                                *ngIf="user.avatar"
+                                [src]="user.avatar">
+                            <div
+                                class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                                *ngIf="!user.avatar">
+                                {{user.apellidos.charAt(0)}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Nombre</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'nombres'"
+                                [placeholder]="'Nombre'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Apellidos -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Apellidos</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'apellidos'"
+                                [placeholder]="'Apellidos'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Rol -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Rol</mat-label>
+                            <mat-select [formControlName]="'idTipo_usuario'">
+                                <mat-option [value]="0" disabled>Seleccionar rol...</mat-option>
+                                <ng-container *ngFor="let role of roles">
+                                    <mat-option [value]="role.idTipo_usuario">
+                                        {{role.nombre}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Emails -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Correo</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'correo'"
+                                [placeholder]="'Correo institucional'">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Phone numbers -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Celular</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'celular'"
+                                [placeholder]="'Celular'">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tipo de documento -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Tipo documento</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:credit-card'"></mat-icon>
+                            <mat-select [formControlName]="'tipo_documento'">
+                                <mat-option [value]="'none'" disabled>Seleccionar tipo de documento...</mat-option>
+                                <ng-container *ngFor="let tipo_documento of tipos_documentos">
+                                    <mat-option [value]="tipo_documento.id">
+                                        {{tipo_documento.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Nro de documento -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Nro documento</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:credit-card'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'nro_documento'"
+                                [placeholder]="'Número de documento'">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Género -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Género</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'mat_outline:female'"></mat-icon>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'mat_outline:male'"></mat-icon>
+                            <mat-select [formControlName]="'sexo'">
+                                <mat-option [value]="'none'" disabled>Seleccionar género...</mat-option>
+                                <ng-container *ngFor="let genero of generos">
+                                    <mat-option [value]="genero.id">
+                                        {{genero.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Usuario</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_outline:user'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'username'"
+                                [placeholder]="'Usuario de ingreso'">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Estado -->
+                    <div *ngIf="user.estado" class="flex flex-col mt-8">
+                        <span class="font-semibold mb-2">Estado</span>
+                        <mat-slide-toggle
+                            [formControlName]="'estado'"
+                            [color]="'primary'">
+                            {{userForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
+                        </mat-slide-toggle>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+                        <!-- Eliminar -->
+                        <button
+                            mat-button
+                            [color]="'warn'"
+                            [matTooltip]="'Eliminar'"
+                            (click)="deleteUser()">
+                            Eliminar
+                        </button>
+                        <!-- Cancel -->
+                        <button
+                            class="ml-auto"
+                            mat-button
+                            [matTooltip]="'Cancel'"
+                            (click)="toggleEditMode(false)">
+                            Cancelar
+                        </button>
+                        <!-- Guardar -->
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="userForm.invalid"
+                            [matTooltip]="'Guardar'"
+                            (click)="saveUser()">
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>

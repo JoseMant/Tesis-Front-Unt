@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'usuarios',
-    templateUrl    : './usuarios.component.html',
+    selector       : 'users',
+    templateUrl    : './users.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsuariosComponent
+export class UsersComponent
 {
     /**
      * Constructor

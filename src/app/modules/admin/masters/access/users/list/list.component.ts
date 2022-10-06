@@ -5,26 +5,27 @@ import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { filter, fromEvent, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Usuario } from 'app/modules/admin/usuarios/usuarios.types';
-import { UsuariosService } from 'app/modules/admin/usuarios/usuarios.service';
+import { User, Role } from 'app/modules/admin/masters/access/users/users.types';
+import { UsersService } from 'app/modules/admin/masters/access/users/users.service';
 
 @Component({
-    selector       : 'usuarios-list',
+    selector       : 'users-list',
     templateUrl    : './list.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsuariosListComponent implements OnInit, OnDestroy
+export class UsersListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 
-    usuarios$: Observable<Usuario[]>;
+    users$: Observable<User[]>;
 
-    usuariosCount: number = 0;
-    usuariosTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
+    usersCount: number = 0;
+    usersTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
+    roles: Role[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
-    selectedUsuario: Usuario;
+    selectedUser: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -33,7 +34,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _usuariosService: UsuariosService,
+        private _usersService: UsersService,
         @Inject(DOCUMENT) private _document: any,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService
@@ -50,28 +51,39 @@ export class UsuariosListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Get the usuarios
-        this.usuarios$ = this._usuariosService.usuarios$;
-        
-        this._usuariosService.usuarios$
+        // Get the users
+        this.users$ = this._usersService.users$;
+        this._usersService.users$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((usuarios: Usuario[]) => {
-                console.log(usuarios);
+            .subscribe((users: User[]) => {
+
                 // Update the counts
-                this.usuariosCount = usuarios.length;
-                console.log(this.usuariosCount);
+                this.usersCount = users.length;
+
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the usuario
-        this._usuariosService.usuario$
+        // Get the user
+        this._usersService.user$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((usuario: Usuario) => {
+            .subscribe((user: User) => {
 
-                // Update the selected usuario
-                this.selectedUsuario = usuario;
-                console.log(this.selectedUsuario);
+                // Update the selected user
+                this.selectedUser = user;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the roles
+        this._usersService.roles$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((roles: Role[]) => {
+
+                // Update the roles
+                this.roles = roles;
+
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -83,7 +95,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy
                 switchMap(query =>
 
                     // Search
-                    this._usuariosService.searchUsuarios(query)
+                    this._usersService.searchUsers(query)
                 )
             )
             .subscribe();
@@ -92,8 +104,8 @@ export class UsuariosListComponent implements OnInit, OnDestroy
         this.matDrawer.openedChange.subscribe((opened) => {
             if ( !opened )
             {
-                // Remove the selected usuario when drawer closed
-                this.selectedUsuario = null;
+                // Remove the selected user when drawer closed
+                this.selectedUser = null;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -129,7 +141,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy
                 )
             )
             .subscribe(() => {
-                this.createUsuario();
+                this.createUser();
             });
     }
 
@@ -160,15 +172,22 @@ export class UsuariosListComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Create usuario
+     * Create user
      */
-    createUsuario(): void
+    createUser(): void
     {
-        // Go to the new usuario
+        // Go to the new contact
         this._router.navigate(['./', 0], {relativeTo: this._activatedRoute});
 
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
+        // // Create the user
+        // this._usersService.createUser().subscribe((newUser) => {
+
+        //     // Go to the new user
+        //     this._router.navigate(['./', newUser.idUsuario], {relativeTo: this._activatedRoute});
+
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // });
     }
 
     /**

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UsuariosDetailsComponent } from 'app/modules/admin/usuarios/details/details.component';
+import { UsersDetailsComponent } from 'app/modules/admin/masters/access/users/details/details.component';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CanDeactivateUsuariosDetails implements CanDeactivate<UsuariosDetailsComponent>
+export class CanDeactivateUsersDetails implements CanDeactivate<UsersDetailsComponent>
 {
     canDeactivate(
-        component: UsuariosDetailsComponent,
+        component: UsersDetailsComponent,
         currentRoute: ActivatedRouteSnapshot,
         currentState: RouterStateSnapshot,
         nextState: RouterStateSnapshot
@@ -22,16 +22,16 @@ export class CanDeactivateUsuariosDetails implements CanDeactivate<UsuariosDetai
             nextRoute = nextRoute.firstChild;
         }
 
-        // If the next state doesn't contain '/usuarios'
+        // If the next state doesn't contain '/users'
         // it means we are navigating away from the
-        // usuarios app
-        if ( !nextState.url.includes('/usuarios') )
+        // users app
+        if ( !nextState.url.includes('/users') )
         {
             // Let it navigate
             return true;
         }
 
-        // If we are navigating to another usuario...
+        // If we are navigating to another user...
         if ( nextRoute.paramMap.get('id') )
         {
             // Just navigate

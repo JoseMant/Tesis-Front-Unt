@@ -154,14 +154,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['URAA']
             },
             // {
-            //     // Se muestran para subir el certificado generado
-            //     id   : 'carnets.aprobados',
-            //     title: 'Aprobados',
-            //     type : 'basic',
-            //     link : '/carnets/aprobados',
-            //     permissions: ['URAA']
-            // },
-            // {
             //     // Se muestran para la firma del jefe de RT
             //     id   : 'carnets.aprobados',
             //     title: 'Aprobados',
@@ -185,61 +177,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carnets/validados',
                 permissions: ['URAA']
             },
-            // {
-            //     // Se muestran al usuario para validar requisitos
-            //     id   : 'carnets.asignados',
-            //     title: 'Asignados',
-            //     type : 'basic',
-            //     link : '/carnets/asignados',
-            //     permissions: ['URAA']
-            // },
-            // {
-            //     // Se muestran para subir el certificado generado
-            //     id   : 'carnets.aprobados',
-            //     title: 'Aprobados',
-            //     type : 'basic',
-            //     link : '/carnets/aprobados',
-            //     permissions: ['URAA']
-            // },
-            // {
-            //     // Se muestran para la firma del jefe de RT
-            //     id   : 'carnets.aprobados',
-            //     title: 'Aprobados',
-            //     type : 'basic',
-            //     link : '/carnets/aprobados',
-            //     permissions: ['URAA']
-            // }
         ]
     },
-    // {
-    //     id   : 'constancias',
-    //     title: 'Constancias',
-    //     type : 'collapsable',
-    //     icon : 'heroicons_outline:archive',
-    //     children: [
-    //         {
-    //             id   : 'constancias.validadas',
-    //             title: 'Validadas',
-    //             type : 'basic',
-    //             link : '/constancias/validados',
-    //             permissions: ['TESORERÍA']
-    //         },
-    //         {
-    //             id   : 'constancias.aprobados',
-    //             title: 'Aprobados',
-    //             type : 'basic',
-    //             link : '/constancias/aprobados',
-    //             permissions: ['TESORERÍA']
-    //         }
-    //         // {
-    //         //     id   : 'vouchers.rechazados',
-    //         //     title: 'Rechazados',
-    //         //     type : 'basic',
-    //         //     link : '/vouchers/rechazados',
-    //         //     permissions: ['TESORERÍA']
-    //         // }
-    //     ]
-    // },
     {
         id   : 'vouchers',
         title: 'Vouchers',
@@ -267,6 +206,45 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/vouchers/rechazados',
                 permissions: ['TESORERÍA']
             }
+        ]
+    },
+    {
+        id      : 'masters',
+        title   : 'Maestros',
+        subtitle: 'Tablas maestras',
+        type    : 'group',
+        icon    : 'heroicons_outline:home',
+        // permissions: [],
+        children: [
+            {
+                id      : 'masters.access',
+                title   : 'Accesos',
+                type    : 'collapsable',
+                icon    : 'heroicons_outline:lock-closed',
+                children: [
+                    {
+                        id   : 'masters.access.users',
+                        title: 'Usuarios',
+                        type : 'basic',
+                        link : '/masters/access/users',
+                        permissions: ['ADMIN']
+                    },
+                    // {
+                    //     id   : 'masters.access.permissions',
+                    //     title: 'Permisos',
+                    //     type : 'basic',
+                    //     link : '/masters/access/permissions',
+                    //     permissions: ['LEER PERMISOS','LEER TODOS LOS PERMISOS']
+                    // },
+                    // {
+                    //     id   : 'masters.access.roles',
+                    //     title: 'Roles',
+                    //     type : 'basic',
+                    //     link : '/masters/access/roles',
+                    //     permissions: ['LEER ROLES','LEER TODOS LOS ROLES']
+                    // }
+                ]
+            },
         ]
     }
 ];
