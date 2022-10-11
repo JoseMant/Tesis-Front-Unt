@@ -249,58 +249,55 @@
                                     </ng-container>
                                 </mat-select>
                                 </mat-form-field>
-                                <ng-container>
-                                    <mat-form-field
-                                        *ngIf="data.idTipo_tramite === 1"
-                                        class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
-                                        appearance="outline"
-                                    >
-                                        <mat-label>MOTIVO</mat-label>
-                                        <mat-select
-                                            [formControlName]="'idMotivo_certificado'">
-                                            <ng-container>
-                                                <mat-option [value]="0" disabled>
-                                                    Seleccionar motivo...
-                                                </mat-option>
-                                            </ng-container>
-                                            <ng-container *ngFor="let mot of motivos">
-                                                <mat-option [value]="mot.idMotivo_certificado">
-                                                    {{mot.nombre}}
-                                                </mat-option>
-                                            </ng-container>
-                                        </mat-select>
-                                    </mat-form-field>
-                                  <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
-                                      <mat-label>COMENTARIOS</mat-label>
-                                      <textarea
-                                          class="text-justify"
-                                          matInput
-                                          [formControlName]="'comentario'"
-                                          [placeholder]="'Indicar algún comentario adicional que debamos tomar en cuenta'">
-                                      </textarea>
-                                  </mat-form-field>
-                              </ng-container>
-                              <ng-container>
-                                <!-- <mat-form-field
+                                <mat-form-field
+                                    *ngIf="data.idTipo_tramite === 1"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
-                                  <mat-label>MOTIVO</mat-label>
-                                  <mat-select
-                                      [formControlName]="'idMotivo_certificado'">
-                                      <ng-container>
-                                          <mat-option [value]="0" disabled>
-                                              Seleccionar motivo...
-                                          </mat-option>
-                                      </ng-container>
-                                      <ng-container *ngFor="let mot of motivos">
-                                          <mat-option [value]="mot.idMotivo_certificado">
-                                              {{mot.nombre}}
-                                          </mat-option>
-                                      </ng-container>
-                                  </mat-select>
-                                </mat-form-field> -->
-                            </ng-container>
+                                    <mat-label>MOTIVO</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idMotivo_certificado'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar motivo...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let mot of motivos">
+                                            <mat-option [value]="mot.idMotivo_certificado">
+                                                {{mot.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="data.idTipo_tramite === 2 && data.idTipo_tramite_unidad > 0"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de colación</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idCronograma_carpeta'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar fecha de colación...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let cronograma of cronogramas">
+                                            <mat-option [value]="cronograma.idCronograma_carpeta">
+                                                {{cronograma.fecha_colacion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
+                                    <mat-label>COMENTARIOS</mat-label>
+                                    <textarea
+                                        class="text-justify"
+                                        matInput
+                                        [formControlName]="'comentario'"
+                                        [placeholder]="'Indicar algún comentario adicional que debamos tomar en cuenta'">
+                                    </textarea>
+                                </mat-form-field>
                             </div>
                             <div class="grid grid-cols-6 gap-2 w-full items-center py-2">
                                 <div class="nombre col-span-4 ml-3">
@@ -454,83 +451,85 @@
                                 </div>
                             </div>
                             <div *ngIf="data.idTipo_tramite_unidad > 0">
-                                <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let req of requisitos">
-                                    <div class="nombre col-span-4 ml-3">
-                                        {{req.nombre}}
-                                    </div>
-                                    <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
-                                        <div>
-                                            <button
-                                                matTooltip="Agregar documento"
-                                                (click)="fileInput.click()">
-                                                <mat-icon
-                                                    class="h-6 w-6 mr-3 ml-3"
-                                                    style="color: rgb(6, 11, 88)"
-                                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                                            </button>
-                                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,req)"/>
+                                <ng-container *ngFor="let req of requisitos">
+                                    <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="req.responsable == 4">
+                                        <div class="nombre col-span-4 ml-3">
+                                            {{req.nombre}}
                                         </div>
-                                        <svg
-                                            *ngIf="req.archivo"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-6 w-6 mr-3 ml-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            style="cursor: pointer; color: rgb(6, 11, 88)"
-                                            (click)="verReqDocumento(req)"
-                                            stroke-width="2"
-                                            matTooltip="Ver documento"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'jpg'">
-                                        <div>
-                                            <button
-                                                matTooltip="Agregar imagen"
-                                                (click)="fileInput.click()">
-                                                <mat-icon
-                                                    class="h-6 w-6 mr-3 ml-3"
-                                                    style="color: rgb(6, 11, 88)"
-                                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                                            </button>
-                                            <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req)"/>
+                                        <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
+                                            <div>
+                                                <button
+                                                    matTooltip="Agregar documento"
+                                                    (click)="fileInput.click()">
+                                                    <mat-icon
+                                                        class="h-6 w-6 mr-3 ml-3"
+                                                        style="color: rgb(6, 11, 88)"
+                                                        [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                                </button>
+                                                <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,req)"/>
+                                            </div>
+                                            <svg
+                                                *ngIf="req.archivo"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6 mr-3 ml-3"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                style="cursor: pointer; color: rgb(6, 11, 88)"
+                                                (click)="verReqDocumento(req)"
+                                                stroke-width="2"
+                                                matTooltip="Ver documento"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                />
+                                            </svg>
                                         </div>
-                                        <svg
-                                            *ngIf="req.archivoImagen"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-6 w-6 mr-3 ml-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            style="cursor: pointer; color: rgb(6, 11, 88)"
-                                            (click)="verReqImagen(req)"
-                                            stroke-width="2"
-                                            matTooltip="Ver Imagen"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
+                                        <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'jpg'">
+                                            <div>
+                                                <button
+                                                    matTooltip="Agregar imagen"
+                                                    (click)="fileInput.click()">
+                                                    <mat-icon
+                                                        class="h-6 w-6 mr-3 ml-3"
+                                                        style="color: rgb(6, 11, 88)"
+                                                        [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                                </button>
+                                                <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req)"/>
+                                            </div>
+                                            <svg
+                                                *ngIf="req.archivoImagen"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6 mr-3 ml-3"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                style="cursor: pointer; color: rgb(6, 11, 88)"
+                                                (click)="verReqImagen(req)"
+                                                stroke-width="2"
+                                                matTooltip="Ver Imagen"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                />
+                                            </svg>
+                                        </div>
                                     </div>
-                                </div>
+                                </ng-container>
                             </div>
                         </mat-card-content>
                     </mat-card>

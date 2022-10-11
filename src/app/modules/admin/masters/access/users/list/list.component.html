@@ -98,7 +98,12 @@
                                     </div>
                                     <div class="min-w-0 ml-4">
                                         <div class="font-medium leading-5 truncate">{{user.apellidos}}, {{user.nombres}}</div>
-                                        <div class="leading-5 truncate text-secondary">{{user.rol}}</div>
+                                        <div class="leading-5 truncate text-secondary">
+                                            {{user.rol}}
+                                            <span class="mx-2">&bull;</span>
+                                            <span *ngIf="user.estado" class="font-medium">Activo</span>
+                                            <span *ngIf="!user.estado" class="font-medium">Inactivo</span>
+                                        </div>
                                     </div>
                                 </a>
                             </ng-container>

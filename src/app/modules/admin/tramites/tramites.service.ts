@@ -20,6 +20,7 @@ export class TramiteService
     private _tipoTramiteUnidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _facultadesEscuelas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _motivos: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _cronogramas: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -76,12 +77,25 @@ export class TramiteService
         return this._motivos.asObservable();
     }
 
+    get cronogramas$(): Observable<any> {
+        return this._cronogramas.asObservable();
+    }
+
     getMotivos(): Observable<any>
     {
         return this._httpClient.get(environment.baseUrl + 'motivos_certificado').pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._motivos.next(response);
+            })
+        );
+    }
+
+    getCronogramasByTipoTramiteUnidad(tipo_tramite_unidad: number, dependencia: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'cronogramas/activos/' + dependencia + '/' + tipo_tramite_unidad).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._cronogramas.next(response);
             })
         );
     }

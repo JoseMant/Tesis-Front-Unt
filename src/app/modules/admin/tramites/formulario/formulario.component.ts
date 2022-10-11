@@ -111,6 +111,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     maxDate: any;
     costo: any;
     motivos: any;
+    cronogramas: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -168,6 +169,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             fecha_operacion: ['', Validators.required],
             archivo: [''],
             idMotivo_certificado: [''],
+            idCronograma_carpeta: [''],
             comentario: [''],
             apellidos: [''],
             nombres: [''],
@@ -184,7 +186,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             idTipo_tramite_unidad: [''],
             archivo_firma: [''],
             archivoImagen: [''],
-            requisitos: [''],
+            requisitos: [[]],
         });
 
         this._tramiteService.bancos$
@@ -223,12 +225,11 @@ export class TramiteListComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((motivos: any) => {
                 this.motivos = motivos;
-                console.log(motivos);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+            
         // Subscribe to user changes
         this._userService.user$
         .pipe(takeUntil(this._unsubscribeAll))
@@ -446,6 +447,13 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.costo = tipo.costo;
         this.tramiteForm.patchValue({ idTipo_tramite_unidad: id});
         this.data.idTipo_tramite_unidad = id;
+        
+        this._tramiteService.getCronogramasByTipoTramiteUnidad(id, this.data.idDependencia).subscribe((response)=>{
+            this.cronogramas = response;
+            
+            this._changeDetectorRef.markForCheck();
+        });
+
         this._tramiteService.getRequisitos(id).subscribe((resp)=>{
           this.requisitos = resp.requisitos;
           this.data.requisitos = resp.requisitos;
@@ -551,17 +559,19 @@ export class TramiteListComponent implements OnInit, OnDestroy
         // If the confirm button pressed...
         if (this.tramiteForm.invalid) {
             this.tramiteForm.markAllAsTouched();
-            console.log('hola');
             return;
         }
-        const requis = this.data.requisitos.find(element => element.archivo === undefined && element.extension === 'pdf');
+        const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivo === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
+        console.log(this.data.requisitos);
+        console.log(requis);
         if (requis) {
             this.alert = {
                 type   : 'warn',
-                message: 'Cargar el archivo en el requisito: ' + requis.descripcion,
+                message: 'Cargar el archivo en el requisito: ' + requis.nombre,
                 title: 'Error'
             };
             this.openSnack();
+            return;
         }
         console.log(this.tramiteForm.getRawValue());
         const tramite = {
@@ -577,15 +587,15 @@ export class TramiteListComponent implements OnInit, OnDestroy
             sede: this.tramiteForm.getRawValue().sede,
             archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
             idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
+            idCronograma_carpeta: this.tramiteForm.getRawValue().idCronograma_carpeta,
             comentario: this.tramiteForm.getRawValue().comentario,
             requisitos: this.tramiteForm.getRawValue().requisitos,
         };
         const cadena = (new Date(tramite.fecha_operacion)).toISOString();
-        console.log(cadena);
         const cadena1 = cadena.substring(0,10);
-        const cadena2 = cadena.substring(11,19);
-        const fecha = cadena1 + ' ' + cadena2;
-        tramite.fecha_operacion = fecha;
+        // const cadena2 = cadena.substring(11,19);
+        // const fecha = cadena1 + ' ' + cadena2;
+        tramite.fecha_operacion = cadena1;
         console.log(tramite);
             const formData = new FormData();
             formData.append('entidad', tramite.entidad);
@@ -600,18 +610,27 @@ export class TramiteListComponent implements OnInit, OnDestroy
             formData.append('sede', tramite.sede);
             formData.append('archivo_firma', tramite.archivo_firma);
             formData.append('idMotivo_certificado', tramite.idMotivo_certificado);
+            formData.append('idCronograma_carpeta', tramite.idCronograma_carpeta);
             formData.append('comentario', tramite.comentario);
             tramite.requisitos.forEach((element) => {
                 formData.append('requisitos[]', JSON.stringify(element));
                 if (element.idRequisito && element.extension === 'pdf') {
-                    formData.append('files[]', element.archivo);
-                }
-                if (element.idRequisito && element.extension === 'jpg') {
-                    formData.append('files[]', element.archivoImagen);
+                    if (element.archivo) {
+                        formData.append('files[]', element.archivo);
+                    } else {
+                        formData.append('files[]', new File([""], "vacio.kj"));
+                    }
+                } else if (element.idRequisito && element.extension === 'jpg') {
+                    if (element.archivoImagen) {
+                        formData.append('files[]', element.archivoImagen);
+                    } else {
+                        formData.append('files[]', new File([""], "vacio.kj"));
+                    }
                 }
               });
-            console.log(formData.getAll('requisitos'));
-            console.log(formData.getAll('files'));
+            // console.log(formData.getAll('requisitos[]'));
+            // console.log(formData.getAll('files[]'));
+            // return;
             // Disable the form
             this.tramiteForm.disable();
 

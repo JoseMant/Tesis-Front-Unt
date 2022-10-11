@@ -388,7 +388,7 @@
                     </div>
 
                     <!-- Estado -->
-                    <div *ngIf="user.estado" class="flex flex-col mt-8">
+                    <div class="flex flex-col mt-8">
                         <span class="font-semibold mb-2">Estado</span>
                         <mat-slide-toggle
                             [formControlName]="'estado'"
@@ -400,13 +400,13 @@
                     <!-- Actions -->
                     <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
                         <!-- Eliminar -->
-                        <button
+                        <!-- <button
                             mat-button
                             [color]="'warn'"
                             [matTooltip]="'Eliminar'"
                             (click)="deleteUser()">
                             Eliminar
-                        </button>
+                        </button> -->
                         <!-- Cancel -->
                         <button
                             class="ml-auto"
