@@ -18,8 +18,8 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
-import { RequisitosDialogComponent } from '../../aprobados/dialogReq/dialogReq.component';
-import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
+import { RequisitosDialogComponent } from 'app/modules/admin/grados/validados/dialogReq/dialogReq.component';
+import { VisorPdfGradoComponent } from 'app/modules/admin/grados/validados/visorPdf/visorPdfGrado.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
@@ -240,9 +240,9 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
             {
                 this.grado.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
                 if (requisito.des_estado_requisito == 'APROBADO') {
-                    this.grado.requisitos[index].validado = 1;
+                    this.grado.requisitos[index].aprobado = 1;
                 } else if (requisito.des_estado_requisito == 'RECHAZADO') {
-                    this.grado.requisitos[index].validado = 0;
+                    this.grado.requisitos[index].aprobado = 0;
                     this.grado.requisitos[index].comentario = response.getRawValue().comentario;
                 }
                 this.gradoForm.patchValue({ requisitos: this.grado.requisitos});
@@ -315,23 +315,24 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
         console.log(this.gradoForm);
         this.newGrado = true;
     }
-    verDocumento(): void {
-        console.log(this.gradoForm.getRawValue());
-        const respDial = this.visordialog.open(
-            VisorPdfGradoComponent,
-            {
-                data: this.gradoForm.getRawValue(),
-                disableClose: true,
-                minWidth: '50%',
-                maxWidth: '60%'
-            }
-        );
-    }
+    // verDocumento(): void {
+    //     console.log(this.gradoForm.getRawValue());
+    //     const respDial = this.visordialog.open(
+    //         VisorPdfGradoComponent,
+    //         {
+    //             data: this.gradoForm.getRawValue(),
+    //             disableClose: true,
+    //             minWidth: '50%',
+    //             maxWidth: '60%'
+    //         }
+    //     );
+    // }
     uploadGrado(): void{
         const data={
             idTramite: this.gradoForm.getRawValue().idTramite,
             archivo: this.gradoForm.getRawValue().archivo,
         };
+        debugger;
         const formData = new FormData();
             formData.append('idTramite', data.idTramite);
             formData.append('archivo', data.archivo);

@@ -18,8 +18,8 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
-// import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component'; comentado por ahora
-// import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
+import { RequisitosDialogComponent } from '../dialogReq/dialogReq.component';
+import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
@@ -102,7 +102,7 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
     gradoForm: FormGroup;
     contador: number = 4;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    newGrado: boolean = false;
     /**
      * Constructor
      */
@@ -143,10 +143,11 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
         // this.selectedGap = true;
         // Create the selected maduritylevel form
         this.gradoForm = this._formBuilder.group({
-            idTipo_grado: [''],
+            idTramite: [''],
+            idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
-            idEstado_grado: [''],
+            idEstado_tramite: [''],
             idModalidad_grado: [''],
             descripcion_estado: [''],
             codigo: [''],
@@ -154,7 +155,7 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
-            idMotivo_grado: [''],
+            idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
             nombres: [''],
@@ -168,7 +169,7 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
             tipo_documento: [''],
             sexoNombre: [''],
             idUnidad: [''],
-            idTipo_grado_unidad: [''],
+            idTipo_tramite_unidad: [''],
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
@@ -225,378 +226,146 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
+    validarRequisito(requisito, lectura, index): void {
+        requisito['lectura'] = lectura;
+        const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
+            autoFocus: false,
+            disableClose: true,
+            data: JSON.parse( JSON.stringify(requisito) )
+        });
+        //--------- desde aquí falta 
+        dialogRef.afterClosed().subscribe( (response) => {
+            // If the confirm button pressed...
+            if ( response )
+            {
+                this.grado.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
+                if (requisito.des_estado_requisito == 'APROBADO') {
+                    this.grado.requisitos[index].validado = 1;
+                } else if (requisito.des_estado_requisito == 'RECHAZADO') {
+                    this.grado.requisitos[index].validado = 0;
+                    this.grado.requisitos[index].comentario = response.getRawValue().comentario;
+                }
+                this.gradoForm.patchValue({ requisitos: this.grado.requisitos});
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+        });
+    }
+
+
+    updateRequisitos(): void
+    {
+        // Get the contact object
+        const grado = this.gradoForm.getRawValue();
+        console.log(grado);
+        // Disable the form
+        this.gradoForm.disable();
+        
+        // Update the contact on the server
+        this._gradoService.updateRequisitos(grado.idTramite, grado).subscribe(() => {
+
+            // Re-enable the form
+            this.gradoForm.enable();
+
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
     rechazarRequisitos(): void {
-        // for (const itera of this.grado.requisitos) {
-        //     itera['selected'] = false;
-        // }
-        // const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-        //     autoFocus: false,
-        //     disableClose: true,
-        //     data: JSON.parse( JSON.stringify( {
-        //         requisitos: this.grado.requisitos
-        //     } ))
-        // });
-        // dialogRef.afterClosed().subscribe( (response) => {
-        //     // If the confirm button pressed...
-        //     if ( response )
-        //     {
-        //         console.log(response.getRawValue().requisitos);
-        //         this.grado.requisitos = response.getRawValue().requisitos;
-        //         console.log(this.grado.requisitos);
-        //         this.gradoForm.patchValue({ requisitos: response.getRawValue().requisitos});
-        //         console.log(this.gradoForm.getRawValue());
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     }
-        // });
+        for (const itera of this.grado.requisitos) {
+            itera['selected'] = false;
+        }
+        const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
+            autoFocus: false,
+            disableClose: true,
+            data: JSON.parse( JSON.stringify( {
+                requisitos: this.grado.requisitos
+            } ))
+        });
+        dialogRef.afterClosed().subscribe( (response) => {
+            // If the confirm button pressed...
+            if ( response )
+            {
+                console.log(response.getRawValue().requisitos);
+                this.grado.requisitos = response.getRawValue().requisitos;
+                console.log(this.grado.requisitos);
+                this.gradoForm.patchValue({ requisitos: response.getRawValue().requisitos});
+                console.log(this.gradoForm.getRawValue());
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Create formulario
-     */
-    // createFormulario(data): void
-    // {
-    //     //Create the formulario
-    //     const newGrado = {
-    //         idModalidad_grado: 0,
-    //         idFacultad: 0,
-    //         idEscuela: 0,
-    //         idTipo_grado: 0,
-    //         nro_documento: this.user.nro_documento,
-    //         idColacion: 1,
-    //         idEstado_grado: 0,
-    //         descripcion_estado: '',
-    //         comentario: '',
-    //         codigo: '',
-    //         entidad: '',
-    //         nro_operacion: '',
-    //         fecha_operacion: '',
-    //         idMotivo_grado: 0,
-    //         archivo: '',
-    //         apellidos: data.apellidos.toUpperCase(),
-    //         nombres: data.nombres.toUpperCase(),
-    //         documento: data.documento,
-    //         celular: data.celular,
-    //         correo: data.correo,
-    //         nro_matricula: data.nro_matricula,
-    //         sede: data.sede,
-    //         tipo_documento: data.tipo_documento,
-    //         sexoNombre: data.sexoNombre,
-    //         idUnidad: -1,
-    //         idTipo_grado_unidad: -1,
-    //         archivo_firma: '',
-    //         archivoImagen: '',
-    //         requisitos: ''
-    //     };
-    //     this.gradoForm.patchValue(newGrado);
-    //     this.data = newGrado;
-    // }
-
-    // selectedTipoGrado(id: number): void {
-    //   this.gradoForm.patchValue({idTipo_grado: id,idUnidad: 0});
-    //   this.data.idTipo_grado = id;
-    //   this.data.idUnidad = 0;
-    // }
-
-    // selectedUnidad(id): void{
-    //     this.gradoForm.patchValue({idUnidad: id, idTipo_grado_unidad: 0, archivo: ''});
-    //     this.data.idUnidad = id;
-    //     this.data.idTipo_grado_unidad = 0;
-    //     this.data.archivo = '';
-    //     this._gradoService.getTipoGradoUnidades(this.data.idTipo_grado, this.data.idUnidad).subscribe((resp)=>{
-    //         // this.requisitos = resp.requisitos;
-    //         // this.data.requisitos = resp.requisitos;
-    //         this.tipoGradoUnidades = resp.tipo_grado_unidad;
-    //         // this.gradoForm.patchValue({requisitos: resp.requisitos});
-    //         this._changeDetectorRef.markForCheck();
-    //     });
-
-    //     this._gradoService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
-    //         if (resp) {
-    //             console.log(resp);
-    //             this.facultades = resp.facultades;
-    //             const idU = this.facultades[0];
-    //             console.log(idU);
-    //             this.data.idFacultad = idU.idDependencia;
-    //             if (idU) {
-    //                 const idE = idU.escuelas[0];
-    //                 console.log(idE);
-    //                 this.data.idEscuela = idE.idEscuela;
-    //                 this.data.codigo = idE.nro_matricula;
-    //                 this.data.sede = idE.sede;
-    //                 this.gradoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
-    //             }
-    //             console.log(this.facultades);
-    //             console.log(this.data);
-    //             this.gradoForm.patchValue({idFacultad: idU.idDependencia});
-    //             let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
-    //             if (first) {
-    //                 this.escuelas = first.escuelas;
-    //                 console.log(this.escuelas);
-    //             }
-    //         }else{
-    //             this.alert = {
-    //                 type   : 'warn',
-    //                 message: 'Acceso denegado',
-    //                 title: 'Error'
-    //             };
-    //             this.openSnack();
-    //         }
-    //     },
-    //     (error) => {
-    //         // console.log(error);
-    //         this.alert = {
-    //             type   : 'warn',
-    //             message: 'Error en la unidad',
-    //             title: 'Error'
-    //         };
-    //         this.openSnack();
-    //     });
-    //     this._changeDetectorRef.markForCheck();
-    // }
-
-    // selectedFacultad(id): void{
-    //     //falta probar si funciona ya q solo hay una sola facultad
-    //     console.log(id);
-    //     this.data.idFacultad = id;
-    //     let first = this.facultades.find(first => first.idDependencia === this.data.idFacultad);
-    //     if (first) {
-    //         const idE = first.escuela[0];
-    //         if (idE) {
-    //             this.data.idEscuela = idE.idEscuela;
-    //             this.data.codigo = idE.nro_matricula;
-    //             this.data.sede = idE.sede;
-    //             this.gradoForm.patchValue({idEscuela: idE.idEscuela, codigo: idE.nro_matricula, sede: idE.sede});
-    //         }
-    //         this.escuelas = first.escuela;
-    //         console.log(this.escuelas);
-    //         console.log(idE);
-    //     }
-    // }
-
-    // selectedEscuela(id): void {
-    //     console.log(id);
-    //     this.data.idEscuela = id;
-    //     for (const itera of this.escuelas) {
-    //         if (itera.idEscuela === id) {
-    //             this.data.codigo = itera.nro_matricula;
-    //             this.data.sede = itera.sede;
-    //         }
-    //     }
-    //     this.gradoForm.patchValue({idEscuela: id, codigo: this.data.codigo, sede: this.data.sede});
-    // }
-
-    // selectedTipoGradoUnidades(id): void{
-    //     const tipo = this.tipoGradoUnidades.find(element => element.idTipo_grado_unidad === id);
-    //     this.costo = tipo.costo;
-    //     this.gradoForm.patchValue({ idTipo_grado_unidad: id});
-    //     this.data.idTipo_grado_unidad = id;
-    //     this._gradoService.getRequisitos(id).subscribe((resp)=>{
-    //       this.requisitos = resp.requisitos;
-    //       this.data.requisitos = resp.requisitos;
-    //       this.gradoForm.patchValue({requisitos: resp.requisitos});
-    //       this._changeDetectorRef.markForCheck();
-    //     });
-    // }
-
-    // selectFiles(event): void {
-    //     const files = event.target.files[0];
-    //     console.log(files);
-    //     this.gradoForm.patchValue({archivo: files});
-    //     this.data.archivo = files;
-    // }
-
-    // selectFirma(event): void {
-    //     const files = event.target.files[0];
-    //     console.log(files);
-    //     this.gradoForm.patchValue({archivo_firma: files, archivoImagen: files});
-    //     this.data.archivo_firma = files;
-    //     this.data.archivoImagen = files;
-    // }
-
-    // selectReqDocumento(event, req): void {
-    //     const files = event.target.files[0];
-    //     console.log(files);
-    //     console.log(req);
-    //     for (const requ of this.requisitos) {
-    //         if (requ.idRequisito === req.idRequisito) {
-    //             requ['archivo'] = files;
-    //         }
-    //     }
-    //     this.data.requisitos = this.requisitos;
-    //     this.gradoForm.patchValue({requisitos: this.requisitos});
-    //     console.log(this.data.requisitos);
-    // }
-
-    // selectReqImagen(event, req): void {
-    //     const files = event.target.files[0];
-    //     console.log(files);
-    //     console.log(req);
-    //     for (const requ of this.requisitos) {
-    //         if (requ.idRequisito === req.idRequisito) {
-    //             requ['archivoImagen'] = files;
-    //         }
-    //     }
-    //     this.data.requisitos = this.requisitos;
-    //     this.gradoForm.patchValue({requisitos: this.requisitos});
-    //     console.log(this.data.requisitos);
-    // }
-
-    // verReqDocumento(req): void {
-    //     console.log(req);
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfComponent,
-    //         {
-    //             data: req,
-    //             disableClose: true,
-    //             minWidth: '50%',
-    //             maxWidth: '60%'
-    //         }
-    //     );
-    // }
-
-    // verReqImagen(req): void {
-    //     console.log(this.data);
-    //     const respDial = this.visordialog.open(
-    //         VisorImagenComponent,
-    //         {
-    //             data: req,
-    //             disableClose: true,
-    //             width: '60%'
-    //         }
-    //     );
-    // }
-
-    // verImagen(): void {
-    //     console.log(this.data);
-    //     const respDial = this.visordialog.open(
-    //         VisorImagenComponent,
-    //         {
-    //             data: this.data,
-    //             disableClose: true,
-    //             width: '60%'
-    //         }
-    //     );
-    // }
-
-    // verDocumento(): void {
-    //     console.log(this.data);
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfComponent,
-    //         {
-    //             data: this.data,
-    //             disableClose: true,
-    //             minWidth: '50%',
-    //             maxWidth: '60%'
-    //         }
-    //     );
-    // }
-
-    // createGrado(): void{
-    //     // If the confirm button pressed...
-    //     if (this.gradoForm.invalid) {
-    //         this.gradoForm.markAllAsTouched();
-    //         console.log('hola');
-    //         return;
-    //     }
-    //     const requis = this.data.requisitos.find(element => element.archivo === undefined && element.extension === 'pdf');
-    //     if (requis) {
-    //         this.alert = {
-    //             type   : 'warn',
-    //             message: 'Cargar el archivo en el requisito: ' + requis.descripcion,
-    //             title: 'Error'
-    //         };
-    //         this.openSnack();
-    //     }
-    //     console.log(this.gradoForm.getRawValue());
-    //     const grado = {
-    //         entidad: this.gradoForm.getRawValue().entidad,
-    //         nro_operacion: this.gradoForm.getRawValue().nro_operacion,
-    //         fecha_operacion: this.gradoForm.getRawValue().fecha_operacion,
-    //         archivo: this.gradoForm.getRawValue().archivo,
-    //         idTipo_grado_unidad: this.gradoForm.getRawValue().idTipo_grado_unidad,
-    //         idUnidad: this.gradoForm.getRawValue().idUnidad,
-    //         idDependencia: this.gradoForm.getRawValue().idFacultad,
-    //         idDependencia_detalle: this.gradoForm.getRawValue().idEscuela,
-    //         nro_matricula: this.gradoForm.getRawValue().codigo,
-    //         sede: this.gradoForm.getRawValue().sede,
-    //         archivo_firma: this.gradoForm.getRawValue().archivo_firma,
-    //         idMotivo_grado: this.gradoForm.getRawValue().idMotivo_grado,
-    //         comentario: this.gradoForm.getRawValue().comentario,
-    //         requisitos: this.gradoForm.getRawValue().requisitos,
-    //     };
-    //     const cadena = (new Date(grado.fecha_operacion)).toISOString();
-    //     console.log(cadena);
-    //     const cadena1 = cadena.substring(0,10);
-    //     const cadena2 = cadena.substring(11,19);
-    //     const fecha = cadena1 + ' ' + cadena2;
-    //     grado.fecha_operacion = fecha;
-    //     console.log(grado);
-    //         const formData = new FormData();
-    //         formData.append('entidad', grado.entidad);
-    //         formData.append('nro_operacion', grado.nro_operacion);
-    //         formData.append('fecha_operacion', grado.fecha_operacion);
-    //         formData.append('archivo', grado.archivo);
-    //         formData.append('idTipo_grado_unidad', grado.idTipo_grado_unidad);
-    //         formData.append('idUnidad', grado.idUnidad);
-    //         formData.append('idDependencia', grado.idDependencia);
-    //         formData.append('idDependencia_detalle', grado.idDependencia_detalle);
-    //         formData.append('nro_matricula', grado.nro_matricula);
-    //         formData.append('sede', grado.sede);
-    //         formData.append('archivo_firma', grado.archivo_firma);
-    //         formData.append('idMotivo_grado', grado.idMotivo_grado);
-    //         formData.append('comentario', grado.comentario);
-    //         grado.requisitos.forEach((element) => {
-    //             formData.append('requisitos[]', JSON.stringify(element));
-    //             if (element.idRequisito && element.extension === 'pdf') {
-    //                 formData.append('files[]', element.archivo);
-    //             }
-    //             if (element.idRequisito && element.extension === 'jpg') {
-    //                 formData.append('files[]', element.archivoImagen);
-    //             }
-    //           });
-    //         console.log(formData.getAll('requisitos'));
-    //         console.log(formData.getAll('files'));
-    //         // Disable the form
-    //         this.gradoForm.disable();
-
-    //         this._gradoService.createGrado(formData).subscribe((newMadurity) => {
-    //             console.log(newMadurity);
-    //             // Toggle the edit mode off
-    //             //this.toggleEditMode(false);
-
-    //             // Re-enable the form
-    //             this.gradoForm.enable();
-
-    //             // Go to new product
-    //             this.createFormulario(this.user);
-
-    //             this.alert = {
-    //                 type   : 'success',
-    //                 message: 'Trámite registrado correctamente',
-    //                 title: 'Guardado'
-    //             };
-    //             this.openSnack();
-
-    //             // Mark for check
-    //             this._changeDetectorRef.markForCheck();
-    //         },
-    //         (error) => {
-    //             // console.log(error);
-
-    //             // Re-enable the form
-    //             this.gradoForm.enable();
-
-    //             this.alert = {
-    //                 type   : 'warn',
-    //                 message: 'Error al registrar',
-    //                 title: 'Error'
-    //             };
-    //             this.openSnack();
-    //         });
-    // }
+    selectGrado(event): void {
+        const files = event.target.files[0];
+        this.gradoForm.patchValue({archivo: files});
+        console.log(this.gradoForm);
+        this.newGrado = true;
+    }
+    verDocumento(): void {
+        console.log(this.gradoForm.getRawValue());
+        const respDial = this.visordialog.open(
+            VisorPdfGradoComponent,
+            {
+                data: this.gradoForm.getRawValue(),
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+    uploadGrado(): void{
+        const data={
+            idTramite: this.gradoForm.getRawValue().idTramite,
+            archivo: this.gradoForm.getRawValue().archivo,
+        };
+        const formData = new FormData();
+            formData.append('idTramite', data.idTramite);
+            formData.append('archivo', data.archivo);
+        console.log(formData);
+        
+        this._gradoService.uploadGrado(data.idTramite,formData).subscribe((newGrado) => {
+            console.log(newGrado);
+            // Toggle the edit mode off
+            //this.toggleEditMode(false);
+            // Re-enable the form
+            this.gradoForm.enable();
+            // Go to new product
+            //this.createFormulario(this.user);
+            this.alert = {
+                type   : 'success',
+                message: 'Grado cargado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            this.newGrado = false;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
+            // Re-enable the form
+            this.gradoForm.enable();
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
+    }
+    
 }

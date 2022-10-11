@@ -118,7 +118,7 @@ export class GradosService
     getGradosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/aprobados', {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/validados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -178,10 +178,10 @@ export class GradosService
      */
     getGradoById(id: number): Observable<GradoInterface>
     {
+        // console.log(this._grados);
         return this._grados.pipe(
             take(1),
             map((grados) => {
-                
                 // Find the grado
                 // const grado = grados.find(item => item.idTramite === id) || null;
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
@@ -195,7 +195,7 @@ export class GradosService
                         element.archivo = environment.baseUrlStorage + element.archivo;
                     }
                 });
-                
+                // console.log(grado);
                 // Update the grado
                 this._grado.next(grado);
                 

@@ -2,35 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
-import { UserInterface, GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
+import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class UsersResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _gradosService: GradosService)
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserInterface[]>
-    {
-        return this._gradosService.getUsers();
-    }
-}
 
 @Injectable({
     providedIn: 'root'
@@ -79,6 +52,36 @@ export class GradoValidadoResolver implements Resolve<any>
                    );
     }
 }
+
+// @Injectable({
+//     providedIn: 'root'
+// })
+
+// export class AllGradosResolver implements Resolve<any>
+// {
+//     /**
+//      * Constructor
+//      */
+//     constructor(private _gradosService: GradosService,
+//         private _router: Router)
+//     {
+//     }
+
+//     // -----------------------------------------------------------------------------------------------------
+//     // @ Public methods
+//     // -----------------------------------------------------------------------------------------------------
+
+//     /**
+//      * Resolver
+//      *
+//      * @param route
+//      * @param state
+//      */
+//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<GradoInterface[]>
+//     {
+//         return this._gradosService.getAllGrados();
+//     }
+// }
 
 @Injectable({
     providedIn: 'root'

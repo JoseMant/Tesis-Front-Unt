@@ -40,7 +40,36 @@
               </div>
               
               <!-- Divider -->
-              <!-- <div class="my-10 border-t"></div> -->
+            <div class="my-10 border-t"></div>
+
+
+            <!-- <div class="grid grid-cols-12 gap-y-6">
+                <div class="sm:col-span-12 col-span-12 flex justify-center">
+                    <button *ngIf="!newGrado && grado.idEstado_tramite==18"
+                        mat-button
+                        class="rounded-full bg-green-600 hover:bg-green-500 text-white"
+                        cmat-button
+                        (click)="fileInput.click()"
+                    >
+                    <mat-icon
+                        class="h-6 w-6 mr-3"
+                        style="color: rgb(255, 255, 255)"
+                        [svgIcon]="'heroicons_solid:upload'">
+                    </mat-icon>
+                    Grado
+                    </button>
+                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectGrado($event)"/>
+                    <button *ngIf="newGrado"
+                        matTooltip="Ver documento"
+                        (click)="verDocumento()">
+                        <mat-icon
+                            class="h-6 w-6 mr-3 ml-3"
+                            style="color: rgb(6, 11, 88)"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+
+                    </button>
+                </div>
+            </div> -->
 
               <!-- Section -->
               <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
@@ -164,20 +193,20 @@
           >
               Regresar
           </button>
-              <button
-                  class="ml-4"
-                  mat-flat-button
-                  [color]="'primary'"
-                  [disabled]="gradoForm.disabled"
-                  (click)="updateRequisitos()">
-                  <span *ngIf="!gradoForm.disabled">
-                      Guardar
-                  </span>
-                  <mat-progress-spinner
-                      *ngIf="gradoForm.disabled"
-                      [diameter]="24"
-                      [mode]="'indeterminate'">spinner</mat-progress-spinner>
-              </button>
+            <button *ngIf="newGrado"
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="gradoForm.disabled"
+                (click)="uploadGrado()">
+                <span *ngIf="!gradoForm.disabled">
+                    Guardar
+                </span>
+                <mat-progress-spinner
+                    *ngIf="gradoForm.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'">spinner</mat-progress-spinner>
+            </button>
           </mat-card-actions>
       </div>
   </mat-card>

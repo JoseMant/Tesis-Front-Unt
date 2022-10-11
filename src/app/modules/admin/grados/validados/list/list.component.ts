@@ -6,14 +6,13 @@ import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { GradoPagination, GradoInterface, UserInterface } from 'app/modules/admin/grados/grados.types';
+import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { MatDialog } from '@angular/material/dialog';
 // import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from 'app/core/user/user.types';
 
 @Component({
     selector       : 'grados-validados-list',
@@ -61,13 +60,12 @@ export class GradosValidadosListComponent implements OnInit, AfterViewInit, OnDe
         title: '',
     };
 
-    users: UserInterface[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: GradoPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedTramites = [];
-    selectedGradosForm: FormGroup;
+    selectedGrado: GradoInterface | null = null;
+    selectedGradoForm: FormGroup;
     tagsEditMode: boolean = false;
     gradosCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -96,23 +94,29 @@ export class GradosValidadosListComponent implements OnInit, AfterViewInit, OnDe
     ngOnInit(): void
     {
         // Create the selected grado form
-        this.selectedGradosForm = this._formBuilder.group({
-            idUsuario        : ['all', [Validators.required]],
-            tramites         : [[]]
+        this.selectedGradoForm = this._formBuilder.group({
+            id               : [''],
+            category         : [''],
+            name             : ['', [Validators.required]],
+            description      : [''],
+            tags             : [[]],
+            sku              : [''],
+            barcode          : [''],
+            brand            : [''],
+            vendor           : [''],
+            stock            : [''],
+            reserved         : [''],
+            cost             : [''],
+            basePrice        : [''],
+            taxPercent       : [''],
+            price            : [''],
+            weight           : [''],
+            thumbnail        : [''],
+            images           : [[]],
+            currentImageIndex: [0], // Image index that is currently being viewed
+            active           : [false]
         });
 
-        // Get the users
-        this._gradosService.users$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((users: UserInterface[]) => {
-
-                // Update the users
-                this.users = users;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-        
         // Get the pagination
         this._gradosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -237,87 +241,6 @@ export class GradosValidadosListComponent implements OnInit, AfterViewInit, OnDe
     }
 
     /**
-     * Add tag to the product
-     *
-     * @param tag
-     */
-    addTramiteToForm(tag: GradoInterface): void
-    {
-        // Add the tag
-        this.selectedTramites.unshift(tag.idTramite);
-
-        // Update the selected product form
-        this.selectedGradosForm.get('tramites').patchValue(this.selectedTramites);
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
-
-    /**
-     * Remove tramite from the product
-     *
-     * @param tramite
-     */
-    removeTramiteFromForm(tramite: GradoInterface): void
-    {
-        // Remove the tramite
-        this.selectedTramites.splice(this.selectedTramites.findIndex(item => item === tramite.idTramite), 1);
-
-        // Update the selected product form
-        this.selectedGradosForm.get('tramites').patchValue(this.selectedTramites);
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
-
-    /**
-     * Toggle product tramite
-     *
-     * @param tramite
-     * @param change
-     */
-    toggleTramite(tramite: GradoInterface, change: MatCheckboxChange): void
-    {
-        console.log(tramite);
-        if ( change.checked )
-        {
-            this.addTramiteToForm(tramite);
-        }
-        else
-        {
-            this.removeTramiteFromForm(tramite);
-        }
-    }
-
-
-    validateInclude(idTramite: number): void
-    {
-        console.log(this.selectedTramites.includes(idTramite));
-    }
-
-    asignarUsuarioGrados(): void
-    {
-        // Get the product object
-        const data = this.selectedGradosForm.getRawValue();
-        
-        // Update the product on the server
-        this._gradosService.asignarUsuarioGrados(data).subscribe(() => {
-            
-            // Show a success message
-            this.alert = {
-                type   : 'success',
-                message: 'Trámite registrado correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
-            
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-
-        });
-    }
-
-    /**
      * On destroy
      */
     ngOnDestroy(): void
@@ -330,29 +253,7 @@ export class GradosValidadosListComponent implements OnInit, AfterViewInit, OnDe
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    
 
-    /**
-     * Show flash message
-     */
-    showFlashMessage(type: 'success' | 'error'): void
-    {
-        // Show the message
-        this.flashMessage = type;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
-        setTimeout(() => {
-
-            this.flashMessage = null;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        }, 3000);
-    }
-    
     /**
      * Track by function for ngFor loops
      *

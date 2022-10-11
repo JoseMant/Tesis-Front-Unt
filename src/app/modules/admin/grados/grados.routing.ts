@@ -3,16 +3,16 @@ import { Route } from '@angular/router';
 // import { GradosAsignadosListComponent } from 'app/modules/admin/grados/asignados/list/list.component';
 // import { GradoAsignadoResolver, GradosAsignadosResolver } from 'app/modules/admin/grados/asignados/asignados.resolvers';
 // import { GradoAsignadoDetalleComponent } from './asignados/detalle/details.component';
+// -------------
+import { GradosValidadosComponent } from 'app/modules/admin/grados/validados/validados.component';
+import { GradosValidadosListComponent } from 'app/modules/admin/grados/validados/list/list.component';
+import {GradoValidadoResolver, GradosValidadosResolver } from 'app/modules/admin/grados/validados/validados.resolvers';
+import { GradoValidadoDetalleComponent } from './validados/detalle/details.component';
 // ------------
 import { GradosAprobadosComponent } from 'app/modules/admin/grados/aprobados/aprobados.component';
 import { GradosAprobadosListComponent } from 'app/modules/admin/grados/aprobados/list/list.component';
 import { GradoAprobadoResolver, GradosAprobadosResolver } from 'app/modules/admin/grados/aprobados/aprobados.resolvers';
 import { GradoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
-// -------------
-import { GradosValidadosComponent } from 'app/modules/admin/grados/validados/validados.component';
-import { GradosValidadosListComponent } from 'app/modules/admin/grados/validados/list/list.component';
-import { UsersResolver, GradoValidadoResolver, GradosValidadosResolver } from 'app/modules/admin/grados/validados/validados.resolvers';
-import { GradoValidadoDetalleComponent } from './validados/detalle/details.component';
 //---------------------------
 // import { GradosFirmaURAAComponent } from 'app/modules/admin/grados/firma_uraa/firma_uraa.component';
 // import { GradosFirmaURAAListComponent } from 'app/modules/admin/grados/firma_uraa/list/list.component';
@@ -35,9 +35,9 @@ export const gradosRoutes: Route[] = [
         {
           path     : '',
           component: GradosValidadosListComponent,
-          resolve      : {
-            users  : UsersResolver,
-          },
+        //   resolve      : {
+        //     users  : UsersResolver,
+        //   },
         },
         {
           path         : ':idTramite',

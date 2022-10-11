@@ -29,12 +29,12 @@ import { SharedModule } from 'app/shared/shared.module';
 import { GradosAprobadosComponent } from 'app/modules/admin/grados/aprobados/aprobados.component';
 import { GradosAprobadosListComponent } from 'app/modules/admin/grados/aprobados/list/list.component';
 import { GradoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
-import { VisorPdfGradoComponent } from './aprobados/visorPdf/visorPdfGrado.component';
-import { RequisitosDialogComponent } from './aprobados/dialogReq/dialogReq.component';
 
 import { GradosValidadosComponent } from 'app/modules/admin/grados/validados/validados.component';
 import { GradosValidadosListComponent } from 'app/modules/admin/grados/validados/list/list.component';
 import { GradoValidadoDetalleComponent } from './validados/detalle/details.component';
+import { VisorPdfGradoComponent } from './validados/visorPdf/visorPdfGrado.component';
+import { RequisitosDialogComponent } from './validados/dialogReq/dialogReq.component';
 
 // import { GradosFirmaURAAComponent } from 'app/modules/admin/grados/firma_uraa/firma_uraa.component';
 // import { GradosFirmaURAAListComponent } from 'app/modules/admin/grados/firma_uraa/list/list.component';
