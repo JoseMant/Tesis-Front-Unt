@@ -197,7 +197,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     // }
                 ]
             },
-        ]
+            {
+                id      : 'masters.bachiller_grado',
+                title   : 'Bachiller / Grado Título',
+                type    : 'collapsable',
+                icon    : 'heroicons_outline:lock-closed',
+                children: [
+                    {
+                        id   : 'masters.bachiller_grado.cronogramas',
+                        title: 'Cronogramas',
+                        type : 'basic',
+                        link : '/masters/bachiller_grado/cronogramas',
+                        permissions: ['ADMIN']
+                    }
+                ]
+            },
+        ],
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
