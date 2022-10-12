@@ -1,0 +1,386 @@
+<div class="flex flex-col w-full">
+
+    <!-- View mode -->
+    <ng-container *ngIf="!editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="cronograma.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="cronograma.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Cerrar'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cronograma -->
+        <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+
+                <!-- Avatar and actions -->
+                <div class="flex flex-auto items-end -mt-16">
+                    <!-- Avatar -->
+                    <div class="flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                        <!-- <img
+                            class="object-cover w-full h-full"
+                            *ngIf="cronograma.avatar"
+                            [src]="cronograma.avatar"> -->
+                        <!-- <div
+                            class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!cronograma.avatar">
+                            {{cronograma.apellidos.charAt(0)}}
+                        </div> -->
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center ml-auto mb-1">
+                        <button
+                            mat-stroked-button
+                            (click)="toggleEditMode(true)">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Editar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Name -->
+                <div class="mt-3 text-4xl font-bold truncate">{{cronograma.tramite}}</div>
+
+                <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
+
+                    <!-- Unidad -->
+                    <ng-container *ngIf="cronograma.unidad">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:office-building'"></mat-icon>
+                            <div class="ml-6 leading-6">{{cronograma.unidad}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Dependencia -->
+                    <ng-container *ngIf="cronograma.dependencia">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:home'"></mat-icon>
+                            <div class="ml-6 leading-6">{{cronograma.dependencia}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- tipo_colacion -->
+                    <ng-container *ngIf="cronograma.tipo_colacion">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <div class="ml-6 leading-6">{{cronograma.tipo_colacion}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- fecha_colacion -->
+                    <ng-container *ngIf="cronograma.fecha_colacion">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                            <div class="ml-6 leading-6">{{cronograma.fecha_colacion | date:'longDate'}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- fecha_cierre_alumno -->
+                    <ng-container *ngIf="cronograma.fecha_cierre_alumno">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                            <div class="ml-6 leading-6">Cierre para el alumno: {{cronograma.fecha_cierre_alumno | date:'longDate'}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- fecha_cierre_secretaria -->
+                    <ng-container *ngIf="cronograma.fecha_cierre_secretaria">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                            <div class="ml-6 leading-6">Cierre para secretaría de escuela: {{cronograma.fecha_cierre_secretaria | date:'longDate'}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- fecha_cierre_decanato -->
+                    <ng-container *ngIf="cronograma.fecha_cierre_decanato">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                            <div class="ml-6 leading-6">Cierre para decanato: {{cronograma.fecha_cierre_decanato | date:'longDate'}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Estado -->
+                    <ng-container *ngIf="cronograma.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                            <div class="ml-6 leading-6">Activo</div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!cronograma.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:ban'"></mat-icon>
+                            <div class="ml-6 leading-6">Inactivo</div>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Edit mode -->
+    <ng-container *ngIf="editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="cronograma.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="cronograma.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Close'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cronograma form -->
+        <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+                <form [formGroup]="cronogramaForm">
+
+                    <!-- Avatar -->
+                    <div class="flex flex-auto items-end -mt-16">
+                        <div class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                        </div>
+                    </div>
+
+                    <!-- Unidad -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Unidad</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                            <mat-select
+                                (selectionChange)="selectedUnidad($event.value)"
+                                [formControlName]="'idUnidad'">
+                                <ng-container>
+                                    <mat-option [value]="0" disabled>Seleccionar unidad...</mat-option>
+                                </ng-container>
+                                <ng-container *ngFor="let unidad of unidades">
+                                    <mat-option [value]="unidad.idUnidad">{{unidad.descripcion}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Dependencia -->
+                    <div class="mt-8" *ngIf="cronogramaForm.getRawValue().idUnidad">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label *ngIf="cronogramaForm.getRawValue().idUnidad == 1">Facultad</mat-label>
+                            <mat-label *ngIf="cronogramaForm.getRawValue().idUnidad == 2">Mención</mat-label>
+                            <mat-label *ngIf="cronogramaForm.getRawValue().idUnidad == 3">Mención</mat-label>
+                            <mat-label *ngIf="cronogramaForm.getRawValue().idUnidad == 4">Especialidad</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
+                            <mat-select
+                                [formControlName]="'idDependencia'">
+                                <mat-option *ngIf="cronogramaForm.getRawValue().idUnidad == 1" [value]="0" disabled>Seleccionar Facultad...</mat-option>
+                                <mat-option *ngIf="cronogramaForm.getRawValue().idUnidad == 2" [value]="0" disabled>Seleccionar Mención...</mat-option>
+                                <mat-option *ngIf="cronogramaForm.getRawValue().idUnidad == 3" [value]="0" disabled>Seleccionar Mención...</mat-option>
+                                <mat-option *ngIf="cronogramaForm.getRawValue().idUnidad == 4" [value]="0" disabled>Seleccionar Especialidad...</mat-option>
+                                <ng-container *ngFor="let dependencia of dependencias">
+                                    <mat-option [value]="dependencia.idDependencia">{{dependencia.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tipo de trámite -->
+                    <div class="mt-8" *ngIf="cronogramaForm.getRawValue().idUnidad">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Tipo de trámite</mat-label>
+                            <mat-select
+                                [formControlName]="'idTipo_tramite_unidad'">
+                                <mat-option [value]="0" disabled>Seleccionar tipo de trámite...</mat-option>
+                                <ng-container *ngFor="let tipo of tipoTramiteUnidades">
+                                    <mat-option [value]="tipo.idTipo_tramite_unidad">{{tipo.descripcion}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tipo de colación -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Tipo de colación</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                            <mat-select [formControlName]="'tipo_colacion'">
+                                <mat-option [value]="'none'" disabled>Seleccionar tipo de colación...</mat-option>
+                                <ng-container *ngFor="let tipo_colacion of tipos_colaciones">
+                                    <mat-option [value]="tipo_colacion.id">{{tipo_colacion.name}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha de colación -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Fecha de colación</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                            <input
+                                matInput
+                                [min]="minDate"
+                                [matDatepicker]="fecha_colacionDatepicker"
+                                [formControlName]="'fecha_colacion'"
+                                [placeholder]="'Seleccionar fecha de colación'">
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_colacionDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_colacionDatepicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha de cierre para el alumno -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Fecha de cierre para el alumno</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                            <input
+                                matInput
+                                [min]="minDate"
+                                [matDatepicker]="fecha_cierre_alumnoDatepicker"
+                                [formControlName]="'fecha_cierre_alumno'"
+                                [placeholder]="'Seleccionar fecha de cierre para el Alumno'">
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_cierre_alumnoDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_cierre_alumnoDatepicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha de cierre para la Escuela -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Fecha de cierre para la Escuela</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                            <input
+                                matInput
+                                [min]="minDate"
+                                [matDatepicker]="fecha_cierre_secretariaDatepicker"
+                                [formControlName]="'fecha_cierre_secretaria'"
+                                [placeholder]="'Seleccionar fecha de cierre para la Escuela'">
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_cierre_secretariaDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_cierre_secretariaDatepicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha de cierre para la Facultad -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Fecha de cierre para la Facultad</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                            <input
+                                matInput
+                                [min]="minDate"
+                                [matDatepicker]="fecha_cierre_decanatoDatepicker"
+                                [formControlName]="'fecha_cierre_decanato'"
+                                [placeholder]="'Seleccionar fecha de cierre para la Facultad'">
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_cierre_decanatoDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_cierre_decanatoDatepicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Estado -->
+                    <div *ngIf="cronograma.estado" class="flex flex-col mt-8">
+                        <mat-label>Estado</mat-label>
+                        <mat-slide-toggle
+                            [formControlName]="'estado'"
+                            [color]="'primary'">
+                            {{cronogramaForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
+                        </mat-slide-toggle>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+                        <!-- Eliminar -->
+                        <!-- <button
+                            mat-button
+                            [color]="'warn'"
+                            [matTooltip]="'Eliminar'"
+                            (click)="deleteCronograma()">
+                            Eliminar
+                        </button> -->
+                        <!-- Cancel -->
+                        <button
+                            class="ml-auto"
+                            mat-button
+                            [matTooltip]="'Cancel'"
+                            (click)="toggleEditMode(false)">
+                            Cancelar
+                        </button>
+                        <!-- Guardar -->
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="cronogramaForm.invalid"
+                            [matTooltip]="'Guardar'"
+                            (click)="saveCronograma()">
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>
