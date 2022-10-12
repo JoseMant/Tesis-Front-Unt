@@ -167,17 +167,48 @@
                                       <span class="hidden sm:block ml-2">VER</span>
                                   </a>
                               </div>
-                              <div class="col-span-2 text-center">
-                                  {{ requisito.des_estado_requisito }} - <button
-                                      class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                      mat-stroked-button
-                                      matTooltip="Editar detalle"
-                                      (click)="validarRequisito(requisito, false, id)">
-                                      <mat-icon
-                                          class="icon-size-5"
-                                          [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                                  </button>
+                              <div class="col-span-2 text-center" *ngIf="requisito.responsable !== 4">
+                                  {{ requisito.des_estado_requisito }} 
+                                  <div class="col-span-2 text-center" *ngIf="requisito.extension === 'pdf'">
+                                    <div>
+                                        <button
+                                            matTooltip="Agregar documento"
+                                            (click)="fileInput.click()">
+                                            <mat-icon
+                                                class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                                style="color: rgb(6, 11, 88)"
+                                                [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                        </button>
+                                        <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,requisito)"/>
+                                    </div>
+                                    <svg
+                                        *ngIf="requisito.archivo"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-6 w-6 mr-3 ml-3"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        style="cursor: pointer; color: rgb(6, 11, 88)"
+                                        (click)="verReqDocumento(requisito)"
+                                        stroke-width="2"
+                                        matTooltip="Ver documento"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        />
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        />
+                                    </svg>
+                                </div>
                               </div>
+                              <div class="col-span-2 text-center" *ngIf="requisito.responsable == 4">
+                                {{ requisito.des_estado_requisito }}
+                            </div>
                           </div>
                       </ng-container>
                   </mat-card-content>
@@ -189,7 +220,7 @@
               mat-button
               class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
               cmat-button
-              [routerLink]="['/grados/asignados']"
+              [routerLink]="['/grados/aprobados']"
           >
               Regresar
           </button>
@@ -197,9 +228,9 @@
                 class="ml-4"
                 mat-flat-button
                 [color]="'primary'"
-                [disabled]="gradoForm.disabled"
-                (click)="uploadGrado()">
-                <span *ngIf="!gradoForm.disabled">
+                
+                (click)="UpdateRequisitosFacultad()">
+                <span >
                     Guardar
                 </span>
                 <mat-progress-spinner

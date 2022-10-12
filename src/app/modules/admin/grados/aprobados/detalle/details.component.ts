@@ -100,7 +100,9 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
     grado: GradoInterface | null = null;
     allgrados: GradoInterface[];
     gradoForm: FormGroup;
+    data: GradoInterface;
     contador: number = 4;
+    requisitos: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     newGrado: boolean = false;
     /**
@@ -193,6 +195,7 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
                 console.log(grado);
                 // Get the grado
                 this.grado = grado;
+                this.requisitos = grado.requisitos;
                 // this.grado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
                 // this.grado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
                 // this.grado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
@@ -215,6 +218,7 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.complete();
     }
+    
     /**
      * Track by function for ngFor loops
      *
@@ -368,5 +372,127 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
             this.openSnack();
         });
     }
-    
+    selectReqDocumento(event, req): void {
+        const files = event.target.files[0];
+        console.log(files);
+        console.log(req);
+        for (const requ of this.requisitos) {
+            if (requ.idRequisito === req.idRequisito) {
+                requ['archivo'] = files;
+            }
+        }
+        this.gradoForm.patchValue({requisitos: this.requisitos});
+        console.log(this.gradoForm);
+        this.newGrado = true;
+    }
+    verReqDocumento(req): void {
+        console.log(req);
+        const respDial = this.visordialog.open(
+            VisorPdfGradoComponent,
+            {
+                data: req,
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+    UpdateRequisitosFacultad(): void{
+        // If the confirm button pressed...
+        if (this.gradoForm.invalid) {
+            this.gradoForm.markAllAsTouched();
+            return;
+        }
+        // const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivo === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
+        // console.log(this.data.requisitos);
+        // console.log(requis);
+        // if (requis) {
+        //     this.alert = {
+        //         type   : 'warn',
+        //         message: 'Cargar el archivo en el requisito: ' + requis.nombre,
+        //         title: 'Error'
+        //     };
+        //     this.openSnack();
+        //     return;
+        // }
+        console.log(this.gradoForm.getRawValue());
+        const tramite = {
+            codigo: this.gradoForm.getRawValue().codigo,
+            correo: this.gradoForm.getRawValue().correo,
+            entidad: this.gradoForm.getRawValue().entidad,
+            idEstado_tramite: this.gradoForm.getRawValue().idEstado_tramite,
+            idTipo_tramite: this.gradoForm.getRawValue().idTipo_tramite,
+            idTramite: this.gradoForm.getRawValue().idTramite,
+            nro_documento: this.gradoForm.getRawValue().nro_documento,
+            nro_matricula: this.gradoForm.getRawValue().nro_matricula,
+            requisitos: this.gradoForm.getRawValue().requisitos,
+        };
+        console.log(tramite);
+        // debugger;
+            const formData = new FormData();
+            formData.append('codigo', tramite.entidad);
+            formData.append('correo', tramite.entidad);
+            formData.append('entidad', tramite.entidad);
+            formData.append('idEstado_tramite', tramite.idEstado_tramite);
+            formData.append('idTipo_tramite', tramite.idTipo_tramite);
+            formData.append('idTramite', tramite.idTramite);
+            formData.append('nro_documento', tramite.nro_documento);
+            formData.append('nro_matricula', tramite.nro_matricula);
+            tramite.requisitos.forEach((element) => {
+                formData.append('requisitos[]', JSON.stringify(element));
+                if (element.idRequisito && element.extension === 'pdf') {
+                    if (element.archivo) {
+                        formData.append('files[]', element.archivo);
+                    } else {
+                        formData.append('files[]', new File([""], "vacio.kj"));
+                    }
+                } else if (element.idRequisito && element.extension === 'jpg') {
+                    if (element.archivoImagen) {
+                        formData.append('files[]', element.archivoImagen);
+                    } else {
+                        formData.append('files[]', new File([""], "vacio.kj"));
+                    }
+                }
+              });
+            // console.log(formData.getAll('requisitos[]'));
+            // console.log(formData.getAll('files[]'));
+            // return;
+            // Disable the form
+            this.gradoForm.disable();
+
+            // this._gradoService.createTramite(formData).subscribe((newMadurity) => {
+            //     console.log(newMadurity);
+            //     // Toggle the edit mode off
+            //     //this.toggleEditMode(false);
+
+            //     // Re-enable the form
+            //     this.gradoForm.enable();
+
+            //     // Go to new product
+            //     // this.createFormulario(this.user);
+
+            //     this.alert = {
+            //         type   : 'success',
+            //         message: 'Trámite registrado correctamente',
+            //         title: 'Guardado'
+            //     };
+            //     this.openSnack();
+
+            //     // Mark for check
+            //     this._changeDetectorRef.markForCheck();
+            // },
+            // (error) => {
+            //     // console.log(error);
+
+            //     // Re-enable the form
+            //     this.gradoForm.enable();
+
+            //     this.alert = {
+            //         type   : 'warn',
+            //         message: 'Error al registrar',
+            //         title: 'Error'
+            //     };
+            //     this.openSnack();
+            // });
+    }
 }
