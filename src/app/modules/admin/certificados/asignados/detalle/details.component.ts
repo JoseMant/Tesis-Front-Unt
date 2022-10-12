@@ -227,6 +227,7 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
     {
         // Get the contact object
         const certificado = this.certificadoForm.getRawValue();
+        console.log(certificado);
 
         // Disable the form
         this.certificadoForm.disable();
