@@ -233,21 +233,21 @@
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
-                                <mat-label>TIPOS DE TRÁMITES</mat-label>
-                                <mat-select
-                                    (selectionChange)="selectedTipoTramiteUnidades($event.value)"
-                                    [formControlName]="'idTipo_tramite_unidad'">
-                                    <ng-container>
-                                        <mat-option [value]="0" disabled>
-                                            Seleccionar tipo de trámite...
-                                        </mat-option>
-                                    </ng-container>
-                                    <ng-container *ngFor="let tipouni of tipoTramiteUnidades">
-                                        <mat-option [value]="tipouni.idTipo_tramite_unidad">
-                                            {{tipouni.descripcion}}
-                                        </mat-option>
-                                    </ng-container>
-                                </mat-select>
+                                    <mat-label>TIPOS DE TRÁMITES</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedTipoTramiteUnidades($event.value)"
+                                        [formControlName]="'idTipo_tramite_unidad'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar tipo de trámite...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let tipouni of tipoTramiteUnidades">
+                                            <mat-option [value]="tipouni.idTipo_tramite_unidad">
+                                                {{tipouni.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
                                     *ngIf="data.idTipo_tramite === 1"
