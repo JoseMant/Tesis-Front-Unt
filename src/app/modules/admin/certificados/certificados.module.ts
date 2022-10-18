@@ -36,6 +36,9 @@ import { CertificadosValidadosComponent } from 'app/modules/admin/certificados/v
 import { CertificadosValidadosListComponent } from 'app/modules/admin/certificados/validados/list/list.component';
 import { CertificadoValidadoDetalleComponent } from './validados/detalle/details.component';
 
+import { CertificadosPendientesComponent } from 'app/modules/admin/certificados/pendientes/pendientes.component';
+import { CertificadosPendientesListComponent } from 'app/modules/admin/certificados/pendientes/list/list.component';
+
 import { CertificadosFirmaURAAComponent } from 'app/modules/admin/certificados/firma_uraa/firma_uraa.component';
 import { CertificadosFirmaURAAListComponent } from 'app/modules/admin/certificados/firma_uraa/list/list.component';
 import { CertificadoFirmaURAADetalleComponent } from './firma_uraa/detalle/details.component';
@@ -69,6 +72,8 @@ import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.
         CertificadosValidadosComponent,
         CertificadosValidadosListComponent,
         CertificadoValidadoDetalleComponent,
+        CertificadosPendientesComponent,
+        CertificadosPendientesListComponent,
         VisorPdfCertificadoComponent,
         RequisitosDialogComponent
     ],

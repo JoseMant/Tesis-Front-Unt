@@ -23,6 +23,12 @@ import { CertificadosFirmaDecanoComponent } from 'app/modules/admin/certificados
 import { CertificadosFirmaDecanoListComponent } from 'app/modules/admin/certificados/firma_decano/list/list.component';
 import { CertificadoFirmaDecanoResolver, CertificadosFirmaDecanoResolver } from 'app/modules/admin/certificados/firma_decano/firma_decano.resolvers';
 import { CertificadoFirmaDecanoDetalleComponent } from './firma_decano/detalle/details.component';
+
+
+import { CertificadosPendientesComponent } from 'app/modules/admin/certificados/pendientes/pendientes.component';
+import { CertificadosPendientesListComponent } from 'app/modules/admin/certificados/pendientes/list/list.component';
+import { CertificadoPendienteResolver, CertificadosPendientesResolver } from 'app/modules/admin/certificados/pendientes/pendientes.resolvers';
+// import { CertificadoPendienteDetalleComponent } from './firma_decano/detalle/details.component';
 // import { CertificadosRechazadosComponent } from 'app/modules/admin/certificados/rechazados/rechazados.component';
 // import { CertificadosRechazadosListComponent } from 'app/modules/admin/certificados/rechazados/list/list.component';
 // import { CertificadosRechazadosResolver } from 'app/modules/admin/certificados/rechazados/rechazados.resolvers';
@@ -129,6 +135,29 @@ export const certificadosRoutes: Route[] = [
                     certificado  : CertificadoFirmaDecanoResolver,
                 },
             }
+        ]
+    },
+    {
+        path     : 'pendientes',
+        component: CertificadosPendientesComponent,
+        resolve  : {
+            certificados  : CertificadosPendientesResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CertificadosPendientesListComponent,
+            }
+
+
+
+            // {
+            //     path         : ':idTramite',
+            //     component    : CertificadoFirmaDecanoDetalleComponent,
+            //     resolve      : {
+            //         certificado  : CertificadoFirmaDecanoResolver,
+            //     },
+            // }
         ]
     }
 

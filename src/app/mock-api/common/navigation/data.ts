@@ -72,6 +72,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/certificados/firma_decano',
                 permissions: ['URAA']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
+                id   : 'certificados.pendientes',
+                title: 'Pendientes',
+                type : 'basic',
+                link : '/certificados/pendientes',
+                permissions: ['URAA']
             }
         ]
     },
