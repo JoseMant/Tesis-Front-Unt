@@ -182,7 +182,7 @@ export class AuthSignUpComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
                     };
 
                     // Show the alert

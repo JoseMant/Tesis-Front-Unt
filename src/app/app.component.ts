@@ -45,7 +45,7 @@ export class AppComponent
               //     return true;
               //   });
               }
-              console.log(this._rolesService.getRoles());
+              // console.log(this._rolesService.getRoles());
           });
 
     }

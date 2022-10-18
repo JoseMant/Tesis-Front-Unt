@@ -1,0 +1,210 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="accountForm">
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Perfil</div>
+            <div class="text-secondary">La siguiente información se muestra públicamente, ¡tenga cuidado!</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Nombres -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Nombres</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        readonly
+                        [formControlName]="'nombres'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Apellidos -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Apellidos</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        readonly
+                        [formControlName]="'apellidos'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Username -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Usuario</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                        matPrefix></mat-icon>
+                    <input
+                        readonly
+                        [formControlName]="'username'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Rol -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Rol</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:briefcase'"
+                        matPrefix></mat-icon>
+                    <input
+                        readonly
+                        [formControlName]="'rol'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Country -->
+            <!-- <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Género</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'mat_outline:female'"
+                        matPrefix></mat-icon>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'mat_outline:male'"
+                        matPrefix></mat-icon>
+                    <mat-select [formControlName]="'sexo'">
+                        <mat-option [value]="'none'" disabled>Seleccionar género...</mat-option>
+                        <ng-container *ngFor="let genero of generos">
+                            <mat-option [value]="genero.id">
+                                {{genero.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <!-- About -->
+            <!-- <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                    <mat-label>About</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'about'"
+                        cdkTextareaAutosize
+                        [cdkAutosizeMinRows]="5"></textarea>
+                </mat-form-field>
+                <div class="mt-1 text-md text-hint">Brief description for your profile. Basic HTML and Emoji are allowed.</div>
+            </div> -->
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Informacion personal</div>
+            <div class="text-secondary">Detalles de comunicación en caso de que queramos conectar con usted. Estos se mantendrán en privado.</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Tipo documento -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Tipo documento</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:identification'"
+                        matPrefix></mat-icon>
+                        <input
+                            matInput
+                            readonly
+                            [formControlName]="'tipo_documento'"
+                            [placeholder]="'Tipo de documento'">
+                </mat-form-field>
+            </div>
+            <!-- Número documento -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Número documento</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:identification'"
+                        matPrefix></mat-icon>
+                    <input
+                        matInput
+                        readonly
+                        [formControlName]="'nro_documento'"
+                        [placeholder]="'Número de documento'">
+                </mat-form-field>
+            </div>
+            <!-- Email -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Correo electrónico (de preferencia unitru)</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:mail'"
+                        matPrefix></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'correo'"
+                        [placeholder]="'Correo electrónico'">
+                </mat-form-field>
+            </div>
+            <!-- Phone -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Celular</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:phone'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'celular'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Language -->
+            <!-- <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Language</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:globe-alt'"
+                        matPrefix></mat-icon>
+                    <mat-select [formControlName]="'language'">
+                        <mat-option [value]="'english'">English</mat-option>
+                        <mat-option [value]="'french'">French</mat-option>
+                        <mat-option [value]="'spanish'">Spanish</mat-option>
+                        <mat-option [value]="'german'">German</mat-option>
+                        <mat-option [value]="'italian'">Italian</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+        </div>
+
+        <!-- Divider -->
+        <div class="mt-11 mb-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <!-- <button
+                mat-stroked-button
+                type="button">
+                Cancel
+            </button> -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [disabled]="accountForm.invalid"
+                type="button"
+                (click)="updatePerfil()"
+                [color]="'primary'">Guardar
+            </button>
+        </div>
+    </form>
+
+</div>

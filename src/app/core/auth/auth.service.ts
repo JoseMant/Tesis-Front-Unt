@@ -99,7 +99,7 @@ export class AuthService
                 this._authenticated = true;
 
                 let user = response.user;
-                user.avatar = 'assets/images/avatars/brian-hughes.jpg';
+                // user.avatar = 'assets/images/avatars/brian-hughes.jpg';
                 localStorage.setItem('user', JSON.stringify(user));
 
                 // Store the user on the user service

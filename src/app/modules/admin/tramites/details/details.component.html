@@ -172,29 +172,24 @@
                                             [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                     </button>
                                     <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,requisito)"/>
+                                    <a
+                                        *ngIf="!tramiteForm.getRawValue().requisitos[i].archivoImagen"
+                                        target="_blank"
+                                        matTooltip="Editar detalle"
+                                        [href]="requisito.archivo">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </a>
                                     <button
+                                        *ngIf="tramiteForm.getRawValue().requisitos[i].archivoImagen"
                                         matTooltip="Ver documento"
                                         (click)="verReqImagen(requisito)">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
+                                        <mat-icon
                                             class="h-6 w-6 mr-3 ml-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            style="cursor: pointer; color: rgb(6, 11, 88)"
-                                            stroke-width="2"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                     </button>
                                 </div>
                             </div>

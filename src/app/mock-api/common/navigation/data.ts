@@ -30,7 +30,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados',
                 type : 'basic',
                 link : '/certificados/validados',
-                permissions: ['URAA']
+                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             },
             {
                 // Se muestran al usuario para validar requisitos
@@ -38,7 +38,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Asignados',
                 type : 'basic',
                 link : '/certificados/asignados',
-                permissions: ['URAA']
+                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             },
             {
                 // Se muestran para subir el certificado
@@ -46,7 +46,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/certificados/aprobados',
-                permissions: ['URAA']
+                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             },
             {
                 // Se muestran para la firma del jefe de RT
@@ -54,7 +54,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Firma URA-a',
                 type : 'basic',
                 link : '/certificados/firma_uraa',
-                permissions: ['URAA']
+                permissions: ['JEFE UNIDAD DE REGISTROS ACADÉMICOS']
             },
             {
                 // Se muestran para la firma del jefe de RT
@@ -62,7 +62,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Firma Decano',
                 type : 'basic',
                 link : '/certificados/firma_decano',
-                permissions: ['URAA']
+                permissions: ['DECANO(A)']
             },
             {
                 // Se muestran para la firma del jefe de RT
@@ -70,7 +70,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/certificados/pendientes',
-                permissions: ['URAA']
+                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             }
         ]
     },
@@ -86,7 +86,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados',
                 type : 'basic',
                 link : '/grados/validados',
-                permissions: ['URAA']
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
             // {
             //     // Se muestran al usuario para validar requisitos
@@ -102,7 +102,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/grados/aprobados',
-                permissions: ['URAA']
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
             // {
             //     // Se muestran para la firma del jefe de RT
@@ -134,7 +134,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validadas',
                 type : 'basic',
                 link : '/constancias/validadas',
-                permissions: ['URAA']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 // Se muestran al usuario para validar requisitos
@@ -142,7 +142,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Asignadas',
                 type : 'basic',
                 link : '/constancias/asignadas',
-                permissions: ['URAA']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 // Se muestran para la firma del jefe de RT
@@ -150,7 +150,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Firma URA-a',
                 type : 'basic',
                 link : '/constancias/firma_uraa',
-                permissions: ['URAA']
+                permissions: ['ADMINISTRADOR']
             },
             // {
             //     // Se muestran para la firma del jefe de RT
@@ -174,7 +174,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados',
                 type : 'basic',
                 link : '/carnets/validados',
-                permissions: ['URAA']
+                permissions: ['ADMINISTRADOR']
             },
         ]
     },
@@ -189,21 +189,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/vouchers/pendientes',
-                permissions: ['TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/vouchers/aprobados',
-                permissions: ['TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
                 link : '/vouchers/rechazados',
-                permissions: ['TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             }
         ]
     },
@@ -226,7 +226,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Usuarios',
                         type : 'basic',
                         link : '/masters/access/users',
-                        permissions: ['ADMIN']
+                        permissions: ['ADMINISTRADOR']
                     },
                     // {
                     //     id   : 'masters.access.permissions',
@@ -255,7 +255,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Cronogramas',
                         type : 'basic',
                         link : '/masters/bachiller_grado/cronogramas',
-                        permissions: ['ADMIN']
+                        permissions: ['ADMINISTRADOR']
                     }
                 ]
             },

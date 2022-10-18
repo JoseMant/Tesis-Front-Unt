@@ -3,7 +3,7 @@ export interface User
 {
     id: string;
     name: string;
-    email: string;
+    correo: string;
     avatar?: string;
     status?: string;
     nro_doc?: string;
@@ -18,6 +18,6 @@ export interface User
     // nombres: "CESAR"
     // nro_documento: "74660603"
     // sexo: "M"
-    // tipo_documento: "1"
-    // username: "curbina"
+    tipo_documento: string;
+    username: string;
 }

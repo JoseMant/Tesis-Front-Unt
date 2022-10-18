@@ -86,7 +86,7 @@ export class FuseVerticalNavigationBasicItemComponent implements OnInit, OnDestr
       //console.log(req);
       if (req.length === 0) {
           value = true;
-      }else if (this._rolesService.getRole('ADMIN')) {
+      }else if (this._rolesService.getRole('ADMINISTRADOR')) {
         value = true;
       } else {
         req.forEach((requerimiento) => {

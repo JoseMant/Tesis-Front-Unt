@@ -276,7 +276,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
         });
       });
       let value = false;
-      if (this._rolesService.getRole('ADMIN')) {
+      if (this._rolesService.getRole('ADMINISTRADOR')) {
         value = true;
       } else {
         req.forEach((requerimiento) => {
