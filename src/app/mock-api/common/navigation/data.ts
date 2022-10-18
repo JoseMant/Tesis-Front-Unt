@@ -11,15 +11,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         permissions: []
     },
     {
-        id   : 'usuarios',
-        title: 'Usuarios',
-        type : 'basic',
-        icon : 'heroicons_outline:pencil-alt',
-        link : '/usuarios',
-        permissions: ['ADMIN']
-
-    },
-    {
         id   : 'tramites',
         title: 'Trámites',
         type : 'basic',

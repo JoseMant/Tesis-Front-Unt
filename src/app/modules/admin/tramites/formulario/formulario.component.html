@@ -410,10 +410,10 @@
                                                 style="color: rgb(6, 11, 88)"
                                                 [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                         </button>
-                                        <input #fileInput type="file" accept=".pdf" hidden (change)="selectFiles($event)"/>
+                                        <input #fileInput type="file" accept=".pdf" hidden (change)="selectVoucher($event)"/>
                                     </div>
                                     <svg
-                                        *ngIf="data.archivo !== ''"
+                                        *ngIf="data.archivoPdf"
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-6 w-6 mr-3 ml-3"
                                         fill="none"
@@ -469,7 +469,7 @@
                                                 <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,req)"/>
                                             </div>
                                             <svg
-                                                *ngIf="req.archivo"
+                                                *ngIf="req.archivoPdf"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 class="h-6 w-6 mr-3 ml-3"
                                                 fill="none"

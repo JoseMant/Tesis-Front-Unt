@@ -28,14 +28,12 @@ export class VisorImagenComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
     verArchivo(): void {
-        console.log(this.data.archivoImagen);
         const file = this.data.archivoImagen;
         console.log(file);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
             this.previsualizacion = e.target.result;
-            console.log(this.previsualizacion);
         };
         //reader.readAsArrayBuffer(this.data.file);
     }

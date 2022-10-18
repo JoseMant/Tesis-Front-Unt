@@ -84,7 +84,6 @@
                             <div class="text-secondary" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
                             <div class="text-secondary" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
                                 <b>Comprobante de pago:</b> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}
-
                             </div>
                         </div>
                         <div class="sm:col-span-1" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
@@ -98,16 +97,16 @@
                             </button>
                             <input #fileInput type="file" accept=".pdf" hidden (change)="selectNewVoucher($event)"/>
                             <a
-                                *ngIf="!newVoucher"
+                                *ngIf="!tramiteForm.getRawValue().archivoPdf"
                                 target="_blank"
-                                matTooltip="Editar detalle"
+                                matTooltip="Ver documento"
                                 [href]="tramite.voucher">
                                 <mat-icon
                                     class="h-6 w-6 mr-3 ml-3"
                                     style="color: rgb(6, 11, 88)"
                                     [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                             </a>
-                            <button *ngIf="newVoucher"
+                            <button *ngIf="tramiteForm.getRawValue().archivoPdf"
                                 matTooltip="Ver documento"
                                 (click)="verDocumento()">
                                 <mat-icon
@@ -126,7 +125,7 @@
                     <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Requisitos</mat-label></mat-card-title>
                         <mat-card-content>
-                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let requisito of tramite.requisitos">
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let requisito of tramite.requisitos; let i = index">
                                 <div class="nombre col-span-4 ml-3" *ngIf="requisito.des_estado_requisito !== 'RECHAZADO'">
                                     <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}}
                                 </div>
@@ -143,29 +142,24 @@
                                             [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                                     </button>
                                     <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,requisito)"/>
-                                    <button
+                                    <a
+                                        *ngIf="!tramiteForm.getRawValue().requisitos[i].archivoPdf"
+                                        target="_blank"
+                                        matTooltip="Editar detalle"
+                                        [href]="requisito.archivo">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </a>
+                                    <button 
+                                        *ngIf="tramiteForm.getRawValue().requisitos[i].archivoPdf"
                                         matTooltip="Ver documento"
                                         (click)="verReqDocumento(requisito)">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
+                                        <mat-icon
                                             class="h-6 w-6 mr-3 ml-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            style="cursor: pointer; color: rgb(6, 11, 88)"
-                                            stroke-width="2"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                     </button>
                                 </div>
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'jpg'" >
@@ -213,7 +207,7 @@
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="!newVoucher"
+                    [disabled]="!tramiteForm.getRawValue().archivoPdf"
                     (click)="updateTramite()">
                     <span *ngIf="!tramiteForm.disabled">
                         Actualizar Voucher
@@ -224,7 +218,7 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
                 <button
-                    *ngIf="tramite.idEstado_tramite === 9"
+                    *ngIf="tramite.idEstado_tramite === 9 || tramite.idEstado_tramite === 19 || tramite.idEstado_tramite === 22"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"

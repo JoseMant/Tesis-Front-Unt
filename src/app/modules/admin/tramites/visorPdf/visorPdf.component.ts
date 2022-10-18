@@ -36,8 +36,8 @@ export class VisorPdfComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
     verArchivo(): void {
-        console.log(this.data.archivo);
-        const file = this.data.archivo;
+        console.log(this.data.archivoPdf);
+        const file = this.data.archivoPdf;
         if (file.type === 'application/pdf') {
             const reader = new FileReader();
             reader.readAsDataURL(file);

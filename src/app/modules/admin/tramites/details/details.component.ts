@@ -244,37 +244,34 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         this.selectedGap = true;
         // Create the selected maduritylevel form
         this.tramiteForm = this._formBuilder.group({
-            idTramite: [''],
-            idTipo_tramite: [''],
+            idTramite: [0],
+            idTipo_tramite: [0],
             nro_documento: [''],
-            idColacion: [''],
-            idEstado_tramite: [''],
-            idModalidad_grado: [''],
+            // idColacion: [''],
+            idEstado_tramite: [0],
+            // idModalidad_grado: [0],
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
-            archivo: [''],
+            archivoPdf: [''],
             voucher: [''],
-            idMotivo_certificado: [''],
+            idMotivo_certificado: [0],
             comentario: [''],
-            apellidos: [''],
-            nombres: [''],
-            documento: [''],
+            solicitante: [''],
             celular: [''],
             correo: [''],
-            idFacultad: [''],
-            idEscuela: [''],
+            idDependencia_detalle: [''],
             sede: [''],
             nro_matricula: [''],
             tipo_documento: [''],
-            sexoNombre: [''],
-            idUnidad: [''],
-            idTipo_tramite_unidad: [''],
-            archivo_firma: [''],
+            idUnidad: [0],
+            idTipo_tramite_unidad: [0],
             archivoImagen: [''],
             requisitos: [[]],
+            idUsuario: [0],
+            des_estado_voucher: ['']
         });
 
         // Get the tramites
@@ -298,7 +295,9 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 console.log(this.tramite);
 
                 // Patch values to the form
-                this.createFormulario(this.tramite);
+                // this.createFormulario(this.tramite);
+                
+                this.tramiteForm.patchValue(tramite);
                 console.log(this.tramiteForm.getRawValue());
 
                 // Mark for check
@@ -347,74 +346,20 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Create formulario
-     */
-    createFormulario(data): void
-    {
-        //Create the formulario
-        const newTramite = {
-            // idModalidad_grado: 0,
-            // idFacultad: 0,
-            // idEscuela: 0,
-            // idTipo_tramite: 0,
-            // nro_documento: this.user.nro_documento,
-            // idColacion: 1,
-            // idEstado_tramite: 0,
-            // descripcion_estado: '',
-            // comentario: '',
-            // codigo: '',
-            // entidad: '',
-            //nro_operacion: '',
-            //fecha_operacion: '',
-            //idMotivo_certificado: 0,
-            //apellidos: data.apellidos.toUpperCase(),
-            //nombres: data.nombres.toUpperCase(),
-            //documento: data.documento,
-            //celular: data.celular,
-            //correo: data.correo,
-            //nro_matricula: data.nro_matricula,
-            //sede: data.sede,
-            //tipo_documento: data.tipo_documento,
-            //sexoNombre: data.sexoNombre,
-            //idUnidad: -1,
-            //idTipo_tramite_unidad: -1,
-            archivo: data.voucher,
-            archivo_firma: '',
-            archivoImagen: '',
-            idTramite: data.idTramite,
-            requisitos: data.requisitos
-        };
-        this.tramiteForm.patchValue(newTramite);
-    }
-
     selectNewVoucher(event): void {
-        const files = event.target.files[0];
-        console.log(files);
-        this.tramiteForm.patchValue({archivo: files});
+        this.tramiteForm.patchValue({archivoPdf: event.target.files[0]});
         this.newVoucher = true;
     }
 
     selectFirma(event): void {
         const files = event.target.files[0];
-        console.log(files);
-        this.tramiteForm.patchValue({archivo_firma: files, archivoImagen: files});
-        this.data.archivo_firma = files;
+        this.tramiteForm.patchValue({archivoImagen: files});
         this.data.archivoImagen = files;
     }
 
     selectReqDocumento(event, req): void {
-        const files = event.target.files[0];
-        console.log(files);
-        console.log(req);
-        // for (const requ of this.requisitos) {
-        //     if (requ.idRequisito === req.idRequisito) {
-        //         requ['archivo'] = files;
-        //     }
-        // }
-        // this.data.requisitos = this.requisitos;
-        // this.tramiteForm.patchValue({requisitos: this.requisitos});
-        // console.log(this.data.requisitos);
+        const requisito = this.tramiteForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
+        requisito['archivoPdf'] = event.target.files[0];
     }
 
     selectReqImagen(event, req): void {
@@ -483,50 +428,40 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     updateTramite(): void{
-        const data={
-            idTramite: this.tramiteForm.getRawValue().idTramite,
-            archivo: this.tramiteForm.getRawValue().archivo,
-        };
-        console.log(data);
-            const formData = new FormData();
-            formData.append('idTramite', data.idTramite);
-            formData.append('archivo', data.archivo);
-
-            this._tramiteService.updateVoucher(data.idTramite,formData).subscribe((newMadurity) => {
-                console.log(newMadurity);
-                // Toggle the edit mode off
-                //this.toggleEditMode(false);
-
-                // Re-enable the form
-                this.tramiteForm.enable();
-
-                // Go to new product
-                //this.createFormulario(this.user);
-
-                this.alert = {
-                    type   : 'success',
-                    message: 'Trámite registrado correctamente',
-                    title: 'Guardado'
-                };
-                this.openSnack();
-                this.newVoucher = false;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            },
-            (error) => {
-                // console.log(error);
-
-                // Re-enable the form
-                this.tramiteForm.enable();
-
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Error al registrar',
-                    title: 'Error'
-                };
-                this.openSnack();
-            });
+        const formData = new FormData();
+        formData.append('idTramite', this.tramiteForm.getRawValue().idTramite);
+        formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
+    
+        this._tramiteService.updateVoucher(this.tramiteForm.getRawValue().idTramite,formData).subscribe((updatedTramite) => {
+            console.log(updatedTramite);
+    
+            // Re-enable the form
+            this.tramiteForm.enable();
+    
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            this.newVoucher = false;
+    
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
+    
+            // Re-enable the form
+            this.tramiteForm.enable();
+    
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
     }
 
     updateRequisitos(): void{
@@ -534,56 +469,67 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             idTramite: this.tramiteForm.getRawValue().idTramite,
             requisitos: this.tramiteForm.getRawValue().requisitos,
         };
-        console.log(data);
-            const formData = new FormData();
-            formData.append('idTramite', data.idTramite);
-            data.requisitos.forEach((element) => {
-                formData.append('requisitos[]', JSON.stringify(element));
-                if (element.idRequisito && element.extension === 'pdf') {
-                    formData.append('files[]', element.archivo);
+        //Validar que subí todos los requisitos rechazados
+        const requis = this.tramiteForm.getRawValue().requisitos.find(element => element.responsable == 4 && element.des_estado_requisito == 'RECHAZADO' && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
+        if (requis) {
+            this.alert = {
+                type   : 'warn',
+                message: 'Cargar el archivo en el requisito: ' + requis.nombre,
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
+        const formData = new FormData();
+        formData.append('idTramite', data.idTramite);
+        data.requisitos.forEach((element) => {
+            console.log(element);
+            formData.append('requisitos[]', JSON.stringify(element));
+            if (element.idRequisito && element.extension === 'pdf') {
+                if (element.archivoPdf && element.des_estado_requisito == 'RECHAZADO') {
+                    formData.append('files[]', element.archivoPdf);
+                } else {
+                    formData.append('files[]', new File([""], "vacio.kj"));
                 }
-                if (element.idRequisito && element.extension === 'jpg') {
+            }
+            if (element.idRequisito && element.extension === 'jpg') {
+                if (!element.requisito && element.des_estado_requisito == 'RECHAZADO') {
                     formData.append('files[]', element.archivoImagen);
+                } else {
+                    formData.append('files[]', new File([""], "vacio.kj"));
                 }
-              });
-            console.log(formData.getAll('idTramite'));
-            console.log(formData.getAll('requisitos[]'));
-            console.log(formData.getAll('files[]'));
+            }
+        });
+        // console.log(formData.getAll('files[]'));
+        
+        this._tramiteService.updateRequisitos(data.idTramite,formData).subscribe((response) => {
+            
+            // Re-enable the form
+            this.tramiteForm.enable();
 
-            this._tramiteService.updateRequisitos(data.idTramite,formData).subscribe((response) => {
-                console.log(response);
-                // Toggle the edit mode off
-                //this.toggleEditMode(false);
+            this.alert = {
+                type   : 'success',
+                message: 'Requisitos actualizados correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            this.newVoucher = false;
 
-                // Re-enable the form
-                this.tramiteForm.enable();
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
 
-                // Go to new product
-                //this.createFormulario(this.user);
+            // Re-enable the form
+            this.tramiteForm.enable();
 
-                this.alert = {
-                    type   : 'success',
-                    message: 'Requisitos actualizados correctamente',
-                    title: 'Guardado'
-                };
-                this.openSnack();
-                this.newVoucher = false;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            },
-            (error) => {
-                // console.log(error);
-
-                // Re-enable the form
-                this.tramiteForm.enable();
-
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Error al registrar',
-                    title: 'Error'
-                };
-                this.openSnack();
-            });
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
     }
 }

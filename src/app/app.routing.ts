@@ -87,7 +87,7 @@ export const appRoutes: Route[] = [
             // Masters
             {path: 'masters', children: [
                 {path: 'access', loadChildren: () => import('app/modules/admin/masters/access/access.module').then(m => m.AccessModule)},
-                // {path: 'bachiller_grado', loadChildren: () => import('app/modules/admin/masters/bachiller_grado/bachiller_grado.module').then(m => m.BachillerGradoModule)},
+                {path: 'bachiller_grado', loadChildren: () => import('app/modules/admin/masters/bachiller_grado/bachiller_grado.module').then(m => m.BachillerGradoModule)},
             ]},
         ]
     }

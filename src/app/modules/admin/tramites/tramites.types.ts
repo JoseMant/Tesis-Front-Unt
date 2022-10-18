@@ -13,7 +13,6 @@ export interface TramiteInterface
     entidad: string;
     nro_operacion: string;
     fecha_operacion: string;
-    archivo: string;
     idDependencia: number;
     dependencia?: string;
     idSubdependencia: number;
@@ -32,10 +31,10 @@ export interface TramiteInterface
     unidad?: string;
     idTipo_tramite_unidad: number;
     tipo_tramite_unidad?: string;
-    archivo_firma: any;
     requisitos: any;
     archivoImagen: any;
     comentario_tramite: string;
     des_estado_voucher?: string;
     voucher?: string;
+    archivoPdf?: any;
 }

@@ -156,29 +156,30 @@
               
           </mat-card-content>
           <mat-card-actions class="flex justify-end">
-              <button
-              mat-button
-              class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
-              cmat-button
-              [routerLink]="['/grados/asignados']"
-          >
-              Regresar
-          </button>
-              <button
-                  class="ml-4"
-                  mat-flat-button
-                  [color]="'primary'"
-                  [disabled]="gradoForm.disabled"
-                  (click)="updateRequisitos()">
-                  <span *ngIf="!gradoForm.disabled">
-                      Guardar
-                  </span>
-                  <mat-progress-spinner
-                      *ngIf="gradoForm.disabled"
-                      [diameter]="24"
-                      [mode]="'indeterminate'">spinner</mat-progress-spinner>
-              </button>
-          </mat-card-actions>
-      </div>
-  </mat-card>
+                <button
+                    mat-button
+                    class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                    cmat-button
+                    [routerLink]="['/grados/validados']"
+                    >
+                    Regresar
+                </button>
+                <button
+                    *ngIf="grado.idEstado_tramite === 17"
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="gradoForm.disabled"
+                    (click)="updateRequisitos()">
+                    <span *ngIf="!gradoForm.disabled">
+                        Guardar
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="gradoForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'">Cargando...</mat-progress-spinner>
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card>
 </div>

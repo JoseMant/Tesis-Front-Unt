@@ -373,18 +373,10 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
         });
     }
     selectReqDocumento(event, req): void {
-        const files = event.target.files[0];
-        console.log(files);
-        console.log(req);
-        for (const requ of this.requisitos) {
-            if (requ.idRequisito === req.idRequisito) {
-                requ['archivo'] = files;
-            }
-        }
-        this.gradoForm.patchValue({requisitos: this.requisitos});
-        console.log(this.gradoForm);
-        this.newGrado = true;
+        const requisito = this.gradoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
+        requisito['archivoPdf'] = event.target.files[0];
     }
+
     verReqDocumento(req): void {
         console.log(req);
         const respDial = this.visordialog.open(
@@ -399,100 +391,67 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
     }
     UpdateRequisitosFacultad(): void{
         // If the confirm button pressed...
-        if (this.gradoForm.invalid) {
-            this.gradoForm.markAllAsTouched();
-            return;
-        }
-        // const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivo === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
-        // console.log(this.data.requisitos);
-        // console.log(requis);
-        // if (requis) {
-        //     this.alert = {
-        //         type   : 'warn',
-        //         message: 'Cargar el archivo en el requisito: ' + requis.nombre,
-        //         title: 'Error'
-        //     };
-        //     this.openSnack();
-        //     return;
-        // }
-        console.log(this.gradoForm.getRawValue());
-        const tramite = {
-            codigo: this.gradoForm.getRawValue().codigo,
-            correo: this.gradoForm.getRawValue().correo,
-            entidad: this.gradoForm.getRawValue().entidad,
-            idEstado_tramite: this.gradoForm.getRawValue().idEstado_tramite,
-            idTipo_tramite: this.gradoForm.getRawValue().idTipo_tramite,
+        const data={
             idTramite: this.gradoForm.getRawValue().idTramite,
-            nro_documento: this.gradoForm.getRawValue().nro_documento,
-            nro_matricula: this.gradoForm.getRawValue().nro_matricula,
             requisitos: this.gradoForm.getRawValue().requisitos,
         };
-        console.log(tramite);
-        // debugger;
-            const formData = new FormData();
-            formData.append('codigo', tramite.entidad);
-            formData.append('correo', tramite.entidad);
-            formData.append('entidad', tramite.entidad);
-            formData.append('idEstado_tramite', tramite.idEstado_tramite);
-            formData.append('idTipo_tramite', tramite.idTipo_tramite);
-            formData.append('idTramite', tramite.idTramite);
-            formData.append('nro_documento', tramite.nro_documento);
-            formData.append('nro_matricula', tramite.nro_matricula);
-            tramite.requisitos.forEach((element) => {
-                formData.append('requisitos[]', JSON.stringify(element));
-                if (element.idRequisito && element.extension === 'pdf') {
-                    if (element.archivo) {
-                        formData.append('files[]', element.archivo);
-                    } else {
-                        formData.append('files[]', new File([""], "vacio.kj"));
-                    }
-                } else if (element.idRequisito && element.extension === 'jpg') {
-                    if (element.archivoImagen) {
-                        formData.append('files[]', element.archivoImagen);
-                    } else {
-                        formData.append('files[]', new File([""], "vacio.kj"));
-                    }
+
+        //Validar que subí todos los requisitos rechazados
+        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 5 && (element.archivoPdf === undefined && element.extension === 'pdf'));
+        if (requis) {
+            this.alert = {
+                type   : 'warn',
+                message: 'Cargar el archivo en el requisito: ' + requis.nombre,
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('idTramite', data.idTramite);
+        data.requisitos.forEach((element) => {
+            formData.append('requisitos[]', JSON.stringify(element));
+            if (element.idRequisito && element.extension === 'pdf') {
+                if (element.archivoPdf) {
+                    formData.append('files[]', element.archivoPdf);
+                } else {
+                    formData.append('files[]', new File([""], "vacio.kj"));
                 }
-              });
-            // console.log(formData.getAll('requisitos[]'));
-            // console.log(formData.getAll('files[]'));
-            // return;
-            // Disable the form
-            this.gradoForm.disable();
+            }
+            if (element.idRequisito && element.extension === 'jpg') {
+                formData.append('files[]', new File([""], "vacio.kj"));
+            }
+        });
+        // console.log(formData.getAll('files[]'));
+        
+        this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
+            
+            // Re-enable the form
+            this.gradoForm.enable();
 
-            // this._gradoService.createTramite(formData).subscribe((newMadurity) => {
-            //     console.log(newMadurity);
-            //     // Toggle the edit mode off
-            //     //this.toggleEditMode(false);
+            this.alert = {
+                type   : 'success',
+                message: 'Requisitos actualizados correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
 
-            //     // Re-enable the form
-            //     this.gradoForm.enable();
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
 
-            //     // Go to new product
-            //     // this.createFormulario(this.user);
+            // Re-enable the form
+            this.gradoForm.enable();
 
-            //     this.alert = {
-            //         type   : 'success',
-            //         message: 'Trámite registrado correctamente',
-            //         title: 'Guardado'
-            //     };
-            //     this.openSnack();
-
-            //     // Mark for check
-            //     this._changeDetectorRef.markForCheck();
-            // },
-            // (error) => {
-            //     // console.log(error);
-
-            //     // Re-enable the form
-            //     this.gradoForm.enable();
-
-            //     this.alert = {
-            //         type   : 'warn',
-            //         message: 'Error al registrar',
-            //         title: 'Error'
-            //     };
-            //     this.openSnack();
-            // });
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
     }
 }
