@@ -75,7 +75,7 @@ export class GradosService
     }
     
      
-     getGradosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'tramite/grados/asignados', {
@@ -185,17 +185,19 @@ export class GradosService
                 // Find the grado
                 // const grado = grados.find(item => item.idTramite === id) || null;
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
-                grado.fut = environment.baseUrl + grado.fut;
-                grado.voucher = environment.baseUrlStorage + grado.voucher;
-                if (grado.grado_final) {
-                    grado.grado_final = environment.baseUrlStorage + grado.grado_final;
-                }
-                grado.requisitos.forEach(element => {
-                    if (element.archivo) {
-                        element.archivo = environment.baseUrlStorage + element.archivo;
+                if (grado) {
+                    grado.fut = environment.baseUrl + grado.fut;
+                    grado.voucher = environment.baseUrlStorage + grado.voucher;
+                    if (grado.grado_final) {
+                        grado.grado_final = environment.baseUrlStorage + grado.grado_final;
                     }
-                });
-                // console.log(grado);
+                    grado.requisitos.forEach(element => {
+                        if (element.archivo) {
+                            element.archivo = environment.baseUrlStorage + element.archivo;
+                        }
+                    });
+                }
+                
                 // Update the grado
                 this._grado.next(grado);
                 
@@ -282,46 +284,34 @@ export class GradosService
      * @param id
      * @param grado
      */
-    updateRequisitos(id: number, tramite: GradoInterface): Observable<GradoInterface>
-    {
-        console.log(tramite);
-        // debugger;
+     updateRequisitos(id: number, requisitos: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
-            switchMap(grados => this._httpClient.put<GradoInterface>(environment.baseUrl + 'tramite/update', tramite).pipe(
-                map((updatedGrado) => {
-                    console.log(updatedGrado);
-                    // debugger;
-                    // Find the index of the updated grado
+            switchMap(grados => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
+                map((updateRequisitos) => {
+                    console.log(updateRequisitos);
+                    // Find the index of the updated contact
                     const index = grados.findIndex(item => item.idTramite === id);
 
-                    if (updatedGrado.idEstado_tramite == 8) {
-                        // Update the grado
-                        grados.splice(index, 1);
-                    } else if(updatedGrado.idEstado_tramite == 9){
-                        grados.splice(index, 1);
-                    }
-                    else {
-                        // Update the grado
-                        grados[index] = updatedGrado;
-                    }
+                    // Update the contact
+                    grados[index] = updateRequisitos;
 
-                    // Update the grados
+                    // Update the contacts
                     this._grados.next(grados);
 
-                    // Return the updated grado
-                    return updatedGrado;
+                    // Return the updated contact
+                    return updateRequisitos;
                 }),
-                switchMap(updatedGrado => this.grado$.pipe(
+                switchMap(updateRequisitos => this.grado$.pipe(
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
 
-                        // Update the grado if it's selected
-                        this._grado.next(updatedGrado);
+                        // Update the product if it's selected
+                        this._grado.next(updateRequisitos);
 
-                        // Return the updated grado
-                        return updatedGrado;
+                        // Return the updated product
+                        return updateRequisitos;
                     })
                 ))
             ))

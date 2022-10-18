@@ -234,7 +234,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             
             this.alert = {
                 type   : 'success',
-                message: 'Usuario registrado correctamente',
+                message: 'Cronograma registrado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
@@ -242,7 +242,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
         (error) => {
             this.alert = {
                 type   : 'warn',
-                message: 'Complete los campos correctamente',
+                message: error.error,
                 title: 'Error'
             };
             this.openSnack();
@@ -258,10 +258,25 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
         const cronograma = this.cronogramaForm.getRawValue();
 
         // Update the cronograma on the server
-        this._cronogramasService.updateCronograma(cronograma.idCronograma_carpeta, cronograma).subscribe(() => {
-
+        this._cronogramasService.updateCronograma(cronograma.idCronograma_carpeta, cronograma).subscribe((updatedCronograma) => {
             // Toggle the edit mode off
             this.toggleEditMode(false);
+            
+            this.alert = {
+                type   : 'success',
+                message: 'Cronograma actualizado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+        },
+        (error) => {
+            console.log(error);
+            this.alert = {
+                type   : 'warn',
+                message: 'Complete los campos correctamente',
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
 

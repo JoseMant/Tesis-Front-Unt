@@ -79,7 +79,7 @@ export class CronogramasService
     {
         return this._httpClient.get<Cronograma[]>(environment.baseUrl + 'cronogramas/all').pipe(
             tap((cronogramas) => {
-                console.log(cronogramas[0])
+                console.log(cronogramas)
                 this._cronogramas.next(cronogramas);
             })
         );
@@ -177,7 +177,7 @@ export class CronogramasService
     {
         return this.cronogramas$.pipe(
             take(1),
-            switchMap(cronogramas => this._httpClient.put<Cronograma>(environment.baseUrl + 'users/update/' + id, cronograma).pipe(
+            switchMap(cronogramas => this._httpClient.put<Cronograma>(environment.baseUrl + 'cronogramas/update/' + id, cronograma).pipe(
                 map((updatedCronograma) => {
 
                     // Find the index of the updated cronograma

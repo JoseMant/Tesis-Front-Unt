@@ -168,7 +168,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
-            archivo: [''],
+            archivoPdf: [''],
             idMotivo_certificado: [''],
             idCronograma_carpeta: [''],
             comentario: [''],
@@ -295,7 +295,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             nro_operacion: '',
             fecha_operacion: '',
             idMotivo_certificado: 0,
-            archivo: '',
+            archivoPdf: '',
             apellidos: data.apellidos.toUpperCase(),
             nombres: data.nombres.toUpperCase(),
             documento: data.documento,
@@ -326,7 +326,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.tramiteForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: ''});
         this.data.idUnidad = id;
         this.data.idTipo_tramite_unidad = 0;
-        this.data.archivo = '';
+        this.data.archivoPdf = null;
         this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
             // this.requisitos = resp.requisitos;
             // this.data.requisitos = resp.requisitos;
@@ -464,47 +464,25 @@ export class TramiteListComponent implements OnInit, OnDestroy
         });
     }
 
-    selectFiles(event): void {
-        const files = event.target.files[0];
-        console.log(files);
-        this.tramiteForm.patchValue({archivo: files});
-        this.data.archivo = files;
+    selectVoucher(event): void {
+        this.tramiteForm.patchValue({archivoPdf: event.target.files[0]});
+        this.data.archivoPdf = event.target.files[0];
+        console.log( this.tramiteForm.getRawValue())
     }
 
     selectFirma(event): void {
-        const files = event.target.files[0];
-        console.log(files);
-        this.tramiteForm.patchValue({archivo_firma: files, archivoImagen: files});
-        this.data.archivo_firma = files;
-        this.data.archivoImagen = files;
+        this.tramiteForm.patchValue({archivoImagen: event.target.files[0]});
+        this.data.archivoImagen = event.target.files[0];
     }
 
     selectReqDocumento(event, req): void {
-        const files = event.target.files[0];
-        console.log(files);
-        console.log(req);
-        for (const requ of this.requisitos) {
-            if (requ.idRequisito === req.idRequisito) {
-                requ['archivo'] = files;
-            }
-        }
-        this.data.requisitos = this.requisitos;
-        this.tramiteForm.patchValue({requisitos: this.requisitos});
-        console.log(this.data.requisitos);
+        const requisito = this.tramiteForm.getRawValue().requisitos.find((item) => item.idRequisito === req.idRequisito);
+        requisito['archivoPdf'] = event.target.files[0];
     }
 
     selectReqImagen(event, req): void {
-        const files = event.target.files[0];
-        console.log(files);
-        console.log(req);
-        for (const requ of this.requisitos) {
-            if (requ.idRequisito === req.idRequisito) {
-                requ['archivoImagen'] = files;
-            }
-        }
-        this.data.requisitos = this.requisitos;
-        this.tramiteForm.patchValue({requisitos: this.requisitos});
-        console.log(this.data.requisitos);
+        const requisito = this.tramiteForm.getRawValue().requisitos.find((item) => item.idRequisito === req.idRequisito);
+        requisito['archivoImagen'] = event.target.files[0];
     }
 
     verReqDocumento(req): void {
@@ -563,9 +541,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.tramiteForm.markAllAsTouched();
             return;
         }
-        const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivo === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
-        console.log(this.data.requisitos);
-        console.log(requis);
+        const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
         if (requis) {
             this.alert = {
                 type   : 'warn',
@@ -575,100 +551,72 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
-        console.log(this.tramiteForm.getRawValue());
-        const tramite = {
-            entidad: this.tramiteForm.getRawValue().entidad,
-            nro_operacion: this.tramiteForm.getRawValue().nro_operacion,
-            fecha_operacion: this.tramiteForm.getRawValue().fecha_operacion,
-            archivo: this.tramiteForm.getRawValue().archivo,
-            idTipo_tramite_unidad: this.tramiteForm.getRawValue().idTipo_tramite_unidad,
-            idUnidad: this.tramiteForm.getRawValue().idUnidad,
-            idDependencia: this.tramiteForm.getRawValue().idDependencia,
-            idDependencia_detalle: this.tramiteForm.getRawValue().idSubdependencia,
-            nro_matricula: this.tramiteForm.getRawValue().codigo,
-            sede: this.tramiteForm.getRawValue().sede,
-            archivo_firma: this.tramiteForm.getRawValue().archivo_firma,
-            idMotivo_certificado: this.tramiteForm.getRawValue().idMotivo_certificado,
-            idCronograma_carpeta: this.tramiteForm.getRawValue().idCronograma_carpeta,
-            comentario: this.tramiteForm.getRawValue().comentario,
-            requisitos: this.tramiteForm.getRawValue().requisitos,
-        };
-        const cadena = (new Date(tramite.fecha_operacion)).toISOString();
-        const cadena1 = cadena.substring(0,10);
-        // const cadena2 = cadena.substring(11,19);
-        // const fecha = cadena1 + ' ' + cadena2;
-        tramite.fecha_operacion = cadena1;
-        console.log(tramite);
-            const formData = new FormData();
-            formData.append('entidad', tramite.entidad);
-            formData.append('nro_operacion', tramite.nro_operacion);
-            formData.append('fecha_operacion', tramite.fecha_operacion);
-            formData.append('archivo', tramite.archivo);
-            formData.append('idTipo_tramite_unidad', tramite.idTipo_tramite_unidad);
-            formData.append('idUnidad', tramite.idUnidad);
-            formData.append('idDependencia', tramite.idDependencia);
-            formData.append('idDependencia_detalle', tramite.idDependencia_detalle);
-            formData.append('nro_matricula', tramite.nro_matricula);
-            formData.append('sede', tramite.sede);
-            formData.append('archivo_firma', tramite.archivo_firma);
-            formData.append('idMotivo_certificado', tramite.idMotivo_certificado);
-            formData.append('idCronograma_carpeta', tramite.idCronograma_carpeta);
-            formData.append('comentario', tramite.comentario);
-            tramite.requisitos.forEach((element) => {
-                formData.append('requisitos[]', JSON.stringify(element));
-                if (element.idRequisito && element.extension === 'pdf') {
-                    if (element.archivo) {
-                        formData.append('files[]', element.archivo);
-                    } else {
-                        formData.append('files[]', new File([""], "vacio.kj"));
-                    }
-                } else if (element.idRequisito && element.extension === 'jpg') {
-                    if (element.archivoImagen) {
-                        formData.append('files[]', element.archivoImagen);
-                    } else {
-                        formData.append('files[]', new File([""], "vacio.kj"));
-                    }
+        const formData = new FormData();
+        formData.append('entidad', this.tramiteForm.getRawValue().entidad);
+        formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);
+        formData.append('fecha_operacion', (new Date(this.tramiteForm.getRawValue().fecha_operacion)).toISOString().substring(0,10));
+        formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
+        formData.append('idTipo_tramite_unidad', this.tramiteForm.getRawValue().idTipo_tramite_unidad);
+        formData.append('idUnidad', this.tramiteForm.getRawValue().idUnidad);
+        formData.append('idDependencia', this.tramiteForm.getRawValue().idDependencia);
+        formData.append('idDependencia_detalle', this.tramiteForm.getRawValue().idSubdependencia);
+        formData.append('nro_matricula', this.tramiteForm.getRawValue().codigo);
+        formData.append('sede', this.tramiteForm.getRawValue().sede);
+        formData.append('archivo_firma', this.tramiteForm.getRawValue().archivoImagen);
+        formData.append('idMotivo_certificado', this.tramiteForm.getRawValue().idMotivo_certificado);
+        formData.append('idCronograma_carpeta', this.tramiteForm.getRawValue().idCronograma_carpeta);
+        formData.append('comentario', this.tramiteForm.getRawValue().comentario);
+        this.tramiteForm.getRawValue().requisitos.forEach((element) => {
+            formData.append('requisitos[]', JSON.stringify(element));
+            if (element.idRequisito && element.extension === 'pdf') {
+                if (element.archivoPdf) {
+                    formData.append('files[]', element.archivoPdf);
+                } else {
+                    formData.append('files[]', new File([""], "vacio.kj"));
                 }
-              });
-            // console.log(formData.getAll('requisitos[]'));
-            // console.log(formData.getAll('files[]'));
-            // return;
-            // Disable the form
-            this.tramiteForm.disable();
+            } else if (element.idRequisito && element.extension === 'jpg') {
+                if (element.archivoImagen) {
+                    formData.append('files[]', element.archivoImagen);
+                } else {
+                    formData.append('files[]', new File([""], "vacio.kj"));
+                }
+            }
+        });
+        
+        // Disable the form
+        this.tramiteForm.disable();
+        
+        this._tramiteService.createTramite(formData).subscribe((newTramite) => {
+            console.log(newTramite);
 
-            this._tramiteService.createTramite(formData).subscribe((newMadurity) => {
-                console.log(newMadurity);
-                // Toggle the edit mode off
-                //this.toggleEditMode(false);
+            // Re-enable the form
+            this.tramiteForm.enable();
 
-                // Re-enable the form
-                this.tramiteForm.enable();
+            // Go to new product
+            this.createFormulario(this.user);
 
-                // Go to new product
-                this.createFormulario(this.user);
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
 
-                this.alert = {
-                    type   : 'success',
-                    message: 'Trámite registrado correctamente',
-                    title: 'Guardado'
-                };
-                this.openSnack();
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (error) => {
+            // console.log(error);
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            },
-            (error) => {
-                // console.log(error);
+            // Re-enable the form
+            this.tramiteForm.enable();
 
-                // Re-enable the form
-                this.tramiteForm.enable();
-
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Error al registrar',
-                    title: 'Error'
-                };
-                this.openSnack();
-            });
+            this.alert = {
+                type   : 'warn',
+                message: 'Error al registrar',
+                title: 'Error'
+            };
+            this.openSnack();
+        });
     }
 }
