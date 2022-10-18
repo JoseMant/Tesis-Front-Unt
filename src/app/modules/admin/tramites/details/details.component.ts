@@ -431,6 +431,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         const formData = new FormData();
         formData.append('idTramite', this.tramiteForm.getRawValue().idTramite);
         formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
+        this.tramiteForm.disable();
     
         this._tramiteService.updateVoucher(this.tramiteForm.getRawValue().idTramite,formData).subscribe((updatedTramite) => {
             console.log(updatedTramite);
@@ -502,6 +503,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         });
         // console.log(formData.getAll('files[]'));
         
+        this.tramiteForm.disable();
         this._tramiteService.updateRequisitos(data.idTramite,formData).subscribe((response) => {
             
             // Re-enable the form
