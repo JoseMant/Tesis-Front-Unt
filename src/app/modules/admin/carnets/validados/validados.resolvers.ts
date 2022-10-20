@@ -104,6 +104,6 @@ export class CarnetsValidadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-        return this._carnetsService.getCarnetsValidados();
+        return this._carnetsService.getCarnetsRegulares();
     }
 }

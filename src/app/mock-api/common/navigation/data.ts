@@ -170,18 +170,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'carnets.validados',
-                title: 'Validados',
+                id   : 'carnets.regulares',
+                title: 'Regulares',
                 type : 'basic',
-                link : '/carnets/validados',
+                link : '/carnets/regulares',
                 permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'carnets.validados',
+                id   : 'carnets.duplicados',
                 title: 'Duplicados',
                 type : 'basic',
-                link : '/carnets/validados',
+                link : '/carnets/duplicados',
                 permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
         ]

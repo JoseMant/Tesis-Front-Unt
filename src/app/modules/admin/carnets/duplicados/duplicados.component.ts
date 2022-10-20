@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'carnets-validados',
-    templateUrl    : './validados.component.html',
+    selector       : 'carnets-duplicados',
+    templateUrl    : './duplicados.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CarnetsValidadosComponent
+export class CarnetsDuplicadosComponent
 {
     /**
      * Constructor
