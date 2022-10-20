@@ -14,12 +14,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
 
 @Component({
-    selector       : 'carnets-validados-list',
+    selector       : 'carnets-duplicados-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .validados-grid {
+            .duplicados-grid {
                 grid-template-columns: 96px auto 90px;
 
                 @screen sm {
@@ -98,7 +98,7 @@ import { environment } from 'environments/environment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CarnetsDuplicadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -265,42 +265,42 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         return item.id || index;
     }
 
-    descargarZip(): void
-    {
-        this._carnetsService.setCarnetsValidados()
-        .pipe(
-            finalize(() => {
+    // descargarZip(): void
+    // {
+    //     this._carnetsService.setCarnetsDuplicados()
+    //     .pipe(
+    //         finalize(() => {
 
-                // Show the alert
-                this.openSnack();
-            })
-        )
-        .subscribe(
-            (response) => {
-                let a = document.createElement('a')
-                a.target = '_blanck'
-                a.href = environment.baseUrl + 'download/fotos'
-                a.click();
+    //             // Show the alert
+    //             this.openSnack();
+    //         })
+    //     )
+    //     .subscribe(
+    //         (response) => {
+    //             let a = document.createElement('a')
+    //             a.target = '_blanck'
+    //             a.href = environment.baseUrl + 'download/fotos'
+    //             a.click();
                 
-                // Set the alert
-                this.alert = {
-                    type   : 'warning',
-                    message: 'Descargando ZIP...',
-                    title  : 'Advertencia'
-                };
+    //             // Set the alert
+    //             this.alert = {
+    //                 type   : 'warning',
+    //                 message: 'Descargando ZIP...',
+    //                 title  : 'Advertencia'
+    //             };
 
-            },
-            (response) => {
+    //         },
+    //         (response) => {
 
-                // Set the alert
-                this.alert = {
-                    type   : 'error',
-                    message: 'Algo salió mal. Por favor, vuelva a intentarlo.',
-                    title  : 'Error'
-                };
-            }
-        );
-    }
+    //             // Set the alert
+    //             this.alert = {
+    //                 type   : 'error',
+    //                 message: 'Algo salió mal. Por favor, vuelva a intentarlo.',
+    //                 title  : 'Error'
+    //             };
+    //         }
+    //     );
+    // }
 
     selectObservados(event): void {
         const files = event.target.files[0];

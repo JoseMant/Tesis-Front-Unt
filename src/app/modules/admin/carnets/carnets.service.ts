@@ -115,10 +115,30 @@ export class CarnetsService
       );
     }
 
-    getCarnetsValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCarnetsRegulares(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/validados', {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/regulares', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._carnets.next(response.data);
+        })
+      );
+    }
+
+    getCarnetsDuplicados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/duplicados', {
         params: {
             page: '' + page,
             size: '' + size,

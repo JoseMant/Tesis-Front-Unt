@@ -35,7 +35,7 @@ export class UsersResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class CarnetValidadoResolver implements Resolve<any>
+export class CarnetDuplicadoResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -83,7 +83,7 @@ export class CarnetValidadoResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class CarnetsValidadosResolver implements Resolve<any>
+export class CarnetsDuplicadosResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -104,6 +104,6 @@ export class CarnetsValidadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-        return this._carnetsService.getCarnetsValidados();
+        return this._carnetsService.getCarnetsDuplicados();
     }
 }

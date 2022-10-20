@@ -14,6 +14,11 @@ import { CarnetsValidadosListComponent } from 'app/modules/admin/carnets/validad
 import { UsersResolver, CarnetValidadoResolver, CarnetsValidadosResolver } from 'app/modules/admin/carnets/validados/validados.resolvers';
 import { CarnetValidadoDetalleComponent } from './validados/detalle/details.component';
 
+// -------------
+import { CarnetsDuplicadosComponent } from 'app/modules/admin/carnets/duplicados/duplicados.component';
+import { CarnetsDuplicadosListComponent } from 'app/modules/admin/carnets/duplicados/list/list.component';
+import {  CarnetDuplicadoResolver, CarnetsDuplicadosResolver } from 'app/modules/admin/carnets/duplicados/duplicados.resolvers';
+import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
 // import { CarnetsAprobadosComponent } from 'app/modules/admin/carnets/aprobados/aprobados.component';
 // import { CarnetsAprobadosListComponent } from 'app/modules/admin/carnets/aprobados/list/list.component';
 // import { CarnetsAprobadosResolver } from 'app/modules/admin/carnets/aprobados/aprobados.resolvers';
@@ -63,7 +68,7 @@ export const carnetsRoutes: Route[] = [
         ]
     },
     {
-        path     : 'validados',
+        path     : 'regulares',
         component: CarnetsValidadosComponent,
         resolve  : {
             allcarnets  : CarnetsValidadosResolver,
@@ -81,6 +86,30 @@ export const carnetsRoutes: Route[] = [
                 component    : CarnetValidadoDetalleComponent,
                 resolve      : {
                     carnet  : CarnetValidadoResolver,
+                },
+            }
+        ]
+    }
+    ,
+    {
+        path     : 'duplicados',
+        component: CarnetsDuplicadosComponent,
+        resolve  : {
+            allcarnets  : CarnetsDuplicadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CarnetsDuplicadosListComponent,
+                resolve  : {
+                    users  : UsersResolver,
+                }
+            },
+            {
+                path         : ':idTramite',
+                component    : CarnetDuplicadoDetalleComponent,
+                resolve      : {
+                    carnet  : CarnetDuplicadoResolver,
                 },
             }
         ]
