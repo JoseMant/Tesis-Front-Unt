@@ -110,7 +110,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
     dependencias: any;
     subdependencias: any;
     maxDate: any;
-    costo: any;
+    costo: number;
+    costo_exonerado: number;
     motivos: any;
     cronogramas: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -158,18 +159,19 @@ export class TramiteListComponent implements OnInit, OnDestroy
         
         // Create the selected maduritylevel form
         this.tramiteForm = this._formBuilder.group({
-            idTipo_tramite: [''],
+            idTipo_tramite: [0],
             nro_documento: [''],
-            idColacion: [''],
-            idEstado_tramite: [''],
-            idModalidad_grado: [''],
+            idColacion: [1],
+            idEstado_tramite: [0],
+            idModalidad_grado: [0],
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivoPdf: [''],
-            idMotivo_certificado: [''],
+            archivoExonerado: [''],
+            idMotivo_certificado: [0],
             idCronograma_carpeta: [''],
             comentario: [''],
             apellidos: [''],
@@ -177,17 +179,18 @@ export class TramiteListComponent implements OnInit, OnDestroy
             documento: [''],
             celular: [''],
             correo: [''],
-            idDependencia: [''],
-            idSubdependencia: [''],
+            idDependencia: [0],
+            idSubdependencia: [0],
             sede: [''],
             nro_matricula: [''],
             tipo_documento: [''],
             sexoNombre: [''],
-            idUnidad: [''],
-            idTipo_tramite_unidad: [''],
+            idUnidad: [-1],
+            idTipo_tramite_unidad: [-1],
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [[]],
+            exonerado: [false]
         });
 
         this._tramiteService.bancos$
@@ -235,9 +238,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._userService.user$
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((user: any) => {
-            //debugger;
             this.user = user;
-            console.log(user);
+            
             if (this.user.tipo_documento === '1') {
                 this.user['documento'] = 'DNI';
             }
@@ -253,7 +255,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             if (this.user.sexo === 'F') {
                 this.user['sexoNombre'] = 'FEMENINO';
             }
-            this.tramiteForm.patchValue(user);
+
             this.createFormulario(this.user);
 
             // Mark for check
@@ -281,11 +283,21 @@ export class TramiteListComponent implements OnInit, OnDestroy
     {
         //Create the formulario
         const newTramite = {
+            nro_documento: data.nro_documento,
+            apellidos: data.apellidos.toUpperCase(),
+            nombres: data.nombres.toUpperCase(),
+            documento: data.documento,
+            celular: data.celular,
+            correo: data.correo,
+            nro_matricula: data.nro_matricula,
+            sede: data.sede,
+            tipo_documento: data.tipo_documento,
+            sexoNombre: data.sexoNombre,
+            
             idModalidad_grado: 0,
             idDependencia: 0,
             idSubdependencia: 0,
             idTipo_tramite: 0,
-            nro_documento: this.user.nro_documento,
             idColacion: 1,
             idEstado_tramite: 0,
             descripcion_estado: '',
@@ -296,21 +308,14 @@ export class TramiteListComponent implements OnInit, OnDestroy
             fecha_operacion: '',
             idMotivo_certificado: 0,
             archivoPdf: '',
-            apellidos: data.apellidos.toUpperCase(),
-            nombres: data.nombres.toUpperCase(),
-            documento: data.documento,
-            celular: data.celular,
-            correo: data.correo,
-            nro_matricula: data.nro_matricula,
-            sede: data.sede,
-            tipo_documento: data.tipo_documento,
-            sexoNombre: data.sexoNombre,
+            archivoExonerad: '',
             idUnidad: -1,
             idTipo_tramite_unidad: -1,
             archivo_firma: '',
             archivoImagen: '',
             requisitos: '',
-            comentario_tramite: ''
+            comentario_tramite: '',
+            exonerado: false
         };
         this.tramiteForm.patchValue(newTramite);
         this.data = newTramite;
@@ -443,6 +448,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     selectedTipoTramiteUnidades(id): void{
         const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
         this.costo = tipo.costo;
+        this.costo_exonerado = tipo.costo_exonerado;
         this.tramiteForm.patchValue({ idTipo_tramite_unidad: id});
         this.data.idTipo_tramite_unidad = id;
         
@@ -465,6 +471,12 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.tramiteForm.patchValue({archivoPdf: event.target.files[0]});
         this.data.archivoPdf = event.target.files[0];
         console.log( this.tramiteForm.getRawValue())
+    }
+
+    selectResolucion(event): void {
+        this.tramiteForm.patchValue({archivoExonerado: event.target.files[0]});
+        this.data.archivoExonerado = event.target.files[0];
+
     }
 
     selectFirma(event): void {
@@ -508,7 +520,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     verImagen(): void {
-        console.log(this.data);
+        // console.log(this.data);
         const respDial = this.visordialog.open(
             VisorImagenComponent,
             {
@@ -520,7 +532,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     verDocumento(): void {
-        console.log(this.data);
+    //     console.log(this.data);
         const respDial = this.visordialog.open(
             VisorPdfComponent,
             {
@@ -530,6 +542,46 @@ export class TramiteListComponent implements OnInit, OnDestroy
                 maxWidth: '60%'
             }
         );
+    }
+
+    // verDocumentoExonerado(): void {
+    // //     console.log(this.data);
+    //     const respDial = this.visordialog.open(
+    //         VisorPdfComponent,
+    //         {
+    //             data: this.data,
+    //             disableClose: true,
+    //             minWidth: '50%',
+    //             maxWidth: '60%'
+    //         }
+    //     );
+    // }
+
+    toggleExonerado(event: any): void {
+        this.tramiteForm.patchValue({
+            exonerado: !this.data.exonerado
+        });
+        this.data.exonerado = !this.data.exonerado;
+        if (this.data.exonerado && this.costo_exonerado == 0) {
+            this.tramiteForm.patchValue({
+                entidad: 'Tesoreria UNT',
+                fecha_operacion: '',
+                nro_operacion: ''
+            });
+            this.data.entidad = 'Tesoreria UNT';
+        } else if (this.data.exonerado && this.costo_exonerado > 0) {
+            this.tramiteForm.patchValue({
+                entidad: '',
+                fecha_operacion: '',
+                nro_operacion: ''
+            });        
+        } else if (!this.data.exonerado) {
+            this.tramiteForm.patchValue({
+                entidad: '',
+                fecha_operacion: '',
+                nro_operacion: ''
+            });        
+        }
     }
 
     createTramite(): void{

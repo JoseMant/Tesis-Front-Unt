@@ -37,4 +37,6 @@ export interface TramiteInterface
     des_estado_voucher?: string;
     voucher?: string;
     archivoPdf?: any;
+    archivoExonerado?: any;
+    exonerado: boolean
 }
