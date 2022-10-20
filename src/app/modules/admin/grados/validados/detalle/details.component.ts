@@ -263,7 +263,7 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
         this.gradoForm.disable();
         
         // Update the contact on the server
-        this._gradoService.updateRequisitos(grado.idTramite, grado).subscribe(() => {
+        this._gradoService.updateGrado(grado.idTramite, grado).subscribe(() => {
 
             // Re-enable the form
             this.gradoForm.enable();

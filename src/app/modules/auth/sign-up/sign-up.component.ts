@@ -9,7 +9,55 @@ import { AuthService } from 'app/core/auth/auth.service';
     selector     : 'auth-sign-up',
     templateUrl  : './sign-up.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations   : fuseAnimations,
+    styles         : [
+        /* language=SCSS */
+        `
+            .spinner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 40px;
+                width: 56px;
+            }
+            .spinner > div {
+                width: 12px;
+                height: 12px;
+                background-color: #1E96F7;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
+                animation: fuse-bouncedelay 1s infinite ease-in-out both;
+            }
+            .spinner .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+            .spinner .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+            @-webkit-keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0)
+                }
+                40% {
+                    -webkit-transform: scale(1.0)
+                }
+            }
+
+            @keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+                40% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                }
+            }
+        `
+    ]
 })
 export class AuthSignUpComponent implements OnInit
 {
@@ -144,7 +192,7 @@ export class AuthSignUpComponent implements OnInit
 
         // Hide the alert
         this.showAlert = false;
-
+        this.documentForm.disable();
         // Sign up
         this._authService.getDocument(this.documentForm.value.nro_documento)
             .subscribe(
@@ -165,6 +213,7 @@ export class AuthSignUpComponent implements OnInit
                     });
 
                     this.signUpForm.enable();
+                    this.documentForm.enable();
 
                     // Mark for check
                     this._changeDetectorRef.markForCheck();

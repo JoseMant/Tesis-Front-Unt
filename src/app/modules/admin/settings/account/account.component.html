@@ -202,7 +202,13 @@
                 [disabled]="accountForm.invalid"
                 type="button"
                 (click)="updatePerfil()"
-                [color]="'primary'">Guardar
+                [color]="'primary'">
+                <span *ngIf="!accountForm.disabled">Guardar</span>
+                <!-- Guardar -->
+                <mat-progress-spinner
+                        *ngIf="accountForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
             </button>
         </div>
     </form>

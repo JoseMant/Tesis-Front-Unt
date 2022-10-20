@@ -83,7 +83,7 @@
                         <div class="sm:col-span-3">
                             <div class="text-secondary" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
                             <div class="text-secondary" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
-                                <b>Comprobante de pago:</b> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}
+                                <b>Comprobante de pago:</b> <span style="color: rgb(223, 14, 14)"> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}</span>
                             </div>
                         </div>
                         <div class="sm:col-span-1" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
@@ -130,7 +130,7 @@
                                     <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}}
                                 </div>
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
-                                    <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}} - {{requisito.comentario}}
+                                    <b>{{requisito.nombre}}:</b> <span style="color: rgb(223, 14, 14)">{{requisito.des_estado_requisito}} - {{requisito.comentario}}</span>
                                 </div>
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf'" >
                                     <button
