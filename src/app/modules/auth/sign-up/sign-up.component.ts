@@ -118,12 +118,11 @@ export class AuthSignUpComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
+                        message: response.error.message
                     };
 
                     // Show the alert
                     this.showAlert = true;
-                    console.log(this.showAlert);
                 }
             );
     }
@@ -182,7 +181,7 @@ export class AuthSignUpComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
+                        message: response.error.message
                     };
 
                     // Show the alert

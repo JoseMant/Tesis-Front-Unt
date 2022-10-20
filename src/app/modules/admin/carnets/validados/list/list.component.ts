@@ -348,7 +348,7 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
                 // Config the alert
                 this.alert = {
                     type   : 'warn',
-                    message: 'Error al registrar',
+                    message: 'Error al cargar los datos',
                     title: 'Error'
                 };
             });

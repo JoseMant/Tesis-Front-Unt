@@ -356,7 +356,6 @@ export class GradoValidadoDetalleComponent implements OnInit, OnDestroy
             this._changeDetectorRef.markForCheck();
         },
         (error) => {
-            // console.log(error);
             // Re-enable the form
             this.gradoForm.enable();
             this.alert = {

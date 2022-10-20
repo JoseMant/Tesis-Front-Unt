@@ -239,10 +239,10 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             };
             this.openSnack();
         },
-        (error) => {
+        (response) => {
             this.alert = {
                 type   : 'warn',
-                message: error.error,
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();
@@ -269,11 +269,10 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             };
             this.openSnack();
         },
-        (error) => {
-            console.log(error);
+        (response) => {
             this.alert = {
                 type   : 'warn',
-                message: 'Complete los campos correctamente',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

@@ -337,14 +337,14 @@ export class TramiteListComponent implements OnInit, OnDestroy
 
         this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
             if (resp.dependencias.length) {
-                console.log(resp);
+                // console.log(resp);
                 this.dependencias = resp.dependencias;
                 const dependencia = this.dependencias[0];
-                console.log(dependencia);
+                // console.log(dependencia);
                 this.data.idDependencia = dependencia.idDependencia;
                 if (dependencia) {
                     const subdependencia = dependencia.subdependencias[0];
-                    console.log(subdependencia);
+                    // console.log(subdependencia);
                     switch (subdependencia.idUnidad) {
                         case 1:
                             this.data.idSubdependencia = subdependencia.idEscuela;
@@ -364,11 +364,11 @@ export class TramiteListComponent implements OnInit, OnDestroy
                             break;
                     }
                 }
-                console.log(this.dependencias);
-                console.log(this.data);
+                // console.log(this.dependencias);
+                // console.log(this.data);
                 this.tramiteForm.patchValue({idDependencia: dependencia.idDependencia});
                 let first = this.dependencias.find(item => item.idDependencia === this.data.idDependencia);
-                console.log(first);
+                // console.log(first);
                 if (first) {
                     this.subdependencias = first.subdependencias;
                     console.log(this.subdependencias);
@@ -379,18 +379,17 @@ export class TramiteListComponent implements OnInit, OnDestroy
                 this.data.idSubdependencia = null;
                 this.alert = {
                     type   : 'warn',
-                    message: 'Acceso denegado',
+                    message: 'Alumno no encontrado para la unidad seleccionada',
                     title: 'Error'
                 };
                 this.openSnack();
             }
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
-            // console.log(error);
+        (response) => {
             this.alert = {
                 type   : 'warn',
-                message: 'Error en la unidad',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();
@@ -402,7 +401,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         //falta probar si funciona ya q solo hay una sola facultad
         this.data.idDependencia = id;
         let first = this.dependencias.find(item => item.idDependencia === this.data.idDependencia);
-        console.log(first);
+        // console.log(first);
         if (first) {
             const subdependencia = first.subdependencias[0];
             if (subdependencia) {
@@ -426,8 +425,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
                 }
             }
             this.subdependencias = first.subdependencias;
-            console.log(this.subdependencias);
-            console.log(subdependencia);
         }
     }
 
@@ -587,8 +584,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.tramiteForm.disable();
         
         this._tramiteService.createTramite(formData).subscribe((newTramite) => {
-            console.log(newTramite);
-
+            
             // Re-enable the form
             this.tramiteForm.enable();
 
@@ -605,15 +601,14 @@ export class TramiteListComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
-            // console.log(error);
+        (response) => {
 
             // Re-enable the form
             this.tramiteForm.enable();
 
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

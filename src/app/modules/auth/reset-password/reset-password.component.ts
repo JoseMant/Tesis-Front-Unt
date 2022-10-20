@@ -146,7 +146,7 @@ export class AuthResetPasswordComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Algo salió mal. Por favor, vuelva a intentarlo.'
+                        message: response.error.message
                     };
                 }
             );

@@ -441,7 +441,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     
             this.alert = {
                 type   : 'success',
-                message: 'Trámite registrado correctamente',
+                message: 'Voucher actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
@@ -451,14 +451,13 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             this._changeDetectorRef.markForCheck();
         },
         (error) => {
-            // console.log(error);
     
             // Re-enable the form
             this.tramiteForm.enable();
     
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: 'Error al actualizar voucher',
                 title: 'Error'
             };
             this.openSnack();
@@ -528,7 +527,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
 
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: 'Error al actualizar requisitos',
                 title: 'Error'
             };
             this.openSnack();

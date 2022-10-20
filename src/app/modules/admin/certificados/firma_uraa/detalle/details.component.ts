@@ -300,13 +300,12 @@ export class CertificadoFirmaURAADetalleComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
-            // console.log(error);
+        (response) => {
             // Re-enable the form
             this.certificadoForm.enable();
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

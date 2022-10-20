@@ -229,10 +229,10 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
             };
             this.openSnack();
         },
-        (error) => {
+        (response) => {
             this.alert = {
                 type   : 'warn',
-                message: 'Complete los campos correctamente',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

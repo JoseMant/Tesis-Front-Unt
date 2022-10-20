@@ -343,13 +343,9 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
         console.log(formData);
         
         this._gradoService.uploadGrado(data.idTramite,formData).subscribe((newGrado) => {
-            console.log(newGrado);
-            // Toggle the edit mode off
-            //this.toggleEditMode(false);
             // Re-enable the form
             this.gradoForm.enable();
-            // Go to new product
-            //this.createFormulario(this.user);
+            
             this.alert = {
                 type   : 'success',
                 message: 'Grado cargado correctamente',
@@ -360,13 +356,13 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
-            // console.log(error);
+        (response) => {
             // Re-enable the form
             this.gradoForm.enable();
+
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: response,
                 title: 'Error'
             };
             this.openSnack();
@@ -440,15 +436,14 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
-            // console.log(error);
+        (response) => {
 
             // Re-enable the form
             this.gradoForm.enable();
 
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

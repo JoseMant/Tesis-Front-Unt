@@ -284,13 +284,15 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         console.log(formData);
         
         this._certificadoService.uploadCertificado(data.idTramite,formData).subscribe((newCertificado) => {
-            console.log(newCertificado);
             // Toggle the edit mode off
             //this.toggleEditMode(false);
+            
             // Re-enable the form
             this.certificadoForm.enable();
+            
             // Go to new product
             //this.createFormulario(this.user);
+            
             this.alert = {
                 type   : 'success',
                 message: 'Certificado cargado correctamente',
@@ -298,16 +300,16 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
             };
             this.openSnack();
             this.newCertificado = false;
+            
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
-            // console.log(error);
+        (response) => {
             // Re-enable the form
             this.certificadoForm.enable();
             this.alert = {
                 type   : 'warn',
-                message: 'Error al registrar',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

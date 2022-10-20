@@ -104,7 +104,6 @@ export class TramiteService
     {
         return this._httpClient.get(environment.baseUrl + 'facultades_alumno/' + idUnidad).pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._facultadesEscuelas.next(response);
             })
         );

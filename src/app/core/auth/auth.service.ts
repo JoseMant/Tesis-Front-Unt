@@ -166,7 +166,6 @@ export class AuthService
      */
     signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
     {
-        console.log(user);
         return this._httpClient.post(environment.baseUrl + 'auth/sign-up', user);
     }
 
@@ -181,8 +180,7 @@ export class AuthService
             dni: document
         }).pipe(
             switchMap((response: any) => {
-                console.log(response);
-
+                
                 // Return a new observable with the response
                 return of(response);
             })
