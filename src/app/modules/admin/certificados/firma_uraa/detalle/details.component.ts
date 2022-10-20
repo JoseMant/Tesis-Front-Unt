@@ -281,6 +281,7 @@ export class CertificadoFirmaURAADetalleComponent implements OnInit, OnDestroy
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
         formData.append('archivo', data.archivo);
+        this.certificadoForm.disable();
         
         this._certificadoService.uploadCertificado(data.idTramite,formData).subscribe((response) => {
             

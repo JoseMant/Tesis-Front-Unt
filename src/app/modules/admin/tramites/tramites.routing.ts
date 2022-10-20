@@ -12,7 +12,7 @@ export const tramitesRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMIN', 'ALUMNO'],
+                only: ['ADMINISTRADOR', 'ALUMNO'],
                 redirectTo: 'home'
             }
         },

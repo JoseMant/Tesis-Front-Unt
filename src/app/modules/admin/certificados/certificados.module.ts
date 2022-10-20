@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
@@ -99,7 +100,8 @@ import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.
         MatSlideToggleModule,
         MatTooltipModule,
         SharedModule,
-        MatCardModule
+        MatCardModule,
+        MatProgressSpinnerModule
     ]
 })
 export class CertificadosModule

@@ -30,7 +30,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados',
                 type : 'basic',
                 link : '/certificados/validados',
-                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             },
             {
                 // Se muestran al usuario para validar requisitos
@@ -38,7 +38,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Asignados',
                 type : 'basic',
                 link : '/certificados/asignados',
-                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             },
             {
                 // Se muestran para subir el certificado
@@ -46,7 +46,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/certificados/aprobados',
-                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             },
             {
                 // Se muestran para la firma del jefe de RT
@@ -70,7 +70,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/certificados/pendientes',
-                permissions: ['SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             }
         ]
     },
@@ -174,7 +174,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados',
                 type : 'basic',
                 link : '/carnets/validados',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'carnets.validados',
+                title: 'Duplicados',
+                type : 'basic',
+                link : '/carnets/validados',
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
         ]
     },

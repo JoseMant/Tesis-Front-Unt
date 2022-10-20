@@ -282,6 +282,7 @@ export class CertificadoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
             formData.append('idTramite', data.idTramite);
             formData.append('archivo', data.archivo);
         console.log(formData);
+        this.certificadoForm.disable();
 
         this._certificadoService.uploadCertificado(data.idTramite,formData).subscribe((newMadurity) => {
             console.log(newMadurity);
