@@ -142,7 +142,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Regulares',
                 type : 'basic',
                 link : '/carnets/regulares',
-                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -150,7 +150,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Duplicados',
                 type : 'basic',
                 link : '/carnets/duplicados',
-                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -158,7 +158,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/carnets/aprobados',
-                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
         ]
     },
@@ -173,21 +173,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/vouchers/pendientes',
-                permissions: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/vouchers/aprobados',
-                permissions: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
                 link : '/vouchers/rechazados',
-                permissions: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             }
         ]
     },

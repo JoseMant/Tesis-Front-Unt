@@ -28,6 +28,7 @@ import { CertificadoFirmaDecanoDetalleComponent } from './firma_decano/detalle/d
 import { CertificadosPendientesComponent } from 'app/modules/admin/certificados/pendientes/pendientes.component';
 import { CertificadosPendientesListComponent } from 'app/modules/admin/certificados/pendientes/list/list.component';
 import { CertificadosPendientesResolver } from 'app/modules/admin/certificados/pendientes/pendientes.resolvers';
+
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const certificadosRoutes: Route[] = [

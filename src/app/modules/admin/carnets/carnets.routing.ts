@@ -17,16 +17,20 @@ import {  CarnetDuplicadoResolver, CarnetsDuplicadosResolver } from 'app/modules
 import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
 
 // -------------
-import { CarnetsRenovacionesComponent } from 'app/modules/admin/carnets/renovaciones/renovaciones.component';
-import { CarnetsRenovacionesListComponent } from 'app/modules/admin/carnets/renovaciones/list/list.component';
-import {  CarnetRenovacionResolver, CarnetsRenovacionesResolver } from 'app/modules/admin/carnets/renovaciones/renovaciones.resolvers';
-// import { CarnetRenovacionDetalleComponent } from './renovaciones/detalle/details.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const carnetsRoutes: Route[] = [
     
     {
         path     : 'aprobados',
         component: CarnetsAprobadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             allcarnets  : CarnetsAprobadosResolver,
         },
@@ -47,6 +51,13 @@ export const carnetsRoutes: Route[] = [
     {
         path     : 'regulares',
         component: CarnetsValidadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             allcarnets  : CarnetsValidadosResolver,
         },
@@ -54,9 +65,6 @@ export const carnetsRoutes: Route[] = [
             {
                 path     : '',
                 component: CarnetsValidadosListComponent,
-                resolve  : {
-                    users  : UsersResolver,
-                }
             },
             {
                 path         : ':idTramite',
@@ -71,6 +79,13 @@ export const carnetsRoutes: Route[] = [
     {
         path     : 'duplicados',
         component: CarnetsDuplicadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             allcarnets  : CarnetsDuplicadosResolver,
         },
@@ -78,32 +93,6 @@ export const carnetsRoutes: Route[] = [
             {
                 path     : '',
                 component: CarnetsDuplicadosListComponent,
-                resolve  : {
-                    users  : UsersResolver,
-                }
-            },
-            {
-                path         : ':idTramite',
-                component    : CarnetDuplicadoDetalleComponent,
-                resolve      : {
-                    carnet  : CarnetDuplicadoResolver,
-                },
-            }
-        ]
-    },
-    {
-        path     : 'renovaciones',
-        component: CarnetsRenovacionesComponent,
-        resolve  : {
-            allcarnets  : CarnetsRenovacionesResolver,
-        },
-        children : [
-            {
-                path     : '',
-                component: CarnetsRenovacionesListComponent,
-                resolve  : {
-                    users  : UsersResolver,
-                }
             },
             {
                 path         : ':idTramite',
