@@ -130,7 +130,7 @@
                                     <b>{{requisito.nombre}}:</b> {{requisito.des_estado_requisito}}
                                 </div>
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
-                                    <b>{{requisito.nombre}}:</b> <span style="color: rgb(223, 14, 14)">{{requisito.des_estado_requisito}} - {{requisito.comentario}}</span>
+                                    <b>{{requisito.nombre}}:</b> <span style="color: rgb(223, 14, 14)"> {{requisito.des_estado_requisito}} - {{requisito.comentario}}</span>
                                 </div>
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf'" >
                                     <button
@@ -202,7 +202,7 @@
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="!tramiteForm.getRawValue().archivoPdf"
+                    [disabled]="!tramiteForm.getRawValue().archivoPdf || tramiteForm.disabled"
                     (click)="updateTramite()">
                     <span *ngIf="!tramiteForm.disabled">
                         Actualizar Voucher
@@ -213,7 +213,7 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
                 <button
-                    *ngIf="tramite.idEstado_tramite === 9 || tramite.idEstado_tramite === 19 || tramite.idEstado_tramite === 22"
+                    *ngIf="tramite.idEstado_tramite === 9 || tramite.idEstado_tramite === 19 || tramite.idEstado_tramite === 22|| tramite.idEstado_tramite === 24"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"

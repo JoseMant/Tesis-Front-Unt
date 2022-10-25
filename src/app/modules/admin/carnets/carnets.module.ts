@@ -37,25 +37,24 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { carnetsRoutes } from 'app/modules/admin/carnets/carnets.routing';
-import { CarnetsAsignadosComponent } from 'app/modules/admin/carnets/asignados/asignados.component';
-import { CarnetsAsignadosListComponent } from 'app/modules/admin/carnets/asignados/list/list.component';
 import { CarnetsAprobadosComponent } from 'app/modules/admin/carnets/aprobados/aprobados.component';
 import { CarnetsAprobadosListComponent } from 'app/modules/admin/carnets/aprobados/list/list.component';
 import { CarnetsValidadosComponent } from 'app/modules/admin/carnets/validados/validados.component';
 import { CarnetsValidadosListComponent } from 'app/modules/admin/carnets/validados/list/list.component';
-import { CarnetAsignadoDetalleComponent } from './asignados/detalle/details.component';
 import { CarnetAprobadoDetalleComponent } from './aprobados/detalle/details.component';
 import { CarnetValidadoDetalleComponent } from './validados/detalle/details.component';
-import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.component';
 import { CarnetsDuplicadosComponent } from 'app/modules/admin/carnets/duplicados/duplicados.component';
 import { CarnetsDuplicadosListComponent } from 'app/modules/admin/carnets/duplicados/list/list.component';
 import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
 
+import { CarnetsRenovacionesComponent } from 'app/modules/admin/carnets/renovaciones/renovaciones.component';
+import { CarnetsRenovacionesListComponent } from 'app/modules/admin/carnets/renovaciones/list/list.component';
+// import { CarnetRenovacionDetalleComponent } from './renovaciones/detalle/details.component';
+
+import { RequisitosDialogComponent } from './duplicados/dialogReq/dialogReq.component';
+
 @NgModule({
     declarations: [
-        CarnetsAsignadosComponent,
-        CarnetsAsignadosListComponent,
-        CarnetAsignadoDetalleComponent,
         CarnetsAprobadosComponent,
         CarnetsAprobadosListComponent,
         CarnetAprobadoDetalleComponent,
@@ -66,7 +65,11 @@ import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.co
         //---
         CarnetsDuplicadosComponent,
         CarnetsDuplicadosListComponent,
-        CarnetDuplicadoDetalleComponent
+        CarnetDuplicadoDetalleComponent,
+        //---
+        CarnetsRenovacionesComponent,
+        CarnetsRenovacionesListComponent,
+        // CarnetRenovacionDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(carnetsRoutes),
