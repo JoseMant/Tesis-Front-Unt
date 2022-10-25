@@ -18,28 +18,60 @@
                 </ng-container>
                 {{carnetsCount | i18nPlural: {
                     '=0'   : 'No hay carnets aprobados',
-                    '=1'   : 'Carnet aprobado',
+                    '=1'   : 'Carnet regular',
                     'other': 'Carnets aprobados'
                 } }}
             </div>
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <!-- Search -->
-            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
-                <mat-icon
-                    class="icon-size-5"
-                    matPrefix
-                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                <input
-                    matInput
-                    [formControl]="searchInputControl"
-                    [autocomplete]="'off'"
-                    [placeholder]="'Buscar carnets'">
-            </mat-form-field>
+            <form
+                [formGroup]="selectedCarnetForm"
+                #selectedCarnetNgForm="ngForm">
+                <!-- Search -->
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                    <input
+                        matInput
+                        [formControl]="searchInputControl"
+                        [autocomplete]="'off'"
+                        [placeholder]="'Buscar carnets'">
+                </mat-form-field>
+                <!-- Add product button -->
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="descargarExcel()"
+                    >
+                    <mat-icon [svgIcon]="'heroicons_outline:download'"></mat-icon>
+                    <span class="ml-2 mr-1">Excel</span>
+                </button>
+                <!-- Add product button -->
+                <!-- <button
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'warn'"
+                    [disabled]="selectedCarnetForm.disabled"
+                    (click)="fileInput.click()">
+                    <mat-icon *ngIf="!selectedCarnetForm.disabled"
+                        [svgIcon]="'heroicons_outline:upload'">
+                    </mat-icon>
+                    <span class="ml-2 mr-1" *ngIf="!selectedCarnetForm.disabled">
+                        Observados
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="selectedCarnetForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+                <input #fileInput type="file" accept=".xlsx" hidden (change)="selectObservados($event)"/> -->
+            </form>
         </div>
     </div>
-
     <!-- Main -->
     <div class="flex flex-auto overflow-hidden">
 

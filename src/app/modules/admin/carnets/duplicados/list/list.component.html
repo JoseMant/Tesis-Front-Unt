@@ -11,67 +11,35 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Carnets duplicados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Carnets validados</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="carnetsCount > 0">
                     {{carnetsCount}}
                 </ng-container>
                 {{carnetsCount | i18nPlural: {
-                    '=0'   : 'No hay carnets duplicados',
-                    '=1'   : 'Carnet duplicado',
-                    'other': 'Carnets duplicados'
+                    '=0'   : 'No hay carnets validados',
+                    '=1'   : 'Carnet validado',
+                    'other': 'Carnets validados'
                 } }}
             </div>
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <form
-                [formGroup]="selectedCarnetForm"
-                #selectedCarnetNgForm="ngForm">
-                <!-- Search -->
-                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                    <input
-                        matInput
-                        [formControl]="searchInputControl"
-                        [autocomplete]="'off'"
-                        [placeholder]="'Buscar carnets'">
-                </mat-form-field>
-                <!-- Add product button -->
-                <!-- <button
-                    class="ml-4"
-                    mat-flat-button
-                    [color]="'primary'"
-                    (click)="descargarZip()"
-                    >
-                    <mat-icon [svgIcon]="'heroicons_outline:download'"></mat-icon>
-                    <span class="ml-2 mr-1">Fotos</span>
-                </button> -->
-                <!-- Add product button -->
-                <button
-                    class="ml-4"
-                    mat-flat-button
-                    [color]="'warn'"
-                    [disabled]="selectedCarnetForm.disabled"
-                    (click)="fileInput.click()">
-                    <mat-icon *ngIf="!selectedCarnetForm.disabled"
-                        [svgIcon]="'heroicons_outline:upload'">
-                    </mat-icon>
-                    <span class="ml-2 mr-1" *ngIf="!selectedCarnetForm.disabled">
-                        Observados
-                    </span>
-                    <mat-progress-spinner
-                        *ngIf="selectedCarnetForm.disabled"
-                        [diameter]="24"
-                        [mode]="'indeterminate'"></mat-progress-spinner>
-                </button>
-                <input #fileInput type="file" accept=".xlsx" hidden (change)="selectObservados($event)"/>
-            </form>
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    matInput
+                    [formControl]="searchInputControl"
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar carnets'">
+            </mat-form-field>
         </div>
     </div>
+
     <!-- Main -->
     <div class="flex flex-auto overflow-hidden">
 
@@ -82,13 +50,18 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="duplicados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="carnets-duplicados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
                             <!-- Nro. -->
-                            <div>
-                                #
+                            <div>#</div>
+
+                            <!-- Nro. Trámite -->
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'codigo'">
+                                Nro. Trámite
                             </div>
 
                             <!-- Solicitante-->
@@ -97,44 +70,39 @@
                                 Solicitante
                             </div>
 
-                            <!-- Fecha-->
-                            <div
-                                [mat-sort-header]="'fecha'">
-                                Fecha
-                            </div>
-
-                            <!-- Unidad-->
-                            <div
-                                [mat-sort-header]="'unidad'">
-                                Unidad
-                            </div>
-
                             <!-- Trámite-->
                             <div
+                                class="hidden md:block"
                                 [mat-sort-header]="'tramite'">
                                 Trámite
                             </div>
 
-                            <!-- Nro. Trámite -->
+                            <!-- Unidad-->
                             <div
-                                [mat-sort-header]="'codigo'">
-                                Nro. Trámite
+                                class="hidden lg:block"
+                                [mat-sort-header]="'unidad'">
+                                Unidad
                             </div>
 
                             <!-- Facultad-->
                             <div
+                                class="hidden lg:block"
                                 [mat-sort-header]="'facultad'">
                                 Facultad
                             </div>
 
-                            <!-- Motivo -->
-                            <div [mat-sort-header]="'motivo'">Motivo</div>
-
                             <!-- Nro Matrícula -->
                             <div
-                                class="hidden md:block"
+                                class="hidden lg:block"
                                 [mat-sort-header]="'nro_matricula'">
                                 N° Matrícula
+                            </div>
+
+                            <!-- Fecha-->
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'fecha'">
+                                Fecha
                             </div>
 
                             <!-- Opciones -->
@@ -143,51 +111,46 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(carnets$ | async) as carnets">
                             <ng-container *ngFor="let carnet of carnets; trackBy: trackByFn let id=index">
-                                <div class="duplicados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="carnets-duplicados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
                                         {{id+1}}
                                     </div>
 
+                                    <!-- Active -->
+                                    <div class="hidden sm:block">
+                                        {{carnet.codigo}}
+                                    </div>
+
                                     <!-- Solicitante -->
-                                    <div >
+                                    <div class="truncate">
                                         {{carnet.solicitante}}
                                     </div>
 
                                     <!-- Trámite -->
-                                    <div >
-                                        {{carnet.fecha}}
-                                    </div>
-
-                                    <!-- Exonerado -->
-                                    <div >
-                                        {{carnet.unidad}}
-                                    </div>
-
-                                    <!-- Stock -->
-                                    <div class="truncate">
+                                    <div  class="hidden md:block truncate">
                                         {{carnet.tramite}}
                                     </div>
 
-                                    <!-- Active -->
-                                    <div class="flex items-center">
-                                        {{carnet.codigo}}
+                                    <!-- Exonerado -->
+                                    <div class="hidden lg:block">
+                                        {{carnet.unidad}}
                                     </div>
 
-                                    <!-- Active -->
-                                    <div >
+                                    <!-- facultad -->
+                                    <div class="hidden lg:block">
                                         {{carnet.facultad}}
                                     </div>
 
                                     <!-- Active -->
-                                    <div >
-                                        {{carnet.motivo}}
+                                    <div class="hidden lg:block">
+                                        {{carnet.nro_matricula}}
                                     </div>
 
-                                    <!-- Active -->
-                                    <div >
-                                        {{carnet.nro_matricula}}
+                                    <!-- Stock -->
+                                    <div class="hidden lg:block">
+                                        {{carnet.fecha}}
                                     </div>
 
                                     <!-- Details button -->
@@ -219,7 +182,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carnets duplicados!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carnets validados!</div>
             </ng-template>
 
         </div>

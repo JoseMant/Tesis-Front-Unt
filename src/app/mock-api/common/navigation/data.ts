@@ -184,6 +184,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carnets/duplicados',
                 permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
+            // {
+            //     // Se muestran al usuario para ser asignados después de validación en tesorería
+            //     id   : 'carnets.renovaciones',
+            //     title: 'Renovaciones',
+            //     type : 'basic',
+            //     link : '/carnets/renovaciones',
+            //     permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+            // },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'carnets.aprobados',
+                title: 'Aprobados',
+                type : 'basic',
+                link : '/carnets/aprobados',
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+            },
         ]
     },
     {

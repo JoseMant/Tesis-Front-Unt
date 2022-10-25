@@ -1,9 +1,5 @@
 import { Route } from '@angular/router';
-import { CarnetsAsignadosComponent } from 'app/modules/admin/carnets/asignados/asignados.component';
-import { CarnetsAsignadosListComponent } from 'app/modules/admin/carnets/asignados/list/list.component';
-import { CarnetAsignadoResolver, CarnetsAsignadosResolver } from 'app/modules/admin/carnets/asignados/asignados.resolvers';
-import { CarnetAsignadoDetalleComponent } from './asignados/detalle/details.component';
-// ------------
+
 import { CarnetsAprobadosComponent } from 'app/modules/admin/carnets/aprobados/aprobados.component';
 import { CarnetsAprobadosListComponent } from 'app/modules/admin/carnets/aprobados/list/list.component';
 import {  CarnetAprobadoResolver, CarnetsAprobadosResolver } from 'app/modules/admin/carnets/aprobados/aprobados.resolvers';
@@ -19,34 +15,15 @@ import { CarnetsDuplicadosComponent } from 'app/modules/admin/carnets/duplicados
 import { CarnetsDuplicadosListComponent } from 'app/modules/admin/carnets/duplicados/list/list.component';
 import {  CarnetDuplicadoResolver, CarnetsDuplicadosResolver } from 'app/modules/admin/carnets/duplicados/duplicados.resolvers';
 import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
-// import { CarnetsAprobadosComponent } from 'app/modules/admin/carnets/aprobados/aprobados.component';
-// import { CarnetsAprobadosListComponent } from 'app/modules/admin/carnets/aprobados/list/list.component';
-// import { CarnetsAprobadosResolver } from 'app/modules/admin/carnets/aprobados/aprobados.resolvers';
-// import { CarnetsRechazadosComponent } from 'app/modules/admin/carnets/rechazados/rechazados.component';
-// import { CarnetsRechazadosListComponent } from 'app/modules/admin/carnets/rechazados/list/list.component';
-// import { CarnetsRechazadosResolver } from 'app/modules/admin/carnets/rechazados/rechazados.resolvers';
+
+// -------------
+import { CarnetsRenovacionesComponent } from 'app/modules/admin/carnets/renovaciones/renovaciones.component';
+import { CarnetsRenovacionesListComponent } from 'app/modules/admin/carnets/renovaciones/list/list.component';
+import {  CarnetRenovacionResolver, CarnetsRenovacionesResolver } from 'app/modules/admin/carnets/renovaciones/renovaciones.resolvers';
+// import { CarnetRenovacionDetalleComponent } from './renovaciones/detalle/details.component';
 
 export const carnetsRoutes: Route[] = [
-    {
-        path     : 'asignados',
-        component: CarnetsAsignadosComponent,
-        resolve  : {
-            allcarnets  : CarnetsAsignadosResolver,
-        },
-        children : [
-            {
-                path     : '',
-                component: CarnetsAsignadosListComponent,
-            },
-            {
-                path         : ':idTramite',
-                component    : CarnetAsignadoDetalleComponent,
-                resolve      : {
-                    carnet  : CarnetAsignadoResolver,
-                },
-            }
-        ]
-    },
+    
     {
         path     : 'aprobados',
         component: CarnetsAprobadosComponent,
@@ -101,6 +78,29 @@ export const carnetsRoutes: Route[] = [
             {
                 path     : '',
                 component: CarnetsDuplicadosListComponent,
+                resolve  : {
+                    users  : UsersResolver,
+                }
+            },
+            {
+                path         : ':idTramite',
+                component    : CarnetDuplicadoDetalleComponent,
+                resolve      : {
+                    carnet  : CarnetDuplicadoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'renovaciones',
+        component: CarnetsRenovacionesComponent,
+        resolve  : {
+            allcarnets  : CarnetsRenovacionesResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CarnetsRenovacionesListComponent,
                 resolve  : {
                     users  : UsersResolver,
                 }

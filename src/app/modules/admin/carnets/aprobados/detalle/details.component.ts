@@ -18,7 +18,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
-import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
+import { RequisitosDialogComponent } from '../../duplicados/dialogReq/dialogReq.component';
 // import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
@@ -225,10 +225,6 @@ export class CarnetAprobadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
     rechazarRequisitos(): void {
         for (const itera of this.carnet.requisitos) {
             itera['selected'] = false;
@@ -254,5 +250,4 @@ export class CarnetAprobadoDetalleComponent implements OnInit, OnDestroy
             }
         });
     }
-
 }

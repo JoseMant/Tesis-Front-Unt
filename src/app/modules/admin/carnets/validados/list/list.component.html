@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Carnets validados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Carnets regulares</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="carnetsCount > 0">
                     {{carnetsCount}}
                 </ng-container>
                 {{carnetsCount | i18nPlural: {
-                    '=0'   : 'No hay carnets validados',
-                    '=1'   : 'Carnet validado',
-                    'other': 'Carnets validados'
+                    '=0'   : 'No hay carnets regulares',
+                    '=1'   : 'Carnet regular',
+                    'other': 'Carnets regulares'
                 } }}
             </div>
         </div>
@@ -219,7 +219,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carnets validados!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carnets regulares!</div>
             </ng-template>
 
         </div>

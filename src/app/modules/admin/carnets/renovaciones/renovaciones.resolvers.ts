@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CarnetsService } from 'app/modules/admin/carnets/carnets.service';
-import { CarnetPagination, CarnetInterface } from 'app/modules/admin/carnets/carnets.types';
+import { UserInterface, CarnetPagination, CarnetInterface } from 'app/modules/admin/carnets/carnets.types';
+
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class CarnetAsignadoResolver implements Resolve<any>
+export class CarnetRenovacionResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -56,7 +57,7 @@ export class CarnetAsignadoResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class CarnetsAsignadosResolver implements Resolve<any>
+export class CarnetsRenovacionesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -77,6 +78,6 @@ export class CarnetsAsignadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
-        return this._carnetsService.getCarnetsAsignados();
+        return this._carnetsService.getCarnetsRenovaciones();
     }
 }

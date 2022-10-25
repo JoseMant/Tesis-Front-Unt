@@ -605,6 +605,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);
         formData.append('fecha_operacion', (new Date(this.tramiteForm.getRawValue().fecha_operacion)).toISOString().substring(0,10));
         formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
+        formData.append('archivo_exonerado', this.tramiteForm.getRawValue().archivoExonerado);
         formData.append('idTipo_tramite_unidad', this.tramiteForm.getRawValue().idTipo_tramite_unidad);
         formData.append('idUnidad', this.tramiteForm.getRawValue().idUnidad);
         formData.append('idDependencia', this.tramiteForm.getRawValue().idDependencia);
