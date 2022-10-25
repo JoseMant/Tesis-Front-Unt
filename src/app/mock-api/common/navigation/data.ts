@@ -70,7 +70,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/certificados/pendientes',
-                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+                permissions: ['JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
             }
         ]
     },
@@ -88,14 +88,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/validados',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
-            // {
-            //     // Se muestran al usuario para validar requisitos
-            //     id   : 'certificados.asignados',
-            //     title: 'Asignados',
-            //     type : 'basic',
-            //     link : '/certificados/asignados',
-            //     permissions: ['URAA']
-            // },
             {
                 // Se muestran para subir el certificado
                 id   : 'grados.aprobados',
@@ -104,22 +96,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/aprobados',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
-            // {
-            //     // Se muestran para la firma del jefe de RT
-            //     id   : 'certificados.firma_uraa',
-            //     title: 'Firma URA-a',
-            //     type : 'basic',
-            //     link : '/certificados/firma_uraa',
-            //     permissions: ['URAA']
-            // },
-            // {
-            //     // Se muestran para la firma del jefe de RT
-            //     id   : 'certificados.firma_decano',
-            //     title: 'Firma Decano',
-            //     type : 'basic',
-            //     link : '/certificados/firma_decano',
-            //     permissions: ['URAA']
-            // }
         ]
     },
     {
@@ -152,14 +128,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/constancias/firma_uraa',
                 permissions: ['ADMINISTRADOR']
             },
-            // {
-            //     // Se muestran para la firma del jefe de RT
-            //     id   : 'carnets.aprobados',
-            //     title: 'Aprobados',
-            //     type : 'basic',
-            //     link : '/carnets/aprobados',
-            //     permissions: ['URAA']
-            // }
         ]
     },
     {
@@ -174,7 +142,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Regulares',
                 type : 'basic',
                 link : '/carnets/regulares',
-                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -182,23 +150,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Duplicados',
                 type : 'basic',
                 link : '/carnets/duplicados',
-                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'carnets.renovaciones',
-            //     title: 'Renovaciones',
-            //     type : 'basic',
-            //     link : '/carnets/renovaciones',
-            //     permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
-            // },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'carnets.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/carnets/aprobados',
-                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
         ]
     },
@@ -213,21 +173,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/vouchers/pendientes',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/vouchers/aprobados',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
                 link : '/vouchers/rechazados',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA']
             }
         ]
     },
@@ -252,20 +212,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         link : '/masters/access/users',
                         permissions: ['ADMINISTRADOR']
                     },
-                    // {
-                    //     id   : 'masters.access.permissions',
-                    //     title: 'Permisos',
-                    //     type : 'basic',
-                    //     link : '/masters/access/permissions',
-                    //     permissions: ['LEER PERMISOS','LEER TODOS LOS PERMISOS']
-                    // },
-                    // {
-                    //     id   : 'masters.access.roles',
-                    //     title: 'Roles',
-                    //     type : 'basic',
-                    //     link : '/masters/access/roles',
-                    //     permissions: ['LEER ROLES','LEER TODOS LOS ROLES']
-                    // }
                 ]
             },
             {
