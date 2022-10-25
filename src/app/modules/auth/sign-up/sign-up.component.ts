@@ -222,7 +222,7 @@ export class AuthSignUpComponent implements OnInit
                     this.foundDocument = false;
 
                     // Re-enable the form
-                    // this.documentForm.enable();
+                    this.documentForm.enable();
 
                     // Reset the form
                     // this.documentNgForm.resetForm();
