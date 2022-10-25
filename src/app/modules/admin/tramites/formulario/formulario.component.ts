@@ -20,6 +20,7 @@ import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
+import { VisorExoneradoComponent } from '../visorExonerado/visorExonerado.component';
 
 @Component({
     selector       : 'tramite-formulario',
@@ -167,7 +168,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
-            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
+            // nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
+            nro_operacion: ['', Validators.required],
             fecha_operacion: ['', Validators.required],
             archivoPdf: [''],
             archivoExonerado: [''],
@@ -532,7 +534,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     verDocumento(): void {
-    //     console.log(this.data);
         const respDial = this.visordialog.open(
             VisorPdfComponent,
             {
@@ -544,18 +545,17 @@ export class TramiteListComponent implements OnInit, OnDestroy
         );
     }
 
-    // verDocumentoExonerado(): void {
-    // //     console.log(this.data);
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfComponent,
-    //         {
-    //             data: this.data,
-    //             disableClose: true,
-    //             minWidth: '50%',
-    //             maxWidth: '60%'
-    //         }
-    //     );
-    // }
+    verDocumentoExonerado(): void {
+        const respDial = this.visordialog.open(
+            VisorExoneradoComponent,
+            {
+                data: this.data,
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
 
     toggleExonerado(event: any): void {
         this.tramiteForm.patchValue({

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 
 @Component({
     selector: 'visor-dialog',
-    templateUrl: './visorPdf.component.html',
+    templateUrl: './VisorExonerado.component.html',
     styles: [
         `
             pdf-viewer {
@@ -15,7 +15,7 @@ import { Subject } from 'rxjs';
         `
     ]
 })
-export class VisorPdfComponent implements OnInit, OnDestroy {
+export class VisorExoneradoComponent implements OnInit, OnDestroy {
     //@Input() isEdite: boolean = false;
     //@Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
     page: number = 1;
@@ -25,7 +25,7 @@ export class VisorPdfComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        public dialogRef: MatDialogRef<VisorPdfComponent>,
+        public dialogRef: MatDialogRef<VisorExoneradoComponent>,
     ) {}
 
     ngOnInit(): void {

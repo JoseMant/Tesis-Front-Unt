@@ -37,6 +37,7 @@ import { TramitesComponent } from './tramites.component';
 import { TramiteDetalleComponent } from 'app/modules/admin/tramites/details/details.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { VisorPdfComponent } from './visorPdf/visorPdf.component';
+import { VisorExoneradoComponent } from './visorExonerado/visorExonerado.component';
 import { VisorImagenComponent } from './visorImagen/visorImagen.component';
 
 @NgModule({
@@ -45,6 +46,7 @@ import { VisorImagenComponent } from './visorImagen/visorImagen.component';
         TramiteListComponent,
         TramiteDetalleComponent,
         VisorPdfComponent,
+        VisorExoneradoComponent,
         VisorImagenComponent
     ],
     imports     : [
