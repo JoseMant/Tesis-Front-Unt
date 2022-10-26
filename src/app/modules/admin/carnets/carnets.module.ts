@@ -46,11 +46,6 @@ import { CarnetValidadoDetalleComponent } from './validados/detalle/details.comp
 import { CarnetsDuplicadosComponent } from 'app/modules/admin/carnets/duplicados/duplicados.component';
 import { CarnetsDuplicadosListComponent } from 'app/modules/admin/carnets/duplicados/list/list.component';
 import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
-
-import { CarnetsRenovacionesComponent } from 'app/modules/admin/carnets/renovaciones/renovaciones.component';
-import { CarnetsRenovacionesListComponent } from 'app/modules/admin/carnets/renovaciones/list/list.component';
-// import { CarnetRenovacionDetalleComponent } from './renovaciones/detalle/details.component';
-
 import { RequisitosDialogComponent } from './duplicados/dialogReq/dialogReq.component';
 
 @NgModule({
@@ -66,10 +61,6 @@ import { RequisitosDialogComponent } from './duplicados/dialogReq/dialogReq.comp
         CarnetsDuplicadosComponent,
         CarnetsDuplicadosListComponent,
         CarnetDuplicadoDetalleComponent,
-        //---
-        CarnetsRenovacionesComponent,
-        CarnetsRenovacionesListComponent,
-        // CarnetRenovacionDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(carnetsRoutes),

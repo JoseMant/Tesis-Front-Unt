@@ -187,7 +187,7 @@
 
                             <!-- Email -->
                             <mat-form-field class="w-full">
-                                <mat-label>Correo (de preferencia unitru)</mat-label>
+                                <mat-label><b style="color: rgb(253, 10, 10);">Correo (de preferencia unitru)</b></mat-label>
                                 <input
                                     id="correo"
                                     matInput
@@ -218,6 +218,17 @@
                                         [formControlName]="'password'">
                                     <mat-error *ngIf="signUpForm.get('password').hasError('required')">
                                         Se requiere contraseña
+                                    </mat-error>
+                                    <mat-error *ngIf="signUpForm.get('password').hasError('minlength') || signUpForm.get('password').hasError('maxlength')">
+                                        La contraseña debe tener al menos 8 caracteres o un máximo de 15 caracteres.
+                                    </mat-error>
+                                    <mat-error *ngIf="signUpForm.get('password').hasError('pattern')">
+                                        La contraseña debe tener: <br>
+                                        Al menos una letra mayúscula. <br>
+                                        Al menos una letra minucula. <br>
+                                        Al menos un dígito. <br>
+                                        No espacios en blanco. <br>
+                                        Al menos 1 caracter especial.
                                     </mat-error>
                                 </mat-form-field>
                             </div>

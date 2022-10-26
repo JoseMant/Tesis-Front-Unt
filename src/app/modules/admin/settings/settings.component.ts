@@ -45,12 +45,12 @@ export class SettingsComponent implements OnInit, OnDestroy
                 title      : 'Cuenta',
                 description: 'Administra tu perfil público e información privada'
             },
-            // {
-            //     id         : 'security',
-            //     icon       : 'heroicons_outline:lock-closed',
-            //     title      : 'Seguridad',
-            //     description: 'Administre su contraseña y preferencias de verificación'
-            // }
+            {
+                id         : 'security',
+                icon       : 'heroicons_outline:lock-closed',
+                title      : 'Seguridad',
+                description: 'Administre su contraseña y preferencias de verificación'
+            }
         ];
 
         // Subscribe to media changes

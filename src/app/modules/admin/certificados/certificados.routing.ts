@@ -27,39 +27,51 @@ import { CertificadoFirmaDecanoDetalleComponent } from './firma_decano/detalle/d
 
 import { CertificadosPendientesComponent } from 'app/modules/admin/certificados/pendientes/pendientes.component';
 import { CertificadosPendientesListComponent } from 'app/modules/admin/certificados/pendientes/list/list.component';
-import { CertificadoPendienteResolver, CertificadosPendientesResolver } from 'app/modules/admin/certificados/pendientes/pendientes.resolvers';
-// import { CertificadoPendienteDetalleComponent } from './firma_decano/detalle/details.component';
-// import { CertificadosRechazadosComponent } from 'app/modules/admin/certificados/rechazados/rechazados.component';
-// import { CertificadosRechazadosListComponent } from 'app/modules/admin/certificados/rechazados/list/list.component';
-// import { CertificadosRechazadosResolver } from 'app/modules/admin/certificados/rechazados/rechazados.resolvers';
+import { CertificadosPendientesResolver } from 'app/modules/admin/certificados/pendientes/pendientes.resolvers';
+
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const certificadosRoutes: Route[] = [
     {
-      path     : 'validados',
-      component: CertificadosValidadosComponent,
-      resolve  : {
-        certificados  : CertificadosValidadosResolver,
-      },
-      children : [
-        {
-          path     : '',
-          component: CertificadosValidadosListComponent,
-          resolve      : {
-            users  : UsersResolver,
-          },
+        path     : 'validados',
+        component: CertificadosValidadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                redirectTo: 'home'
+            }
         },
-        {
-          path         : ':idTramite',
-          component    : CertificadoValidadoDetalleComponent,
-          resolve      : {
-            certificado  : CertificadoValidadoResolver,
-          },
-        }
-      ]
+        resolve  : {
+            certificados  : CertificadosValidadosResolver,
+        },
+        children : [
+            {
+            path     : '',
+            component: CertificadosValidadosListComponent,
+            resolve      : {
+                users  : UsersResolver,
+            },
+            },
+            {
+            path         : ':idTramite',
+            component    : CertificadoValidadoDetalleComponent,
+            resolve      : {
+                certificado  : CertificadoValidadoResolver,
+            },
+            }
+        ]
     },
     {
         path     : 'asignados',
         component: CertificadosAsignadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             certificados  : CertificadosAsignadosResolver,
         },
@@ -80,6 +92,13 @@ export const certificadosRoutes: Route[] = [
     {
         path     : 'aprobados',
         component: CertificadosAprobadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             certificados  : CertificadosAprobadosResolver,
         },
@@ -100,6 +119,13 @@ export const certificadosRoutes: Route[] = [
     {
         path     : 'firma_uraa',
         component: CertificadosFirmaURAAComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             certificados  : CertificadosFirmaURAAResolver,
         },
@@ -120,6 +146,13 @@ export const certificadosRoutes: Route[] = [
     {
         path     : 'firma_decano',
         component: CertificadosFirmaDecanoComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'DECANO(A)'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             certificados  : CertificadosFirmaDecanoResolver,
         },
@@ -140,6 +173,13 @@ export const certificadosRoutes: Route[] = [
     {
         path     : 'pendientes',
         component: CertificadosPendientesComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                redirectTo: 'home'
+            }
+        },
         resolve  : {
             certificados  : CertificadosPendientesResolver,
         },
@@ -148,16 +188,6 @@ export const certificadosRoutes: Route[] = [
                 path     : '',
                 component: CertificadosPendientesListComponent,
             }
-
-
-
-            // {
-            //     path         : ':idTramite',
-            //     component    : CertificadoFirmaDecanoDetalleComponent,
-            //     resolve      : {
-            //         certificado  : CertificadoFirmaDecanoResolver,
-            //     },
-            // }
         ]
     }
 
