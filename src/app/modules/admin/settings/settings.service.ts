@@ -54,7 +54,7 @@ export class SettingsService
     updateUser(user: User): Observable<User> {
         return this.users$.pipe(
             take(1),
-            switchMap(users => this._httpClient.put<User>(environment.baseUrl + 'settings', user).pipe(
+            switchMap(users => this._httpClient.put<User>(environment.baseUrl + 'settings/user', user).pipe(
                 map((updatedUser) => {
                     // Update the products
                     this._users.next(users);
@@ -78,8 +78,9 @@ export class SettingsService
     resetPassword(contra: any): Observable<any> {
         return this.contras$.pipe(
             take(1),
-            switchMap(contras => this._httpClient.put<any>(environment.baseUrl + '/User/ResetPassword', contra).pipe(
+            switchMap(contras => this._httpClient.put<any>(environment.baseUrl + 'settings/password', contra).pipe(
                 map((resetPassword) => {
+                    console.log(resetPassword)
                     // Update the products
                     this._contras.next(contras);
 

@@ -1,18 +1,20 @@
 <div class="w-full max-w-3xl">
 
     <!-- Form -->
-    <form [formGroup]="securityForm">
+    <form
+        [formGroup]="securityForm"
+        #securityNgForm="ngForm">
 
         <!-- Section -->
         <div class="w-full">
-            <div class="text-xl">Change your password</div>
-            <div class="text-secondary">You can only change your password twice within 24 hours!</div>
+            <div class="text-xl">Cambia tu contraseña</div>
+            <!-- <div class="text-secondary">¡Solo puede cambiar su contraseña dos veces en 24 horas!</div> -->
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <!-- Current password -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Current password</mat-label>
+                    <mat-label>Contraseña actual</mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:key'"
@@ -20,13 +22,29 @@
                     <input
                         [formControlName]="'currentPassword'"
                         type="password"
-                        matInput>
+                        matInput
+                        autocomplete="off"
+                        #currentPassword>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="currentPassword.type === 'password' ? currentPassword.type = 'text' : currentPassword.type = 'password'"
+                        matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="currentPassword.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="currentPassword.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
                 </mat-form-field>
             </div>
             <!-- New password -->
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>New password</mat-label>
+                    <mat-label>Nueva contraseña</mat-label>
                     <mat-icon
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:key'"
@@ -34,72 +52,84 @@
                     <input
                         [formControlName]="'newPassword'"
                         type="password"
-                        matInput>
+                        matInput
+                        autocomplete="off"
+                        #newPassword>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="newPassword.type === 'password' ? newPassword.type = 'text' : newPassword.type = 'password'"
+                        matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="newPassword.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="newPassword.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
                 </mat-form-field>
-                <div class="mt-1 text-md text-hint">Minimum 8 characters. Must include numbers, letters and special characters.</div>
+                <mat-error *ngIf="securityForm.get('newPassword').hasError('pattern')">
+                    La contraseña debe tener al entre 8 y 15 caracteres, al menos un caracter especial (@$?¡_%#&), al menos una minúscula, al menos un dígito y al menos una mayúscula.
+                </mat-error>
+                <div *ngIf="!securityForm.get('newPassword').hasError('pattern')" class="mt-1 text-md text-hint">Mínimo 8 caracteres, máximo 15. Debe incluir números, letras y caracteres especiales.</div>
+            </div>
+            <!-- New password -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Repetir nueva contraseña</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:key'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'repeatNewPassword'"
+                        type="password"
+                        matInput
+                        autocomplete="off"
+                        #repeatNewPassword>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="repeatNewPassword.type === 'password' ? repeatNewPassword.type = 'text' : repeatNewPassword.type = 'password'"
+                        matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="repeatNewPassword.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="repeatNewPassword.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
+                </mat-form-field>
+                <mat-error *ngIf="securityForm.getRawValue().newPassword != securityForm.getRawValue().repeatNewPassword">
+                    Las contraseñas nuevas no coinciden
+                </mat-error>
             </div>
         </div>
 
         <!-- Divider -->
-        <div class="my-10 border-t"></div>
-
-        <!-- Section -->
-        <div class="w-full">
-            <div class="text-xl">Security preferences</div>
-            <div class="text-secondary">Keep your account more secure with following preferences.</div>
-        </div>
-        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <!-- 2-step auth -->
-            <div class="sm:col-span-4 flex items-center justify-between">
-                <div
-                    class="flex-auto cursor-pointer"
-                    (click)="twoStepToggle.toggle()">
-                    <div class="leading-6 font-medium">Enable 2-step authentication</div>
-                    <div class="text-md text-secondary">
-                        Protects you against password theft by requesting an authentication code via SMS on every login.
-                    </div>
-                </div>
-                <mat-slide-toggle
-                    class="ml-4"
-                    [color]="'primary'"
-                    [formControlName]="'twoStep'"
-                    #twoStepToggle>
-                </mat-slide-toggle>
-            </div>
-            <!-- Ask to change password -->
-            <div class="sm:col-span-4 flex items-center justify-between">
-                <div
-                    class="flex-auto cursor-pointer"
-                    (click)="askPasswordChangeToggle.toggle()">
-                    <div class="leading-6 font-medium">Ask to change password on every 6 months</div>
-                    <div class="text-md text-secondary">
-                        A simple but an effective way to be protected against data leaks and password theft.
-                    </div>
-                </div>
-                <mat-slide-toggle
-                    class="ml-4"
-                    [color]="'primary'"
-                    [formControlName]="'askPasswordChange'"
-                    #askPasswordChangeToggle>
-                </mat-slide-toggle>
-            </div>
-        </div>
+        <!-- <div class="my-10 border-t"></div> -->
 
         <!-- Divider -->
         <div class="my-10 border-t"></div>
 
         <!-- Actions -->
         <div class="flex items-center justify-end">
-            <button
+            <!-- <button
                 mat-stroked-button
                 type="button">
                 Cancel
-            </button>
+            </button> -->
             <button
                 class="ml-4"
                 mat-flat-button
                 type="button"
-                [color]="'primary'">Save
+                [disabled]="securityForm.disabled"
+                [color]="'primary'"
+                (click)="resetPassword()">Guardar
             </button>
         </div>
     </form>
