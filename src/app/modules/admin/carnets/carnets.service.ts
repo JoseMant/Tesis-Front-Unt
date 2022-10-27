@@ -292,13 +292,10 @@ export class CarnetsService
                     // Find the index of the updated carnet
                     const index = carnets.findIndex(item => item.idTramite === id);
 
-                    if (updatedCarnet.idEstado_tramite == 8) {
+                    if (updatedCarnet.idEstado_tramite == 8 || updatedCarnet.idEstado_tramite == 9 || updatedCarnet.idEstado_tramite == 25) {
                         // Update the carnet
                         carnets.splice(index, 1);
-                    } else if(updatedCarnet.idEstado_tramite == 9){
-                        carnets.splice(index, 1);
-                    }
-                    else {
+                    } else {
                         // Update the carnet
                         carnets[index] = updatedCarnet;
                     }
