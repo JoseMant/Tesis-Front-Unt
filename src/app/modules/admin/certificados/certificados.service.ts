@@ -208,10 +208,9 @@ export class CertificadosService
                 // const certificado = certificados.find(item => item.idTramite === id) || null;
                 const certificado = JSON.parse( JSON.stringify(certificados.find(item => item.idTramite === id) || null) )
                 certificado.fut = environment.baseUrl + certificado.fut;
-                certificado.voucher = environment.baseUrlStorage + certificado.voucher;
-                if (certificado.certificado_final) {
-                    certificado.certificado_final = environment.baseUrlStorage + certificado.certificado_final;
-                }
+                if (certificado.voucher) certificado.voucher = environment.baseUrlStorage + certificado.voucher;
+                if (certificado.exonerado_archivo) certificado.exonerado_archivo = environment.baseUrlStorage + certificado.exonerado_archivo;
+                if (certificado.certificado_final) certificado.certificado_final = environment.baseUrlStorage + certificado.certificado_final;
                 certificado.requisitos.forEach(element => {
                     if (element.archivo) {
                         element.archivo = environment.baseUrlStorage + element.archivo;
@@ -344,9 +343,60 @@ export class CertificadosService
                     tap(() => {
 
                         updatedCertificado.fut = environment.baseUrl + updatedCertificado.fut;
-                        updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
-                        updatedCertificado.certificado_final = environment.baseUrlStorage + updatedCertificado.certificado_final;
+                        if (updatedCertificado.voucher) updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
+                        if (updatedCertificado.exonerado_archivo) updatedCertificado.exonerado_archivo = environment.baseUrlStorage + updatedCertificado.exonerado_archivo;
+                        if (updatedCertificado.certificado_final) updatedCertificado.certificado_final = environment.baseUrlStorage + updatedCertificado.certificado_final;
                         updatedCertificado.requisitos.forEach(element => {
+                            if (element.archivo) {
+                                element.archivo = environment.baseUrlStorage + element.archivo;
+                            }
+                        });
+
+                        // Update the certificado if it's selected
+                        this._certificado.next(updatedCertificado);
+
+                        // Return the updated certificado
+                        return updatedCertificado;
+                    })
+                ))
+            ))
+        );
+    }
+
+    /**
+     * Update product
+     *
+     * @param id
+     * @param product
+     */
+    sendNotification(id: number, data: any): Observable<any>
+    {
+        return this.certificados$.pipe(
+            take(1),
+            switchMap(certificados => this._httpClient.post<any>(environment.baseUrl + 'tramites/notification', data).pipe(
+                map((updatedCertificado) => {
+                    // Find the index of the updated certificado
+                    const index = certificados.findIndex(item => item.idTramite === id);
+                    
+                    // Update the certificado
+                    certificados[index] = updatedCertificado;
+
+                    // Update the certificados
+                    this._certificados.next(certificados);
+
+                    // Return the updated certificado
+                    return updatedCertificado;
+                }),
+                switchMap(updatedCertificado => this.certificado$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+                        
+                        updatedCertificado.fut = environment.baseUrl + updatedCertificado.fut;
+                        if (updatedCertificado.voucher) updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
+                        if (updatedCertificado.exonerado_archivo) updatedCertificado.exonerado_archivo = environment.baseUrlStorage + updatedCertificado.exonerado_archivo;
+                        if (updatedCertificado.certificado_final) updatedCertificado.certificado_final = environment.baseUrlStorage + updatedCertificado.certificado_final;
+                        updatedCertificado.requisitos.forEach((element) => {
                             if (element.archivo) {
                                 element.archivo = environment.baseUrlStorage + element.archivo;
                             }

@@ -61,7 +61,7 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
         });
         this.llenarDialog(this.data);
     }
-
+    
     llenarDialog(data: any): void {
         console.log(data);
         this.formulario2.patchValue({
@@ -71,7 +71,6 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
             des_estado_voucher: data.des_estado_voucher,
             tramite: data.tramite,
             entidad: data.entidad,
-            exonerado: data.exonerado,
             fecha_operacion: data.fecha_operacion,
             idTramite: data.idTramite,
             idVoucher: data.idVoucher,
@@ -79,6 +78,15 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
             nro_tramite: data.nro_tramite,
             comentario: data.comentario,
         });
+        if (data.exonerado_archivo) {
+            this.formulario2.patchValue({
+                exonerado: "SÍ",
+            });
+        } else {
+            this.formulario2.patchValue({
+                exonerado: "NO",
+            });
+        }
     }
 
     verArchivo(): void {

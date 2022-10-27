@@ -330,7 +330,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     selectedUnidad(id): void{
-        this.tramiteForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: ''});
+        this.tramiteForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: '', sede: '', nro_matricula: ''});
         this.data.idUnidad = id;
         this.data.idTipo_tramite_unidad = 0;
         this.data.archivoPdf = null;

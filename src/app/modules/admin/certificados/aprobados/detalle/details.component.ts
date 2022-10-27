@@ -20,7 +20,7 @@ import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
 import { VisorPdfCertificadoComponent } from '../visorPdf/visorPdfCertificado.component';
-// import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
+import { CertificadoAprobadoDialogComponent } from 'app/modules/admin/certificados/aprobados/dialog/dialog.component';
 
 @Component({
     selector       : 'certificado-details',
@@ -265,6 +265,19 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         console.log(this.certificadoForm.getRawValue());
         const respDial = this.visordialog.open(
             VisorPdfCertificadoComponent,
+            {
+                data: this.certificadoForm.getRawValue(),
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+
+    modalNotification(): void {
+        console.log(this.certificadoForm.getRawValue());
+        const respDial = this.visordialog.open(
+            CertificadoAprobadoDialogComponent,
             {
                 data: this.certificadoForm.getRawValue(),
                 disableClose: true,

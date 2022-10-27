@@ -20,8 +20,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { SharedModule } from 'app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { QuillModule } from 'ngx-quill';
+import { SharedModule } from 'app/shared/shared.module';
+
 
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
@@ -31,6 +33,7 @@ import { RequisitosDialogComponent } from './asignados/dialogReq/dialogReq.compo
 import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
 import { CertificadosAprobadosListComponent } from 'app/modules/admin/certificados/aprobados/list/list.component';
 import { CertificadoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
+import { CertificadoAprobadoDialogComponent } from './aprobados/dialog/dialog.component';
 import { VisorPdfCertificadoComponent } from './aprobados/visorPdf/visorPdfCertificado.component';
 
 import { CertificadosValidadosComponent } from 'app/modules/admin/certificados/validados/validados.component';
@@ -62,6 +65,7 @@ import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.
         CertificadosAprobadosComponent,
         CertificadosAprobadosListComponent,
         CertificadoAprobadoDetalleComponent,
+        CertificadoAprobadoDialogComponent,
         CertificadosFirmaURAAComponent,
         CertificadosFirmaURAAListComponent,
         CertificadoFirmaURAADetalleComponent,
@@ -99,9 +103,10 @@ import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.
         MatSelectModule,
         MatSlideToggleModule,
         MatTooltipModule,
-        SharedModule,
         MatCardModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        QuillModule.forRoot(),
+        SharedModule
     ]
 })
 export class CertificadosModule
