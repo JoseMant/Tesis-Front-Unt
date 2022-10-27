@@ -267,39 +267,17 @@ export class CarnetsAprobadosListComponent implements OnInit, AfterViewInit, OnD
 
     descargarExcel(): void
     {
-        this._carnetsService.DescargarExcel()
-        .pipe(
-            finalize(() => {
-
-                // Show the alert
-                this.openSnack();
-            })
-        )
-        .subscribe(
-            (response) => {
-                let a = document.createElement('a')
-                a.target = '_blanck'
-                a.href = environment.baseUrl + 'download/fotos'
-                a.click();
-                
-                // Set the alert
-                this.alert = {
-                    type   : 'warning',
-                    message: 'Descargando ZIP...',
-                    title  : 'Advertencia'
-                };
-
-            },
-            (response) => {
-
-                // Set the alert
-                this.alert = {
-                    type   : 'error',
-                    message: 'Algo salió mal. Por favor, vuelva a intentarlo.',
-                    title  : 'Error'
-                };
-            }
-        );
+        let a = document.createElement('a')
+        a.target = '_blanck'
+        a.href = environment.baseUrl + 'carnets/export'
+        a.click();
+        
+        // Set the alert
+        this.alert = {
+            type   : 'warning',
+            message: 'Descargando Excel...',
+            title  : 'Advertencia'
+        };
     }
 
     selectObservados(event): void {

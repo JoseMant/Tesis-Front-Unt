@@ -274,13 +274,18 @@ export class CarnetsService
         //   debugger;
         })
       );
-    //   return this._httpClient.get<any>(environment.baseUrl + 'download/fotos').pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       debugger;
-    //     })
-    //   );
     }
+
+    descargarExcel(): Observable<any>
+    {
+      return this._httpClient.get<any>(environment.baseUrl + 'carnets/export').pipe(
+        tap((response) => {
+          console.log(response);
+        //   debugger;
+        })
+      );
+    }
+
     updateRequisitos(id: number, tramite: CarnetInterface): Observable<CarnetInterface>
     {
         return this.carnets$.pipe(
