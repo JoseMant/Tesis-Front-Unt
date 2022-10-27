@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { NgxRolesService } from 'ngx-permissions';
 
 @Component({
     selector       : 'fuse-vertical-navigation-group-item',
@@ -28,7 +29,8 @@ export class FuseVerticalNavigationGroupItemComponent implements OnInit, OnDestr
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _rolesService: NgxRolesService
     )
     {
     }
@@ -68,6 +70,29 @@ export class FuseVerticalNavigationGroupItemComponent implements OnInit, OnDestr
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+
+    permission(items): boolean {
+        const req = [];
+        items.forEach( (item) => {
+            item.children.forEach( (itemChildren) => {
+                itemChildren.permissions.forEach((per) => {
+                    req.push(per);
+                });
+            });
+        });
+        let value = false;
+        if (this._rolesService.getRole('ADMINISTRADOR')) {
+            value = true;
+        } else {
+            req.forEach((requerimiento) => {
+                if (this._rolesService.getRole(requerimiento)) {
+                value = true;
+                };
+            });
+        }
+        return value;
+    }
 
     /**
      * Track by function for ngFor loops
