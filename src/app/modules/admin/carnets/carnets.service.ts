@@ -226,12 +226,7 @@ export class CarnetsService
             switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import', fileCarnets).pipe(
                 map((updatedCarnets) => {
                     console.log(updatedCarnets);
-                    // Find the index of the updated carnet
-                    // const index = carnets.findIndex(item => item.idTramite === id);
-
-                    // Update the carnet
-                    // carnets.splice(index, 1);
-
+                    
                     // Update the carnets
                     this._carnets.next(updatedCarnets);
 
@@ -242,29 +237,25 @@ export class CarnetsService
         );
     }
 
+    // getCarnetsAprobadosRefresh(): Observable<CarnetInterface[]>
+    // {
+    //   return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'tramite/carnets/aprobados/refresh').pipe(
+    //     tap((response) => {
+    //       console.log(response);
+    //       response.forEach(element => {
+              
+    //       });
+    //       // Find the index of the updated carnet
+    //       // const index = carnets.findIndex(item => item.idTramite === id);
 
-    DescargarExcel(): Observable<CarnetInterface[]>
-    {
-        return this.carnets$.pipe(
-            take(1),
-            switchMap(carnets => this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'tramites/export').pipe(
-                map((updatedCarnets) => {
-                    console.log(updatedCarnets);
-                    // Find the index of the updated carnet
-                    // const index = carnets.findIndex(item => item.idTramite === id);
+    //       // Update the carnet
+    //       // carnets.splice(index, 1);
 
-                    // Update the carnet
-                    // carnets.splice(index, 1);
-
-                    // Update the carnets
-                    this._carnets.next(updatedCarnets);
-
-                    // Return the updated carnet
-                    return updatedCarnets;
-                })
-            ))
-        );
-    }
+    //       this._pagination.next(response.pagination);
+    //       this._carnets.next(response.data);
+    //     })
+    //   );
+    // }
 
     setCarnetsValidados(): Observable<any>
     {

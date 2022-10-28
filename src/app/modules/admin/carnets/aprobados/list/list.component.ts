@@ -183,7 +183,7 @@ export class CarnetsAprobadosListComponent implements OnInit, AfterViewInit, OnD
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._carnetsService.getCarnetsRegulares(0, 10, 'fecha', 'desc', query);
+                    return this._carnetsService.getCarnetsAprobados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -231,7 +231,7 @@ export class CarnetsAprobadosListComponent implements OnInit, AfterViewInit, OnD
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._carnetsService.getCarnetsRegulares(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._carnetsService.getCarnetsAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -278,6 +278,8 @@ export class CarnetsAprobadosListComponent implements OnInit, AfterViewInit, OnD
             message: 'Descargando Excel...',
             title  : 'Advertencia'
         };
+        
+        this.ngAfterViewInit()
     }
 
     selectObservados(event): void {
