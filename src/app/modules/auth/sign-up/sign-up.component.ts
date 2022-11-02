@@ -112,7 +112,7 @@ export class AuthSignUpComponent implements OnInit
         this.signUpForm = this._formBuilder.group({
                 apellidos       : ['', Validators.required],
                 nombres         : ['', Validators.required],
-                celular         : ['', [Validators.pattern(/^[0-9]+$/), Validators.required]],
+                celular         : ['', [Validators.maxLength(9),Validators.pattern(/^[0-9]+$/), Validators.required]],
                 correo          : ['', Validators.required],
                 nro_documento   : ['', Validators.required],
                 nro_matricula   : ['', [Validators.pattern(/^[0-9]+$/), Validators.required]],
