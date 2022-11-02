@@ -17,6 +17,18 @@ import {  CarnetDuplicadoResolver, CarnetsDuplicadosResolver } from 'app/modules
 import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
 
 // -------------
+import { CarnetsSolicitadosComponent } from 'app/modules/admin/carnets/solicitados/solicitados.component';
+import { CarnetsSolicitadosListComponent } from 'app/modules/admin/carnets/solicitados/list/list.component';
+import { CarnetSolicitadoResolver, CarnetsSolicitadosResolver } from 'app/modules/admin/carnets/solicitados/solicitados.resolvers';
+import { CarnetSolicitadoDetalleComponent } from './solicitados/detalle/details.component';
+
+// -------------
+import { CarnetsRecibidosComponent } from 'app/modules/admin/carnets/recibidos/recibidos.component';
+import { CarnetsRecibidosListComponent } from 'app/modules/admin/carnets/recibidos/list/list.component';
+import { CarnetRecibidoResolver, CarnetsRecibidosResolver } from 'app/modules/admin/carnets/recibidos/recibidos.resolvers';
+import { CarnetRecibidoDetalleComponent } from './recibidos/detalle/details.component';
+
+// -------------
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const carnetsRoutes: Route[] = [
@@ -74,8 +86,7 @@ export const carnetsRoutes: Route[] = [
                 },
             }
         ]
-    }
-    ,
+    },
     {
         path     : 'duplicados',
         component: CarnetsDuplicadosComponent,
@@ -99,6 +110,60 @@ export const carnetsRoutes: Route[] = [
                 component    : CarnetDuplicadoDetalleComponent,
                 resolve      : {
                     carnet  : CarnetDuplicadoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'solicitados',
+        component: CarnetsSolicitadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            carnets  : CarnetsSolicitadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CarnetsSolicitadosListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : CarnetSolicitadoDetalleComponent,
+                resolve      : {
+                    carnet  : CarnetSolicitadoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'recibidos',
+        component: CarnetsRecibidosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            carnets  : CarnetsRecibidosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CarnetsRecibidosListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : CarnetRecibidoDetalleComponent,
+                resolve      : {
+                    carnet  : CarnetRecibidoResolver,
                 },
             }
         ]

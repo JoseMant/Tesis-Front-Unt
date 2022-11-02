@@ -88,7 +88,6 @@ export class CarnetsService
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._carnets.next(response.data);
         })
@@ -108,7 +107,6 @@ export class CarnetsService
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._carnets.next(response.data);
         })
@@ -128,7 +126,6 @@ export class CarnetsService
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._carnets.next(response.data);
         })
@@ -148,7 +145,6 @@ export class CarnetsService
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._carnets.next(response.data);
         })
@@ -159,6 +155,44 @@ export class CarnetsService
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
       return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/duplicados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._carnets.next(response.data);
+        })
+      );
+    }
+
+    getCarnetsSolicitados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/solicitados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._carnets.next(response.data);
+        })
+      );
+    }
+
+    getCarnetsRecibidos(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/recibidos', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -316,5 +350,58 @@ export class CarnetsService
                 ))
             ))
         );
+    }
+
+    
+    getRecibirCarnes(): Observable<CarnetInterface[]>
+    {
+        return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'carnets/solicitados/recibidos');
+    }
+
+    /**
+     * finalizar carnet
+     *
+     * @param id
+     * @param carnet
+     */
+    finalizarCarnet(id: number, data: CarnetInterface): Observable<CarnetInterface>
+    {
+      return this.carnets$.pipe(
+        take(1),
+        switchMap(carnets => this._httpClient.put<CarnetInterface>(environment.baseUrl + 'carnets/recibidos/finalizar', data).pipe(
+            map((updatedCarnet) => {
+                console.log(updatedCarnet);
+                // debugger;
+                // Find the index of the updated carnet
+                const index = carnets.findIndex(item => item.idTramite === id);
+
+                if (updatedCarnet.idEstado_tramite == 8 || updatedCarnet.idEstado_tramite == 9 || updatedCarnet.idEstado_tramite == 25) {
+                    // Update the carnet
+                    carnets.splice(index, 1);
+                } else {
+                    // Update the carnet
+                    carnets[index] = updatedCarnet;
+                }
+
+                // Update the carnets
+                this._carnets.next(carnets);
+
+                // Return the updated carnet
+                return updatedCarnet;
+            }),
+            switchMap(updatedCarnet => this.carnet$.pipe(
+                take(1),
+                filter(item => item && item.idTramite === id),
+                tap(() => {
+
+                    // Update the carnet if it's selected
+                    this._carnet.next(updatedCarnet);
+
+                    // Return the updated carnet
+                    return updatedCarnet;
+                })
+            ))
+        ))
+    );
     }
 }

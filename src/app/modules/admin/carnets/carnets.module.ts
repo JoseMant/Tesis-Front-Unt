@@ -47,6 +47,12 @@ import { CarnetsDuplicadosComponent } from 'app/modules/admin/carnets/duplicados
 import { CarnetsDuplicadosListComponent } from 'app/modules/admin/carnets/duplicados/list/list.component';
 import { CarnetDuplicadoDetalleComponent } from './duplicados/detalle/details.component';
 import { RequisitosDialogComponent } from './duplicados/dialogReq/dialogReq.component';
+import { CarnetsSolicitadosComponent } from 'app/modules/admin/carnets/solicitados/solicitados.component';
+import { CarnetsSolicitadosListComponent } from 'app/modules/admin/carnets/solicitados/list/list.component';
+import { CarnetSolicitadoDetalleComponent } from './solicitados/detalle/details.component';
+import { CarnetsRecibidosComponent } from 'app/modules/admin/carnets/recibidos/recibidos.component';
+import { CarnetsRecibidosListComponent } from 'app/modules/admin/carnets/recibidos/list/list.component';
+import { CarnetRecibidoDetalleComponent } from './recibidos/detalle/details.component';
 
 @NgModule({
     declarations: [
@@ -61,6 +67,14 @@ import { RequisitosDialogComponent } from './duplicados/dialogReq/dialogReq.comp
         CarnetsDuplicadosComponent,
         CarnetsDuplicadosListComponent,
         CarnetDuplicadoDetalleComponent,
+        //---
+        CarnetsSolicitadosComponent,
+        CarnetsSolicitadosListComponent,
+        CarnetSolicitadoDetalleComponent,
+        //---
+        CarnetsRecibidosComponent,
+        CarnetsRecibidosListComponent,
+        CarnetRecibidoDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(carnetsRoutes),
@@ -85,8 +99,6 @@ import { RequisitosDialogComponent } from './duplicados/dialogReq/dialogReq.comp
         SharedModule,
         MatCardModule,
         MatExpansionModule,
-
-
         MatProgressSpinnerModule
     ]
 })

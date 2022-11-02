@@ -160,6 +160,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carnets/aprobados',
                 permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
             },
+            {
+                // Se muestran los trámites de carnets solicitados a SUNEDU
+                id   : 'carnets.solicitados',
+                title: 'Solicitados',
+                type : 'basic',
+                link : '/carnets/solicitados',
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS']
+            },
+            {
+                // Se muestran los trámites de carnets recibidos por la Secretaria
+                id   : 'carnets.recibidos',
+                title: 'Recibidos',
+                type : 'basic',
+                link : '/carnets/recibidos',
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'SECRETARIA(O) DE ESCUELA']
+            },
         ]
     },
     {
