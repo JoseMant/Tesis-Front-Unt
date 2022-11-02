@@ -215,7 +215,9 @@
                                         id="password"
                                         matInput
                                         type="password"
-                                        [formControlName]="'password'">
+                                        [formControlName]="'password'"
+                                        autocomplete="off"
+                                        #password>
                                     <button
                                         mat-icon-button
                                         type="button"
