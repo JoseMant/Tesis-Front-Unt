@@ -189,6 +189,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     tipoTramites: any;
     tipoTramiteUnidades: any;
     requisitos: any;
+    requisitosCount: number = 0;
     abrir: boolean = false;
     bancos: any;
     data: TramiteInterface;
@@ -292,6 +293,8 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
 
                 // Get the tramite
                 this.tramite = tramite;
+                this.requisitos = tramite.requisitos;
+                this.requisitosCount=tramite.requisitos.length;
                 console.log(this.tramite);
 
                 // Patch values to the form

@@ -291,7 +291,7 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
                 // Config the alert
                 this.alert = {
                     type   : 'success',
-                    message: 'Carnés entregados a la Universidad',
+                    message: 'Carné entregado al alumno',
                     title: 'Actualizado'
                 };
             },

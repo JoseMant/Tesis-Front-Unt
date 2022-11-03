@@ -178,7 +178,7 @@
             >
                 Regresar
             </button>
-                <button
+                <button *ngIf="certificado.idEstado_tramite==7"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"

@@ -241,7 +241,7 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite registrado correctamente',
+                message: 'Trámite actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();

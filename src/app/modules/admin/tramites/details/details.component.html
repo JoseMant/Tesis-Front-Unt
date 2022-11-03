@@ -119,10 +119,10 @@
                     </div>
 
                     <!-- Divider -->
-                    <div class="my-10 border-t"></div>
+                    <div *ngIf="requisitosCount>0" class="my-10 border-t"></div>
 
                     <!-- Section -->
-                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;" *ngIf="requisitosCount>0">
                         <mat-card-title><mat-label class="text-base">Requisitos</mat-label></mat-card-title>
                         <mat-card-content>
                             <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngFor="let requisito of tramite.requisitos; let i = index">

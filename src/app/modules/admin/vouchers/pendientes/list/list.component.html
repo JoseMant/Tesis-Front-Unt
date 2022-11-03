@@ -70,10 +70,15 @@
                             <div [mat-sort-header]="'tramite'">Trámite</div>
 
                             <!-- Exonerado -->
-                            <div
+                            <!-- <div
                                 class="hidden md:block"
                                 [mat-sort-header]="'exonerado'">
                                 Exonerado
+                            </div> -->
+                            <div
+                                class="hidden md:block"
+                                [mat-sort-header]="'costo'">
+                                Costo
                             </div>
 
                             <div
@@ -92,6 +97,7 @@
                                 [mat-sort-header]="'fecha_operacion'">
                                 Fecha Oper.
                             </div>
+                            
                             <div class="hidden sm:block">Opciones</div>
                         </div>
                         <!-- Rows -->
@@ -115,12 +121,16 @@
                                     </div>
 
                                     <!-- Exonerado -->
-                                    <div *ngIf="voucher.exonerado_archivo" class="hidden md:block truncate">
+                                    <!-- <div *ngIf="voucher.exonerado_archivo" class="hidden md:block truncate">
                                         SI
                                     </div>
                                     <div *ngIf="!voucher.exonerado_archivo" class="hidden md:block truncate">
                                         NO
+                                    </div> -->
+                                    <div class="truncate">
+                                        {{voucher.costo}}
                                     </div>
+
 
                                     <!-- Stock -->
                                     <div class="hidden lg:flex items-center">

@@ -53,6 +53,8 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
             fecha_operacion: [''],
             idVoucher: [''],
             nro_operacion: [''],
+            nro_documento: [''],
+            nro_matricula: [''],
             nro_tramite: [''],
             validado: [''],
             comentario: [''],
@@ -76,6 +78,8 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
             idVoucher: data.idVoucher,
             nro_operacion: data.nro_operacion,
             nro_tramite: data.nro_tramite,
+            nro_documento: data.nro_documento,
+            nro_matricula: data.nro_matricula,
             comentario: data.comentario,
         });
         if (data.exonerado_archivo) {

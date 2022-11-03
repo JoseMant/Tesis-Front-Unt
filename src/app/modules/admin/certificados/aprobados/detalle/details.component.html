@@ -201,6 +201,7 @@
           *ngIf="newCertificado"
           class="ml-4"
           mat-flat-button
+          [disabled]="certificadoForm.disabled"
           [color]="'primary'"
           (click)="uploadCertificado()">
           <span *ngIf="!certificadoForm.disabled">

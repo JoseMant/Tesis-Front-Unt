@@ -273,7 +273,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite registrado correctamente',
+                message: 'Trámite(s) asignado(s) correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
