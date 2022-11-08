@@ -341,6 +341,15 @@ export class CarnetsService
                     filter(item => item && item.idTramite === id),
                     tap(() => {
 
+                        // Find the carnet
+                        updatedCarnet.fut = environment.baseUrl + updatedCarnet.fut;
+                        if (updatedCarnet.voucher) updatedCarnet.voucher = environment.baseUrlStorage + updatedCarnet.voucher;
+                        updatedCarnet.requisitos.forEach(element => {
+                            if (element.archivo) {
+                                element.archivo = environment.baseUrlStorage + element.archivo;
+                            }
+                        });
+
                         // Update the carnet if it's selected
                         this._carnet.next(updatedCarnet);
 

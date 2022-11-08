@@ -226,7 +226,7 @@ export class GradosService
     {
         return this.grados$.pipe(
             take(1),
-            switchMap(grados => this._httpClient.post<GradoInterface>(environment.baseUrl + 'tramite/update', grado).pipe(
+            switchMap(grados => this._httpClient.put<GradoInterface>(environment.baseUrl + 'tramite/update', grado).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
                     // Find the index of the updated grado

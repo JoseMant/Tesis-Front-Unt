@@ -66,6 +66,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran para la firma del jefe de RT
+                id   : 'certificados.reasignados',
+                title: 'Reasignados',
+                type : 'basic',
+                link : '/certificados/reasignados',
+                permissions: ['JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
                 id   : 'certificados.pendientes',
                 title: 'Pendientes',
                 type : 'basic',
@@ -241,7 +249,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Cronogramas',
                         type : 'basic',
                         link : '/masters/bachiller_grado/cronogramas',
-                        permissions: ['ADMINISTRADOR']
+                        permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
                     }
                 ]
             },

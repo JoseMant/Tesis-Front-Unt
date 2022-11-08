@@ -21,7 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SharedModule } from 'app/shared/shared.module';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { GradosAsignadosComponent } from 'app/modules/admin/grados/asignados/asignados.component';
 // import { GradosAsignadosListComponent } from 'app/modules/admin/grados/asignados/list/list.component';
 // import { GradoAsignadoDetalleComponent } from './asignados/detalle/details.component';
@@ -92,7 +92,8 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         MatSlideToggleModule,
         MatTooltipModule,
         SharedModule,
-        MatCardModule
+        MatCardModule,
+        MatProgressSpinnerModule
     ]
 })
 export class GradosModule
