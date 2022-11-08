@@ -43,6 +43,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
     cronogramaForm: FormGroup;
     cronogramas: Cronograma[];
     dependencias: any;
+    user: any;
     tipos_colaciones = [
         {id: 'ORDINARIO', name: 'ORDINARIO'},
         {id: 'EXTRAORDINARIO', name: 'EXTRAORDINARIO'}
@@ -114,7 +115,17 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+            
+        // Get the user
+        this._cronogramasService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.user = user;
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+            
         // Get the cronograma
         this._cronogramasService.cronograma$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -131,6 +142,9 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
                 this.cronogramaForm.patchValue(cronograma);
                 if (cronograma.idCronograma_carpeta) {
                     this.selectedUnidad(cronograma.idUnidad);
+                } else {
+                    this.selectedUnidad(this.user.idUnidad);
+                    this.cronogramaForm.patchValue({idDependencia: this.user.dependencia.idDependencia});
                 }
 
                 // Toggle the edit mode off

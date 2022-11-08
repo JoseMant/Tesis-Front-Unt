@@ -16,6 +16,7 @@ export class CronogramasService
     private _unidades: BehaviorSubject<Unidad[] | null> = new BehaviorSubject(null);
     private _tipoTramiteUnidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _user: BehaviorSubject<any | null> = new BehaviorSubject(null);
     
     /**
      * Constructor
@@ -66,6 +67,14 @@ export class CronogramasService
     get dependencias$(): Observable<Unidad[]>
     {
         return this._dependencias.asObservable();
+    }
+
+    /**
+     * Getter for user
+     */
+    get user$(): Observable<Unidad[]>
+    {
+        return this._user.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -256,6 +265,19 @@ export class CronogramasService
         return this._httpClient.get<Unidad[]>(environment.baseUrl + 'unidades').pipe(
             tap((response) => {
                 this._unidades.next(response);
+            })
+        );
+    }
+
+    /**
+     * Get unidades
+     */
+    getUserDependencia(): Observable<Unidad[]>
+    {
+        return this._httpClient.get<any>(environment.baseUrl + 'cronogramas/unidad/dependencia').pipe(
+            tap((response) => {
+                console.log(response);
+                this._user.next(response);
             })
         );
     }
