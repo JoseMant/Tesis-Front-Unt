@@ -108,30 +108,30 @@ export class CronogramasUnidadesResolver implements Resolve<any>
     }
 }
 
-// @Injectable({
-//     providedIn: 'root'
-// })
-// export class CronogramasTagsResolver implements Resolve<any>
-// {
-//     /**
-//      * Constructor
-//      */
-//     constructor(private _cronogramasService: CronogramasService)
-//     {
-//     }
+@Injectable({
+    providedIn: 'root'
+})
+export class UserDependenciaResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _cronogramasService: CronogramasService)
+    {
+    }
 
-//     // -----------------------------------------------------------------------------------------------------
-//     // @ Public methods
-//     // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-//     /**
-//      * Resolver
-//      *
-//      * @param route
-//      * @param state
-//      */
-//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag[]>
-//     {
-//         return this._cronogramasService.getTags();
-//     }
-// }
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
+    {
+        return this._cronogramasService.getUserDependencia();
+    }
+}
