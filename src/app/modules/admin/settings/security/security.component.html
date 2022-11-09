@@ -104,8 +104,8 @@
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
                 </mat-form-field>
-                <mat-error *ngIf="securityForm.getRawValue().newPassword != securityForm.getRawValue().repeatNewPassword">
-                    Las contraseñas nuevas no coinciden
+                <mat-error *ngIf="securityForm.get('repeatNewPassword').hasError('mustMatch')">
+                    Las contraseñas deben coincidir
                 </mat-error>
             </div>
         </div>

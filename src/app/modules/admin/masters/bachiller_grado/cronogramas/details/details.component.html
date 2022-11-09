@@ -92,11 +92,11 @@
                         </div>
                     </ng-container>
 
-                    <!-- fecha_cierre_alumno -->
-                    <ng-container *ngIf="cronograma.fecha_cierre_alumno">
+                    <!-- fecha_cierre_decanato -->
+                    <ng-container *ngIf="cronograma.fecha_cierre_decanato">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
-                            <div class="ml-6 leading-6">Cierre para el alumno: {{cronograma.fecha_cierre_alumno | date:'longDate'}}</div>
+                            <div class="ml-6 leading-6">Cierre para decanato: {{cronograma.fecha_cierre_decanato | date:'longDate'}}</div>
                         </div>
                     </ng-container>
 
@@ -108,11 +108,11 @@
                         </div>
                     </ng-container>
 
-                    <!-- fecha_cierre_decanato -->
-                    <ng-container *ngIf="cronograma.fecha_cierre_decanato">
+                    <!-- fecha_cierre_alumno -->
+                    <ng-container *ngIf="cronograma.fecha_cierre_alumno">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
-                            <div class="ml-6 leading-6">Cierre para decanato: {{cronograma.fecha_cierre_decanato | date:'longDate'}}</div>
+                            <div class="ml-6 leading-6">Cierre para el alumno: {{cronograma.fecha_cierre_alumno | date:'longDate'}}</div>
                         </div>
                     </ng-container>
 
@@ -264,7 +264,8 @@
                                 [min]="minDate"
                                 [matDatepicker]="fecha_colacionDatepicker"
                                 [formControlName]="'fecha_colacion'"
-                                [placeholder]="'Seleccionar fecha de colación'">
+                                [placeholder]="'Seleccionar fecha de colación'"
+                                (dateChange)="endDateChange($event)">
                             <mat-datepicker-toggle
                                 matSuffix
                                 [for]="fecha_colacionDatepicker">
@@ -276,7 +277,7 @@
                     <!-- Fecha de cierre para la Facultad -->
                     <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_colacion">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Fecha de cierre para la Facultad</mat-label>
+                            <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 1 || cronogramaForm.get('idUnidad').value == 4">Fecha de cierre para la Facultad</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -299,7 +300,8 @@
                     <!-- Fecha de cierre para la Escuela -->
                     <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_cierre_decanato">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Fecha de cierre para la Escuela</mat-label>
+                            <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 1">Fecha de cierre para la Escuela</mat-label>
+                            <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 4">Fecha de cierre para la Especialidad</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -310,7 +312,8 @@
                                 [max]="cronogramaForm.getRawValue().fecha_cierre_decanato"
                                 [matDatepicker]="fecha_cierre_secretariaDatepicker"
                                 [formControlName]="'fecha_cierre_secretaria'"
-                                [placeholder]="'Seleccionar fecha de cierre para la Escuela'">
+                                [placeholder]="'Seleccionar fecha de cierre para la Escuela'"
+                                (dateChange)="endDateChange($event)">
                             <mat-datepicker-toggle
                                 matSuffix
                                 [for]="fecha_cierre_secretariaDatepicker">
@@ -330,7 +333,7 @@
                             <input
                                 matInput
                                 [min]="minDate"
-                                [max]="cronogramaForm.getRawValue().fecha_cierre_secretaria"
+                                [max]="maxDateAlumno"
                                 [matDatepicker]="fecha_cierre_alumnoDatepicker"
                                 [formControlName]="'fecha_cierre_alumno'"
                                 [placeholder]="'Seleccionar fecha de cierre para el Alumno'">

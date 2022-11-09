@@ -119,7 +119,7 @@ export class AuthSignUpComponent implements OnInit
                 sexo            : ['', Validators.required],
                 tipo_documento  : ['', Validators.required],
                 username        : ['', Validators.required],
-                password        : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/), Validators.required]],
+                password        : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z\d$@$!%*?&]|[^ ])/), Validators.required]],
                 idTipo_usuario  : ['4', Validators.required]
             }
         );

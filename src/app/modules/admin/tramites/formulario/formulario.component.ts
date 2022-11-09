@@ -168,7 +168,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
-            // nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             nro_operacion: ['', Validators.required],
             fecha_operacion: ['', Validators.required],
             archivoPdf: [''],
@@ -189,7 +188,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             sexoNombre: [''],
             idUnidad: [-1],
             idTipo_tramite_unidad: [-1],
-            archivo_firma: [''],
+            archivo_firma: ['', Validators.required],
             archivoImagen: [''],
             requisitos: [[]],
             exonerado: [false]
@@ -566,20 +565,27 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.tramiteForm.patchValue({
                 entidad: 'Tesoreria UNT',
                 fecha_operacion: '',
-                nro_operacion: ''
+                nro_operacion: '',
+                archivoPdf: '',
+                archivoExonerado: ''
+                
             });
             this.data.entidad = 'Tesoreria UNT';
         } else if (this.data.exonerado && this.costo_exonerado > 0) {
             this.tramiteForm.patchValue({
                 entidad: '',
                 fecha_operacion: '',
-                nro_operacion: ''
+                nro_operacion: '',
+                archivoPdf: '',
+                archivoExonerado: ''
             });        
         } else if (!this.data.exonerado) {
             this.tramiteForm.patchValue({
                 entidad: '',
                 fecha_operacion: '',
-                nro_operacion: ''
+                nro_operacion: '',
+                archivoPdf: '',
+                archivoExonerado: ''
             });        
         }
     }

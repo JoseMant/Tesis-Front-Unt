@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulatio
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { SettingsService } from 'app/modules/admin/settings/settings.service';
 import { FuseAlertService, FuseAlertType } from '@fuse/components/alert';
+import { FuseValidators } from '@fuse/validators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 
@@ -54,9 +55,11 @@ export class SettingsSecurityComponent implements OnInit
         // Create the form
         this.securityForm = this._formBuilder.group({
             currentPassword  : ['', [Validators.required]],
-            newPassword      : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.required]],
-            // newPassword      : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/), Validators.required]],
+            newPassword      : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z\d$@$!%*?&]|[^ ])/), Validators.required]],
             repeatNewPassword: ['', [Validators.required]],
+        },
+        {
+            validators: FuseValidators.mustMatch('newPassword', 'repeatNewPassword')
         });
     }
 
@@ -64,7 +67,7 @@ export class SettingsSecurityComponent implements OnInit
     {
         // Get the contact object
         const user = this.securityForm.getRawValue();
-        if (this.securityForm.invalid || user.newPassword != user.repeatNewPassword) {
+        if (this.securityForm.invalid) {
             this.securityForm.markAllAsTouched();
             return;
         }

@@ -51,6 +51,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
     tipoTramiteUnidades: any;
     unidades: Unidad[];
     minDate: any;
+    maxDateAlumno: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -168,6 +169,12 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             });
 
         this.minDate = moment();
+    }
+
+    endDateChange(event: any): void
+    {
+        if(this.cronogramaForm.get('fecha_cierre_secretaria').value <= moment(this.cronogramaForm.get('fecha_colacion').value).subtract(30, 'days')) this.maxDateAlumno = this.cronogramaForm.get('fecha_cierre_secretaria').value;
+        else this.maxDateAlumno = moment(this.cronogramaForm.get('fecha_colacion').value).subtract(30, 'days');
     }
 
     /**
@@ -356,7 +363,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
     }
 
     selectedUnidad(id): void{
-        this.cronogramaForm.patchValue({idUnidad: id});
+        this.cronogramaForm.patchValue({idUnidad: id, idDependencia: 0});
 
         this._cronogramasService.getTipoTramiteUnidades(id).subscribe((resp)=>{
             this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
