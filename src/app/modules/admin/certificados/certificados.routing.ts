@@ -29,6 +29,10 @@ import { CertificadosPendientesComponent } from 'app/modules/admin/certificados/
 import { CertificadosPendientesListComponent } from 'app/modules/admin/certificados/pendientes/list/list.component';
 import { CertificadosPendientesResolver } from 'app/modules/admin/certificados/pendientes/pendientes.resolvers';
 
+import { CertificadosReasignadosComponent } from 'app/modules/admin/certificados/reasignados/reasignados.component';
+import { CertificadosReasignadosListComponent } from 'app/modules/admin/certificados/reasignados/list/list.component';
+import { CertificadosReasignadosResolver } from 'app/modules/admin/certificados/reasignados/reasignados.resolvers';
+
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const certificadosRoutes: Route[] = [
@@ -166,6 +170,29 @@ export const certificadosRoutes: Route[] = [
                 component    : CertificadoFirmaDecanoDetalleComponent,
                 resolve      : {
                     certificado  : CertificadoFirmaDecanoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'reasignados',
+        component: CertificadosReasignadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            certificados  : CertificadosReasignadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CertificadosReasignadosListComponent,
+                resolve      : {
+                    users  : UsersResolver,
                 },
             }
         ]

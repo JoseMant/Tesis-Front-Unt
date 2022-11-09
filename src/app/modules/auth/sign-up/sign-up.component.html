@@ -100,6 +100,7 @@
                                         id="nro_matricula"
                                         matInput
                                         type="number"
+                                        readonly
                                         [formControlName]="'nro_matricula'">
                                     <mat-error *ngIf="signUpForm.get('nro_matricula').hasError('required')">
                                         Se requiere número de matrícula

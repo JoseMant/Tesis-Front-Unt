@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators,NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -16,12 +16,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'app/core/user/user.types';
 
 @Component({
-    selector       : 'certificados-validados-list',
+    selector       : 'certificados-reasignados-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .certificados-validados-grid {
+            .certificados-reasignados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -48,11 +48,10 @@ import { User } from 'app/core/user/user.types';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CertificadosValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CertificadosReasignadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-    @ViewChild('selectedCertificadosNgForm') selectedCertificadosNgForm: NgForm;
 
     certificados$: Observable<CertificadoInterface[]>;
 
@@ -147,7 +146,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosValidados(0, 10, 'fecha', 'desc', query);
+                    return this._certificadosService.getCertificadosReasignados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -195,7 +194,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._certificadosService.getCertificadosReasignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -267,15 +266,15 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
     {
         // Get the product object
         const data = this.selectedCertificadosForm.getRawValue();
-        
+        // console.log(data);
+        // debugger;
         // Update the product on the server
         this._certificadosService.asignarUsuarioCertificados(data).subscribe(() => {
-            // this.selectedCertificadosNgForm.resetForm();
             this.selectedTramites = [];
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite(s) asignado(s) correctamente',
+                message: 'Trámite(s) reasignado(s) correctamente',
                 title: 'Guardado'
             };
             this.openSnack();

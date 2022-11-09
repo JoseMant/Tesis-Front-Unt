@@ -170,7 +170,7 @@ export class SettingsAccountComponent implements OnInit
              this.accountForm.enable();
              this.alert = {
                  type   : 'success',
-                 message: 'Perfil actualizado correctamente',
+                 message: 'Perfil actualizado correctamente. CONFIRMA TU CORREO PARA PODER INICIAR SESIÓN',
                  title: 'Guardado'
              };
 

@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Certificados validados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Certificados reasignados</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="certificadosCount > 0">
                     {{certificadosCount}}
                 </ng-container>
                 {{certificadosCount | i18nPlural: {
-                    '=0'   : 'No hay certificados validados',
+                    '=0'   : 'No hay certificados reasignados',
                     '=1'   : 'Certificado validado',
-                    'other': 'Certificados validados'
+                    'other': 'Certificados reasignados'
                 } }}
             </div>
         </div>
@@ -42,8 +42,7 @@
     </div>    
     <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 pt-2">
         <!-- Filters -->
-        <form class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none" [formGroup]="selectedCertificadosForm" 
-        #selectedCertificadosNgForm="ngForm">
+        <form class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none" [formGroup]="selectedCertificadosForm">
             <mat-form-field class="fuse-mat-no-subscript w-full min-w-64 sm:w-36">
                 <mat-select [formControlName]="'idUsuario'">
                     <mat-option [value]="'all'">Seleccionar usuario a asignar...</mat-option>
@@ -102,7 +101,7 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="certificados-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="certificados-reasignados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -153,8 +152,8 @@
                             <!-- Motivo -->
                             <div 
                                 class="hidden lg:block"
-                                [mat-sort-header]="'motivo'">
-                                Motivo
+                                [mat-sort-header]="'responsable'">
+                                Responsable
                             </div>
 
                             <!-- Fecha-->
@@ -170,7 +169,7 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(certificados$ | async) as certificados">
                             <ng-container *ngFor="let certificado of certificados; trackBy: trackByFn let id=index">
-                                <div class="certificados-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="certificados-reasignados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
@@ -215,7 +214,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden lg:block">
-                                        {{certificado.motivo}}
+                                        {{certificado.responsable}}
                                     </div>
                                     
                                     <!-- Stock -->
@@ -252,7 +251,7 @@
             </ng-container>
 
             <ng-template #noCertificados>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay certificados validados!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay certificados reasignados!</div>
             </ng-template>
 
         </div>
