@@ -95,10 +95,11 @@ export class GradosService
       );
     }
 
-    getGradosAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+
+    getGradosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/aprobados', {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/validados/escuela', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -115,10 +116,10 @@ export class GradosService
       );
     }
 
-    getGradosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/validados', {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/aprobados/escuela', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -134,6 +135,88 @@ export class GradosService
         })
       );
     }
+
+    getGradosRevalidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/revalidados/escuela', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._grados.next(response.data);
+        })
+      );
+    }
+
+
+    getGradosValidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/validados/facultad', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._grados.next(response.data);
+        })
+      );
+    }
+
+    getGradosAprobadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/aprobados/facultad', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._grados.next(response.data);
+        })
+      );
+    }
+
+    getGradosRevalidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/revalidados/facultad', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._grados.next(response.data);
+        })
+      );
+    }
+
 
 
     getGradosFirmaURAA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
@@ -229,18 +312,39 @@ export class GradosService
             switchMap(grados => this._httpClient.put<GradoInterface>(environment.baseUrl + 'tramite/update', grado).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
+                    // debugger;
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
-                    // Update the grado
-                    grados.splice(index, 1);
+                    if (updatedGrado.idEstado_tramite == 30 ) {
+                        // Update the grado
+                        grados.splice(index, 1);
+                    }else if(updatedGrado.idEstado_tramite == 19){
+                        grados.splice(index, 1);
+                    }
+                    else {
+                        // Update the grado
+                        grados[index] = updatedGrado;
+                    }
 
                     // Update the grados
                     this._grados.next(grados);
 
                     // Return the updated grado
                     return updatedGrado;
-                })
+                }),
+                switchMap(updatedGrado => this.grado$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the grado if it's selected
+                        this._grado.next(updatedGrado);
+
+                        // Return the updated grado
+                        return updatedGrado;
+                    })
+                ))
             ))
         );
     }
@@ -288,30 +392,37 @@ export class GradosService
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
-                map((updateRequisitos) => {
-                    console.log(updateRequisitos);
-                    // Find the index of the updated contact
+                map((updatedGrado) => {
+                    console.log(updatedGrado);
+                    // debugger;
+                    // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
-                    // Update the contact
-                    grados[index] = updateRequisitos;
+                    if (updatedGrado.idEstado_tramite == 31 ) {
+                        // Update the grado
+                        grados.splice(index, 1);
+                    }
+                    else {
+                        // Update the grado
+                        grados[index] = updatedGrado;
+                    }
 
-                    // Update the contacts
+                    // Update the grados
                     this._grados.next(grados);
 
-                    // Return the updated contact
-                    return updateRequisitos;
+                    // Return the updated grado
+                    return updatedGrado;
                 }),
-                switchMap(updateRequisitos => this.grado$.pipe(
+                switchMap(updatedGrado => this.grado$.pipe(
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
 
-                        // Update the product if it's selected
-                        this._grado.next(updateRequisitos);
+                        // Update the grado if it's selected
+                        this._grado.next(updatedGrado);
 
-                        // Return the updated product
-                        return updateRequisitos;
+                        // Return the updated grado
+                        return updatedGrado;
                     })
                 ))
             ))

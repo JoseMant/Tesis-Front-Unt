@@ -33,6 +33,11 @@ import { CertificadosReasignadosComponent } from 'app/modules/admin/certificados
 import { CertificadosReasignadosListComponent } from 'app/modules/admin/certificados/reasignados/list/list.component';
 import { CertificadosReasignadosResolver } from 'app/modules/admin/certificados/reasignados/reasignados.resolvers';
 
+import { CertificadosFinalizadosComponent } from 'app/modules/admin/certificados/finalizados/finalizados.component';
+import { CertificadosFinalizadosListComponent } from 'app/modules/admin/certificados/finalizados/list/list.component';
+import { CertificadoFinalizadoResolver,CertificadosFinalizadosResolver } from 'app/modules/admin/certificados/finalizados/finalizados.resolvers';
+import { CertificadoFinalizadoDetalleComponent } from './finalizados/detalle/details.component';
+
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const certificadosRoutes: Route[] = [
@@ -193,6 +198,33 @@ export const certificadosRoutes: Route[] = [
                 component: CertificadosReasignadosListComponent,
                 resolve      : {
                     users  : UsersResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'finalizados',
+        component: CertificadosFinalizadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            certificados  : CertificadosFinalizadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: CertificadosFinalizadosListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : CertificadoFinalizadoDetalleComponent,
+                resolve      : {
+                    certificado  : CertificadoFinalizadoResolver,
                 },
             }
         ]

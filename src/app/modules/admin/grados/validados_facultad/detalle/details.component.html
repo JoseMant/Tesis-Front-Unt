@@ -121,7 +121,7 @@
                           </div>
                       </div>
                       <ng-container *ngFor="let requisito of grado.requisitos; let id = index">
-                          <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == 4">
+                          <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == 4||requisito.responsable == 5 ">
                               <div class="col-span-1">{{id+3}}</div>
                               <div class="col-span-5">{{requisito.nombre}}</div>
                               <div class="col-span-4 text-center">
@@ -160,12 +160,12 @@
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                     cmat-button
-                    [routerLink]="['/grados/validados/escuela']"
+                    [routerLink]="['/grados/validados/facultad']"
                     >
                     Regresar
                 </button>
                 <button
-                    *ngIf="grado.idEstado_tramite==17"
+                    *ngIf="grado.idEstado_tramite==20"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"

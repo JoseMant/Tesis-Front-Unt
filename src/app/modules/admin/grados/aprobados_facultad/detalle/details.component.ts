@@ -86,7 +86,7 @@ import { VisorPdfGradoComponent } from 'app/modules/admin/grados/validados/visor
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
+export class GradoAprobadoFacultadDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
@@ -177,16 +177,6 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
             requisitos: [''],
         });
 
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
 
         // Get the grado
         this._gradoService.grado$
@@ -319,18 +309,7 @@ export class GradoAprobadoDetalleComponent implements OnInit, OnDestroy
         console.log(this.gradoForm);
         this.newGrado = true;
     }
-    // verDocumento(): void {
-    //     console.log(this.gradoForm.getRawValue());
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfGradoComponent,
-    //         {
-    //             data: this.gradoForm.getRawValue(),
-    //             disableClose: true,
-    //             minWidth: '50%',
-    //             maxWidth: '60%'
-    //         }
-    //     );
-    // }
+   
     uploadGrado(): void{
         const data={
             idTramite: this.gradoForm.getRawValue().idTramite,

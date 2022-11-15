@@ -46,7 +46,7 @@
               <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                   <mat-card-content>
                       <div class="w-full">
-                          <div class="text-xl">VALIDAR REQUISITOS</div>
+                          <div class="text-xl">REVALIDAR REQUISITOS</div>
                       </div>
                       <div class="z-10 sticky top-0 grid grid-cols-12 gap-y-6 py-3 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5">
                           <div class="col-span-1">
@@ -160,12 +160,12 @@
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                     cmat-button
-                    [routerLink]="['/grados/validados/escuela']"
+                    [routerLink]="['/grados/revalidados/facultad']"
                     >
                     Regresar
                 </button>
                 <button
-                    *ngIf="grado.idEstado_tramite==17"
+                    *ngIf="grado.idEstado_tramite==33"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"

@@ -209,23 +209,23 @@
                 mat-button
                 class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                 cmat-button
-                [routerLink]="['/grados/aprobados']"
+                [routerLink]="['/grados/aprobados/escuela']"
             >
                 Regresar
             </button>
-                <button *ngIf="grado.idEstado_tramite == 20"
+                <button *ngIf="grado.idEstado_tramite == 30"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
                     [disabled]="gradoForm.disabled"                    
-                    (click)="UpdateRequisitosFacultad()">
-                    <span >
+                    (click)="UpdateRequisitosEscuela()">
+                    <span *ngIf="!gradoForm.disabled">
                         Guardar
                     </span>
                     <mat-progress-spinner
                         *ngIf="gradoForm.disabled"
                         [diameter]="24"
-                        [mode]="'indeterminate'">Cargando...</mat-progress-spinner>
+                        [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
             </mat-card-actions>
         </div>

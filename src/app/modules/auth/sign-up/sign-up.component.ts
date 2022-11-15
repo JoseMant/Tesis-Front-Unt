@@ -77,7 +77,7 @@ export class AuthSignUpComponent implements OnInit
         {id: 2, name: 'FEMENINO', value: 'F'}
     ];
     listTipoDocumentos = [
-        {id: 1, name: 'DNI'},
+        {id: 1, name: 'DOCUMENTO NACIONAL DE IDENTIDAD (DNI)'},
         {id: 2, name: 'PASAPORTE'},
         {id: 3, name: 'CARNET DE EXTRANJERÍA'}
     ]
@@ -115,7 +115,6 @@ export class AuthSignUpComponent implements OnInit
                 celular         : ['', [Validators.maxLength(9),Validators.pattern(/^[0-9]+$/), Validators.required]],
                 correo          : ['', Validators.required],
                 nro_documento   : ['', Validators.required],
-                nro_matricula   : ['', [Validators.pattern(/^[0-9]+$/), Validators.required]],
                 sexo            : ['', Validators.required],
                 tipo_documento  : ['', Validators.required],
                 username        : ['', Validators.required],

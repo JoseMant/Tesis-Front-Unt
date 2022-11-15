@@ -22,13 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-// import { GradosAsignadosComponent } from 'app/modules/admin/grados/asignados/asignados.component';
-// import { GradosAsignadosListComponent } from 'app/modules/admin/grados/asignados/list/list.component';
-// import { GradoAsignadoDetalleComponent } from './asignados/detalle/details.component';
 
-import { GradosAprobadosComponent } from 'app/modules/admin/grados/aprobados/aprobados.component';
-import { GradosAprobadosListComponent } from 'app/modules/admin/grados/aprobados/list/list.component';
-import { GradoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
 
 import { GradosValidadosComponent } from 'app/modules/admin/grados/validados/validados.component';
 import { GradosValidadosListComponent } from 'app/modules/admin/grados/validados/list/list.component';
@@ -36,39 +30,56 @@ import { GradoValidadoDetalleComponent } from './validados/detalle/details.compo
 import { VisorPdfGradoComponent } from './validados/visorPdf/visorPdfGrado.component';
 import { RequisitosDialogComponent } from './validados/dialogReq/dialogReq.component';
 
-// import { GradosFirmaURAAComponent } from 'app/modules/admin/grados/firma_uraa/firma_uraa.component';
-// import { GradosFirmaURAAListComponent } from 'app/modules/admin/grados/firma_uraa/list/list.component';
-// import { GradoFirmaURAADetalleComponent } from './firma_uraa/detalle/details.component';
-// import { GradoFirmaURAAVisorPdfComponent } from './firma_uraa/visorPdf/visorPdfGrado.component';
+import { GradosAprobadosComponent } from 'app/modules/admin/grados/aprobados/aprobados.component';
+import { GradosAprobadosListComponent } from 'app/modules/admin/grados/aprobados/list/list.component';
+import { GradoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
 
-// import { GradosFirmaDecanoComponent } from 'app/modules/admin/grados/firma_decano/firma_decano.component';
-// import { GradosFirmaDecanoListComponent } from 'app/modules/admin/grados/firma_decano/list/list.component';
-// import { GradoFirmaDecanoDetalleComponent } from './firma_decano/detalle/details.component';
-// import { GradoFirmaDecanoVisorPdfComponent } from './firma_decano/visorPdf/visorPdfGrado.component';
+import { GradosRevalidadosComponent } from 'app/modules/admin/grados/revalidados/revalidados.component';
+import { GradosRevalidadosListComponent } from 'app/modules/admin/grados/revalidados/list/list.component';
+import { GradoRevalidadoDetalleComponent } from './revalidados/detalle/details.component';
+
+import { GradosValidadosFacultadComponent } from 'app/modules/admin/grados/validados_facultad/validados_facultad.component';
+import { GradosValidadosFacultadListComponent } from 'app/modules/admin/grados/validados_facultad/list/list.component';
+import { GradoValidadoFacultadDetalleComponent } from './validados_facultad/detalle/details.component';
+
+import { GradosAprobadosFacultadComponent } from 'app/modules/admin/grados/aprobados_facultad/aprobados_facultad.component';
+import { GradosAprobadosFacultadListComponent } from 'app/modules/admin/grados/aprobados_facultad/list/list.component';
+import { GradoAprobadoFacultadDetalleComponent } from './aprobados_facultad/detalle/details.component';
+
+import { GradosRevalidadosFacultadComponent } from 'app/modules/admin/grados/revalidados_facultad/revalidados_facultad.component';
+import { GradosRevalidadosFacultadListComponent } from 'app/modules/admin/grados/revalidados_facultad/list/list.component';
+import { GradoRevalidadoFacultadDetalleComponent } from './revalidados_facultad/detalle/details.component';
 
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
 @NgModule({
     declarations: [
-        // GradosAsignadosComponent,
-        // GradosAsignadosListComponent,
-        // GradoAsignadoDetalleComponent,
-        GradosAprobadosComponent,
-        GradosAprobadosListComponent,
-        GradoAprobadoDetalleComponent,
-        // GradosFirmaURAAComponent,
-        // GradosFirmaURAAListComponent,
-        // GradoFirmaURAADetalleComponent,
-        // GradoFirmaURAAVisorPdfComponent,
-        // GradosFirmaDecanoComponent,
-        // GradosFirmaDecanoListComponent,
-        // GradoFirmaDecanoDetalleComponent,
-        // GradoFirmaDecanoVisorPdfComponent,
+        // ESCUELA
         GradosValidadosComponent,
         GradosValidadosListComponent,
         GradoValidadoDetalleComponent,
         VisorPdfGradoComponent,
-        RequisitosDialogComponent
+        RequisitosDialogComponent,
+        
+        GradosAprobadosComponent,
+        GradosAprobadosListComponent,
+        GradoAprobadoDetalleComponent,
+
+        GradosRevalidadosComponent,
+        GradosRevalidadosListComponent,
+        GradoRevalidadoDetalleComponent,
+        // FACULTAD
+        GradosValidadosFacultadComponent,
+        GradosValidadosFacultadListComponent,
+        GradoValidadoFacultadDetalleComponent,
+
+        GradosAprobadosFacultadComponent,
+        GradosAprobadosFacultadListComponent,
+        GradoAprobadoFacultadDetalleComponent,
+
+        GradosRevalidadosFacultadComponent,
+        GradosRevalidadosFacultadListComponent,
+        GradoRevalidadoFacultadDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

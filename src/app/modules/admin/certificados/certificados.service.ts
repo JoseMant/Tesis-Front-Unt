@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { UserInterface, CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
 import { environment } from 'environments/environment';
+import { identity } from 'lodash';
 
 @Injectable({
     providedIn: 'root'
@@ -199,6 +200,26 @@ export class CertificadosService
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/reasignados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          console.log(response);
+          this._pagination.next(response.pagination);
+          this._certificados.next(response.data);
+        })
+      );
+    }
+
+    getCertificadosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/finalizados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -421,6 +442,51 @@ export class CertificadosService
                                 element.archivo = environment.baseUrlStorage + element.archivo;
                             }
                         });
+
+                        // Update the certificado if it's selected
+                        this._certificado.next(updatedCertificado);
+
+                        // Return the updated certificado
+                        return updatedCertificado;
+                    })
+                ))
+            ))
+        );
+    }
+
+    correccionCertificado(id: number): Observable<CertificadoInterface>
+    {
+        return this.certificados$.pipe(
+            take(1),
+            // cambiar ruta
+            switchMap(certificados => this._httpClient.put<CertificadoInterface>(environment.baseUrl + 'certificados/correccion', {"id":id}).pipe(
+                map((updatedCertificado) => {
+                    console.log(updatedCertificado);
+                    // debugger;
+                    // Find the index of the updated certificado
+                    const index = certificados.findIndex(item => item.idTramite === id);
+
+                    if (updatedCertificado.idEstado_tramite == 8) {
+                        // Update the certificado
+                        certificados.splice(index, 1);
+                    } else if(updatedCertificado.idEstado_tramite == 9){
+                        certificados.splice(index, 1);
+                    }
+                    else {
+                        // Update the certificado
+                        certificados[index] = updatedCertificado;
+                    }
+
+                    // Update the certificados
+                    this._certificados.next(certificados);
+
+                    // Return the updated certificado
+                    return updatedCertificado;
+                }),
+                switchMap(updatedCertificado => this.certificado$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
 
                         // Update the certificado if it's selected
                         this._certificado.next(updatedCertificado);

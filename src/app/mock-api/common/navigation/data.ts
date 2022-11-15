@@ -66,6 +66,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran para la firma del jefe de RT
+                id   : 'certificados.finalizados',
+                title: 'Finalizados',
+                type : 'basic',
+                link : '/certificados/finalizados',
+                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
                 id   : 'certificados.reasignados',
                 title: 'Reasignados',
                 type : 'basic',
@@ -88,20 +96,53 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'collapsable',
         icon : 'heroicons_outline:document-text',
         children: [
+            
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'grados.validados',
-                title: 'Validados',
+                title: 'Validados Escuela',
                 type : 'basic',
-                link : '/grados/validados',
+                link : '/grados/validados/escuela',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
             {
                 // Se muestran para subir el certificado
                 id   : 'grados.aprobados',
-                title: 'Aprobados',
+                title: 'Aprobados Escuela',
                 type : 'basic',
-                link : '/grados/aprobados',
+                link : '/grados/aprobados/escuela',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.revalidados',
+                title: 'Revalidados Escuela',
+                type : 'basic',
+                link : '/grados/revalidados/escuela',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.validados',
+                title: 'Validados Facultad',
+                type : 'basic',
+                link : '/grados/validados/facultad',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.aprobados',
+                title: 'Aprobados Facultad',
+                type : 'basic',
+                link : '/grados/aprobados/facultad',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.revalidados',
+                title: 'Revalidados Facultad',
+                type : 'basic',
+                link : '/grados/revalidados/facultad',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
         ]

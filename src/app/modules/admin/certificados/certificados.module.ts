@@ -54,10 +54,14 @@ import { CertificadoFirmaDecanoDetalleComponent } from './firma_decano/detalle/d
 import { CertificadoFirmaDecanoVisorPdfComponent } from './firma_decano/visorPdf/visorPdfCertificado.component';
 
 import { certificadosRoutes } from 'app/modules/admin/certificados/certificados.routing';
-// import { CertificadosRechazadosComponent } from 'app/modules/admin/vouchers/rechazados/rechazados.component';
-// import { CertificadosRechazadosListComponent } from 'app/modules/admin/vouchers/rechazados/list/list.component';
+
 import { CertificadosReasignadosComponent } from 'app/modules/admin/certificados/reasignados/reasignados.component';
 import { CertificadosReasignadosListComponent } from 'app/modules/admin/certificados/reasignados/list/list.component';
+
+import { CertificadosFinalizadosComponent } from 'app/modules/admin/certificados/finalizados/finalizados.component';
+import { CertificadosFinalizadosListComponent } from 'app/modules/admin/certificados/finalizados/list/list.component';
+import { CertificadoFinalizadoDetalleComponent } from './finalizados/detalle/details.component';
+
 @NgModule({
     declarations: [
         CertificadosAsignadosComponent,
@@ -83,7 +87,10 @@ import { CertificadosReasignadosListComponent } from 'app/modules/admin/certific
         VisorPdfCertificadoComponent,
         RequisitosDialogComponent,
         CertificadosReasignadosComponent,
-        CertificadosReasignadosListComponent
+        CertificadosReasignadosListComponent,
+        CertificadosFinalizadosComponent,
+        CertificadosFinalizadosListComponent,
+        CertificadoFinalizadoDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(certificadosRoutes),

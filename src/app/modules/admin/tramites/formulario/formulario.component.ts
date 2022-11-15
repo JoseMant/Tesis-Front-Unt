@@ -188,7 +188,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             sexoNombre: [''],
             idUnidad: [-1],
             idTipo_tramite_unidad: [-1],
-            archivo_firma: ['', Validators.required],
+            archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [[]],
             exonerado: [false]
