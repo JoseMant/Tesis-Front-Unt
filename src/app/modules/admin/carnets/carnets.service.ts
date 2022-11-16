@@ -257,7 +257,7 @@ export class CarnetsService
     {
         return this.carnets$.pipe(
             take(1),
-            switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import', fileCarnets).pipe(
+            switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import/observados', fileCarnets).pipe(
                 map((updatedCarnets) => {
                     console.log(updatedCarnets);
                     

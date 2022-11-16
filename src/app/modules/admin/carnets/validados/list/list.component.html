@@ -69,6 +69,25 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
                 <input #fileInput type="file" accept=".xlsx" hidden (change)="selectObservados($event)"/>
+                <!-- Add product button -->
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="selectedCarnetForm.disabled"
+                    (click)="fileInput.click()">
+                    <mat-icon *ngIf="!selectedCarnetForm.disabled"
+                        [svgIcon]="'heroicons_outline:upload'">
+                    </mat-icon>
+                    <span class="ml-2 mr-1" *ngIf="!selectedCarnetForm.disabled">
+                        Aprobados
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="selectedCarnetForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+                <input #fileInput type="file" accept=".xlsx" hidden (change)="selectObservados($event)"/>
             </form>
         </div>
     </div>
