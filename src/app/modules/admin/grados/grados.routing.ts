@@ -1,165 +1,100 @@
 import { Route } from '@angular/router';
 // -------------
-import { GradosValidadosComponent } from 'app/modules/admin/grados/validados/validados.component';
-import { GradosValidadosListComponent } from 'app/modules/admin/grados/validados/list/list.component';
-import {GradoValidadoResolver, GradosValidadosResolver } from 'app/modules/admin/grados/validados/validados.resolvers';
-import { GradoValidadoDetalleComponent } from './validados/detalle/details.component';
+import { GradosEscuelaValidadosComponent } from 'app/modules/admin/grados/escuela/validados/validados.component';
+import { GradosEscuelaValidadosListComponent } from 'app/modules/admin/grados/escuela/validados/list/list.component';
+import { GradosEscuelaValidadosResolver, GradoEscuelaValidadoResolver } from 'app/modules/admin/grados/escuela/validados/validados.resolvers';
+import { GradoEscuelaValidadoDetalleComponent } from './escuela/validados/detalle/details.component';
 // ------------
-import { GradosAprobadosComponent } from 'app/modules/admin/grados/aprobados/aprobados.component';
-import { GradosAprobadosListComponent } from 'app/modules/admin/grados/aprobados/list/list.component';
-import { GradoAprobadoResolver, GradosAprobadosResolver } from 'app/modules/admin/grados/aprobados/aprobados.resolvers';
-import { GradoAprobadoDetalleComponent } from './aprobados/detalle/details.component';
+import { GradosEscuelaAprobadosComponent } from 'app/modules/admin/grados/escuela/aprobados/aprobados.component';
+import { GradosEscuelaAprobadosListComponent } from 'app/modules/admin/grados/escuela/aprobados/list/list.component';
+import { GradosEscuelaAprobadosResolver, GradoEscuelaAprobadoResolver } from 'app/modules/admin/grados/escuela/aprobados/aprobados.resolvers';
+import { GradoEscuelaAprobadoDetalleComponent } from './escuela/aprobados/detalle/details.component';
 //---------------------------
-import { GradosRevalidadosComponent } from 'app/modules/admin/grados/revalidados/revalidados.component';
-import { GradosRevalidadosListComponent } from 'app/modules/admin/grados/revalidados/list/list.component';
-import {GradoRevalidadoResolver, GradosRevalidadosResolver } from 'app/modules/admin/grados/revalidados/revalidados.resolvers';
-import { GradoRevalidadoDetalleComponent } from './revalidados/detalle/details.component';
+import { GradosEscuelaRevalidadosComponent } from 'app/modules/admin/grados/escuela/revalidados/revalidados.component';
+import { GradosEscuelaRevalidadosListComponent } from 'app/modules/admin/grados/escuela/revalidados/list/list.component';
+import { GradosEscuelaRevalidadosResolver, GradoEscuelaRevalidadoResolver } from 'app/modules/admin/grados/escuela/revalidados/revalidados.resolvers';
+import { GradoEscuelaRevalidadoDetalleComponent } from './escuela/revalidados/detalle/details.component';
 // -------------
-import { GradosValidadosFacultadComponent } from 'app/modules/admin/grados/validados_facultad/validados_facultad.component';
-import { GradosValidadosFacultadListComponent } from 'app/modules/admin/grados/validados_facultad/list/list.component';
-import {GradoValidadoFacultadResolver, GradosValidadosFacultadResolver } from 'app/modules/admin/grados/validados_facultad/validados_facultad.resolvers';
-import { GradoValidadoFacultadDetalleComponent } from './validados_facultad/detalle/details.component';
-// ------------
-import { GradosAprobadosFacultadComponent } from 'app/modules/admin/grados/aprobados_facultad/aprobados_facultad.component';
-import { GradosAprobadosFacultadListComponent } from 'app/modules/admin/grados/aprobados_facultad/list/list.component';
-import { GradoAprobadoFacultadResolver, GradosAprobadosFacultadResolver } from 'app/modules/admin/grados/aprobados_facultad/aprobados_facultad.resolvers';
-import { GradoAprobadoFacultadDetalleComponent } from './aprobados_facultad/detalle/details.component';
-//---------------------------
-import { GradosRevalidadosFacultadComponent } from 'app/modules/admin/grados/revalidados_facultad/revalidados_facultad.component';
-import { GradosRevalidadosFacultadListComponent } from 'app/modules/admin/grados/revalidados_facultad/list/list.component';
-import {GradoRevalidadoFacultadResolver, GradosRevalidadosFacultadResolver } from 'app/modules/admin/grados/revalidados_facultad/revalidados_facultad.resolvers';
-import { GradoRevalidadoFacultadDetalleComponent } from './revalidados_facultad/detalle/details.component';
+// import { GradosValidadosFacultadComponent } from 'app/modules/admin/grados/facultad/validados/validados.component';
+// import { GradosValidadosFacultadListComponent } from 'app/modules/admin/grados/facultad/validados/list/list.component';
+// import { GradoValidadoFacultadResolver, GradosValidadosFacultadResolver } from 'app/modules/admin/grados/facultad/validados/validados.resolvers';
+// import { GradoValidadoFacultadDetalleComponent } from 'app/modules/admin/grados/facultad/validados/detalle/details.component';
+// // ------------
+// import { GradosAprobadosFacultadComponent } from 'app/modules/admin/grados/facultad/aprobados/aprobados.component';
+// import { GradosAprobadosFacultadListComponent } from 'app/modules/admin/grados/facultad/aprobados/list/list.component';
+// import { GradoAprobadoFacultadResolver, GradosAprobadosFacultadResolver } from 'app/modules/admin/grados/facultad/aprobados/aprobados.resolvers';
+// import { GradoAprobadoFacultadDetalleComponent } from './facultad/aprobados/detalle/details.component';
+// //---------------------------
+// import { GradosRevalidadosFacultadComponent } from 'app/modules/admin/grados/facultad/revalidados/revalidados.component';
+// import { GradosRevalidadosFacultadListComponent } from 'app/modules/admin/grados/facultad/revalidados/list/list.component';
+// import {GradoRevalidadoFacultadResolver, GradosRevalidadosFacultadResolver } from 'app/modules/admin/grados/facultad/revalidados/revalidados.resolvers';
+// import { GradoRevalidadoFacultadDetalleComponent } from 'app/modules/admin/grados/facultad/revalidados/detalle/details.component';
 
 export const gradosRoutes: Route[] = [
     {
-      path     : 'validados/escuela',
-      component: GradosValidadosComponent,
+      path     : 'escuela/validados',
+      component: GradosEscuelaValidadosComponent,
       resolve  : {
-        grados  : GradosValidadosResolver,
+        grados  : GradosEscuelaValidadosResolver,
       },
       children : [
         {
           path     : '',
-          component: GradosValidadosListComponent,
+          component: GradosEscuelaValidadosListComponent,
         //   resolve      : {
         //     users  : UsersResolver,
         //   },
         },
         {
           path         : ':idTramite',
-          component    : GradoValidadoDetalleComponent,
+          component    : GradoEscuelaValidadoDetalleComponent,
           resolve      : {
-            grado  : GradoValidadoResolver,
+            grado  : GradoEscuelaValidadoResolver,
           },
         }
       ]
     },
     
     {
-        path     : 'aprobados/escuela',
-        component: GradosAprobadosComponent,
+        path     : 'escuela/aprobados',
+        component: GradosEscuelaAprobadosComponent,
         resolve  : {
-            grados  : GradosAprobadosResolver,
+            grados  : GradosEscuelaAprobadosResolver,
         },
         children : [
             {
                 path     : '',
-                component: GradosAprobadosListComponent,
+                component: GradosEscuelaAprobadosListComponent,
             },
             {
                 path         : ':idTramite',
-                component    : GradoAprobadoDetalleComponent,
+                component    : GradoEscuelaAprobadoDetalleComponent,
                 resolve      : {
-                    grado  : GradoAprobadoResolver,
+                    grado  : GradoEscuelaAprobadoResolver,
                 },
             }
         ]
     },
     {
-      path     : 'revalidados/escuela',
-      component: GradosRevalidadosComponent,
+      path     : 'escuela/revalidados',
+      component: GradosEscuelaRevalidadosComponent,
       resolve  : {
-        grados  : GradosRevalidadosResolver,
+        grados  : GradosEscuelaRevalidadosResolver,
       },
       children : [
         {
           path     : '',
-          component: GradosRevalidadosListComponent,
+          component: GradosEscuelaRevalidadosListComponent,
         },
         {
           path         : ':idTramite',
-          component    : GradoRevalidadoDetalleComponent,
+          component    : GradoEscuelaRevalidadoDetalleComponent,
           resolve      : {
-            grado  : GradoRevalidadoResolver,
+            grado  : GradoEscuelaRevalidadoResolver,
           },
         }
       ]
     },
-
-    {
-      path     : 'validados/facultad',
-      component: GradosValidadosFacultadComponent,
-      resolve  : {
-        grados  : GradosValidadosFacultadResolver,
-      },
-      children : [
-        {
-          path     : '',
-          component: GradosValidadosFacultadListComponent,
-        //   resolve      : {
-        //     users  : UsersResolver,
-        //   },
-        },
-        {
-          path         : ':idTramite',
-          component    : GradoValidadoFacultadDetalleComponent,
-          resolve      : {
-            grado  : GradoValidadoFacultadResolver,
-          },
-        }
-      ]
-    },
-
-    {
-      path     : 'aprobados/facultad',
-      component: GradosAprobadosFacultadComponent,
-      resolve  : {
-          grados  : GradosAprobadosFacultadResolver,
-      },
-      children : [
-          {
-              path     : '',
-              component: GradosAprobadosFacultadListComponent,
-          },
-          {
-              path         : ':idTramite',
-              component    : GradoAprobadoFacultadDetalleComponent,
-              resolve      : {
-                  grado  : GradoAprobadoFacultadResolver,
-              },
-          }
-      ]
-  },
-  {
-    path     : 'revalidados/facultad',
-    component: GradosRevalidadosFacultadComponent,
-    resolve  : {
-      grados  : GradosRevalidadosFacultadResolver,
-    },
-    children : [
-      {
-        path     : '',
-        component: GradosRevalidadosFacultadListComponent,
-      },
-      {
-        path         : ':idTramite',
-        component    : GradoRevalidadoFacultadDetalleComponent,
-        resolve      : {
-          grado  : GradoRevalidadoFacultadResolver,
-        },
-      }
-    ]
-  },
     
 
 ];

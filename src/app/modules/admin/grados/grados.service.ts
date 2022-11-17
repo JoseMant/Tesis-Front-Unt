@@ -64,15 +64,15 @@ export class GradosService
     /**
      * Get users
      */
-    getUsers(): Observable<UserInterface[]>
-    {
-        return this._httpClient.get<UserInterface[]>(environment.baseUrl + 'usuario/uraa').pipe(
-            tap((users) => {
-                console.log(users);
-                this._users.next(users);
-            })
-        );
-    }
+    // getUsers(): Observable<UserInterface[]>
+    // {
+    //     return this._httpClient.get<UserInterface[]>(environment.baseUrl + 'usuario/uraa').pipe(
+    //         tap((users) => {
+    //             console.log(users);
+    //             this._users.next(users);
+    //         })
+    //     );
+    // }
     
      
     getGradosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
@@ -157,105 +157,105 @@ export class GradosService
     }
 
 
-    getGradosValidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/validados/facultad', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          console.log(response);
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
+    // getGradosValidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    // Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    // {
+    //   return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/validados/facultad', {
+    //     params: {
+    //         page: '' + page,
+    //         size: '' + size,
+    //         sort,
+    //         order,
+    //         search
+    //     }
+    // }).pipe(
+    //     tap((response) => {
+    //       console.log(response);
+    //       this._pagination.next(response.pagination);
+    //       this._grados.next(response.data);
+    //     })
+    //   );
+    // }
 
-    getGradosAprobadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/aprobados/facultad', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          console.log(response);
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
+    // getGradosAprobadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    // Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    // {
+    //   return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/aprobados/facultad', {
+    //     params: {
+    //         page: '' + page,
+    //         size: '' + size,
+    //         sort,
+    //         order,
+    //         search
+    //     }
+    // }).pipe(
+    //     tap((response) => {
+    //       console.log(response);
+    //       this._pagination.next(response.pagination);
+    //       this._grados.next(response.data);
+    //     })
+    //   );
+    // }
 
-    getGradosRevalidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/revalidados/facultad', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          console.log(response);
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
+    // getGradosRevalidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    // Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    // {
+    //   return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/titulos/revalidados/facultad', {
+    //     params: {
+    //         page: '' + page,
+    //         size: '' + size,
+    //         sort,
+    //         order,
+    //         search
+    //     }
+    // }).pipe(
+    //     tap((response) => {
+    //       console.log(response);
+    //       this._pagination.next(response.pagination);
+    //       this._grados.next(response.data);
+    //     })
+    //   );
+    // }
 
 
 
-    getGradosFirmaURAA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'tramite/grados/firma_uraa', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
+    // getGradosFirmaURAA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    // Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    // {
+    //   return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'tramite/grados/firma_uraa', {
+    //     params: {
+    //         page: '' + page,
+    //         size: '' + size,
+    //         sort,
+    //         order,
+    //         search
+    //     }
+    // }).pipe(
+    //     tap((response) => {
+    //       this._pagination.next(response.pagination);
+    //       this._grados.next(response.data);
+    //     })
+    //   );
+    // }
 
-    getGradosFirmaDecano(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'tramite/grados/firma_decano', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
+    // getGradosFirmaDecano(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    // Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    // {
+    //   return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'tramite/grados/firma_decano', {
+    //     params: {
+    //         page: '' + page,
+    //         size: '' + size,
+    //         sort,
+    //         order,
+    //         search
+    //     }
+    // }).pipe(
+    //     tap((response) => {
+    //       this._pagination.next(response.pagination);
+    //       this._grados.next(response.data);
+    //     })
+    //   );
+    // }
     /**
      * Get grado by id
      */
@@ -270,14 +270,13 @@ export class GradosService
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
                 if (grado) {
                     grado.fut = environment.baseUrl + grado.fut;
-                    grado.voucher = environment.baseUrlStorage + grado.voucher;
-                    if (grado.grado_final) {
-                        grado.grado_final = environment.baseUrlStorage + grado.grado_final;
-                    }
+                    if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;
+                    if (grado.exonerado) grado.exonerado = environment.baseUrlStorage + grado.exonerado;
+                    // if (grado.grado_final) {
+                    //     grado.grado_final = environment.baseUrlStorage + grado.grado_final;
+                    // }
                     grado.requisitos.forEach(element => {
-                        if (element.archivo) {
-                            element.archivo = environment.baseUrlStorage + element.archivo;
-                        }
+                        if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
                     });
                 }
                 
@@ -355,32 +354,32 @@ export class GradosService
      * @param id
      * @param product
      */
-    asignarUsuarioGrados(data: any): Observable<any[]>
-    {
-        return this.grados$.pipe(
-            take(1),
-            switchMap(grados => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/asignar', data).pipe(
-                map((updatedGrados) => {
+    // asignarUsuarioGrados(data: any): Observable<any[]>
+    // {
+    //     return this.grados$.pipe(
+    //         take(1),
+    //         switchMap(grados => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/asignar', data).pipe(
+    //             map((updatedGrados) => {
 
-                    // Update the messages with the new message
-                    // this._gradosService.getGradosValidados(0, 10, 'fecha', 'desc', query);
-                    updatedGrados.forEach(element => {
-                        // Find the index of the deleted product
-                        const index = grados.findIndex(item => item.idTramite === element);
+    //                 // Update the messages with the new message
+    //                 // this._gradosService.getGradosValidados(0, 10, 'fecha', 'desc', query);
+    //                 updatedGrados.forEach(element => {
+    //                     // Find the index of the deleted product
+    //                     const index = grados.findIndex(item => item.idTramite === element);
 
-                        // Delete the product
-                        grados.splice(index, 1);
-                    });
+    //                     // Delete the product
+    //                     grados.splice(index, 1);
+    //                 });
 
-                    // Update the grados
-                    this._grados.next(grados);
+    //                 // Update the grados
+    //                 this._grados.next(grados);
 
-                    // Return the new message from observable
-                    return grados;
-                })
-            ))
-        );
-    }
+    //                 // Return the new message from observable
+    //                 return grados;
+    //             })
+    //         ))
+    //     );
+    // }
 
     /**
      * Update grado
@@ -388,7 +387,7 @@ export class GradosService
      * @param id
      * @param grado
      */
-     updateRequisitos(id: number, requisitos: any): Observable<any> {
+    updateRequisitos(id: number, requisitos: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
@@ -429,18 +428,20 @@ export class GradosService
         );
     }
     
-    uploadGrado(id: number, tramite: any): Observable<any>
-    {
+    updateEstado(id: number, data: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
-            switchMap(grados => this._httpClient.post<any>(environment.baseUrl + 'grados/upload/'+ id, tramite).pipe(
+            switchMap(grados => this._httpClient.put<any>(environment.baseUrl + 'grados/correccion', data).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
+                    
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
-                    
-                    // Update the grado
-                    grados.splice(index, 1);
+
+                    if (updatedGrado.idEstado_tramite == 17 || updatedGrado.idEstado_tramite == 30 ) {
+                        // Update the grado
+                        grados.splice(index, 1);
+                    }
 
                     // Update the grados
                     this._grados.next(grados);
@@ -453,15 +454,6 @@ export class GradosService
                     filter(item => item && item.idTramite === id),
                     tap(() => {
 
-                        updatedGrado.fut = environment.baseUrl + updatedGrado.fut;
-                        updatedGrado.voucher = environment.baseUrlStorage + updatedGrado.voucher;
-                        updatedGrado.grado_final = environment.baseUrlStorage + updatedGrado.grado_final;
-                        updatedGrado.requisitos.forEach(element => {
-                            if (element.archivo) {
-                                element.archivo = environment.baseUrlStorage + element.archivo;
-                            }
-                        });
-
                         // Update the grado if it's selected
                         this._grado.next(updatedGrado);
 
@@ -472,4 +464,48 @@ export class GradosService
             ))
         );
     }
+    
+    // uploadGrado(id: number, tramite: any): Observable<any>
+    // {
+    //     return this.grados$.pipe(
+    //         take(1),
+    //         switchMap(grados => this._httpClient.post<any>(environment.baseUrl + 'grados/upload/'+ id, tramite).pipe(
+    //             map((updatedGrado) => {
+    //                 console.log(updatedGrado);
+    //                 // Find the index of the updated grado
+    //                 const index = grados.findIndex(item => item.idTramite === id);
+                    
+    //                 // Update the grado
+    //                 grados.splice(index, 1);
+
+    //                 // Update the grados
+    //                 this._grados.next(grados);
+
+    //                 // Return the updated grado
+    //                 return updatedGrado;
+    //             }),
+    //             switchMap(updatedGrado => this.grado$.pipe(
+    //                 take(1),
+    //                 filter(item => item && item.idTramite === id),
+    //                 tap(() => {
+
+    //                     updatedGrado.fut = environment.baseUrl + updatedGrado.fut;
+    //                     updatedGrado.voucher = environment.baseUrlStorage + updatedGrado.voucher;
+    //                     updatedGrado.grado_final = environment.baseUrlStorage + updatedGrado.grado_final;
+    //                     updatedGrado.requisitos.forEach(element => {
+    //                         if (element.archivo) {
+    //                             element.archivo = environment.baseUrlStorage + element.archivo;
+    //                         }
+    //                     });
+
+    //                     // Update the grado if it's selected
+    //                     this._grado.next(updatedGrado);
+
+    //                     // Return the updated grado
+    //                     return updatedGrado;
+    //                 })
+    //             ))
+    //         ))
+    //     );
+    // }
 }
