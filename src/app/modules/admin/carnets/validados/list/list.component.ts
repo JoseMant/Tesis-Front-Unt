@@ -309,6 +309,13 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         this.uploadObservados();
     }
 
+    selectAprobados(event): void {
+        const files = event.target.files[0];
+        console.log(files);
+        this.selectedCarnetForm.patchValue({file: files});
+        this.uploadAprobados();
+    }
+
     uploadObservados(): void{
         const formData = new FormData();
         formData.append('file', this.selectedCarnetForm.getRawValue().file);
@@ -317,6 +324,51 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         this.selectedCarnetForm.disable();
 
         this._carnetsService.updateCarnets(formData)
+        .pipe(
+            finalize(() => {
+
+                // Re-enable the form
+                this.selectedCarnetForm.enable();
+
+                // Reset the form
+                this.selectedCarnetNgForm.resetForm();
+
+                // Show the alert
+                this.openSnack();
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            })
+        )
+        .subscribe(
+            (newCarnet) => {
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'success',
+                    message: 'Datos cargados correctamente',
+                    title: 'Guardado'
+                };
+            },
+            (error) => {
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Error al cargar los datos',
+                    title: 'Error'
+                };
+            });
+    }
+
+    uploadAprobados(): void{
+        const formData = new FormData();
+        formData.append('file', this.selectedCarnetForm.getRawValue().file);
+        
+        // Disable the form
+        this.selectedCarnetForm.disable();
+
+        this._carnetsService.updateCarnetsAprobados(formData)
         .pipe(
             finalize(() => {
 

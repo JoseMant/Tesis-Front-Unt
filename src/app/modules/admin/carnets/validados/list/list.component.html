@@ -75,7 +75,7 @@
                     mat-flat-button
                     [color]="'primary'"
                     [disabled]="selectedCarnetForm.disabled"
-                    (click)="fileInput.click()">
+                    (click)="fileInput2.click()">
                     <mat-icon *ngIf="!selectedCarnetForm.disabled"
                         [svgIcon]="'heroicons_outline:upload'">
                     </mat-icon>
@@ -87,7 +87,7 @@
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
-                <input #fileInput type="file" accept=".xlsx" hidden (change)="selectObservados($event)"/>
+                <input #fileInput2 type="file" accept=".xlsx" hidden (change)="selectAprobados($event)"/>
             </form>
         </div>
     </div>

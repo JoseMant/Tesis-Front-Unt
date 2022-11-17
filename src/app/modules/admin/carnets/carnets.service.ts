@@ -271,6 +271,24 @@ export class CarnetsService
         );
     }
 
+    updateCarnetsAprobados(fileCarnets: any): Observable<CarnetInterface[]>
+    {
+        return this.carnets$.pipe(
+            take(1),
+            switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import/aprobados', fileCarnets).pipe(
+                map((updatedCarnets) => {
+                    console.log(updatedCarnets);
+                    
+                    // Update the carnets
+                    this._carnets.next(updatedCarnets);
+
+                    // Return the updated carnet
+                    return updatedCarnets;
+                })
+            ))
+        );
+    }
+
     // getCarnetsAprobadosRefresh(): Observable<CarnetInterface[]>
     // {
     //   return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'tramite/carnets/aprobados/refresh').pipe(
