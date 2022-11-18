@@ -159,8 +159,8 @@
                     </ng-container>
                 </mat-select>
                 </mat-form-field>
-                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher === 'RECHAZADO'">
-                    <mat-label>Descripción del porqué del rechazo</mat-label>
+                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher !== 'PENDIENTE'">
+                    <mat-label>Descripción del porqué del rechazo/aprobación</mat-label>
                     <textarea
                         matInput
                         [formControlName]="'comentario'"
@@ -302,8 +302,8 @@
                     </ng-container>
                 </mat-select>
                 </mat-form-field>
-                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher === 'RECHAZADO'">
-                    <mat-label>Descripción del porqué del rechazo</mat-label>
+                <mat-form-field class="sm:col-span-6 col-span-6 ml-3 h-9 mb-15" *ngIf="data.des_estado_voucher !== 'PENDIENTE'">
+                    <mat-label>Descripción del porqué del rechazo/aprobación</mat-label>
                     <textarea
                         matInput readonly
                         [formControlName]="'comentario'"
