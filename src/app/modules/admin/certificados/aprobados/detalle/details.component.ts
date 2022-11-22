@@ -259,7 +259,8 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         const files = event.target.files[0];
         this.certificadoForm.patchValue({archivo: files});
         console.log(this.certificadoForm);
-        this.newCertificado = true;
+        if (files) this.newCertificado = true;
+        else this.newCertificado = false;
     }
     verDocumento(): void {
         console.log(this.certificadoForm.getRawValue());
@@ -320,12 +321,14 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         (response) => {
             // Re-enable the form
             this.certificadoForm.enable();
+            
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();
+            this.newCertificado = false;
         });
     }
     
