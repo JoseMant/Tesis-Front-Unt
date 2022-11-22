@@ -186,7 +186,7 @@ export class HomeService
     {
         return this.tramites$.pipe(
             take(1),
-            switchMap(tramites => this._httpClient.delete('api/apps/ecommerce/inventory/tramite', {params: {id}}).pipe(
+            switchMap(tramites => this._httpClient.post(environment.baseUrl + 'tramites/anular', {idTramite: id}).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted tramite

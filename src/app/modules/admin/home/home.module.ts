@@ -17,9 +17,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { HomeComponent } from 'app/modules/admin/home/home.component';
 import { HomeListComponent } from 'app/modules/admin/home/list/list.component';
 import { homeRoutes } from 'app/modules/admin/home/home.routing';
-
-
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -44,6 +42,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         MatSlideToggleModule,
         MatTooltipModule,
         SharedModule,
+        MatSnackBarModule,
         // ------
         MatDividerModule,
         MatTableModule,

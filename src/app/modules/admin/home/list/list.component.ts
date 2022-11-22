@@ -10,6 +10,9 @@ import { ApexOptions } from 'ng-apexcharts';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
 import { HomeService } from 'app/modules/admin/home/home.service';
+import { FuseAlertType } from '@fuse/components/alert';
+import { AlertaComponent } from 'app/shared/alerta/alerta.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector       : 'home-list',
@@ -48,6 +51,16 @@ import { HomeService } from 'app/modules/admin/home/home.service';
                     grid-template-columns: 112px auto 112px 224px 72px;
                 }
             }
+
+            fuse-alert {
+                margin: 16px 0;
+            }
+            .fondo_snackbar {
+                background-color:transparent !important;
+                padding: 0px !important;
+                height: 0px;
+                min-height: 0px !important;
+            }
         `
     ],
     encapsulation  : ViewEncapsulation.None,
@@ -58,6 +71,12 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
+
+    alert: { type: FuseAlertType; message: string; title: string} = {
+        type   : 'success',
+        message: '',
+        title: '',
+    };
 
     tramites$: Observable<HomeTramite[]>;
 
@@ -80,7 +99,8 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _homeService: HomeService
+        private _homeService: HomeService,
+        private snackBar: MatSnackBar
     )
     {
     }
@@ -88,6 +108,17 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+
+    openSnack(): void {
+        this.snackBar.openFromComponent(AlertaComponent, {
+            horizontalPosition: 'right',
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: ['fondo_snackbar'],
+            data: this.alert,
+        });
+    }
 
     /**
      * On init
@@ -288,12 +319,16 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title  : 'Delete tramite',
-            message: 'Are you sure you want to remove this tramite? This action cannot be undone!',
+            title  : 'Anular trámite',
+            message: '¿Estás seguro de que quieres eliminar este trámite? ¡Esta acción no se puede deshacer!',
             actions: {
                 confirm: {
-                    label: 'Delete'
+                    label: 'Anular'
+                },
+                cancel: {
+                    label: 'Cancelar'
                 }
+
             }
         });
 
@@ -305,13 +340,33 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
             {
 
                 // Get the tramite object
-                const tramite = this.selectedTramiteForm.getRawValue();
-
+                const tramite = this.selectedTramite;
+                
                 // Delete the tramite on the server
-                this._homeService.deleteTramite(tramite.id).subscribe(() => {
+                this._homeService.deleteTramite(tramite.idTramite).subscribe((response) => {
+            
+                    this.alert = {
+                        type   : 'success',
+                        message: 'Trámite anulado correctamente',
+                        title: 'Anulado'
+                    };
+                    this.openSnack();
 
                     // Close the details
                     this.closeDetails();
+        
+                    // Mark for check
+                    this._changeDetectorRef.markForCheck();
+                },
+                (response) => {
+
+                    this.alert = {
+                        type   : 'warn',
+                        message: response.error.message,
+                        title: 'Error'
+                    };
+                    this.openSnack();
+
                 });
             }
         });

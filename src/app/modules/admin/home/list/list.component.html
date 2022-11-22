@@ -61,7 +61,7 @@
                                 Estado
                             </div>
                             
-                            <div class="hidden sm:block">Estados</div>
+                            <div class="hidden sm:block">Historial</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(tramites$ | async) as tramites">
@@ -258,10 +258,15 @@
                             </div>
 
                             <div class="flex items-center justify-between w-full border-t px-8 py-4">
-                                <div
-                                    class="-ml-4"
-                                    [color]="'warn'">
-                                </div>
+                                <ng-container *ngxPermissionsOnly="['ADMINISTRADOR']">
+                                    <button
+                                        class="ml-4"
+                                        mat-button
+                                        [color]="'warn'"
+                                        (click)="deleteSelectedTramite()">
+                                        Anular
+                                    </button>
+                                </ng-container>
                                 <div class="flex items-center">
                                     <button
                                         mat-flat-button

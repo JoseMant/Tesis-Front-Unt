@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertaComponent } from './alerta/alerta.component';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { FuseAlertModule } from '@fuse/components/alert';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        AlertaComponent
+        AlertaComponent,
+        NgxPermissionsModule
     ]
 })
 export class SharedModule
