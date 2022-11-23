@@ -70,7 +70,7 @@ export class CertificadoAprobadoDialogComponent implements OnInit
             to     : [this.data.correo, [Validators.required, Validators.email]],
             cc     : ['', [Validators.email]],
             bcc    : ['', [Validators.email]],
-            subject: ['ACTUALIZACIÓN DEL ESTADO DEL TRÁMITE N° ' + this.data.codigo, [Validators.required]],
+            subject: ['NOTIFICACIÓN DE RETRASO DEL TRÁMITE DE CERTIFICADO N° ' + this.data.codigo, [Validators.required]],
             body   : ['', [Validators.required]]
         });
     }

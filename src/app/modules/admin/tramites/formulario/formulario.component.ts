@@ -273,6 +273,18 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
+    fileSizeValidator(file: any) {
+        console.log(file);
+        if (file) {
+            // var path = file.replace(/^.*[\\\/]/, "");
+            const fileSize = file.size;
+            const fileSizeInKB = Math.round(fileSize / 1024);
+            console.log(fileSizeInKB);
+            if (fileSizeInKB >= 4 && fileSizeInKB <= 50) return true;
+            else return false;
+        } else return false;
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -601,6 +613,16 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.alert = {
                 type   : 'warn',
                 message: 'Cargar el archivo en el requisito: ' + requis.nombre,
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
+        const requis2 = this.data.requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
+        if (requis2 && !this.fileSizeValidator(requis2.archivoImagen)) {
+            this.alert = {
+                type   : 'warn',
+                message: requis2.nombre + ': Cargar archivo entre 4KB y 50KB',
                 title: 'Error'
             };
             this.openSnack();

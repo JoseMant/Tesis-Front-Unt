@@ -415,41 +415,19 @@ export class CertificadosService
         return this.certificados$.pipe(
             take(1),
             switchMap(certificados => this._httpClient.post<any>(environment.baseUrl + 'tramites/notification', data).pipe(
-                map((updatedCertificado) => {
+                map((isSent: boolean) => {
                     // Find the index of the updated certificado
                     const index = certificados.findIndex(item => item.idTramite === id);
                     
                     // Update the certificado
-                    certificados[index] = updatedCertificado;
+                    // certificados[index] = updatedCertificado;
 
                     // Update the certificados
-                    this._certificados.next(certificados);
+                    // this._certificados.next(certificados);
 
                     // Return the updated certificado
-                    return updatedCertificado;
+                    return isSent;
                 }),
-                switchMap(updatedCertificado => this.certificado$.pipe(
-                    take(1),
-                    filter(item => item && item.idTramite === id),
-                    tap(() => {
-                        
-                        updatedCertificado.fut = environment.baseUrl + updatedCertificado.fut;
-                        if (updatedCertificado.voucher) updatedCertificado.voucher = environment.baseUrlStorage + updatedCertificado.voucher;
-                        if (updatedCertificado.exonerado_archivo) updatedCertificado.exonerado_archivo = environment.baseUrlStorage + updatedCertificado.exonerado_archivo;
-                        if (updatedCertificado.certificado_final) updatedCertificado.certificado_final = environment.baseUrlStorage + updatedCertificado.certificado_final;
-                        updatedCertificado.requisitos.forEach((element) => {
-                            if (element.archivo) {
-                                element.archivo = environment.baseUrlStorage + element.archivo;
-                            }
-                        });
-
-                        // Update the certificado if it's selected
-                        this._certificado.next(updatedCertificado);
-
-                        // Return the updated certificado
-                        return updatedCertificado;
-                    })
-                ))
             ))
         );
     }
