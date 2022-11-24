@@ -226,31 +226,31 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    rechazarRequisitos(): void {
-        for (const itera of this.certificado.requisitos) {
-            itera['selected'] = false;
-        }
-        const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-            autoFocus: false,
-            disableClose: true,
-            data: JSON.parse( JSON.stringify( {
-                requisitos: this.certificado.requisitos
-            } ))
-        });
-        dialogRef.afterClosed().subscribe( (response) => {
-            // If the confirm button pressed...
-            if ( response )
-            {
-                console.log(response.getRawValue().requisitos);
-                this.certificado.requisitos = response.getRawValue().requisitos;
-                console.log(this.certificado.requisitos);
-                this.certificadoForm.patchValue({ requisitos: response.getRawValue().requisitos});
-                console.log(this.certificadoForm.getRawValue());
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            }
-        });
-    }
+    // rechazarRequisitos(): void {
+    //     for (const itera of this.certificado.requisitos) {
+    //         itera['selected'] = false;
+    //     }
+    //     const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
+    //         autoFocus: false,
+    //         disableClose: true,
+    //         data: JSON.parse( JSON.stringify( {
+    //             requisitos: this.certificado.requisitos
+    //         } ))
+    //     });
+    //     dialogRef.afterClosed().subscribe( (response) => {
+    //         // If the confirm button pressed...
+    //         if ( response )
+    //         {
+    //             console.log(response.getRawValue().requisitos);
+    //             this.certificado.requisitos = response.getRawValue().requisitos;
+    //             console.log(this.certificado.requisitos);
+    //             this.certificadoForm.patchValue({ requisitos: response.getRawValue().requisitos});
+    //             console.log(this.certificadoForm.getRawValue());
+    //             // Mark for check
+    //             this._changeDetectorRef.markForCheck();
+    //         }
+    //     });
+    // }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -276,7 +276,7 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
     }
 
     modalNotification(): void {
-        console.log(this.certificadoForm.getRawValue());
+        // console.log(this.certificadoForm.getRawValue());
         const respDial = this.visordialog.open(
             CertificadoAprobadoDialogComponent,
             {

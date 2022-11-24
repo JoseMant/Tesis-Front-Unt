@@ -12,7 +12,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id   : 'tramites',
-        title: 'Trámites',
+        title: 'Registrar trámite',
         type : 'basic',
         icon : 'heroicons_outline:pencil-alt',
         link : '/tramites',
@@ -99,7 +99,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.validados',
+                id   : 'grados.escuela.validados',
                 title: 'Validados Escuela',
                 type : 'basic',
                 link : '/grados/escuela/validados',
@@ -107,7 +107,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran para subir el certificado
-                id   : 'grados.aprobados',
+                id   : 'grados.escuela.aprobados',
                 title: 'Aprobados Escuela',
                 type : 'basic',
                 link : '/grados/escuela/aprobados',
@@ -115,36 +115,44 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.revalidados',
+                id   : 'grados.escuela.revalidados',
                 title: 'Revalidados Escuela',
                 type : 'basic',
                 link : '/grados/escuela/revalidados',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.validados',
-            //     title: 'Validados Facultad',
-            //     type : 'basic',
-            //     link : '/grados/validados/facultad',
-            //     permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
-            // },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.aprobados',
-            //     title: 'Aprobados Facultad',
-            //     type : 'basic',
-            //     link : '/grados/aprobados/facultad',
-            //     permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
-            // },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.revalidados',
-            //     title: 'Revalidados Facultad',
-            //     type : 'basic',
-            //     link : '/grados/revalidados/facultad',
-            //     permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
-            // },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.validados',
+                title: 'Validados Facultad',
+                type : 'basic',
+                link : '/grados/facultad/validados',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.aprobados',
+                title: 'Aprobados Facultad',
+                type : 'basic',
+                link : '/grados/facultad/aprobados',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.revalidados',
+                title: 'Revalidados Facultad',
+                type : 'basic',
+                link : '/grados/facultad/revalidados',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.ura.validacion',
+                title: 'Validación URA',
+                type : 'basic',
+                link : '/grados/ura/validacion',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            }
         ]
     },
     {
