@@ -15,12 +15,9 @@ import { CertificadoInterface } from 'app/modules/admin/certificados/certificado
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import moment from 'moment';
-import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
 import { VisorPdfCertificadoComponent } from '../visorPdf/visorPdfCertificado.component';
 import { CertificadoAprobadoDialogComponent } from 'app/modules/admin/certificados/aprobados/dialog/dialog.component';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'certificado-details',
@@ -330,6 +327,16 @@ export class CertificadoAprobadoDetalleComponent implements OnInit, OnDestroy
             this.openSnack();
             this.newCertificado = false;
         });
+    }
+
+    descargarRequisito(requisito): void
+    {
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'certificados/download/foto/' + this.certificado.idTramite);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
     
 }

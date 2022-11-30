@@ -132,7 +132,7 @@
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
                                     <b>{{requisito.nombre}}:</b> <span style="color: rgb(223, 14, 14)"> {{requisito.des_estado_requisito}} - {{requisito.comentario}}</span>
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf'" >
+                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf' && requisito.responsable == 4">
                                     <button
                                         matTooltip="Agregar documento en pdf"
                                         (click)="fileInput.click()">
@@ -162,7 +162,7 @@
                                             [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                     </button>
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'jpg'" >
+                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'jpg' && requisito.responsable == 4">
                                     <button
                                         matTooltip="Agregar documento en jpg"
                                         (click)="fileInput.click()">

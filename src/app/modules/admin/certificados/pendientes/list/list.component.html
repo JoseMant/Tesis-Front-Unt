@@ -84,13 +84,6 @@
                                 Unidad
                             </div>
 
-                            <!-- Facultad-->
-                            <!-- <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'facultad'">
-                                Facultad
-                            </div> -->
-
                             <!-- Nro Matrícula -->
                             <div
                                 class="hidden lg:block"
@@ -98,11 +91,11 @@
                                 Usuario Asignado
                             </div>
 
-                            <!-- Motivo -->
+                            <!-- Dependencia -->
                             <div 
                                 class="hidden lg:block"
-                                [mat-sort-header]="'motivo'">
-                                Motivo
+                                [mat-sort-header]="'dependencia'">
+                                Dependencia
                             </div>
 
                             <!-- Fecha-->
@@ -143,13 +136,7 @@
                                     <!-- Exonerado -->
                                     <div class="hidden lg:block">
                                         {{certificado.unidad}}
-                                    </div>
-
-                                    <!-- Active -->
-                                    <!-- <div class="hidden lg:block">
-                                        {{certificado.facultad}}
-                                    </div> -->
-
+                                    </div> 
                                     <!-- Active -->
                                     <div class="hidden lg:block">
                                         {{certificado.usuario_asignado}}
@@ -157,7 +144,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden lg:block">
-                                        {{certificado.motivo}}
+                                        {{certificado.dependencia}}
                                     </div>
                                     
                                     <!-- Stock -->

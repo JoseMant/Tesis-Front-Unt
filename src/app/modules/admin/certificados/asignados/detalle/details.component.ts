@@ -15,12 +15,8 @@ import { CertificadoInterface } from 'app/modules/admin/certificados/certificado
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import moment from 'moment';
 import { RequisitosDialogComponent } from '../dialogReq/dialogReq.component';
-// import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
-// import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'certificado-details',
@@ -249,5 +245,15 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
+    }
+
+    descargarRequisito(requisito): void
+    {
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'certificados/download/foto/' + this.certificado.idTramite);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 }

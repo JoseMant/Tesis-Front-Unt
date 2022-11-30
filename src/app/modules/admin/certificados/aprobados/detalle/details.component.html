@@ -181,6 +181,17 @@
                       [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                       <span class="hidden sm:block ml-2">VER</span>
                   </a>
+                  <button
+                      mat-button
+                      class="min-w-10 min-h-7 h-7 px-2 ml-2 rounded-full bg-red-500 hover:bg-red-400 text-white"
+                      cmat-button
+                      (click)="descargarRequisito(requisito)">
+                      <mat-icon
+                          class="icon-size-5"
+                          style="color: white;"
+                          [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                      <span class="hidden sm:block ml-2">Descargar</span>
+                  </button>
                 </div>
               </div>
             </ng-container>
