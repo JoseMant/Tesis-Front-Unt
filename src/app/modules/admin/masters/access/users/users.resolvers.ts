@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { UsersService } from 'app/modules/admin/masters/access/users/users.service';
-import { User, Role, Tag } from 'app/modules/admin/masters/access/users/users.types';
+import { User, Role, Unidad } from 'app/modules/admin/masters/access/users/users.types';
 
 @Injectable({
     providedIn: 'root'
@@ -111,7 +111,7 @@ export class UsersRolesResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class UsersTagsResolver implements Resolve<any>
+export class UsersUnidadesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -130,8 +130,8 @@ export class UsersTagsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag[]>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Unidad[]>
     {
-        return this._usersService.getTags();
+        return this._usersService.getUnidades();
     }
 }

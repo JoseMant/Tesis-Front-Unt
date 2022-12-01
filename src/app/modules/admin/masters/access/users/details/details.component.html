@@ -270,7 +270,9 @@
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Rol</mat-label>
-                            <mat-select [formControlName]="'idTipo_usuario'">
+                            <mat-select 
+                                (selectionChange)="selectedRole($event.value)"
+                                [formControlName]="'idTipo_usuario'">
                                 <mat-option [value]="0" disabled>Seleccionar rol...</mat-option>
                                 <ng-container *ngFor="let role of roles">
                                     <mat-option [value]="role.idTipo_usuario">
@@ -282,6 +284,67 @@
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
                                 [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Dependencia -->
+                    <div class="mt-8" *ngIf="userForm.get('idTipo_usuario').value == 6 || userForm.get('idTipo_usuario').value == 8 || userForm.get('idTipo_usuario').value == 17">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label *ngIf="userForm.get('idUnidad').value == 1">Facultad</mat-label>
+                            <!-- <mat-label *ngIf="userForm.get('idUnidad').value == 2">Mención</mat-label> -->
+                            <!-- <mat-label *ngIf="userForm.get('idUnidad').value == 3">Mención</mat-label> -->
+                            <mat-label *ngIf="userForm.get('idUnidad').value == 4">Especialidad</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
+                            <mat-select
+                                [formControlName]="'idDependencia'">
+                                <mat-option *ngIf="userForm.get('idUnidad').value == 1" [value]="0" disabled>Seleccionar Facultad...</mat-option>
+                                <!-- <mat-option *ngIf="userForm.get('idUnidad').value == 2" [value]="0" disabled>Seleccionar Mención...</mat-option> -->
+                                <!-- <mat-option *ngIf="userForm.get('idUnidad').value == 3" [value]="0" disabled>Seleccionar Mención...</mat-option> -->
+                                <mat-option *ngIf="userForm.get('idUnidad').value == 4" [value]="0" disabled>Seleccionar Especialidad...</mat-option>
+                                <ng-container *ngFor="let dependencia of dependencias">
+                                    <mat-option [value]="dependencia.idDependencia">{{dependencia.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Facultad -->
+                    <div class="mt-8" *ngIf="userForm.get('idTipo_usuario').value == 5">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Facultad</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
+                            <mat-select
+                                (selectionChange)="selectedFacultad($event.value)"
+                                [formControlName]="'idFacultad'">
+                                <mat-option [value]="''" disabled>Seleccionar Facultad...</mat-option>
+                                <ng-container *ngFor="let dependencia of facultades">
+                                    <mat-option [value]="dependencia.idDependencia">{{dependencia.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Escuela -->
+                    <div class="mt-8" *ngIf="userForm.get('idTipo_usuario').value == 5 && userForm.get('idFacultad').value">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Escuela</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
+                            <mat-select
+                                [formControlName]="'idDependencia'">
+                                <mat-option [value]="''" disabled>Seleccionar Escuela...</mat-option>
+                                <ng-container *ngFor="let dependencia of dependencias">
+                                    <mat-option [value]="dependencia.idEscuela">{{dependencia.nombre}}</mat-option>
+                                </ng-container>
+                            </mat-select>
                         </mat-form-field>
                     </div>
 
@@ -388,7 +451,7 @@
                     </div>
 
                     <!-- Estado -->
-                    <div class="flex flex-col mt-8">
+                    <div class="flex flex-col mt-8" *ngIf="user.idUsuario">
                         <span class="font-semibold mb-2">Estado</span>
                         <mat-slide-toggle
                             [formControlName]="'estado'"

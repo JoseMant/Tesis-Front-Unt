@@ -30,7 +30,7 @@ export interface User
     celular:string;
     sexo: string;
     estado: boolean;
-
+    idFacultad?: number;
 }
 
 export interface Role
@@ -40,7 +40,7 @@ export interface Role
     estado: number;
 }
 
-export interface Tag
+export interface Unidad
 {
     id?: string;
     title?: string;

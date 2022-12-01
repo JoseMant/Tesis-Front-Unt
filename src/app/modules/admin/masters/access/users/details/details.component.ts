@@ -5,7 +5,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { User, Role } from 'app/modules/admin/masters/access/users/users.types';
+import { User, Role, Unidad } from 'app/modules/admin/masters/access/users/users.types';
 import { UsersListComponent } from 'app/modules/admin/masters/access/users/list/list.component';
 import { UsersService } from 'app/modules/admin/masters/access/users/users.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
@@ -42,6 +42,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     userForm: FormGroup;
     users: User[];
     roles: Role[];
+    unidades: Unidad[];
+    dependencias: any;
+    facultades: any;
     tipos_documentos = [
         {id: '1', name: 'DNI', description: 'DOCUMENTO NACIONAL DE IDENTIDAD'},
         {id: '3', name: 'CE', description: 'CARNET DE EXTRANGERÍA' }
@@ -103,7 +106,11 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
             celular        : ['', [Validators.required]],
             sexo        : ['', [Validators.required]],
             estado        : [null, [Validators.required]],
-            avatar      : [null]
+            avatar      : [null],
+
+            idUnidad: [''],
+            idDependencia: [''],
+            idFacultad: ['']
         });
 
         // Get the users
@@ -130,6 +137,38 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
 
                 // Patch values to the form
                 this.userForm.patchValue(user);
+                if (this.userForm.get('idTipo_usuario').value == 6 || this.userForm.get('idTipo_usuario').value == 8) {
+                    this.userForm.patchValue({idUnidad: 1});
+                    this._usersService.getDependenciasByUnidad(1).subscribe((response)=>{
+                        this.dependencias = response;
+                        
+                        this._changeDetectorRef.markForCheck();
+                    });
+                } else if (this.userForm.get('idTipo_usuario').value == 5) {
+                    this.userForm.patchValue({idUnidad: 1});
+                    this.dependencias = [];
+                    this._usersService.getDependenciasByUnidad(1).subscribe((response)=>{
+                        this.facultades = response;
+                        
+                        this._changeDetectorRef.markForCheck();
+                    });
+                    this._usersService.getEscuelasByDependencia(user.idFacultad).subscribe((response)=>{
+                        this.dependencias = response;
+                        
+                        this._changeDetectorRef.markForCheck();
+                    });
+                    console.log(this.userForm.getRawValue().idDependencia)
+                } else if (this.userForm.get('idTipo_usuario').value == 17) {
+                    this.userForm.patchValue({idUnidad: 4});
+                    this._usersService.getDependenciasByUnidad(4).subscribe((response)=>{
+                        this.dependencias = response;
+                        
+                        this._changeDetectorRef.markForCheck();
+                    });
+                } else {
+                    this.userForm.patchValue({idUnidad: ''});
+                    this.dependencias = [];
+                }
 
                 // Toggle the edit mode off
                 if(!user.idUsuario){
@@ -151,6 +190,54 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this._usersService.unidades$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((unidades: Unidad[]) => {
+                this.unidades = unidades;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    selectedRole(id): void{
+        if (this.userForm.get('idTipo_usuario').value == 6 || this.userForm.get('idTipo_usuario').value == 8) {
+            this.userForm.patchValue({idUnidad: 1, idDependencia: '', idFacultad: ''});
+            this._usersService.getDependenciasByUnidad(1).subscribe((response)=>{
+                this.dependencias = response;
+                
+                this._changeDetectorRef.markForCheck();
+            });
+        } else if (this.userForm.get('idTipo_usuario').value == 5) {
+            this.userForm.patchValue({idUnidad: 1, idDependencia: '', idFacultad: ''});
+            this.dependencias = [];
+            this._usersService.getDependenciasByUnidad(1).subscribe((response)=>{
+                this.facultades = response;
+                
+                this._changeDetectorRef.markForCheck();
+            });
+        } else if (this.userForm.get('idTipo_usuario').value == 17) {
+            this.userForm.patchValue({idUnidad: 4, idDependencia: '', idFacultad: ''});
+            this._usersService.getDependenciasByUnidad(4).subscribe((response)=>{
+                this.dependencias = response;
+                
+                this._changeDetectorRef.markForCheck();
+            });
+        } else {
+            this.userForm.patchValue({idUnidad: '', idDependencia: '', idFacultad: ''});
+            this.dependencias = [];
+        }
+    }
+
+    selectedFacultad(id): void{
+        this.userForm.patchValue({idDependencia: '', idFacultad: id});
+
+        this._usersService.getEscuelasByDependencia(id).subscribe((response)=>{
+            this.dependencias = response;
+            
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**

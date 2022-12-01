@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { User, Role, Tag } from 'app/modules/admin/masters/access/users/users.types';
+import { User, Role, Unidad } from 'app/modules/admin/masters/access/users/users.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -13,7 +13,8 @@ export class UsersService
     private _user: BehaviorSubject<User | null> = new BehaviorSubject(null);
     private _users: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
     private _roles: BehaviorSubject<Role[] | null> = new BehaviorSubject(null);
-    private _tags: BehaviorSubject<Tag[] | null> = new BehaviorSubject(null);
+    private _unidades: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+    private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -51,11 +52,19 @@ export class UsersService
     }
 
     /**
-     * Getter for tags
+     * Getter for unidades
      */
-    get tags$(): Observable<Tag[]>
+    get unidades$(): Observable<Unidad[]>
     {
-        return this._tags.asObservable();
+        return this._unidades.asObservable();
+    }
+
+    /**
+     * Getter for dependencias
+     */
+    get dependencias$(): Observable<Unidad[]>
+    {
+        return this._dependencias.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,6 +78,7 @@ export class UsersService
     {
         return this._httpClient.get<User[]>(environment.baseUrl + 'users/all').pipe(
             tap((users) => {
+                console.log(users);
                 this._users.next(users);
             })
         );
@@ -239,36 +249,34 @@ export class UsersService
     }
 
     /**
-     * Get tags
+     * Get unidades
      */
-    getTags(): Observable<Tag[]>
+    getUnidades(): Observable<Unidad[]>
     {
-        return this._httpClient.get<Tag[]>('api/apps/contacts/tags').pipe(
-            tap((tags) => {
-                this._tags.next(tags);
+        return this._httpClient.get<Unidad[]>(environment.baseUrl + 'unidades').pipe(
+            tap((response) => {
+                this._unidades.next(response);
             })
         );
     }
 
-    /**
-     * Create tag
-     *
-     * @param tag
-     */
-    createTag(tag: Tag): Observable<Tag>
+    getDependenciasByUnidad(unidad: number): Observable<any>
     {
-        return this.tags$.pipe(
-            take(1),
-            switchMap(tags => this._httpClient.post<Tag>('api/apps/contacts/tag', {tag}).pipe(
-                map((newTag) => {
+        return this._httpClient.get(environment.baseUrl + 'dependencias/' + unidad).pipe(
+            tap((response: any[]) => {
+                // console.log(response);
+                this._dependencias.next(response);
+            })
+        );
+    }
 
-                    // Update the tags with the new tag
-                    this._tags.next([...tags, newTag]);
-
-                    // Return new tag from observable
-                    return newTag;
-                })
-            ))
+    getEscuelasByDependencia(facultad: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'dependencia/escuelas/' + facultad).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._dependencias.next(response);
+            })
         );
     }
 

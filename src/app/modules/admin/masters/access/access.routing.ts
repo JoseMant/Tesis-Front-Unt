@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { CanDeactivateUsersDetails } from 'app/modules/admin/masters/access/users/users.guards';
-import { UserResolver, UsersRolesResolver, UsersResolver, UsersTagsResolver } from 'app/modules/admin/masters/access/users/users.resolvers';
+import { UserResolver, UsersRolesResolver, UsersResolver, UsersUnidadesResolver } from 'app/modules/admin/masters/access/users/users.resolvers';
 import { UsersComponent } from 'app/modules/admin/masters/access/users/users.component';
 import { UsersListComponent } from 'app/modules/admin/masters/access/users/list/list.component';
 import { UsersDetailsComponent } from 'app/modules/admin/masters/access/users/details/details.component';
@@ -14,9 +14,6 @@ export const accessRoutes: Route[] = [
     {
         path     : 'users',
         component: UsersComponent,
-        resolve  : {
-            tags: UsersTagsResolver
-        },
         children : [
             {
                 path     : '',
@@ -31,7 +28,8 @@ export const accessRoutes: Route[] = [
                         component    : UsersDetailsComponent,
                         resolve      : {
                             user  : UserResolver,
-                            countries: UsersRolesResolver
+                            roles: UsersRolesResolver,
+                            unidades: UsersUnidadesResolver
                         },
                         canDeactivate: [CanDeactivateUsersDetails]
                     }
