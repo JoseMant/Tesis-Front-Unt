@@ -84,13 +84,6 @@
                                 Unidad
                             </div>
 
-                            <!-- Facultad-->
-                            <!-- <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'facultad'">
-                                Facultad
-                            </div> -->
-
                             <!-- Nro Matrícula -->
                             <div
                                 class="hidden lg:block"
@@ -98,10 +91,17 @@
                                 N° Matrícula
                             </div>
 
+                            <!-- Facultad -->
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'motivo'"  *ngxPermissionsExcept="['DECANO(A)']">
+                                Facultad
+                            </div>
+
                             <!-- Motivo -->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'motivo'">
+                                [mat-sort-header]="'motivo'"  *ngxPermissionsOnly="['DECANO(A)']">
                                 Motivo
                             </div>
 
@@ -146,17 +146,17 @@
                                     </div>
 
                                     <!-- Active -->
-                                    <!-- <div class="hidden lg:block">
-                                        {{certificado.facultad}}
-                                    </div> -->
-
-                                    <!-- Active -->
                                     <div class="hidden lg:block">
                                         {{certificado.nro_matricula}}
                                     </div>
 
+                                    <!-- fACULTAD -->
+                                    <div class="hidden lg:block"  *ngxPermissionsExcept="['DECANO(A)']">
+                                        {{certificado.facultad}}
+                                    </div>
+
                                     <!-- Active -->
-                                    <div class="hidden lg:block">
+                                    <div class="hidden lg:block"  *ngxPermissionsOnly="['DECANO(A)']">
                                         {{certificado.motivo}}
                                     </div>
 
