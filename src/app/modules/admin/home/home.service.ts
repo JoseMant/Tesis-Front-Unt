@@ -76,7 +76,6 @@ export class HomeService
             }
         }).pipe(
             tap((response) => {
-                console.log(response);
                 this._pagination.next(response.pagination);
                 this._tramites.next(response.data);
             })

@@ -49,6 +49,7 @@ export class UserService
         return this._httpClient.get<User>('api/common/user').pipe(
             tap((user) => {
                 const userData = localStorage.getItem('user') ?? '';
+                
                 this._user.next(JSON.parse(userData));
             })
         );

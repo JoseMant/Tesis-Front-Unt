@@ -154,6 +154,19 @@
                         [placeholder]="'Correo electrónico'">
                 </mat-form-field>
             </div>
+            <!-- Dirección -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Dirección</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:home'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'direccion'"
+                        matInput>
+                </mat-form-field>
+            </div>
             <!-- Phone -->
             <div class="sm:col-span-2">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -165,6 +178,26 @@
                     <input
                         [formControlName]="'celular'"
                         matInput>
+                </mat-form-field>
+            </div>
+            <!-- Fecha de nacimiento -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Fecha de nacimiento</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:calendar'"
+                        matPrefix></mat-icon>
+                    <input
+                        matInput
+                        [max]="maxDate"
+                        [matDatepicker]="fecha_nacimiento"
+                        [formControlName]="'fecha_nacimiento'">
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="fecha_nacimiento">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #fecha_nacimiento></mat-datepicker>
                 </mat-form-field>
             </div>
             <!-- Language -->

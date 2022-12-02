@@ -12,6 +12,10 @@ import { SharedModule } from 'app/shared/shared.module';
 import { AuthSignUpComponent } from 'app/modules/auth/sign-up/sign-up.component';
 import { authSignupRoutes } from 'app/modules/auth/sign-up/sign-up.routing';
 import { MatSelectModule } from '@angular/material/select';
+import { MAT_DATE_FORMATS, MatRippleModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 @NgModule({
     declarations: [
@@ -28,7 +32,26 @@ import { MatSelectModule } from '@angular/material/select';
         FuseCardModule,
         FuseAlertModule,
         SharedModule,
-        MatSelectModule
+        MatSelectModule,
+        MatRippleModule,
+        MatDatepickerModule,
+        MatMomentDateModule
+    ],
+    providers   : [
+        {
+            provide : MAT_DATE_FORMATS,
+            useValue: {
+                parse  : {
+                    dateInput: moment.ISO_8601
+                },
+                display: {
+                    dateInput         : 'LL',
+                    monthYearLabel    : 'MMM YYYY',
+                    dateA11yLabel     : 'LL',
+                    monthYearA11yLabel: 'MMMM YYYY'
+                }
+            }
+        }
     ]
 })
 export class AuthSignUpModule

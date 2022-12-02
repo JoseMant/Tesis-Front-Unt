@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import moment from 'moment';
 
 @Component({
     selector     : 'auth-sign-up',
@@ -81,6 +82,7 @@ export class AuthSignUpComponent implements OnInit
         {id: 2, name: 'PASAPORTE'},
         {id: 3, name: 'CARNET DE EXTRANJERÍA'}
     ]
+    maxDate: any;
 
     /**
      * Constructor
@@ -98,11 +100,19 @@ export class AuthSignUpComponent implements OnInit
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+
+    limiteFecha(): void {
+        const now = moment();
+        this.maxDate = now;
+    }
+
     /**
      * On init
      */
     ngOnInit(): void
     {
+        this.limiteFecha();
+
         // Create the form
         this.documentForm = this._formBuilder.group({
                 nro_documento      : ['', [Validators.pattern(/^[0-9]+$/), Validators.required]]
@@ -114,12 +124,14 @@ export class AuthSignUpComponent implements OnInit
                 nombres         : ['', Validators.required],
                 celular         : ['', [Validators.maxLength(9),Validators.pattern(/^[0-9]+$/), Validators.required]],
                 correo          : ['', Validators.required],
+                direccion       : ['', Validators.required],
                 nro_documento   : ['', Validators.required],
                 sexo            : ['', Validators.required],
                 tipo_documento  : ['', Validators.required],
                 username        : ['', Validators.required],
                 password        : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z\d$@$!%*?&]|[^ ])/), Validators.required]],
-                idTipo_usuario  : ['4', Validators.required]
+                idTipo_usuario  : ['4', Validators.required],
+                fecha_nacimiento: ['', Validators.required]
             }
         );
 
@@ -140,6 +152,8 @@ export class AuthSignUpComponent implements OnInit
         {
             return;
         }
+        
+        this.signUpForm.patchValue({fecha_nacimiento: new Date(this.signUpForm.get('fecha_nacimiento').value).toISOString().substring(0,10)});
 
         // Disable the form
         this.signUpForm.disable();
@@ -205,9 +219,11 @@ export class AuthSignUpComponent implements OnInit
                         apellidos       : response.datos_alumno.apellidos,
                         celular         : response.datos_alumno.celular,
                         correo          : response.datos_alumno.correo,
+                        direccion       : response.datos_alumno.direccion,
                         sexo            : response.datos_alumno.sexo,
                         nro_documento   : response.datos_alumno.nro_documento,
                         username        : response.datos_alumno.nro_documento,
+                        fecha_nacimiento: response.datos_alumno.fecha_nacimiento,
                     });
 
                     this.signUpForm.enable();

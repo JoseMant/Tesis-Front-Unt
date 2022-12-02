@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { FuseAlertService, FuseAlertType } from '@fuse/components/alert';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
+import moment from 'moment';
 
 @Component({
     selector       : 'settings-account',
@@ -88,6 +89,8 @@ export class SettingsAccountComponent implements OnInit
         {id: 'M', name: 'MASCULINO' },
         {id: 'F', name: 'FEMENINO'}
     ];
+    maxDate: any;
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -107,11 +110,18 @@ export class SettingsAccountComponent implements OnInit
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+
+    limiteFecha(): void {
+        const now = moment();
+        this.maxDate = now;
+    }
     /**
      * On init
      */
     ngOnInit(): void
     {
+        this.limiteFecha();
+
         // Create the form
         this.accountForm = this._formBuilder.group({
             nombres     : ['', Validators.required],
@@ -122,13 +132,16 @@ export class SettingsAccountComponent implements OnInit
             sexo        : [''],
             rol         : ['', Validators.required],
             tipo_documento  : ['', Validators.required],
-            nro_documento   : ['', Validators.required]
+            nro_documento   : ['', Validators.required],
+            fecha_nacimiento   : ['', Validators.required],
+            direccion   : ['', Validators.required]
         });
 
         // Subscribe to the user service
         this._userService.user$
         .pipe((takeUntil(this._unsubscribeAll)))
         .subscribe((user: User) => {
+            console.log(user);
             switch (user.tipo_documento) {
                 case '1':
                     user.tipo_documento = 'DOCUMENTO NACIONAL DE IDENTIDAD';
@@ -160,21 +173,24 @@ export class SettingsAccountComponent implements OnInit
 
     updatePerfil(): void
     {
-         // Get the contact object
-         const user = this.accountForm.getRawValue();
-         console.log(user);
-         this.accountForm.disable();
-         this._settingsService.updateUser(user).subscribe(() => {
-             // Toggle the edit mode off
-             //this.toggleEditMode(false);
-             this.accountForm.enable();
-             this.alert = {
-                 type   : 'success',
-                 message: 'Perfil actualizado correctamente. CONFIRMA TU CORREO PARA PODER INICIAR SESIÓN',
-                 title: 'Guardado'
-             };
-
-             this.openSnack();
-         });
+        // Get the contact object
+        const user = this.accountForm.getRawValue();
+        user.fecha_nacimiento = new Date(this.accountForm.get('fecha_nacimiento').value).toISOString().substring(0,10);
+        
+        this.accountForm.disable();
+        
+        this._settingsService.updateUser(user).subscribe((response) => {
+            console.log(response);
+            // Toggle the edit mode off
+            //this.toggleEditMode(false);
+            this.accountForm.enable();
+            this.alert = {
+                type   : 'success',
+                message: 'Perfil actualizado correctamente. Si cambió su correo, DEBE VOLVER A CONFIRMA PARA PODER INICIAR SESIÓN',
+                title: 'Guardado'
+            };
+    
+            this.openSnack();
+        });
     }
 }

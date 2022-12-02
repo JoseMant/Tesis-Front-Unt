@@ -85,16 +85,28 @@
                 *ngIf="foundDocument"
                 class="mt-8"
                 [formGroup]="signUpForm">
-
                 <!-- <div class="flex flex-col sm:flex-row p-8"> -->
 
+                    
                     <div class="flex flex-auto flex-wrap">
+                        <div class="flex flex-col w-full">
+                            <!-- Alert -->
+                            <fuse-alert
+                                class="mb-4"
+                                [appearance]="'outline'"
+                                [showIcon]="false"
+                                [type]="alert.type"
+                                [@shake]="alert.type === 'error'">
+                                A continuación, todos los datos son editables y deben ser conforme al DNI
+                            </fuse-alert>
+                        </div>
                         <!-- Name, SKU & etc. -->
                         <div class="flex flex-col w-full">
 
                             <!-- Nro Matricula -->
                             <div class="flex">
-                                <!-- <mat-form-field class="w-1/2 pr-2">
+                
+                                <!-- <mat-form-field class="w-full">
                                     <mat-label>Nro de matrícula</mat-label>
                                     <input
                                         id="nro_matricula"
@@ -186,15 +198,44 @@
                                 </mat-form-field>
                             </div>
 
-                            <!-- Email -->
+                            
+
+                            <div class="flex">
+                                <!-- Email -->
+                                <mat-form-field class="w-1/2 pr-2">
+                                    <mat-label><b style="color: rgb(253, 10, 10);">Correo (de preferencia unitru)</b></mat-label>
+                                    <input
+                                        id="correo"
+                                        matInput
+                                        [formControlName]="'correo'">
+                                    <mat-error *ngIf="signUpForm.get('correo').hasError('required')">
+                                        Se requiere correo
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/2 pl-2">
+                                    <mat-label>Fecha de nacimiento</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_nacimiento"
+                                        [formControlName]="'fecha_nacimiento'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_nacimiento">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_nacimiento></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <!-- Address -->
                             <mat-form-field class="w-full">
-                                <mat-label><b style="color: rgb(253, 10, 10);">Correo (de preferencia unitru)</b></mat-label>
+                                <mat-label>Direccion</mat-label>
                                 <input
-                                    id="correo"
+                                    id="direccion"
                                     matInput
-                                    [formControlName]="'correo'">
-                                <mat-error *ngIf="signUpForm.get('correo').hasError('required')">
-                                    Se requiere correo
+                                    [formControlName]="'direccion'">
+                                <mat-error *ngIf="signUpForm.get('direccion').hasError('required')">
+                                    Se requiere direccion
                                 </mat-error>
                             </mat-form-field>
 
