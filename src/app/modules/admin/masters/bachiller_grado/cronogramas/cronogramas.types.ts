@@ -28,3 +28,9 @@ export interface Unidad
     id?: string;
     title?: string;
 }
+
+export interface Resolucion
+{
+    id: string;
+    nro_resolucion: string;
+}
