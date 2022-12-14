@@ -140,7 +140,7 @@ export class UserDependenciaResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class ResolucionesResolver implements Resolve<any>
+export class CronogramaResolucionesResolver implements Resolve<any>
 {
     /**
      * Constructor
