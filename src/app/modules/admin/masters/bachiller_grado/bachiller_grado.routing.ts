@@ -48,5 +48,29 @@ export const bachiller_gradoRoutes: Route[] = [
                 ]
             }
         ]
+    },
+    {
+        path     : 'resoluciones',
+        component: ResolucionesComponent,
+        children : [
+            {
+                path     : '',
+                component: ResolucionesListComponent,
+                resolve  : {
+                    resoluciones : ResolucionesResolver,
+                    // countries: CronogramasRolesResolver
+                },
+                children : [
+                    {
+                        path         : ':id',
+                        component    : ResolucionesDetailsComponent,
+                        resolve      : {
+                            resoluciones: ResolucionResolver
+                        },
+                        canDeactivate: [CanDeactivateResolucionesDetails]
+                    }
+                ]
+            }
+        ]
     }
 ];
