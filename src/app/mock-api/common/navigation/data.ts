@@ -96,14 +96,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'collapsable',
         icon : 'heroicons_outline:document-text',
         children: [
-            
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'grados.escuela.validados',
                 title: 'Validados Escuela',
                 type : 'basic',
                 link : '/grados/escuela/validados',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE ESCUELA']
             },
             {
                 // Se muestran para subir el certificado
@@ -111,7 +110,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Aprobados Escuela',
                 type : 'basic',
                 link : '/grados/escuela/aprobados',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE ESCUELA']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -119,7 +118,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Revalidados Escuela',
                 type : 'basic',
                 link : '/grados/escuela/revalidados',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE ESCUELA']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -127,7 +126,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados Facultad',
                 type : 'basic',
                 link : '/grados/facultad/validados',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE FACULTAD']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -135,7 +134,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Aprobados Facultad',
                 type : 'basic',
                 link : '/grados/facultad/aprobados',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE FACULTAD']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -143,7 +142,23 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Revalidados Facultad',
                 type : 'basic',
                 link : '/grados/facultad/revalidados',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.escuela.diplomas',
+                title: 'Datos Diplomas en Escuela',
+                type : 'basic',
+                link : '/grados/escuela/diplomas',
+                permissions: ['SECRETARIA(O) DE ESCUELA']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.diplomas',
+                title: 'Datos Diplomas en Facultad',
+                type : 'basic',
+                link : '/grados/facultad/diplomas',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -152,7 +167,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/grados/ura/validacion',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
-            }
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.secretaria.validados',
+                title: 'Validados Secretaria',
+                type : 'basic',
+                link : '/grados/secretaria/validados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
         ]
     },
     {
@@ -299,6 +322,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type : 'basic',
                         link : '/masters/bachiller_grado/cronogramas',
                         permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
+                    },
+                    // {
+                    //     id   : 'masters.bachiller_grado.acreditadas',
+                    //     title: 'Acreditadas',
+                    //     type : 'basic',
+                    //     link : '/masters/bachiller_grado/acreditadas',
+                    //     permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
+                    // },
+                    {
+                        id   : 'masters.bachiller_grado.resoluciones',
+                        title: 'Resoluciones',
+                        type : 'basic',
+                        link : '/masters/bachiller_grado/resoluciones',
+                        permissions: ['SECRETARIA(O) DE FACULTAD']
                     }
                 ]
             },
