@@ -143,11 +143,14 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
 
                 // Patch values to the form
                 this.cronogramaForm.patchValue(cronograma);
+                console.log(cronograma);
                 if (cronograma.idCronograma_carpeta) {
                     this.selectedUnidad(cronograma.idUnidad);
                 } else {
-                    this.selectedUnidad(this.user.idUnidad);
-                    this.cronogramaForm.patchValue({idDependencia: this.user.dependencia.idDependencia});
+                    if (this.user.idUnidad) {
+                        this.selectedUnidad(this.user.idUnidad);
+                        this.cronogramaForm.patchValue({idDependencia: this.user.dependencia.idDependencia});
+                    }
                 }
 
                 // Toggle the edit mode off
@@ -377,7 +380,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
     }
 
     selectedUnidad(id): void{
-        this.cronogramaForm.patchValue({idUnidad: id, idDependencia: 0});
+        // this.cronogramaForm.patchValue({idUnidad: id, idDependencia: 0});
 
         this._cronogramasService.getTipoTramiteUnidades(id).subscribe((resp)=>{
             this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
