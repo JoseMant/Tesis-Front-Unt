@@ -5,7 +5,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Cronograma, Unidad } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.types';
+import { Cronograma, Resolucion, Unidad } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.types';
 import { CronogramasListComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/list/list.component';
 import { CronogramasService } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
@@ -40,6 +40,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
     };
     editMode: boolean = false;
     cronograma: Cronograma;
+    resoluciones: Resolucion[];
     cronogramaForm: FormGroup;
     cronogramas: Cronograma[];
     dependencias: any;
@@ -97,6 +98,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             idCronograma_carpeta    : [null],
             tipo_colacion           : ['none', [Validators.required]],
             idUnidad                : [0, [Validators.required]],
+            idResolucion            : [0, [Validators.required]],
             idTipo_tramite_unidad   : [0, [Validators.required]],
             idDependencia           : [0, [Validators.required]],
             fecha_colacion          : ['', [Validators.required]],
@@ -166,6 +168,18 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: Unidad[]) => {
                 this.unidades = unidades;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the resoluciones
+        this._cronogramasService.resoluciones$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resoluciones: Resolucion[]) => {
+
+                // Update the users
+                this.resoluciones = resoluciones;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -280,7 +294,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
     {
         // Get the cronograma object
         const cronograma = this.cronogramaForm.getRawValue();
-
+        console.log(cronograma);
         // Update the cronograma on the server
         this._cronogramasService.updateCronograma(cronograma.idCronograma_carpeta, cronograma).subscribe((updatedCronograma) => {
             // Toggle the edit mode off

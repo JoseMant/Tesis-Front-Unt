@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CronogramasService } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.service';
-import { Cronograma, Role, Unidad } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.types';
+import { Cronograma, Role,Resolucion, Unidad } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.types';
 
 @Injectable({
     providedIn: 'root'
@@ -133,5 +133,34 @@ export class UserDependenciaResolver implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
     {
         return this._cronogramasService.getUserDependencia();
+    }
+}
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ResolucionesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _cronogramasService: CronogramasService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Resolucion[]>
+    {
+        return this._cronogramasService.getResoluciones();
     }
 }

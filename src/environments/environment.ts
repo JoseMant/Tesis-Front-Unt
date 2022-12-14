@@ -8,8 +8,8 @@ export const environment = {
     // baseUrlStorage: "http://192.168.5.196:8080"
     // baseUrl: "http://localhost:8000/api/",
     // baseUrlStorage: "http://localhost:8000"
-    baseUrl: "http://192.168.20.218:8000/api/",
-    baseUrlStorage: "http://192.168.20.218:8000"
+    baseUrl: "http://127.0.0.1:8000/api/",
+    baseUrlStorage: "http://127.0.0.1:8000"
 };
 
 /*

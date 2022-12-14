@@ -345,6 +345,28 @@
                         </mat-form-field>
                     </div>
 
+
+                    <!-- Resolución -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Resolución</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                            <mat-select
+                                
+                                [formControlName]="'idResolucion'">
+                                <ng-container>
+                                    <mat-option [value]="'all'" disabled>Seleccionar resolución...</mat-option>
+                                </ng-container>
+                                <ng-container *ngFor="let resolucion of resoluciones">
+                                    <mat-option [value]="resolucion.idResolucion">{{resolucion.nro_resolucion}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
                     <!-- Estado -->
                     <div *ngIf="cronograma.estado" class="flex flex-col mt-8">
                         <mat-label>Estado</mat-label>
