@@ -31,23 +31,26 @@ import { CronogramasComponent } from 'app/modules/admin/masters/bachiller_grado/
 import { CronogramasListComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/list/list.component';
 import { CronogramasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/details/details.component';
 import { bachiller_gradoRoutes } from 'app/modules/admin/masters/bachiller_grado/bachiller_grado.routing';
-// import { CronogramasDialogsComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/dialog/dialog.component';
-// import { cronogramasRoutes, permissionsRoutes, rolesRoutes } from 'app/modules/admin/masters/bachiller_grado/bachiller_grado.routing';
-// import { PermissionsComponent } from 'app/modules/admin/masters/bachiller_grado/permissions/permissions.component';
-// import { PermissionsListComponent } from 'app/modules/admin/masters/bachiller_grado/permissions/list/permission.component';
-// import { PermissionsDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/permissions/details/details.component';
-// import { RolesComponent } from 'app/modules/admin/masters/bachiller_grado/roles/roles.component';
-// import { RolesListComponent } from 'app/modules/admin/masters/bachiller_grado/roles/list/role.component';
-// import { RolesDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/roles/details/details.component';
-// import { RolesDialogsComponent } from 'app/modules/admin/masters/bachiller_grado/roles/dialog/dialog.component';
-// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-// import { VulneCronogramaDialogComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/dialogConsult/dialogConsult.component';
+// --------------
+import { AcreditadasComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.component';
+import { AcreditadasListComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/list/list.component';
+import { AcreditadasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/details/details.component';
+
+import { ResolucionesComponent } from 'app/modules/admin/masters/bachiller_grado/resoluciones/resoluciones.component';
+import { ResolucionesListComponent } from 'app/modules/admin/masters/bachiller_grado/resoluciones/list/list.component';
+import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/resoluciones/details/details.component';
 
 @NgModule({
     declarations: [
         CronogramasComponent,
         CronogramasListComponent,
         CronogramasDetailsComponent,
+        AcreditadasComponent,
+        AcreditadasListComponent,
+        AcreditadasDetailsComponent,
+        ResolucionesComponent,
+        ResolucionesListComponent,
+        ResolucionesDetailsComponent,
         // CronogramasDialogsComponent,
         // PermissionsComponent,
         // PermissionsListComponent,
