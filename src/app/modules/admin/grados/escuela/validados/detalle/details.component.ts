@@ -15,7 +15,7 @@ import { GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { RequisitosDialogComponent } from 'app/modules/admin/grados/escuela/validados/dialogReq/dialogReq.component';
+import { RequisitosDialogComponent } from 'app/modules/admin/grados/dialogReq/dialogReq.component';
 
 @Component({
     selector       : 'grado-details',

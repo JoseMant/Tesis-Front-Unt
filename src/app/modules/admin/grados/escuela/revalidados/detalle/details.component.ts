@@ -78,6 +78,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 })
 export class GradoEscuelaRevalidadoDetalleComponent implements OnInit, OnDestroy
 {
+    @ViewChild('gradoNgForm') gradoNgForm: NgForm;
     @ViewChild('corregirNgForm') corregirNgForm: NgForm;
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
@@ -85,6 +86,7 @@ export class GradoEscuelaRevalidadoDetalleComponent implements OnInit, OnDestroy
         title: '',
     };
     grado: GradoInterface | null = null;
+    gradoForm: FormGroup;
     corregirForm: FormGroup;
     contador: number = 4;
     listEstados = [
@@ -131,6 +133,39 @@ export class GradoEscuelaRevalidadoDetalleComponent implements OnInit, OnDestroy
             newEstado: [0, Validators.required]
         });
 
+        this.gradoForm = this._formBuilder.group({
+            idTramite: [''],
+            idTipo_tramite: [''],
+            nro_documento: [''],
+            idColacion: [''],
+            idEstado_tramite: [''],
+            idModalidad_grado: [''],
+            descripcion_estado: [''],
+            codigo: [''],
+            entidad: ['', Validators.required],
+            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
+            fecha_operacion: ['', Validators.required],
+            archivo: [''],
+            idMotivo_tramite: [''],
+            comentario: [''],
+            apellidos: [''],
+            nombres: [''],
+            documento: [''],
+            celular: [''],
+            correo: [''],
+            idFacultad: [''],
+            idEscuela: [''],
+            sede: [''],
+            nro_matricula: [''],
+            tipo_documento: [''],
+            sexoNombre: [''],
+            idUnidad: [''],
+            idTipo_tramite_unidad: [''],
+            archivo_firma: [''],
+            archivoImagen: [''],
+            requisitos: [''],
+        });
+
         // Get the grados
         // this._gradoService.allgrados$
         //     .pipe(takeUntil(this._unsubscribeAll))
@@ -151,6 +186,7 @@ export class GradoEscuelaRevalidadoDetalleComponent implements OnInit, OnDestroy
                 this.grado = grado;
 
                 // Patch values to the form
+                this.gradoForm.patchValue(grado);
                 this.corregirForm.patchValue(grado);
 
                 // Mark for check
@@ -211,31 +247,30 @@ export class GradoEscuelaRevalidadoDetalleComponent implements OnInit, OnDestroy
         });
     }
 
-    validarRequisito(requisito, lectura, index): void {
-        // requisito['lectura'] = lectura;
-        // const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-        //     autoFocus: false,
-        //     disableClose: true,
-        //     data: JSON.parse( JSON.stringify(requisito) )
-        // });
-        // //--------- desde aquí falta 
-        // dialogRef.afterClosed().subscribe( (response) => {
-        //     // If the confirm button pressed...
-        //     if ( response )
-        //     {
-        //         this.grado.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
-        //         if (requisito.des_estado_requisito == 'APROBADO') {
-        //             this.grado.requisitos[index].validado = 1;
-        //         } else if (requisito.des_estado_requisito == 'RECHAZADO') {
-        //             this.grado.requisitos[index].validado = 0;
-        //             this.grado.requisitos[index].comentario = response.getRawValue().comentario;
-        //         }
-        //         this.corregirForm.patchValue({ requisitos: this.grado.requisitos});
-                
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     }
-        // });
+    enviarFacultad(): void {
+        // Get the contact object
+        const grado = this.gradoForm.getRawValue();
+        
+        // Disable the form
+        this.corregirForm.disable();
+        
+        // Update the contact on the server
+        this._gradoService.sendFacultad(grado.idTramite, grado).subscribe(() => {
+
+            // Re-enable the form
+            this.corregirForm.enable();
+
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Trámite retornado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
     }
     
 }

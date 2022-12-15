@@ -24,6 +24,9 @@ export interface GradoInterface
     voucher: string;
     // grado_final?: string;
     idEstado_tramite?: number;
+    idTipo_tramite_unidad?: number;
+    fecha_primera_matricula?: number;
+    fecha_ultima_matricula?: number;
 }
 export interface GradoPagination
 {

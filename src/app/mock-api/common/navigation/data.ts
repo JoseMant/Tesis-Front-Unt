@@ -170,12 +170,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.ura.diplomas',
+                title: 'Datos Diplomas en URA',
+                type : 'basic',
+                link : '/grados/ura/diplomas',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'grados.secretaria.validados',
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/grados/secretaria/validados',
                 permissions: ['SECRETARIA(O) DE FACULTAD']
-            },
+            }
         ]
     },
     {

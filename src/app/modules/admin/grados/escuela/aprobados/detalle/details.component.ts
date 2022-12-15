@@ -18,8 +18,8 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import moment from 'moment';
-import { RequisitosDialogComponent } from 'app/modules/admin/grados/escuela/validados/dialogReq/dialogReq.component';
-import { VisorPdfGradoComponent } from 'app/modules/admin/grados/escuela/aprobados/visorPdf/visorPdfGrado.component';
+import { RequisitosDialogComponent } from 'app/modules/admin/grados/dialogReq/dialogReq.component';
+import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorPdfGrado.component';
 // import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 
 @Component({
@@ -394,7 +394,7 @@ export class GradoEscuelaAprobadoDetalleComponent implements OnInit, OnDestroy
         };
 
         //Validar que subí todos los requisitos rechazados
-        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 5 && (element.archivoPdf === undefined && element.extension === 'pdf'));
+        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 5 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
         if (requis) {
             this.alert = {
                 type   : 'warn',

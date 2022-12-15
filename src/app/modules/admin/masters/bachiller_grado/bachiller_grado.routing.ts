@@ -5,11 +5,11 @@ import { CronogramasComponent } from 'app/modules/admin/masters/bachiller_grado/
 import { CronogramasListComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/list/list.component';
 import { CronogramasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/details/details.component';
 // -----------
-import { CanDeactivateAcreditadasDetails } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.guards';
-import { AcreditadaResolver, AcreditadasResolver, AcreditadasUnidadesResolver } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.resolvers';
-import { AcreditadasComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.component';
-import { AcreditadasListComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/list/list.component';
-import { AcreditadasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/details/details.component';
+// import { CanDeactivateAcreditadasDetails } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.guards';
+// import { AcreditadaResolver, AcreditadasResolver, AcreditadasUnidadesResolver } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.resolvers';
+// import { AcreditadasComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.component';
+// import { AcreditadasListComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/list/list.component';
+// import { AcreditadasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/details/details.component';
 
 import { CanDeactivateResolucionesDetails } from 'app/modules/admin/masters/bachiller_grado/resoluciones/resoluciones.guards';
 import { ResolucionResolver, ResolucionesResolver, ResolucionesUnidadesResolver } from 'app/modules/admin/masters/bachiller_grado/resoluciones/resoluciones.resolvers';
@@ -43,7 +43,7 @@ export const bachiller_gradoRoutes: Route[] = [
                             unidades: CronogramasUnidadesResolver,
                             resoluciones: CronogramaResolucionesResolver
                         },
-                        canDeactivate: [CanDeactivateAcreditadasDetails]
+                        canDeactivate: [CanDeactivateCronogramasDetails]
                     }
                 ]
             }
@@ -57,8 +57,7 @@ export const bachiller_gradoRoutes: Route[] = [
                 path     : '',
                 component: ResolucionesListComponent,
                 resolve  : {
-                    resoluciones : ResolucionesResolver,
-                    // countries: CronogramasRolesResolver
+                    resoluciones : ResolucionesResolver
                 },
                 children : [
                     {
