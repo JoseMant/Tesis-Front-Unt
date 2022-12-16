@@ -482,7 +482,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
     selectVoucher(event): void {
         this.tramiteForm.patchValue({archivoPdf: event.target.files[0]});
         this.data.archivoPdf = event.target.files[0];
-        console.log( this.tramiteForm.getRawValue())
+        // console.log( this.tramiteForm.getRawValue())
     }
 
     selectResolucion(event): void {

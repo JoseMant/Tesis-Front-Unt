@@ -96,21 +96,12 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
         // Create the resolucion form
         this.resolucionForm = this._formBuilder.group({
             idResolucion          : [null],
-            idTipo_usuario    : [null, [Validators.required]],
-            resolucionname       : ['', [Validators.required]],
-            nombres        : ['', [Validators.required]],
-            apellidos        : ['', [Validators.required]],
-            tipo_documento     : ['', [Validators.required]],
-            nro_documento     : ['', [Validators.required]],
-            correo        : ['', [Validators.required]],
-            celular        : ['', [Validators.required]],
-            sexo        : ['', [Validators.required]],
+            nro_resolucion    : [null, [Validators.required]],
+            fecha    : [null, [Validators.required]],
+            archivo       : [''],
+            archivoPdf        : [''],
             estado        : [null, [Validators.required]],
-            avatar      : [null],
-
-            idUnidad: [''],
-            idDependencia: [''],
-            idFacultad: ['']
+            avatar      : [null]
         });
 
         // Get the resoluciones
@@ -137,38 +128,38 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
 
                 // Patch values to the form
                 this.resolucionForm.patchValue(resolucion);
-                if (this.resolucionForm.get('idTipo_usuario').value == 6 || this.resolucionForm.get('idTipo_usuario').value == 8) {
-                    this.resolucionForm.patchValue({idUnidad: 1});
-                    this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
-                        this.dependencias = response;
+                // if (this.resolucionForm.get('idTipo_usuario').value == 6 || this.resolucionForm.get('idTipo_usuario').value == 8) {
+                //     this.resolucionForm.patchValue({idUnidad: 1});
+                //     this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
+                //         this.dependencias = response;
                         
-                        this._changeDetectorRef.markForCheck();
-                    });
-                } else if (this.resolucionForm.get('idTipo_usuario').value == 5) {
-                    this.resolucionForm.patchValue({idUnidad: 1});
-                    this.dependencias = [];
-                    this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
-                        this.facultades = response;
+                //         this._changeDetectorRef.markForCheck();
+                //     });
+                // } else if (this.resolucionForm.get('idTipo_usuario').value == 5) {
+                //     this.resolucionForm.patchValue({idUnidad: 1});
+                //     this.dependencias = [];
+                //     this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
+                //         this.facultades = response;
                         
-                        this._changeDetectorRef.markForCheck();
-                    });
-                    this._resolucionesService.getEscuelasByDependencia(resolucion.idFacultad).subscribe((response)=>{
-                        this.dependencias = response;
+                //         this._changeDetectorRef.markForCheck();
+                //     });
+                //     this._resolucionesService.getEscuelasByDependencia(resolucion.idFacultad).subscribe((response)=>{
+                //         this.dependencias = response;
                         
-                        this._changeDetectorRef.markForCheck();
-                    });
-                    console.log(this.resolucionForm.getRawValue().idDependencia)
-                } else if (this.resolucionForm.get('idTipo_usuario').value == 17) {
-                    this.resolucionForm.patchValue({idUnidad: 4});
-                    this._resolucionesService.getDependenciasByUnidad(4).subscribe((response)=>{
-                        this.dependencias = response;
+                //         this._changeDetectorRef.markForCheck();
+                //     });
+                //     console.log(this.resolucionForm.getRawValue().idDependencia)
+                // } else if (this.resolucionForm.get('idTipo_usuario').value == 17) {
+                //     this.resolucionForm.patchValue({idUnidad: 4});
+                //     this._resolucionesService.getDependenciasByUnidad(4).subscribe((response)=>{
+                //         this.dependencias = response;
                         
-                        this._changeDetectorRef.markForCheck();
-                    });
-                } else {
-                    this.resolucionForm.patchValue({idUnidad: ''});
-                    this.dependencias = [];
-                }
+                //         this._changeDetectorRef.markForCheck();
+                //     });
+                // } else {
+                //     this.resolucionForm.patchValue({idUnidad: ''});
+                //     this.dependencias = [];
+                // }
 
                 // Toggle the edit mode off
                 if(!resolucion.idResolucion){
@@ -201,43 +192,8 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             });
     }
 
-    selectedRole(id): void{
-        if (this.resolucionForm.get('idTipo_usuario').value == 6 || this.resolucionForm.get('idTipo_usuario').value == 8) {
-            this.resolucionForm.patchValue({idUnidad: 1, idDependencia: '', idFacultad: ''});
-            this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
-                this.dependencias = response;
-                
-                this._changeDetectorRef.markForCheck();
-            });
-        } else if (this.resolucionForm.get('idTipo_usuario').value == 5) {
-            this.resolucionForm.patchValue({idUnidad: 1, idDependencia: '', idFacultad: ''});
-            this.dependencias = [];
-            this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
-                this.facultades = response;
-                
-                this._changeDetectorRef.markForCheck();
-            });
-        } else if (this.resolucionForm.get('idTipo_usuario').value == 17) {
-            this.resolucionForm.patchValue({idUnidad: 4, idDependencia: '', idFacultad: ''});
-            this._resolucionesService.getDependenciasByUnidad(4).subscribe((response)=>{
-                this.dependencias = response;
-                
-                this._changeDetectorRef.markForCheck();
-            });
-        } else {
-            this.resolucionForm.patchValue({idUnidad: '', idDependencia: '', idFacultad: ''});
-            this.dependencias = [];
-        }
-    }
-
-    selectedFacultad(id): void{
-        this.resolucionForm.patchValue({idDependencia: '', idFacultad: id});
-
-        this._resolucionesService.getEscuelasByDependencia(id).subscribe((response)=>{
-            this.dependencias = response;
-            
-            this._changeDetectorRef.markForCheck();
-        });
+    selectResolucion(event): void {
+        this.resolucionForm.patchValue({archivoPdf: event.target.files[0]});
     }
 
     /**
@@ -277,7 +233,7 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
         {
             this.editMode = editMode;
         }
-console.log(editMode);
+
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
@@ -287,6 +243,9 @@ console.log(editMode);
      */
     saveResolucion(): void
     {
+        this.resolucionForm.patchValue({
+            fecha: (new Date(this.resolucionForm.getRawValue().fecha)).toISOString().substring(0,10)
+        });
         if (!this.resolucion.idResolucion) {
             this.createResolucion();
         } else {
@@ -311,7 +270,7 @@ console.log(editMode);
             
             this.alert = {
                 type   : 'success',
-                message: 'Usuario registrado correctamente',
+                message: 'Resolución registrada correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
