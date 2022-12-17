@@ -1,0 +1,192 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+
+  <mat-card class="w-full">
+    <div class="flex flex-col mx-5">
+      <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+        CODIGO TRÁMITE: {{grado.codigo}}
+      </mat-card-title>
+      <mat-card-content>
+        <!-- Section -->
+        <!-- <div class="w-full">
+          <div class="text-xl">Datos del trámite</div>
+        </div> -->
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+
+          <!-- SOLICITANTE -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>SOLICITANTE:</b> {{grado.solicitante}}</div>
+          </div>
+          <!-- NUMERO DE DOCUMENTO -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{grado.nro_documento}}</div>
+          </div>
+          <!-- ESCUELA -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>ESCUELA:</b> {{grado.escuela}}</div>
+          </div>
+          <!-- FECHA DE REGISTRO -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{grado.fecha | date: 'dd-MM-yyyy'}}</div>
+          </div>
+          <!-- TRÁMITE -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>TRÁMITE:</b> {{grado.tramite}}</div>
+          </div>
+          <!-- CORREO ELECTRÓNICO -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>NRO DE MATRÍCULA:</b> {{grado.nro_matricula}}</div>
+          </div>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+
+        <div class="grid grid-cols-12 gap-y-6">
+            <div class="sm:col-span-12 col-span-12 flex justify-center">
+                <button *ngIf="grado.idEstado_tramite==48"
+                    mat-button
+                    class="rounded-full bg-green-600 hover:bg-green-500 text-white"
+                    cmat-button
+                    (click)="fileInput.click()"
+                >
+                  <mat-icon
+                      class="h-6 w-6 mr-3"
+                      style="color: rgb(255, 255, 255)"
+                      [svgIcon]="'heroicons_solid:upload'">
+                  </mat-icon>
+                  Grado
+                </button>
+                <input #fileInput type="file" accept=".pdf" hidden (change)="selectGrado($event)"/>
+                <button *ngIf="newGrado"
+                    matTooltip="Ver documento"
+                    (click)="verDocumento()">
+                    <mat-icon
+                        class="h-6 w-6 mr-3 ml-3"
+                        style="color: rgb(6, 11, 88)"
+                        [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+
+                </button>
+                <a *ngIf="!newGrado"
+                    mat-button
+                    class="rounded-full bg-blue-600 hover:bg-blue-500 text-white"
+                    cmat-button
+                    [href]="grado.diploma_final"
+                    [target]="'_blank'"
+                >
+                  <mat-icon
+                    class="h-6 w-6 mr-3"
+                    style="color: rgb(255, 255, 255)"
+                    [svgIcon]="'heroicons_solid:eye'">
+                  </mat-icon>
+                  Grado
+                </a>
+            </div>
+        </div>
+
+        <!-- Section -->
+        <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+          <mat-card-content>
+            <div class="w-full">
+              <div class="text-xl">VALIDAR REQUISITOS</div>
+            </div>
+            <div class="z-10 sticky top-0 grid grid-cols-12 gap-y-6 py-3 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5">
+              <div class="col-span-1">
+                N°
+              </div>
+              <div class="col-span-6">
+                REQUISITO
+              </div>
+              <div class="col-span-5 text-center">
+                DOCUMENTO
+              </div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+              <div class="col-span-1">1</div>
+              <div class="col-span-6">FUT</div>
+              <div class="col-span-5 text-center">
+                <a
+                mat-button
+                class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-amber-600 hover:bg-amber-500 text-white"
+                cmat-button
+                [href]="grado.fut"
+                [target]="'_blank'">
+                  <mat-icon
+                  class="icon-size-5"
+                  style="color: white;"
+                  [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                  <span class="hidden sm:block ml-2">FUT</span>
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+              <div class="col-span-1">2</div>
+              <div class="col-span-6">VOUCHER DE PAGO</div>
+              <div class="col-span-5 text-center">
+                <a
+                  mat-button
+                  class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-sky-500 hover:bg-sky-400 text-white"
+                  cmat-button
+                  [href]="grado.voucher"
+                  [target]="'_blank'">
+                    <mat-icon
+                    class="icon-size-5"
+                    style="color: white;"
+                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                    <span class="hidden sm:block ml-2">VOUCHER</span>
+                </a>
+              </div>
+            </div>
+            <ng-container *ngFor="let requisito of grado.requisitos; let id = index">
+              <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
+                <div class="col-span-1">{{id+3}}</div>
+                <div class="col-span-6">{{requisito.nombre}}</div>
+                <div class="col-span-5 text-center">
+                  <a
+                    mat-button
+                    class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-lime-500 hover:bg-lime-400 text-white"
+                    cmat-button
+                    [href]="requisito.archivo"
+                    [target]="'_blank'">
+                      <mat-icon
+                      class="icon-size-5"
+                      style="color: white;"
+                      [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                      <span class="hidden sm:block ml-2">VER</span>
+                  </a>
+                </div>
+              </div>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
+
+      </mat-card-content>
+      <mat-card-actions class="flex justify-end">
+        <button
+          mat-button
+          class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+          cmat-button
+          [routerLink]="['/grados/rector/firma_rector']"
+          >
+          Regresar
+        </button>
+        <button
+          *ngIf="newGrado"
+          class="ml-4"
+          mat-flat-button
+          [disabled]="gradoForm.disabled"
+          [color]="'primary'"
+          (click)="uploadGrado()">
+          <span *ngIf="!gradoForm.disabled">
+              Guardar
+          </span>
+          <mat-progress-spinner
+              *ngIf="gradoForm.disabled"
+              [diameter]="24"
+              [mode]="'indeterminate'"></mat-progress-spinner>
+      </button>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>

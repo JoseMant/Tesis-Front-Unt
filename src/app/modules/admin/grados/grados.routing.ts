@@ -54,6 +54,33 @@ import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/sec
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
 import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
+// -------------
+import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
+import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
+import { GradoSecretariaPendienteResolver } from 'app/modules/admin/grados/ura/pendientes/pendientes.resolvers';
+import { GradoSecretariaPendienteDetalleComponent } from 'app/modules/admin/grados/ura/pendientes/detalle/details.component';
+
+// ----
+import {GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
+import {GradosFirmaDecanoListComponent } from 'app/modules/admin/grados/facultad/firma_decano/list/list.component';
+import {GradoFirmaDecanoResolver, GradosFirmaDecanoResolver } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.resolvers';
+import {GradoFirmaDecanoDetalleComponent } from './facultad/firma_decano/detalle/details.component';
+
+// ----
+import {GradosFirmaSecretariaComponent } from 'app/modules/admin/grados/secretaria/firma_secretaria/firma_secretaria.component';
+import {GradosFirmaSecretariaListComponent } from 'app/modules/admin/grados/secretaria/firma_secretaria/list/list.component';
+import {GradoFirmaSecretariaResolver, GradosFirmaSecretariaResolver } from 'app/modules/admin/grados/secretaria/firma_secretaria/firma_secretaria.resolvers';
+import {GradoFirmaSecretariaDetalleComponent } from './secretaria/firma_secretaria/detalle/details.component';
+
+// ----
+import {GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firma_rector/firma_rector.component';
+import {GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
+import {GradoFirmaRectorResolver, GradosFirmaRectorResolver } from 'app/modules/admin/grados/rector/firma_rector/firma_rector.resolvers';
+import {GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
+
+import { NgxPermissionsGuard } from 'ngx-permissions';
+
+
 export const gradosRoutes: Route[] = [
     {
       path     : 'escuela/validados',
@@ -280,6 +307,107 @@ export const gradosRoutes: Route[] = [
           component    : GradoSecretariaValidadoDetalleComponent,
           resolve      : {
             grado  : GradoSecretariaValidadoResolver,
+          },
+        }
+      ]
+    },
+    {
+        path     : 'facultad/firma_decano',
+        component: GradosFirmaDecanoComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'DECANO(A)'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            certificados  : GradosFirmaDecanoResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: GradosFirmaDecanoListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : GradoFirmaDecanoDetalleComponent,
+                resolve      : {
+                    certificado  : GradoFirmaDecanoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'secretaria/firma_secretaria',
+        component: GradosFirmaSecretariaComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'DECANO(A)'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            certificados  : GradosFirmaSecretariaResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: GradosFirmaSecretariaListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : GradoFirmaSecretariaDetalleComponent,
+                resolve      : {
+                    certificado  : GradoFirmaSecretariaResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'rector/firma_rector',
+        component: GradosFirmaRectorComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'DECANO(A)'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            certificados  : GradosFirmaRectorResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: GradosFirmaRectorListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : GradoFirmaRectorDetalleComponent,
+                resolve      : {
+                    certificado  : GradoFirmaRectorResolver,
+                },
+            }
+        ]
+    },
+    {
+      path     : 'ura/pendientes',
+      component: GradosSecretariaPendientesComponent,
+      // resolve  : {
+      //   grados  : GradosSecretariaPendientesResolver,
+      // },
+      children : [
+        {
+          path     : '',
+          component: GradosSecretariaPendientesListComponent,
+        },
+        {
+          path         : ':idTramite',
+          component    : GradoSecretariaPendienteDetalleComponent,
+          resolve      : {
+            grado  : GradoSecretariaPendienteResolver,
           },
         }
       ]

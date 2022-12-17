@@ -178,11 +178,43 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.firma_decano',
+                title: 'Firma decano',
+                type : 'basic',
+                link : '/grados/facultad/firma_decano',
+                permissions: ['DECANO(A)']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.firma_secretaria',
+                title: 'Firma secretaria',
+                type : 'basic',
+                link : '/grados/secretaria/firma_secretaria',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS'] //secretaria general
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.facultad.firma_rector',
+                title: 'Firma rector',
+                type : 'basic',
+                link : '/grados/rector/firma_rector',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS'] //Rector
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'grados.secretaria.validados',
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/grados/secretaria/validados',
-                permissions: ['SECRETARIA(O) DE FACULTAD']
+                permissions: ['SECRETARIA(O) DE FACULTAD'] //Secretaria general
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.ura.pendientes',
+                title: 'Pendientes Impresión Ura',
+                type : 'basic',
+                link : '/grados/ura/pendientes',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             }
         ]
     },
