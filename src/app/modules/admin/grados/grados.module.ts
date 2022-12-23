@@ -76,6 +76,22 @@ import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grado
 import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
 import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
 import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
+import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
+import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
+import { GradoSecretariaPendienteDetalleComponent } from 'app/modules/admin/grados/ura/pendientes/detalle/details.component';
+
+
+import { GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
+import { GradosFirmaDecanoListComponent } from 'app/modules/admin/grados/facultad/firma_decano/list/list.component';
+import { GradoFirmaDecanoDetalleComponent } from './facultad/firma_decano/detalle/details.component';
+
+import { GradosFirmaSecretariaComponent } from 'app/modules/admin/grados/secretaria/firma_secretaria/firma_secretaria.component';
+import { GradosFirmaSecretariaListComponent } from 'app/modules/admin/grados/secretaria/firma_secretaria/list/list.component';
+import { GradoFirmaSecretariaDetalleComponent } from './secretaria/firma_secretaria/detalle/details.component';
+
+import { GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firma_rector/firma_rector.component';
+import { GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
+import { GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
 
 
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
@@ -118,6 +134,10 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosFacultadDiplomasListComponent,
         GradoFacultadDiplomaDetalleComponent,
 
+        GradosFirmaDecanoComponent,
+        GradosFirmaDecanoListComponent,
+        GradoFirmaDecanoDetalleComponent,
+
         //URA
         GradosURAValidacionesComponent,
         GradosURAValidacionesListComponent,
@@ -135,6 +155,17 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosSecretariaAprobadosComponent,
         GradosSecretariaAprobadosListComponent,
         GradoSecretariaAprobadoDetalleComponent,
+        GradosFirmaSecretariaComponent,
+        GradosFirmaSecretariaListComponent,
+        GradoFirmaSecretariaDetalleComponent,
+
+        GradosFirmaRectorComponent,
+        GradosFirmaRectorListComponent,
+        GradoFirmaRectorDetalleComponent,
+
+        GradosSecretariaPendientesComponent,
+        GradosSecretariaPendientesListComponent,
+        GradoSecretariaPendienteDetalleComponent,
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

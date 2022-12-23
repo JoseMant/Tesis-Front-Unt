@@ -116,15 +116,9 @@ export class ResolucionesService
                 if (!resolucion) {
                     resolucion = {
                         idResolucion: 0,
-                        idTipo_usuario: 0,
-                        username: '',
-                        nombres: '',
-                        apellidos: 'Nuevo Usuario',
-                        tipo_documento: 'none',
-                        nro_documento: '',
-                        correo: '',
-                        celular:'',
-                        sexo: 'none',
+                        nro_resolucion: '',
+                        fecha: '',
+                        archivo: '',
                         estado: true
                     };
                 }

@@ -128,37 +128,6 @@
                     <!-- Avatar -->
                     <div class="flex flex-auto items-end -mt-16">
                         <div class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
-                            <!-- Upload / Remove avatar -->
-                            <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
-                            <div class="absolute inset-0 flex items-center justify-center z-20">
-                                <div>
-                                    <input
-                                        id="avatar-file-input"
-                                        class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
-                                        type="file"
-                                        [multiple]="false"
-                                        [accept]="'image/jpeg, image/png'"
-                                        (change)="uploadAvatar(avatarFileInput.files)"
-                                        #avatarFileInput>
-                                    <label
-                                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
-                                        for="avatar-file-input"
-                                        matRipple>
-                                        <mat-icon
-                                            class="text-white"
-                                            [svgIcon]="'heroicons_outline:camera'"></mat-icon>
-                                    </label>
-                                </div>
-                                <div>
-                                    <button
-                                        mat-icon-button
-                                        (click)="removeAvatar()">
-                                        <mat-icon
-                                            class="text-white"
-                                            [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                                    </button>
-                                </div>
-                            </div>
                             <!-- Image/Letter -->
                             <img
                                 class="object-cover w-full h-full"
@@ -167,247 +136,117 @@
                             <div
                                 class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
                                 *ngIf="!resolucion.avatar">
-                                {{resolucion.apellidos.charAt(0)}}
+                                {{resolucion.idResolucion}}
                             </div>
                         </div>
                     </div>
 
-                    <!-- Name -->
+                    <!-- Resolución -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Nombre</mat-label>
+                            <mat-label>Resolución</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             <input
                                 matInput
-                                [formControlName]="'nombres'"
-                                [placeholder]="'Nombre'"
+                                [formControlName]="'nro_resolucion'"
+                                [placeholder]="'Resolución'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
 
-                    <!-- Apellidos -->
+                    <!-- Fecha de resolución -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Apellidos</mat-label>
+                            <mat-label>Fecha de resolución</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
                             <input
                                 matInput
-                                [formControlName]="'apellidos'"
-                                [placeholder]="'Apellidos'"
-                                [spellcheck]="false">
+                                [max]="maxDate"
+                                [matDatepicker]="fecha_resolucionDatepicker"
+                                [formControlName]="'fecha'"
+                                [placeholder]="'Seleccionar fecha de Resolución'">
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_resolucionDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_resolucionDatepicker></mat-datepicker>
                         </mat-form-field>
                     </div>
 
-                    <!-- Rol -->
+                    <!-- Archivo -->
                     <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Rol</mat-label>
-                            <mat-select 
-                                (selectionChange)="selectedRole($event.value)"
-                                [formControlName]="'idTipo_usuario'">
-                                <mat-option [value]="0" disabled>Seleccionar rol...</mat-option>
-                                <ng-container *ngFor="let role of roles">
-                                    <mat-option [value]="role.idTipo_usuario">
-                                        {{role.nombre}}
-                                    </mat-option>
-                                </ng-container>
-                            </mat-select>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
-                        </mat-form-field>
+                        <div class="fuse-mat-no-subscript w-full text-center">
+                            <button
+                                mat-flat-button
+                                [color]="'accent'"
+                                matTooltip="Agregar documento"
+                                (click)="fileInput.click()">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                Subir resolución
+                            </button>
+                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectResolucion($event)"/>
+                        </div>
                     </div>
-
-                    <!-- Dependencia -->
-                    <div class="mt-8" *ngIf="resolucionForm.get('idTipo_usuario').value == 6 || resolucionForm.get('idTipo_usuario').value == 8 || resolucionForm.get('idTipo_usuario').value == 17">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label *ngIf="resolucionForm.get('idUnidad').value == 1">Facultad</mat-label>
-                            <!-- <mat-label *ngIf="resolucionForm.get('idUnidad').value == 2">Mención</mat-label> -->
-                            <!-- <mat-label *ngIf="resolucionForm.get('idUnidad').value == 3">Mención</mat-label> -->
-                            <mat-label *ngIf="resolucionForm.get('idUnidad').value == 4">Especialidad</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
-                            <mat-select
-                                [formControlName]="'idDependencia'">
-                                <mat-option *ngIf="resolucionForm.get('idUnidad').value == 1" [value]="0" disabled>Seleccionar Facultad...</mat-option>
-                                <!-- <mat-option *ngIf="resolucionForm.get('idUnidad').value == 2" [value]="0" disabled>Seleccionar Mención...</mat-option> -->
-                                <!-- <mat-option *ngIf="resolucionForm.get('idUnidad').value == 3" [value]="0" disabled>Seleccionar Mención...</mat-option> -->
-                                <mat-option *ngIf="resolucionForm.get('idUnidad').value == 4" [value]="0" disabled>Seleccionar Especialidad...</mat-option>
-                                <ng-container *ngFor="let dependencia of dependencias">
-                                    <mat-option [value]="dependencia.idDependencia">{{dependencia.nombre}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Facultad -->
-                    <div class="mt-8" *ngIf="resolucionForm.get('idTipo_usuario').value == 5">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Facultad</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
-                            <mat-select
-                                (selectionChange)="selectedFacultad($event.value)"
-                                [formControlName]="'idFacultad'">
-                                <mat-option [value]="''" disabled>Seleccionar Facultad...</mat-option>
-                                <ng-container *ngFor="let dependencia of facultades">
-                                    <mat-option [value]="dependencia.idDependencia">{{dependencia.nombre}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Escuela -->
-                    <div class="mt-8" *ngIf="resolucionForm.get('idTipo_usuario').value == 5 && resolucionForm.get('idFacultad').value">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Escuela</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:home'"></mat-icon>
-                            <mat-select
-                                [formControlName]="'idDependencia'">
-                                <mat-option [value]="''" disabled>Seleccionar Escuela...</mat-option>
-                                <ng-container *ngFor="let dependencia of dependencias">
-                                    <mat-option [value]="dependencia.idEscuela">{{dependencia.nombre}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Emails -->
                     <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Correo</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                            <input
-                                matInput
-                                [formControlName]="'correo'"
-                                [placeholder]="'Correo institucional'">
-                        </mat-form-field>
+                        <div class="fuse-mat-no-subscript w-full text-center">
+                            <button
+                                *ngIf="resolucionForm.get('archivoPdf').value"
+                                mat-flat-button
+                                [color]="'accent'"
+                                matTooltip="Ver documento"
+                                (click)="verDocumento()">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                Ver archivo
+                            </button>
+                            <a
+                                *ngIf="resolucionForm.get('archivo').value && !resolucionForm.get('archivoPdf').value"
+                                mat-flat-button
+                                target="_blank"
+                                matTooltip="Ver documento"
+                                [color]="'accent'"
+                                [href]="resolucion.archivo">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                Ver archivo
+                            </a>
+                        </div>
                     </div>
 
-                    <!-- Phone numbers -->
-                    <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Celular</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:phone'"></mat-icon>
-                            <input
-                                matInput
-                                [formControlName]="'celular'"
-                                [placeholder]="'Celular'">
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Tipo de documento -->
-                    <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Tipo documento</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:credit-card'"></mat-icon>
-                            <mat-select [formControlName]="'tipo_documento'">
-                                <mat-option [value]="'none'" disabled>Seleccionar tipo de documento...</mat-option>
-                                <ng-container *ngFor="let tipo_documento of tipos_documentos">
-                                    <mat-option [value]="tipo_documento.id">
-                                        {{tipo_documento.name}}
-                                    </mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Nro de documento -->
-                    <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Nro documento</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:credit-card'"></mat-icon>
-                            <input
-                                matInput
-                                [formControlName]="'nro_documento'"
-                                [placeholder]="'Número de documento'">
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Género -->
-                    <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Género</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'mat_outline:female'"></mat-icon>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'mat_outline:male'"></mat-icon>
-                            <mat-select [formControlName]="'sexo'">
-                                <mat-option [value]="'none'" disabled>Seleccionar género...</mat-option>
-                                <ng-container *ngFor="let genero of generos">
-                                    <mat-option [value]="genero.id">
-                                        {{genero.name}}
-                                    </mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Username -->
-                    <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Usuario</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_outline:user'"></mat-icon>
-                            <input
-                                matInput
-                                [formControlName]="'resolucionname'"
-                                [placeholder]="'Usuario de ingreso'">
-                        </mat-form-field>
-                    </div>
-
+                    
                     <!-- Estado -->
-                    <div class="flex flex-col mt-8" *ngIf="resolucion.idUsuario">
+                    <!-- <div class="flex flex-col mt-8" *ngIf="resolucion.idResolucion">
                         <span class="font-semibold mb-2">Estado</span>
                         <mat-slide-toggle
                             [formControlName]="'estado'"
                             [color]="'primary'">
                             {{resolucionForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
                         </mat-slide-toggle>
-                    </div>
+                    </div> -->
 
                     <!-- Actions -->
                     <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
                         <!-- Eliminar -->
-                        <!-- <button
+                        <button
                             mat-button
                             [color]="'warn'"
                             [matTooltip]="'Eliminar'"
-                            (click)="deleteUser()">
+                            (click)="deleteResolucion()">
                             Eliminar
-                        </button> -->
+                        </button>
                         <!-- Cancel -->
                         <button
                             class="ml-auto"
@@ -423,7 +262,7 @@
                             [color]="'primary'"
                             [disabled]="resolucionForm.invalid"
                             [matTooltip]="'Guardar'"
-                            (click)="saveUser()">
+                            (click)="saveResolucion()">
                             Guardar
                         </button>
                     </div>

@@ -25,15 +25,15 @@
 
                     <!-- Title -->
                     <div>
-                        <div class="text-4xl font-extrabold tracking-tight leading-none">Usuarios</div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">Resoluciones</div>
                         <div class="ml-0.5 font-medium text-secondary">
                             <ng-container *ngIf="resolucionesCount > 0">
                                 {{resolucionesCount}}
                             </ng-container>
                             {{resolucionesCount | i18nPlural: {
-                            '=0'   : 'Sin usuarios',
-                            '=1'   : 'usuario',
-                            'other': 'usuarios'
+                            '=0'   : 'Sin resoluciones',
+                            '=1'   : 'resolución',
+                            'other': 'resoluciones'
                         } }}
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                     matInput
                                     [formControl]="searchInputControl"
                                     [autocomplete]="'off'"
-                                    [placeholder]="'Buscar usuarios'">
+                                    [placeholder]="'Buscar resolucion'">
                             </mat-form-field>
                         </div>
                         <!-- Add resolucion button -->
@@ -112,7 +112,7 @@
 
                     <!-- No resoluciones -->
                     <ng-template #noResoluciones>
-                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay usuarios!</div>
+                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay resoluciones!</div>
                     </ng-template>
 
                 </div>
