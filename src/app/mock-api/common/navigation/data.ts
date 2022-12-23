@@ -206,6 +206,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/grados/secretaria/validados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.secretaria.aprobados',
+                title: 'Aprobados Secretaria',
+                type : 'basic',
+                link : '/grados/secretaria/aprobados',
                 permissions: ['SECRETARIA(O) DE FACULTAD'] //Secretaria general
             },
             {

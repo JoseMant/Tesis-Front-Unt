@@ -73,6 +73,9 @@ import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/sec
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
+import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
+import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
+import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
 import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
 import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
 import { GradoSecretariaPendienteDetalleComponent } from 'app/modules/admin/grados/ura/pendientes/detalle/details.component';
@@ -149,6 +152,9 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosSecretariaValidadosListComponent,
         GradoSecretariaValidadoDetalleComponent,
 
+        GradosSecretariaAprobadosComponent,
+        GradosSecretariaAprobadosListComponent,
+        GradoSecretariaAprobadoDetalleComponent,
         GradosFirmaSecretariaComponent,
         GradosFirmaSecretariaListComponent,
         GradoFirmaSecretariaDetalleComponent,
