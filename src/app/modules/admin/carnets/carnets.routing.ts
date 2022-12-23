@@ -147,7 +147,7 @@ export const carnetsRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS'],
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'SECRETARIA(O) DE ESCUELA'],
                 redirectTo: 'home'
             }
         },

@@ -401,15 +401,10 @@ export class CarnetsService
                 // debugger;
                 // Find the index of the updated carnet
                 const index = carnets.findIndex(item => item.idTramite === id);
-
-                if (updatedCarnet.idEstado_tramite == 8 || updatedCarnet.idEstado_tramite == 9 || updatedCarnet.idEstado_tramite == 25) {
-                    // Update the carnet
-                    carnets.splice(index, 1);
-                } else {
-                    // Update the carnet
-                    carnets[index] = updatedCarnet;
-                }
-
+                
+                // Update the carnet
+                carnets.splice(index, 1);
+            
                 // Update the carnets
                 this._carnets.next(carnets);
 

@@ -267,42 +267,63 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
 
     finalizarCarnet(carnet: CarnetInterface): void
     {
-        // Config the alert
-        this.alert = {
-            type   : 'warning',
-            message: 'El sistema está cargando...',
-            title: 'Advertencia'
-        };
-        this.openSnack();
-        
-        this._carnetsService.finalizarCarnet(carnet.idTramite, carnet)
-        .pipe(
-            finalize(() => {
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title  : 'Entregar carnet a ' +  carnet.solicitante,
+            message: '¿Estás seguro de que quieres entregar este carnet? ¡Esta acción no se puede deshacer!',
+            actions: {
+                confirm: {
+                    label: 'Entregar'
+                },
+                cancel: {
+                    label: 'Cancelar'
+                }
 
-                // Show the alert
-                this.openSnack();
-                
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            })
-        )
-        .subscribe(
-            (response) => {
-                // Config the alert
-                this.alert = {
-                    type   : 'success',
-                    message: 'Carné entregado al alumno',
-                    title: 'Actualizado'
-                };
-            },
-            (response) => {
-                // Config the alert
-                this.alert = {
-                    type   : 'warn',
-                    message: response.error.message,
-                    title: 'Error'
-                };
             }
-        );
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+
+            // If the confirm button pressed...
+            if ( result === 'confirmed' )
+            {
+                // Get the tramite object
+                // const tramite = this.selectedTramite;
+                
+                // // Config the alert
+                // this.alert = {
+                //     type   : 'warning',
+                //     message: 'El sistema está cargando...',
+                //     title: 'Advertencia'
+                // };
+                
+                // Delete the tramite on the server
+                this._carnetsService.finalizarCarnet(carnet.idTramite, carnet)
+                .pipe(
+                    finalize(() => {
+                        // Config the alert
+                        this.alert = {
+                            type   : 'success',
+                            message: 'Carné entregado al alumno',
+                            title: 'Actualizado'
+                        };
+
+                        // Show the alert
+                        this.openSnack();
+                        
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    })
+                )
+                .subscribe(
+                    (response) => {
+                        console.log(response);
+                
+                        this.openSnack();
+                    }
+                );
+            }
+        });
     }
 }
