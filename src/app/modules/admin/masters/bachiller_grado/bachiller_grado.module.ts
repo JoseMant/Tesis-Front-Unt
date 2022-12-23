@@ -32,9 +32,9 @@ import { CronogramasListComponent } from 'app/modules/admin/masters/bachiller_gr
 import { CronogramasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/cronogramas/details/details.component';
 import { bachiller_gradoRoutes } from 'app/modules/admin/masters/bachiller_grado/bachiller_grado.routing';
 // --------------
-import { AcreditadasComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.component';
-import { AcreditadasListComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/list/list.component';
-import { AcreditadasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/details/details.component';
+// import { AcreditadasComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/acreditadas.component';
+// import { AcreditadasListComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/list/list.component';
+// import { AcreditadasDetailsComponent } from 'app/modules/admin/masters/bachiller_grado/acreditadas/details/details.component';
 
 import { ResolucionesComponent } from 'app/modules/admin/masters/bachiller_grado/resoluciones/resoluciones.component';
 import { ResolucionesListComponent } from 'app/modules/admin/masters/bachiller_grado/resoluciones/list/list.component';
@@ -45,9 +45,9 @@ import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/bachille
         CronogramasComponent,
         CronogramasListComponent,
         CronogramasDetailsComponent,
-        AcreditadasComponent,
-        AcreditadasListComponent,
-        AcreditadasDetailsComponent,
+        // AcreditadasComponent,
+        // AcreditadasListComponent,
+        // AcreditadasDetailsComponent,
         ResolucionesComponent,
         ResolucionesListComponent,
         ResolucionesDetailsComponent,

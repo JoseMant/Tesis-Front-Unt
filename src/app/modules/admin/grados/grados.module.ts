@@ -73,6 +73,11 @@ import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/sec
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
+import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
+import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
+import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
+
+
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
 @NgModule({
@@ -126,6 +131,10 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosSecretariaValidadosComponent,
         GradosSecretariaValidadosListComponent,
         GradoSecretariaValidadoDetalleComponent,
+
+        GradosSecretariaAprobadosComponent,
+        GradosSecretariaAprobadosListComponent,
+        GradoSecretariaAprobadoDetalleComponent,
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

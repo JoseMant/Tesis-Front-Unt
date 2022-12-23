@@ -297,7 +297,7 @@
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                     cmat-button
-                    [routerLink]="['/grados/facultad/diplomas']"
+                    [routerLink]="['/grados/ura/diplomas']"
                     >
                     Regresar
                 </button>
@@ -309,7 +309,7 @@
                     [disabled]="gradoForm.disabled"
                     (click)="enviarDatos()">
                     <span *ngIf="!gradoForm.disabled">
-                        Finalizar
+                        Enviar a secretaría general
                     </span>
                     <mat-progress-spinner
                         *ngIf="gradoForm.disabled"

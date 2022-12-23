@@ -19,19 +19,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import * as moment from 'moment';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
-import { usersRoutes } from 'app/modules/admin/apps/resoluciones/resoluciones.routing';
-import { UsersComponent } from 'app/modules/admin/apps/resoluciones/resoluciones.component';
-import { UsersDetailsComponent } from 'app/modules/admin/apps/resoluciones/details/details.component';
-import { UsersListComponent } from 'app/modules/admin/apps/resoluciones/list/list.component';
+// import { usersRoutes } from 'app/modules/admin/apps/resoluciones/resoluciones.routing';
+// import { UsersComponent } from 'app/modules/admin/apps/resoluciones/resoluciones.component';
+// import { UsersDetailsComponent } from 'app/modules/admin/apps/resoluciones/details/details.component';
+// import { UsersListComponent } from 'app/modules/admin/apps/resoluciones/list/list.component';
 
 @NgModule({
     declarations: [
-        UsersComponent,
-        UsersListComponent,
-        UsersDetailsComponent
+        // UsersComponent,
+        // UsersListComponent,
+        // UsersDetailsComponent
     ],
     imports     : [
-        RouterModule.forChild(usersRoutes),
+        // RouterModule.forChild(usersRoutes),
         MatButtonModule,
         MatCheckboxModule,
         MatDatepickerModule,

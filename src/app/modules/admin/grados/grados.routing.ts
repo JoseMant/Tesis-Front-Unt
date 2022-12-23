@@ -54,6 +54,13 @@ import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/sec
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
 import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
+
+import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
+import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
+import { GradosSecretariaAprobadosResolver,GradoSecretariaAprobadoResolver } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.resolvers';
+import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
+
+
 export const gradosRoutes: Route[] = [
     {
       path     : 'escuela/validados',
@@ -280,6 +287,26 @@ export const gradosRoutes: Route[] = [
           component    : GradoSecretariaValidadoDetalleComponent,
           resolve      : {
             grado  : GradoSecretariaValidadoResolver,
+          },
+        }
+      ]
+    },
+    {
+      path     : 'secretaria/aprobados',
+      component: GradosSecretariaAprobadosComponent,
+      resolve  : {
+        grados  : GradosSecretariaAprobadosResolver,
+      },
+      children : [
+        {
+          path     : '',
+          component: GradosSecretariaAprobadosListComponent,
+        },
+        {
+          path         : ':idTramite',
+          component    : GradoSecretariaAprobadoDetalleComponent,
+          resolve      : {
+            grado  : GradoSecretariaAprobadoResolver,
           },
         }
       ]

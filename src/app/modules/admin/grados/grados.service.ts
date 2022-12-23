@@ -336,6 +336,26 @@ export class GradosService
         })
       );
     }
+
+
+    getGradosAprobadosSecretaria(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/aprobados/secretaria', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._grados.next(response.data);
+        })
+      );
+    }
     /**
      * Get grado by id
      */
