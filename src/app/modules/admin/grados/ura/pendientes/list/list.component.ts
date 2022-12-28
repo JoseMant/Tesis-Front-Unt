@@ -9,10 +9,10 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'grados-pendientes-list',
@@ -101,7 +101,7 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
         // Create the selected resolucion form
         this.selectedResolucionForm = this._formBuilder.group({
             idResolucion     : [''],
-            name             : ['', [Validators.required]]
+            nro_resolucion             : ['', [Validators.required]]
         });
 
         // Create the selected grado form
@@ -163,8 +163,8 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    var data = this.selectedResolucionForm.get('name').value;
-                    return this._gradosService.getGradosPendientesSecretaria(data, 0, 10, 'fecha', 'desc', query);
+                    var data = this.selectedResolucionForm.get('nro_resolucion').value;
+                    return this._gradosService.getGradosPendientesImpresion(data, 0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -183,38 +183,11 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
         });
     }
 
-    // editarGrado(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_grado'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/grados_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfGradoComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const gradoPendiente = response.getRawValue();
-    //             this._gradosService.updateGrado(gradoPendiente.idGrado, gradoPendiente ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Grado actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
+    limpiarResolucion() {
+        this.selectedResolucionForm.enable();
+        this.selectedResolucionForm.patchValue({nro_resolucion: ''});
+        this._gradosService.cleanGrados$;
+    }
 
     /**
      * After view init
@@ -246,8 +219,8 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
                 switchMap(() => {
                     this.isLoading = true;
                     // Get the product object
-                    const data = this.selectedResolucionForm.get('name').value;
-                    return this._gradosService.getGradosPendientesSecretaria(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    const data = this.selectedResolucionForm.get('nro_resolucion').value;
+                    return this._gradosService.getGradosPendientesImpresion(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -255,18 +228,40 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
             ).subscribe();
         }
     }
-    
+
+    verLibro() {
+        
+    }
+
+    getFileDiploma(fileName: string) {
+        return environment.baseUrlStorage + fileName;
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
     buscarResolucion(): void
     {
         // Get the product object
-        const data = this.selectedResolucionForm.get('name').value;
+        const data = this.selectedResolucionForm.get('nro_resolucion').value;
         
-        this._gradosService.getGradosPendientesSecretaria(data).subscribe((response) => {
+        this._gradosService.getGradosPendientesImpresion(data).subscribe((response) => {
             console.log(response)
             if (response.resolucion) {
                 this.selectedResolucionForm.patchValue(response.resolucion);
                 this.selectedResolucionForm.disable();
-                // this.selectedTramites = [];
+                
                 // Show a success message
                 this.alert = {
                     type   : 'success',
@@ -279,6 +274,7 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
                 this._changeDetectorRef.markForCheck();
             } else {
                 this.selectedResolucionForm.enable();
+                
                 // Show a warn message
                 this.alert = {
                     type   : 'warn',
@@ -292,12 +288,6 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
             }
 
         });
-    }
-
-    limpiarResolucion() {
-        this.selectedResolucionForm.enable();
-        this.selectedResolucionForm.patchValue({name: ''});
-        this._gradosService.cleanGrados$;
     }
 
     registrarEnLibro() {
@@ -320,24 +310,6 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
             this.openSnack();
         });
     }
-
-    verLibro() {
-        
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Track by function for ngFor loops

@@ -101,7 +101,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
         // Create the selected resolucion form
         this.selectedResolucionForm = this._formBuilder.group({
             idResolucion     : [''],
-            name             : ['', [Validators.required]]
+            nro_resolucion   : ['', [Validators.required]]
         });
 
         // Create the selected grado form
@@ -163,7 +163,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    var data = this.selectedResolucionForm.get('name').value;
+                    var data = this.selectedResolucionForm.get('nro_resolucion').value;
                     return this._gradosService.getGradosValidadosSecretaria(data, 0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
@@ -182,39 +182,6 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
             data: this.alert,
         });
     }
-
-    // editarGrado(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_grado'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/grados_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfGradoComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const gradoValidado = response.getRawValue();
-    //             this._gradosService.updateGrado(gradoValidado.idGrado, gradoValidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Grado actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
 
     /**
      * After view init
@@ -246,7 +213,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                 switchMap(() => {
                     this.isLoading = true;
                     // Get the product object
-                    const data = this.selectedResolucionForm.get('name').value;
+                    const data = this.selectedResolucionForm.get('nro_resolucion').value;
                     return this._gradosService.getGradosValidadosSecretaria(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
@@ -259,14 +226,13 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
     buscarResolucion(): void
     {
         // Get the product object
-        const data = this.selectedResolucionForm.get('name').value;
+        const data = this.selectedResolucionForm.get('nro_resolucion').value;
         
         this._gradosService.getGradosValidadosSecretaria(data).subscribe((response) => {
-            console.log(response)
             if (response.resolucion) {
                 this.selectedResolucionForm.patchValue(response.resolucion);
                 this.selectedResolucionForm.disable();
-                // this.selectedTramites = [];
+                
                 // Show a success message
                 this.alert = {
                     type   : 'success',
@@ -296,7 +262,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
 
     limpiarResolucion() {
         this.selectedResolucionForm.enable();
-        this.selectedResolucionForm.patchValue({name: ''});
+        this.selectedResolucionForm.patchValue({nro_resolucion: ''});
         this._gradosService.cleanGrados$;
     }
 
