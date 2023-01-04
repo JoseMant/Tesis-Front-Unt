@@ -154,7 +154,7 @@ export class GradoFirmaRectorDetalleComponent implements OnInit, OnDestroy
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
-            archivo: [''],
+            archivoPdf: [''],
             idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
@@ -193,10 +193,6 @@ export class GradoFirmaRectorDetalleComponent implements OnInit, OnDestroy
                 console.log(grado);
                 // Get the grado
                 this.grado = grado;
-                // this.grado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
@@ -257,7 +253,7 @@ export class GradoFirmaRectorDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     selectGrado(event): void {
         const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
+        this.gradoForm.patchValue({archivoPdf: files});
         console.log(this.gradoForm);
         if (files) this.newGrado = true;
         else this.newGrado = false;
@@ -276,18 +272,15 @@ export class GradoFirmaRectorDetalleComponent implements OnInit, OnDestroy
     }
     uploadGrado(): void{
         const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            archivo: this.gradoForm.getRawValue().archivo,
+            idTramite: this.gradoForm.get('idTramite').value,
+            archivo: this.gradoForm.get('archivoPdf').value,
         };
         const formData = new FormData();
             formData.append('idTramite', data.idTramite);
             formData.append('archivo', data.archivo);
         this.gradoForm.disable();
 
-        this._gradoService.uploadGrado(data.idTramite,formData).subscribe((newMadurity) => {
-            console.log(newMadurity);
-            // Toggle the edit mode off
-            //this.toggleEditMode(false);
+        this._gradoService.uploadGrado(data.idTramite,formData).subscribe((response) => {
             // Re-enable the form
             this.gradoForm.enable();
             // Go to new product
@@ -298,19 +291,25 @@ export class GradoFirmaRectorDetalleComponent implements OnInit, OnDestroy
                 title: 'Guardado'
             };
             this.openSnack();
+
             this.newGrado = false;
+
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
         (response) => {
             // Re-enable the form
             this.gradoForm.enable();
+
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
     

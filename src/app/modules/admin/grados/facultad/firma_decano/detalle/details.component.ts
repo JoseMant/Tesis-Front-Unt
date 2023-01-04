@@ -8,19 +8,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import moment from 'moment';
-// import { RequisitosDialogComponent } from '../../asignados/dialogReq/dialogReq.component';
-import { VisorPdfGradoComponent } from '../../../visorPdf/visorPdfGrado.component';
-// import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
+import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorPdfGrado.component';
 
 @Component({
     selector       : 'grado-firma-decano-details',
@@ -154,7 +148,7 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
-            archivo: [''],
+            archivoPdf: [''],
             idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
@@ -193,10 +187,6 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
                 console.log(grado);
                 // Get the grado
                 this.grado = grado;
-                // this.grado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
@@ -257,8 +247,7 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     selectGrado(event): void {
         const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
-        console.log(this.gradoForm);
+        this.gradoForm.patchValue({archivoPdf: files});
         if (files) this.newGrado = true;
         else this.newGrado = false;
     }
@@ -276,16 +265,16 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
     }
     uploadGrado(): void{
         const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            archivo: this.gradoForm.getRawValue().archivo,
+            idTramite: this.gradoForm.get('idTramite').value,
+            archivo: this.gradoForm.get('archivoPdf').value
         };
         const formData = new FormData();
-            formData.append('idTramite', data.idTramite);
-            formData.append('archivo', data.archivo);
+        formData.append('idTramite', data.idTramite);
+        formData.append('archivo', data.archivo);
         this.gradoForm.disable();
 
-        this._gradoService.uploadGrado(data.idTramite,formData).subscribe((newMadurity) => {
-            console.log(newMadurity);
+        this._gradoService.uploadGrado(data.idTramite,formData).subscribe((response) => {
+            console.log(response);
             // Toggle the edit mode off
             //this.toggleEditMode(false);
             // Re-enable the form
@@ -297,8 +286,11 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
                 message: 'Grado cargado correctamente',
                 title: 'Guardado'
             };
+
             this.openSnack();
+
             this.newGrado = false;
+
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },

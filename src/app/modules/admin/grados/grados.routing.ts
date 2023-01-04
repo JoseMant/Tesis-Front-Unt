@@ -55,10 +55,10 @@ import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados
 import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
-import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
-import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
-import { GradosSecretariaAprobadosResolver,GradoSecretariaAprobadoResolver } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.resolvers';
-import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
+// import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
+// import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
+// import { GradosSecretariaAprobadosResolver,GradoSecretariaAprobadoResolver } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.resolvers';
+// import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
 // -------------
 import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
 import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
@@ -317,7 +317,7 @@ export const gradosRoutes: Route[] = [
       ]
     },
     {
-        path     : 'facultad/firma_decano',
+      path     : 'firma/decano',
         component: GradosFirmaDecanoComponent,
         canActivate: [NgxPermissionsGuard],
         data: {
@@ -344,7 +344,7 @@ export const gradosRoutes: Route[] = [
         ]
     },
     {
-        path     : 'secretaria/firma_secretaria',
+        path     : 'firma/secretaria_general',
         component: GradosFirmaSecretariaComponent,
         canActivate: [NgxPermissionsGuard],
         data: {
@@ -371,7 +371,7 @@ export const gradosRoutes: Route[] = [
         ]
     },
     {
-        path     : 'rector/firma_rector',
+        path     : 'firma/rector',
         component: GradosFirmaRectorComponent,
         canActivate: [NgxPermissionsGuard],
         data: {

@@ -154,7 +154,7 @@ export class GradoFirmaSecretariaDetalleComponent implements OnInit, OnDestroy
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
-            archivo: [''],
+            archivoPdf: [''],
             idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
@@ -175,17 +175,6 @@ export class GradoFirmaSecretariaDetalleComponent implements OnInit, OnDestroy
             requisitos: [''],
         });
 
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
-
         // Get the grado
         this._gradoService.grado$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -193,10 +182,6 @@ export class GradoFirmaSecretariaDetalleComponent implements OnInit, OnDestroy
                 console.log(grado);
                 // Get the grado
                 this.grado = grado;
-                // this.grado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
@@ -226,38 +211,12 @@ export class GradoFirmaSecretariaDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    // rechazarRequisitos(): void {
-    //     for (const itera of this.grado.requisitos) {
-    //         itera['selected'] = false;
-    //     }
-    //     const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-    //         autoFocus: false,
-    //         disableClose: true,
-    //         data: JSON.parse( JSON.stringify( {
-    //             requisitos: this.grado.requisitos
-    //         } ))
-    //     });
-    //     dialogRef.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue().requisitos);
-    //             this.grado.requisitos = response.getRawValue().requisitos;
-    //             console.log(this.grado.requisitos);
-    //             this.gradoForm.patchValue({ requisitos: response.getRawValue().requisitos});
-    //             console.log(this.gradoForm.getRawValue());
-    //             // Mark for check
-    //             this._changeDetectorRef.markForCheck();
-    //         }
-    //     });
-    // }
-
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     selectGrado(event): void {
         const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
+        this.gradoForm.patchValue({archivoPdf: files});
         console.log(this.gradoForm);
         if (files) this.newGrado = true;
         else this.newGrado = false;
@@ -276,12 +235,12 @@ export class GradoFirmaSecretariaDetalleComponent implements OnInit, OnDestroy
     }
     uploadGrado(): void{
         const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            archivo: this.gradoForm.getRawValue().archivo,
+            idTramite: this.gradoForm.get('idTramite').value,
+            archivo: this.gradoForm.get('archivoPdf').value,
         };
         const formData = new FormData();
-            formData.append('idTramite', data.idTramite);
-            formData.append('archivo', data.archivo);
+        formData.append('idTramite', data.idTramite);
+        formData.append('archivo', data.archivo);
         this.gradoForm.disable();
 
         this._gradoService.uploadGrado(data.idTramite,formData).subscribe((newMadurity) => {
@@ -305,12 +264,16 @@ export class GradoFirmaSecretariaDetalleComponent implements OnInit, OnDestroy
         (response) => {
             // Re-enable the form
             this.gradoForm.enable();
+            
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
     

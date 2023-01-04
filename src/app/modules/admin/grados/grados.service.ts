@@ -395,11 +395,10 @@ export class GradosService
       );
     }
 
-    getGradosPendientesSecretaria(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosPendientesImpresion(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
-        console.log(resolucion);
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/pendientes/secretaria/' + resolucion, {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/pendientes/impresion/' + resolucion, {
         params: {
             page: '' + page,
             size: '' + size,
@@ -429,7 +428,7 @@ export class GradosService
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
                 if (grado) {
                     grado.fut = environment.baseUrl + grado.fut;
-                    if ( grado.diploma_final)  {
+                    if (grado.diploma_final)  {
                         grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
                     }else{
                         grado.diploma_final = environment.baseUrl + "libro";
@@ -836,8 +835,9 @@ export class GradosService
                     tap(() => {
 
                         updatedGrado.fut = environment.baseUrl + updatedGrado.fut;
-                        updatedGrado.voucher = environment.baseUrlStorage + updatedGrado.voucher;
-                        updatedGrado.grado_final = environment.baseUrlStorage + updatedGrado.grado_final;
+                        if (updatedGrado.voucher) updatedGrado.voucher = environment.baseUrlStorage + updatedGrado.voucher;
+                        if (updatedGrado.exonerado_archivo) updatedGrado.exonerado_archivo = environment.baseUrlStorage + updatedGrado.exonerado_archivo;
+                        if (updatedGrado.diploma_final) updatedGrado.diploma_final = environment.baseUrlStorage + updatedGrado.diploma_final;
                         updatedGrado.requisitos.forEach(element => {
                             if (element.archivo) {
                                 element.archivo = environment.baseUrlStorage + element.archivo;
