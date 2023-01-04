@@ -103,7 +103,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
             tipo_documento     : ['', [Validators.required]],
             nro_documento     : ['', [Validators.required]],
             correo        : ['', [Validators.required]],
-            celular        : ['', [Validators.required]],
+            celular        : [''],
             sexo        : ['', [Validators.required]],
             estado        : [null, [Validators.required]],
             avatar      : [null],

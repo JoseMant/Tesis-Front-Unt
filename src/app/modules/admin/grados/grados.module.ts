@@ -90,6 +90,7 @@ import { GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firm
 import { GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
 import { GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
 
+import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/pendientes/dialog/dialog.component';
 
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
@@ -160,6 +161,8 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosSecretariaPendientesComponent,
         GradosSecretariaPendientesListComponent,
         GradoSecretariaPendienteDetalleComponent,
+        
+        GradoURAPendienteDialogComponent,
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

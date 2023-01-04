@@ -157,11 +157,11 @@
                                 N° Matrícula
                             </div>
 
-                            <!-- Fecha-->
+                            <!-- Cod. Diploma-->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'fecha'">
-                                Fecha
+                                [mat-sort-header]="'codigo_diploma'">
+                                Cod. Diploma
                             </div>
 
                             <!-- Opciones -->
@@ -209,7 +209,7 @@
 
                                     <!-- Stock -->
                                     <div class="hidden lg:block">
-                                        {{grado.fecha}}
+                                        {{grado.codigo_diploma}}
                                     </div>
 
                                     <!-- Details button -->
@@ -225,7 +225,7 @@
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
-                                            (click)="abrirModal()">
+                                            (click)="verCodigoDiploma(grado)">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>

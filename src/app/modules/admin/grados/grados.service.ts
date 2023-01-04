@@ -885,28 +885,60 @@ export class GradosService
     registrarLibro(resolucion: Resolucion): Observable<any>
     {
         return this.grados$.pipe(
-        take(1),
-        switchMap(grados => this._httpClient.put<any[]>(environment.baseUrl + 'grados/registrar/libro', {"idResolucion":resolucion}).pipe(
-            map((updatedGrados) => {
-                console.log(updatedGrados);
-                // debugger;
-                // Update the messages with the new message
-                // this._gradosService.getGradosValidados(0, 10, 'fecha', 'desc', query);
-                updatedGrados.forEach(element => {
-                    // Find the index of the deleted product
-                    const index = grados.findIndex(item => item.idTramite === element);
-    
-                    // Delete the product
-                    grados.splice(index, 1);
-                });
-    
-                // Update the grados
-                this._grados.next(grados);
-    
-                // Return the new message from observable
-                return grados;
-            })
-        ))
-    );
+            take(1),
+            switchMap(grados => this._httpClient.put<any[]>(environment.baseUrl + 'grados/registrar/libro', {"idResolucion":resolucion}).pipe(
+                map((updatedGrados) => {
+                    console.log(updatedGrados);
+                    // debugger;
+                    // Update the messages with the new message
+                    // this._gradosService.getGradosValidados(0, 10, 'fecha', 'desc', query);
+                    updatedGrados.forEach(element => {
+                        // Find the index of the deleted product
+                        const index = grados.findIndex(item => item.idTramite === element.idTramite);
+        
+                        // Delete the product
+                        grados.splice(index, 1);
+                    });
+        
+                    // Update the grados
+                    this._grados.next(grados);
+        
+                    // Return the new message from observable
+                    return grados;
+                })
+            ))
+        );
+    }
+
+    editCodigoDiploma(grado: GradoInterface, apply: boolean): Observable<any>
+    {
+        return this.grados$.pipe(
+            take(1),
+            switchMap(grados => this._httpClient.put<any[]>(environment.baseUrl + 'create/codigo', {
+                "grado":grado,
+                "flag": apply
+            }).pipe(
+                map((updatedGrados) => {
+                    console.log(updatedGrados);
+                    
+                    // Update the messages with the new message
+                    updatedGrados.forEach(element => {
+                        // Find the index of the deleted product
+                        const index = grados.findIndex(item => item.idTramite === element.idTramite);
+        
+                        // Delete the product
+                        // grados.splice(index, 1);
+                        grados[index] = element;
+                        
+                    });
+        
+                    // Update the grados
+                    this._grados.next(grados);
+        
+                    // Return the new message from observable
+                    return grados;
+                })
+            ))
+        );
     }
 }

@@ -13,6 +13,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
+import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/pendientes/dialog/dialog.component';
 
 @Component({
     selector       : 'grados-pendientes-list',
@@ -235,6 +236,18 @@ export class GradosSecretariaPendientesListComponent implements OnInit, AfterVie
 
     getFileDiploma(fileName: string) {
         return environment.baseUrlStorage + fileName;
+    }
+
+    verCodigoDiploma(grado): void {
+        const respDial = this.visordialog.open(
+            GradoURAPendienteDialogComponent,
+            {
+                data: grado,
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
     }
 
     /**

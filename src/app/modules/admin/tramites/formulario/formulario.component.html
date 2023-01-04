@@ -173,6 +173,38 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
+                                    *ngIf="data.idUnidad === 2 && dependencias"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>MENCION</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedFacultad($event.value)"
+                                        [formControlName]="'idDependencia'">
+                                        <ng-container *ngFor="let dependencia of dependencias">
+                                            <mat-option [value]="dependencia.idDependencia">
+                                                {{dependencia.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="data.idUnidad === 2 && dependencias"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>PROGRAMA</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedEscuela($event.value)"
+                                        [formControlName]="'idSubdependencia'">
+                                        <ng-container *ngFor="let programa of subdependencias">
+                                            <mat-option [value]="programa.idPrograma">
+                                                {{programa.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
                                     *ngIf="data.idUnidad === 4 && dependencias"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"

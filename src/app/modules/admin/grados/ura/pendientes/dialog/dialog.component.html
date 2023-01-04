@@ -1,0 +1,73 @@
+<div
+    mat-dialog-title
+    class="text text-white text-2x1 text-center justify-center flex flex-col -mx-6 -mt-6 py-4 bg-blue-900"
+>
+    <span class="mx-3">{{this.data.solicitante}}</span>
+</div>
+<div class="flex flex-col w-full">
+    <!-- Section -->
+    <form [formGroup]="gradoForm" #gradoNgForm="ngForm">
+        Ingrese o modifique el código del diploma a imprimir
+        <div class="grid grid-cols-6 gap-y-6 mb-6 mt-3">
+            <mat-form-field
+                class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                appearance="outline"
+            >
+                <mat-label>Código del diploma</mat-label>
+                <input
+                    type="text"
+                    matInput
+                    [formControlName]="'codigo_diploma'"
+                />
+            </mat-form-field>
+        </div>
+        <div class="grid grid-cols-6 gap-y-6 mb-6">
+            <mat-form-field
+                class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                appearance="outline"
+            >
+                <mat-label>Motivo de corrección</mat-label>
+                <textarea
+                    class="min-h-5 my-0"
+                    [rows]="3"
+                    matInput
+                    [formControlName]="'observacion_diploma'">
+                </textarea>
+            </mat-form-field>
+        </div>
+        <br><br>
+        ¿Desea aplicar los cambios a todos los trámites siguientes?     
+        <!-- <div class="grid grid-cols-6 gap-y-6 mb-6"> -->
+            <div
+                class="flex items-center h-10 min-h-10 px-4 cursor-pointer hover:bg-hover"
+                (click)="toggleChecking($event)"
+                matRipple>
+                <mat-checkbox
+                    class="flex items-center h-10 min-h-10 pointer-events-none"
+                    [checked]="gradoForm.get('apply').value"
+                    [color]="'primary'"
+                    [disableRipple]="true">
+                </mat-checkbox>
+                <div class="ml-1 w-100">Aplicar a los siguientes trámites</div>
+            </div>
+        <!-- </div> -->
+    </form>
+    
+</div>
+<div mat-dialog-actions class="flex justify-end">
+    <button
+        mat-button
+        mat-dialog-close
+        class="bg-red-600 hover:bg-red-700 text-white"
+    >
+        Cerrar
+    </button>
+    <button
+        mat-button
+        class="rounded-full bg-primary-600 hover:bg-primary-500 text-white"
+        cmat-button
+        (click)="save()"
+    >
+        Guardar
+    </button>
+</div>
