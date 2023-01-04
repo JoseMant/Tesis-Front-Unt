@@ -317,21 +317,6 @@ export const gradosRoutes: Route[] = [
       ]
     },
     {
-      path     : 'secretaria/aprobados',
-      component: GradosSecretariaAprobadosComponent,
-      resolve  : {
-        grados  : GradosSecretariaAprobadosResolver,
-      },
-      children : [
-        {
-          path     : '',
-          component: GradosSecretariaAprobadosListComponent,
-        },
-        {
-          path         : ':idTramite',
-          component    : GradoSecretariaAprobadoDetalleComponent,
-          resolve      : {
-            grado  : GradoSecretariaAprobadoResolver,
         path     : 'facultad/firma_decano',
         component: GradosFirmaDecanoComponent,
         canActivate: [NgxPermissionsGuard],

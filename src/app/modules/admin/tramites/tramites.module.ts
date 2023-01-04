@@ -39,6 +39,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { VisorPdfComponent } from './visorPdf/visorPdf.component';
 import { VisorExoneradoComponent } from './visorExonerado/visorExonerado.component';
 import { VisorImagenComponent } from './visorImagen/visorImagen.component';
+import { TramiteFisicoListComponent } from 'app/modules/admin/tramites/tramites_fisicos/formulario.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import { VisorImagenComponent } from './visorImagen/visorImagen.component';
         TramiteDetalleComponent,
         VisorPdfComponent,
         VisorExoneradoComponent,
-        VisorImagenComponent
+        VisorImagenComponent,
+        TramiteFisicoListComponent
     ],
     imports     : [
         RouterModule.forChild(tramitesRoutes),

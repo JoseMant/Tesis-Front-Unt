@@ -194,6 +194,26 @@ export class TramiteService
         );
     }
 
+    createTramitesFisicos(tramite: any): Observable<any>
+    {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(tramites => this._httpClient.post<any>(environment.baseUrl + 'tramites_fisicos', tramite).pipe(
+                map((newTramite) => {
+                    console.log(newTramite);
+
+                    // Return the new tramite
+                    return newTramite;
+                })
+            )),
+            catchError((error) => {
+                console.error(error);
+                return throwError(error);
+            })
+        );
+    }
+
+
     /**
      * Update product
      *

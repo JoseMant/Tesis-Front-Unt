@@ -11,12 +11,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
         permissions: []
     },
     {
-        id   : 'tramites',
+        id   : 'tramites.digitales',
         title: 'Registrar trámite',
         type : 'basic',
         icon : 'heroicons_outline:pencil-alt',
-        link : '/tramites',
+        link : '/tramites/digitales',
         permissions: ['ALUMNO']
+    },
+    {
+        id   : 'tramites.fisicos',
+        title: 'Trámite físicos',
+        type : 'basic',
+        icon : 'heroicons_outline:pencil-alt',
+        link : '/tramites/fisicos',
+        permissions: ['ADMINISTRADOR']
     },
     {
         id   : 'certificados',

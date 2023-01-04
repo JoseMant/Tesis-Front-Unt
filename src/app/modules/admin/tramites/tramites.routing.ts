@@ -4,6 +4,7 @@ import { TramiteListComponent } from 'app/modules/admin/tramites/formulario/form
 import { TramiteDetalleComponent } from 'app/modules/admin/tramites/details/details.component';
 import { BancosResolver, MotivosResolver, TipoTramitesResolver, TramitesResolver, UnidadesResolver, TramiteResolver  } from 'app/modules/admin/tramites/tramites.resolvers';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { TramiteFisicoListComponent } from 'app/modules/admin/tramites/tramites_fisicos/formulario.component';
 
 export const tramitesRoutes: Route[] = [
     {
@@ -25,14 +26,12 @@ export const tramitesRoutes: Route[] = [
         },
         children : [
             {
-                path     : '',
+                path     : 'digitales',
                 component: TramiteListComponent,
-                // resolve  : {
-                    // tipo_tramites       : TipoTramitesResolver,
-                    // bancos: BancosResolver,
-                    // unidades: UnidadesResolver,
-                    // motivos: MotivosResolver
-                // },
+            },
+            {
+                path     : 'fisicos',
+                component: TramiteFisicoListComponent,
             },
             {
                 path         : ':id',
