@@ -83,13 +83,23 @@
                         </div>
                     </ng-container>
 
-                    <!-- Birthday -->
-                    <!-- <ng-container *ngIf="resolucion.birthday">
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:cake'"></mat-icon>
-                            <div class="ml-6 leading-6">{{resolucion.birthday | date:'longDate'}}</div>
+                    
+                    <div class="mt-8">
+                        <div class="fuse-mat-no-subscript w-full text-center">
+                            <a
+                                mat-flat-button
+                                target="_blank"
+                                matTooltip="Ver documento"
+                                [color]="'accent'"
+                                [href]="resolucion.archivo">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                Ver archivo
+                            </a>
                         </div>
-                    </ng-container> -->
+                    </div>
                 </div>
 
             </div>

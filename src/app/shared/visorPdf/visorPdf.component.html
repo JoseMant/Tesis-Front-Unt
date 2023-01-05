@@ -3,6 +3,17 @@
     class="text text-white text-2x1 text-center justify-center flex flex-col -mx-6 -mt-6 py-4 bg-blue-900"
 >
     <span class="mx-3">{{this.data.archivoPdf.name}}</span>
+    <div class="absolute top-0 right-0 pt-4 pr-4">
+        <button
+            mat-icon-button
+            [matDialogClose]="undefined">
+            <mat-icon
+                class="text-secondary"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+    <ng-container>
+    </ng-container>
 </div>
 <div class="flex flex-col w-full">
     <pdf-viewer [src]="pdfSource"

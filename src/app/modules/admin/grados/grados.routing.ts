@@ -55,15 +55,10 @@ import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados
 import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
-// import { GradosSecretariaAprobadosComponent } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.component';
-// import { GradosSecretariaAprobadosListComponent } from 'app/modules/admin/grados/secretaria/aprobados/list/list.component';
-// import { GradosSecretariaAprobadosResolver,GradoSecretariaAprobadoResolver } from 'app/modules/admin/grados/secretaria/aprobados/aprobados.resolvers';
-// import { GradoSecretariaAprobadoDetalleComponent } from 'app/modules/admin/grados/secretaria/aprobados/detalle/details.component';
 // -------------
 import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
 import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
 import { GradoSecretariaPendienteResolver } from 'app/modules/admin/grados/ura/pendientes/pendientes.resolvers';
-import { GradoSecretariaPendienteDetalleComponent } from 'app/modules/admin/grados/ura/pendientes/detalle/details.component';
 
 // ----
 import {GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
@@ -396,25 +391,5 @@ export const gradosRoutes: Route[] = [
                 },
             }
         ]
-    },
-    {
-      path     : 'ura/pendientes',
-      component: GradosSecretariaPendientesComponent,
-      // resolve  : {
-      //   grados  : GradosSecretariaPendientesResolver,
-      // },
-      children : [
-        {
-          path     : '',
-          component: GradosSecretariaPendientesListComponent,
-        },
-        {
-          path         : ':idTramite',
-          component    : GradoSecretariaPendienteDetalleComponent,
-          resolve      : {
-            grado  : GradoSecretariaPendienteResolver,
-          },
-        }
-      ]
     }
 ];

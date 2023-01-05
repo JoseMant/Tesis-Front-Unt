@@ -140,6 +140,50 @@
                                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
+                                    <mat-label>Escuela/Mención/Programa Acreditado</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'dependencia_acreditado'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                    *ngIf="gradoForm.get('dependencia_acreditado').value == 'SÍ'"
+                                >
+                                    <mat-label>Fecha de inicio de acreditación</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="fecha_inicio"
+                                        [formControlName]="'fecha_inicio'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_inicio">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_inicio></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de fin de acreditación</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="fecha_fin"
+                                        [formControlName]="'fecha_fin'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_fin">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_fin></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
                                     <mat-label>Fecha de matrícula (I Ciclo)</mat-label>
                                     <input
                                         matInput

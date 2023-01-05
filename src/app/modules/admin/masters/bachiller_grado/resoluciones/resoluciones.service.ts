@@ -121,6 +121,8 @@ export class ResolucionesService
                         archivo: '',
                         estado: true
                     };
+                } else {
+                    if (resolucion.archivo) resolucion.archivo = environment.baseUrlStorage + resolucion.archivo;
                 }
 
                 // Update the resolucion
@@ -144,7 +146,7 @@ export class ResolucionesService
     /**
      * Create resolucion
      */
-    createResolucion(resolucion: Resolucion): Observable<Resolucion>
+    createResolucion(resolucion: any): Observable<Resolucion>
     {
         return this.resoluciones$.pipe(
             take(1),

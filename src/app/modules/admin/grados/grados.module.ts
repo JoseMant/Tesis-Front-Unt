@@ -75,7 +75,6 @@ import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grado
 
 import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
 import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
-import { GradoSecretariaPendienteDetalleComponent } from 'app/modules/admin/grados/ura/pendientes/detalle/details.component';
 
 
 import { GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
@@ -160,7 +159,6 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
         GradosSecretariaPendientesComponent,
         GradosSecretariaPendientesListComponent,
-        GradoSecretariaPendienteDetalleComponent,
         
         GradoURAPendienteDialogComponent,
     ],

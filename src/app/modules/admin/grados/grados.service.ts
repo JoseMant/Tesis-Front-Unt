@@ -430,8 +430,6 @@ export class GradosService
                     grado.fut = environment.baseUrl + grado.fut;
                     if (grado.diploma_final)  {
                         grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
-                    }else{
-                        grado.diploma_final = environment.baseUrl + "libro";
                     };
                     if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;
                     if (grado.exonerado) grado.exonerado = environment.baseUrlStorage + grado.exonerado;

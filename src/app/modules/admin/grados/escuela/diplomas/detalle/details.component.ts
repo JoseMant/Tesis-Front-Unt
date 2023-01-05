@@ -90,11 +90,6 @@ export class GradoEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
     gradoForm: FormGroup;
     corregirForm: FormGroup;
     contador: number = 4;
-    // listEstados = [
-    //     {id: 0, value: 0, name: 'Seleccionar estado a retornar...'},
-    //     {id: 1, value: 17, name: 'VALIDANDO DOCUMENTOS DEL ALUMNO EN LA ESCUELA'},
-    //     {id: 2, value: 30, name: 'ADJUNTANDO DOCUMENTOS EN ESCUELA'}
-    // ];
     maxDate: any;
     modalidades_sustentacion: any;
     programas_estudios: any;
@@ -175,12 +170,17 @@ export class GradoEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: ['', Validators.required],
             url_trabajo_carpeta: ['', Validators.required],
-            nro_creditos_carpeta: ['', Validators.required],
+            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
-            fecha_primera_matricula: ['', Validators.required],
-            fecha_ultima_matricula: ['', Validators.required],
+            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
+            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
             idDiploma_carpeta: ['', Validators.required],
-            anios_estudios: ['']
+            anios_estudios: [{value: '', disabled: true}],
+
+            idAcreditacion: [{value: '', disabled: true}],
+            dependencia_acreditado: [{value: '', disabled: true}],
+            fecha_inicio: [{value: '', disabled: true}],
+            fecha_fin: [{value: '', disabled: true}],
         });
 
         // Get the grado

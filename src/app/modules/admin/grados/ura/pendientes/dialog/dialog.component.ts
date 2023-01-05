@@ -77,9 +77,9 @@ export class GradoURAPendienteDialogComponent implements OnInit, OnDestroy {
             tipo_documento: [''],
             idUnidad: [''],
             idTipo_tramite_unidad: [''],
-            codigo_diploma: [''],
+            codigo_diploma: ['', [Validators.required]],
             observacion_diploma: [''],
-            apply: [false]
+            apply: [false, [Validators.required]]
         });
 
         // Patch values to the form

@@ -10,7 +10,8 @@ import { ResolucionesListComponent } from 'app/modules/admin/masters/bachiller_g
 import { ResolucionesService } from 'app/modules/admin/masters/bachiller_grado/resoluciones/resoluciones.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { MatDialog } from '@angular/material/dialog';
+import { VisorPdfComponent } from 'app/shared/visorPdf/visorPdf.component';
 @Component({
     selector       : 'resoluciones-details',
     templateUrl    : './details.component.html',
@@ -66,6 +67,7 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _router: Router,
+        private _matDialog: MatDialog,
         private snackBar: MatSnackBar
     )
     {
@@ -128,38 +130,6 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
 
                 // Patch values to the form
                 this.resolucionForm.patchValue(resolucion);
-                // if (this.resolucionForm.get('idTipo_usuario').value == 6 || this.resolucionForm.get('idTipo_usuario').value == 8) {
-                //     this.resolucionForm.patchValue({idUnidad: 1});
-                //     this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
-                //         this.dependencias = response;
-                        
-                //         this._changeDetectorRef.markForCheck();
-                //     });
-                // } else if (this.resolucionForm.get('idTipo_usuario').value == 5) {
-                //     this.resolucionForm.patchValue({idUnidad: 1});
-                //     this.dependencias = [];
-                //     this._resolucionesService.getDependenciasByUnidad(1).subscribe((response)=>{
-                //         this.facultades = response;
-                        
-                //         this._changeDetectorRef.markForCheck();
-                //     });
-                //     this._resolucionesService.getEscuelasByDependencia(resolucion.idFacultad).subscribe((response)=>{
-                //         this.dependencias = response;
-                        
-                //         this._changeDetectorRef.markForCheck();
-                //     });
-                //     console.log(this.resolucionForm.getRawValue().idDependencia)
-                // } else if (this.resolucionForm.get('idTipo_usuario').value == 17) {
-                //     this.resolucionForm.patchValue({idUnidad: 4});
-                //     this._resolucionesService.getDependenciasByUnidad(4).subscribe((response)=>{
-                //         this.dependencias = response;
-                        
-                //         this._changeDetectorRef.markForCheck();
-                //     });
-                // } else {
-                //     this.resolucionForm.patchValue({idUnidad: ''});
-                //     this.dependencias = [];
-                // }
 
                 // Toggle the edit mode off
                 if(!resolucion.idResolucion){
@@ -194,6 +164,18 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
 
     selectResolucion(event): void {
         this.resolucionForm.patchValue({archivoPdf: event.target.files[0]});
+    }
+
+    verDocumento(): void {
+        const respDial = this._matDialog.open(
+            VisorPdfComponent,
+            {
+                data: this.resolucionForm.getRawValue(),
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
     }
 
     /**
@@ -259,10 +241,14 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     createResolucion(): void
     {
         // Get the resolucion object
-        const resolucion = this.resolucionForm.getRawValue();
+        const formData = new FormData();
+        formData.append('nro_resolucion', this.resolucionForm.get('nro_resolucion').value);
+        formData.append('fecha', (new Date(this.resolucionForm.get('fecha').value)).toISOString().substring(0,10));
+        formData.append('archivoPdf', this.resolucionForm.get('archivoPdf').value);
+        
 
         // Create the resolucion on the server
-        this._resolucionesService.createResolucion(resolucion).subscribe((newResolucion) => {
+        this._resolucionesService.createResolucion(formData).subscribe((newResolucion) => {
             // Toggle the edit mode off
             this.toggleEditMode(false);
 
