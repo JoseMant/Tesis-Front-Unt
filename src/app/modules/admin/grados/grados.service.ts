@@ -428,9 +428,7 @@ export class GradosService
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
                 if (grado) {
                     grado.fut = environment.baseUrl + grado.fut;
-                    if (grado.diploma_final)  {
-                        grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
-                    };
+                    if (grado.diploma_final) grado.diploma_final = environment.baseUrl +  grado.diploma_final
                     if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;
                     if (grado.exonerado) grado.exonerado = environment.baseUrlStorage + grado.exonerado;
                     if (grado.requisitos) {
@@ -438,7 +436,6 @@ export class GradosService
                             if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
                         });
                     }
-                    console.log(grado);
                 }
                 
                 // Update the grado
