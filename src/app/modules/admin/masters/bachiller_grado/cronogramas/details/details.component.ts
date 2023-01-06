@@ -10,6 +10,8 @@ import { CronogramasListComponent } from 'app/modules/admin/masters/bachiller_gr
 import { CronogramasService } from 'app/modules/admin/masters/bachiller_grado/cronogramas/cronogramas.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 
 @Component({
@@ -66,7 +68,8 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _router: Router,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private _userService: UserService
     )
     {
     }
@@ -107,6 +110,26 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             fecha_cierre_decanato   : ['', [Validators.required]],
             estado                  : [true, [Validators.required]],
             avatar      : [null]
+        });
+        
+        // Subscribe to the user service
+        this._userService.user$
+        .pipe((takeUntil(this._unsubscribeAll)))
+        .subscribe((user: User) => {
+            if (user.idTipoUsuario = 10) {
+                this.cronogramaForm.get('fecha_colacion').clearValidators();
+                this.cronogramaForm.get('fecha_cierre_alumno').clearValidators();
+                this.cronogramaForm.get('fecha_cierre_secretaria').clearValidators();
+                this.cronogramaForm.get('fecha_cierre_decanato').clearValidators();
+                this.cronogramaForm.get('idResolucion').addValidators(Validators.required);
+            } else {
+                this.cronogramaForm.get('idResolucion').clearValidators();
+                this.cronogramaForm.get('fecha_colacion').addValidators(Validators.required);
+                this.cronogramaForm.get('fecha_cierre_alumno').addValidators(Validators.required);
+                this.cronogramaForm.get('fecha_cierre_secretaria').addValidators(Validators.required);
+                this.cronogramaForm.get('fecha_cierre_decanato').addValidators(Validators.required);
+            }
+            // console.log(this._rolesService.getRoles());
         });
 
         // Get the cronogramas

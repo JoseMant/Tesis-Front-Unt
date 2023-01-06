@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 @Component({
     selector       : 'grados-validados-list',
@@ -288,7 +289,14 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
     }
 
     verLibro() {
+        const data = this.selectedResolucionForm.getRawValue();
         
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'enviados/impresion/' + data.idResolucion);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 
     /**

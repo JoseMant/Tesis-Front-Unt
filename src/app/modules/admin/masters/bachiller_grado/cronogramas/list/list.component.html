@@ -55,7 +55,7 @@
                             </mat-form-field>
                         </div>
                         <!-- Add cronograma button -->
-                        <button
+                        <button *ngxPermissionsExcept="['SECRETARÍA GENERAL']"
                             class="ml-4"
                             mat-flat-button
                             [color]="'primary'"
