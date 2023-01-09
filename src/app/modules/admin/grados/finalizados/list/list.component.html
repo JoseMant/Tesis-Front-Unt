@@ -35,7 +35,7 @@
                     matInput
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
-                    [placeholder]="'Buscar grados'">
+                    [placeholder]="'Ingresar nro. de documento'">
             </mat-form-field>
         </div>
     </div>
@@ -66,13 +66,14 @@
 
                             <!-- Solicitante-->
                             <div
+                                class="hidden lg:block"
                                 [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
 
-                            <!-- Unidad-->
+                            <!-- Nro. documento-->
                             <div
-                                class="hidden lg:block"
+                                class="hidden md:block"
                                 [mat-sort-header]="'nro_documento'">
                                 Nro. Doc
                             </div>
@@ -123,7 +124,7 @@
                             <div 
                                 class="hidden lg:block"
                                 [mat-sort-header]="'nro_registro'">
-                                Escuela
+                                Registro
                             </div>
                             <!-- Opciones -->
                             <!-- <div class="hidden sm:block">Opciones</div> -->
@@ -143,23 +144,19 @@
                                         {{grado.nro_matricula}}
                                     </div>
 
-                                    <!-- Active
-                                    <div class="hidden sm:block">
-                                        {{grado.codigo}}
-                                    </div> -->
 
                                     <!-- Solicitante -->
-                                    <div class="truncate">
+                                    <div class="hidden lg:block">
                                         {{grado.solicitante}}
                                     </div>
 
-                                    <!-- Exonerado -->
-                                    <div class="hidden lg:block">
+                                    <!-- Nro. documento -->
+                                    <div class="hidden md:block">
                                         {{grado.nro_documento}}
                                     </div>
 
                                     <!-- Diploma -->
-                                    <div  class="hidden md:block truncate">
+                                    <div  class="hidden md:block">
                                         {{grado.denominacion}}
                                     </div>
 
