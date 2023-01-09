@@ -416,7 +416,7 @@ export class GradosService
     }
 
 
-    getGradosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/finalizados', {
