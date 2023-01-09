@@ -91,6 +91,9 @@ import { GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/
 
 import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/pendientes/dialog/dialog.component';
 
+import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
+import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
+
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
 @NgModule({
@@ -161,6 +164,9 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosSecretariaPendientesListComponent,
         
         GradoURAPendienteDialogComponent,
+
+        GradosFinalizadosComponent,
+        GradosFinalizadosListComponent,
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

@@ -224,6 +224,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/ura/pendientes',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             }
+            ,
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.consultas',
+                title: 'Consultas',
+                type : 'basic',
+                link : '/grados/consultas',
+                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            }
         ]
     },
     {

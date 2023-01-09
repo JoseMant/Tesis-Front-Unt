@@ -77,6 +77,11 @@ import {GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firma
 import {GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
 import {GradoFirmaRectorResolver, GradosFirmaRectorResolver } from 'app/modules/admin/grados/rector/firma_rector/firma_rector.resolvers';
 import {GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
+//--
+import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
+import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
+import { GradoFinalizadoResolver,GradosFinalizadosResolver } from 'app/modules/admin/grados/finalizados/finalizados.resolvers';
+
 
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
@@ -389,6 +394,26 @@ export const gradosRoutes: Route[] = [
                 resolve      : {
                     certificado  : GradoFirmaRectorResolver,
                 },
+            }
+        ]
+    },
+    {
+        path     : 'consultas',
+        component: GradosFinalizadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SECRETARÍA GENERAL'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            grados  : GradosFinalizadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: GradosFinalizadosListComponent,
             }
         ]
     }
