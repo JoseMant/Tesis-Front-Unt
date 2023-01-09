@@ -80,40 +80,53 @@
                             <!-- Trámite-->
                             <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'tramite'">
-                                Trámite
+                                [mat-sort-header]="'diploma'">
+                                Diploma
                             </div>
 
                             <!-- Unidad-->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'unidad'">
-                                Unidad
+                                [mat-sort-header]="'menciones'">
+                                Menciones
                             </div>
 
                             <!-- Nro Matrícula -->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'nro_matricula'">
-                                N° Matrícula
+                                [mat-sort-header]="'fecha_diploma'">
+                                F. Diploma
                             </div>
 
                             <!-- Dependencia -->
                             <div 
                                 class="hidden lg:block"
-                                [mat-sort-header]="'dependencia'">
-                                Dependencia
+                                [mat-sort-header]="'escuela'">
+                                Escuela
                             </div>
 
-                            <!-- Fecha-->
-                            <div
+                            <!-- Libro -->
+                            <div 
                                 class="hidden lg:block"
-                                [mat-sort-header]="'fecha'">
-                                Fecha
+                                [mat-sort-header]="'nro_libro'">
+                                Libro
                             </div>
 
+                            <!-- Folio -->
+                            <div 
+                                class="hidden lg:block"
+                                [mat-sort-header]="'folio'">
+                                Folio
+                            </div>
+
+                            <!-- Registro -->
+                            <div 
+                                class="hidden lg:block"
+                                [mat-sort-header]="'nro_registro'">
+                                Escuela
+                            </div>
                             <!-- Opciones -->
-                            <div class="hidden sm:block">Opciones</div>
+                            <!-- <div class="hidden sm:block">Opciones</div> -->
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(grados$ | async) as grados">
@@ -141,46 +154,45 @@
                                     </div>
 
                                     <!-- Exonerado -->
-                                    <div class="hidden lg:block truncate">
+                                    <div class="hidden lg:block">
                                         {{grado.nro_documento}}
                                     </div>
 
-                                    <!-- Trámite -->
+                                    <!-- Diploma -->
                                     <div  class="hidden md:block truncate">
                                         {{grado.denominacion}}
                                     </div>
 
-                                    <!-- Exonerado -->
+                                    <!-- Diploma -->
+                                    <div  class="hidden md:block truncate">
+                                        <!-- {{grado.denominacion}} -->
+                                    </div>
+
+                                    <!-- F-Diploma -->
                                     <div class="hidden lg:block">
-                                        {{grado.unidad}}
+                                        {{grado.fecha_colacion}}
                                     </div>
 
                                     <!-- Active -->
                                     <div class="hidden lg:block">
-                                        {{grado.nro_matricula}}
+                                        {{grado.escuela}}
                                     </div>
 
                                     <!-- Active -->
                                     <div class="hidden lg:block">
-                                        {{grado.dependencia}}
+                                        {{grado.nro_libro}}
                                     </div>
                                     
                                     <!-- Stock -->
                                     <div class="hidden lg:block">
-                                        {{grado.fecha}}
+                                        {{grado.folio}}
                                     </div>
 
-                                    <!-- Details button -->
-                                    <div>
-                                        <button
-                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                            mat-stroked-button
-                                            [routerLink]="['./',grado.idTramite]">
-                                            <mat-icon
-                                                class="icon-size-5"
-                                                [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                        </button>
+                                    <!-- Stock -->
+                                    <div class="hidden lg:block">
+                                        {{grado.nro_registro}}
                                     </div>
+
                                 </div>
                             </ng-container>
                         </ng-container>
