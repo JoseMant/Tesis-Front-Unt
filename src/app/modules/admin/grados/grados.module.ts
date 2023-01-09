@@ -73,10 +73,6 @@ import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/sec
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
-import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
-import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
-
-
 import { GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
 import { GradosFirmaDecanoListComponent } from 'app/modules/admin/grados/facultad/firma_decano/list/list.component';
 import { GradoFirmaDecanoDetalleComponent } from './facultad/firma_decano/detalle/details.component';
@@ -89,6 +85,8 @@ import { GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firm
 import { GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
 import { GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
 
+import { GradosURAPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
+import { GradosURAPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
 import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/pendientes/dialog/dialog.component';
 
 import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
@@ -160,9 +158,8 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosFirmaRectorListComponent,
         GradoFirmaRectorDetalleComponent,
 
-        GradosSecretariaPendientesComponent,
-        GradosSecretariaPendientesListComponent,
-        
+        GradosURAPendientesComponent,
+        GradosURAPendientesListComponent,        
         GradoURAPendienteDialogComponent,
 
         GradosFinalizadosComponent,

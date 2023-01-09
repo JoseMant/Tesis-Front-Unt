@@ -56,9 +56,8 @@ import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secret
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
 // -------------
-import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
-import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
-import { GradoSecretariaPendienteResolver } from 'app/modules/admin/grados/ura/pendientes/pendientes.resolvers';
+import { GradosURAPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
+import { GradosURAPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
 
 // ----
 import {GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
@@ -299,9 +298,6 @@ export const gradosRoutes: Route[] = [
     {
       path     : 'secretaria/validados',
       component: GradosSecretariaValidadosComponent,
-      // resolve  : {
-      //   grados  : GradosSecretariaValidadosResolver,
-      // },
       children : [
         {
           path     : '',
@@ -416,5 +412,15 @@ export const gradosRoutes: Route[] = [
                 component: GradosFinalizadosListComponent,
             }
         ]
+    },
+    {
+      path     : 'ura/pendientes',
+      component: GradosURAPendientesComponent,
+      children : [
+        {
+          path     : '',
+          component: GradosURAPendientesListComponent,
+        },
+      ]
     }
 ];
