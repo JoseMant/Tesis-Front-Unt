@@ -48,7 +48,7 @@ import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/p
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradosSecretariaPendientesListComponent implements OnInit, AfterViewInit, OnDestroy
+export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;

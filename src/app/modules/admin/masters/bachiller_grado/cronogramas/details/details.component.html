@@ -275,97 +275,105 @@
                     </div>
 
                     <!-- Fecha de cierre para la Facultad -->
-                    <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_colacion">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 1 || cronogramaForm.get('idUnidad').value == 4">Fecha de cierre para la Facultad</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
-                            <input
-                                matInput
-                                [min]="minDate"
-                                [max]="cronogramaForm.getRawValue().fecha_colacion"
-                                [matDatepicker]="fecha_cierre_decanatoDatepicker"
-                                [formControlName]="'fecha_cierre_decanato'"
-                                [placeholder]="'Seleccionar fecha de cierre para la Facultad'">
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="fecha_cierre_decanatoDatepicker">
-                            </mat-datepicker-toggle>
-                            <mat-datepicker #fecha_cierre_decanatoDatepicker></mat-datepicker>
-                        </mat-form-field>
-                    </div>
+                    <ng-container *ngxPermissionsExcept="['SECRETARÍA GENERAL']">
+                        <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_colacion">
+                            <mat-form-field class="fuse-mat-no-subscript w-full">
+                                <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 1 || cronogramaForm.get('idUnidad').value == 4">Fecha de cierre para la Facultad</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden sm:flex icon-size-5"
+                                    [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                                <input
+                                    matInput
+                                    [min]="minDate"
+                                    [max]="cronogramaForm.getRawValue().fecha_colacion"
+                                    [matDatepicker]="fecha_cierre_decanatoDatepicker"
+                                    [formControlName]="'fecha_cierre_decanato'"
+                                    [placeholder]="'Seleccionar fecha de cierre para la Facultad'">
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="fecha_cierre_decanatoDatepicker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #fecha_cierre_decanatoDatepicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
 
                     <!-- Fecha de cierre para la Escuela -->
-                    <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_cierre_decanato">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 1">Fecha de cierre para la Escuela</mat-label>
-                            <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 4">Fecha de cierre para la Especialidad</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
-                            <input
-                                matInput
-                                [min]="minDate"
-                                [max]="cronogramaForm.getRawValue().fecha_cierre_decanato"
-                                [matDatepicker]="fecha_cierre_secretariaDatepicker"
-                                [formControlName]="'fecha_cierre_secretaria'"
-                                [placeholder]="'Seleccionar fecha de cierre para la Escuela'"
-                                (dateChange)="endDateChange($event)">
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="fecha_cierre_secretariaDatepicker">
-                            </mat-datepicker-toggle>
-                            <mat-datepicker #fecha_cierre_secretariaDatepicker></mat-datepicker>
-                        </mat-form-field>
-                    </div>
+                    <ng-container *ngxPermissionsExcept="['SECRETARÍA GENERAL']">
+                        <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_cierre_decanato">
+                            <mat-form-field class="fuse-mat-no-subscript w-full">
+                                <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 1">Fecha de cierre para la Escuela</mat-label>
+                                <mat-label *ngIf="cronogramaForm.get('idUnidad').value == 4">Fecha de cierre para la Especialidad</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden sm:flex icon-size-5"
+                                    [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                                <input
+                                    matInput
+                                    [min]="minDate"
+                                    [max]="cronogramaForm.getRawValue().fecha_cierre_decanato"
+                                    [matDatepicker]="fecha_cierre_secretariaDatepicker"
+                                    [formControlName]="'fecha_cierre_secretaria'"
+                                    [placeholder]="'Seleccionar fecha de cierre para la Escuela'"
+                                    (dateChange)="endDateChange($event)">
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="fecha_cierre_secretariaDatepicker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #fecha_cierre_secretariaDatepicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
 
                     <!-- Fecha de cierre para el alumno -->
-                    <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_cierre_secretaria">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Fecha de cierre para el alumno</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
-                            <input
-                                matInput
-                                [min]="minDate"
-                                [max]="maxDateAlumno"
-                                [matDatepicker]="fecha_cierre_alumnoDatepicker"
-                                [formControlName]="'fecha_cierre_alumno'"
-                                [placeholder]="'Seleccionar fecha de cierre para el Alumno'">
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="fecha_cierre_alumnoDatepicker">
-                            </mat-datepicker-toggle>
-                            <mat-datepicker #fecha_cierre_alumnoDatepicker></mat-datepicker>
-                        </mat-form-field>
-                    </div>
+                    <ng-container *ngxPermissionsExcept="['SECRETARÍA GENERAL']">
+                        <div class="mt-8" *ngIf="cronogramaForm.getRawValue().fecha_cierre_secretaria">
+                            <mat-form-field class="fuse-mat-no-subscript w-full">
+                                <mat-label>Fecha de cierre para el alumno</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden sm:flex icon-size-5"
+                                    [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                                <input
+                                    matInput
+                                    [min]="minDate"
+                                    [max]="maxDateAlumno"
+                                    [matDatepicker]="fecha_cierre_alumnoDatepicker"
+                                    [formControlName]="'fecha_cierre_alumno'"
+                                    [placeholder]="'Seleccionar fecha de cierre para el Alumno'">
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="fecha_cierre_alumnoDatepicker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #fecha_cierre_alumnoDatepicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
 
 
                     <!-- Resolución -->
-                    <div class="mt-8">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Resolución</mat-label>
-                            <mat-icon
-                                matPrefix
-                                class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
-                            <mat-select
-                                
-                                [formControlName]="'idResolucion'">
-                                <ng-container>
-                                    <mat-option [value]="'all'" disabled>Seleccionar resolución...</mat-option>
-                                </ng-container>
-                                <ng-container *ngFor="let resolucion of resoluciones">
-                                    <mat-option [value]="resolucion.idResolucion">{{resolucion.nro_resolucion}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+                    <ng-container *ngxPermissionsOnly="['ADMINISTRADOR','SECRETARÍA GENERAL']">
+                        <div class="mt-8">
+                            <mat-form-field class="fuse-mat-no-subscript w-full">
+                                <mat-label>Resolución</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden sm:flex icon-size-5"
+                                    [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                                <mat-select
+                                    
+                                    [formControlName]="'idResolucion'">
+                                    <ng-container>
+                                        <mat-option [value]="'all'" disabled>Seleccionar resolución...</mat-option>
+                                    </ng-container>
+                                    <ng-container *ngFor="let resolucion of resoluciones">
+                                        <mat-option [value]="resolucion.idResolucion">{{resolucion.nro_resolucion}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
 
                     <!-- Estado -->
                     <div *ngIf="cronograma.estado" class="flex flex-col mt-8">

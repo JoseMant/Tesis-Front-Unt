@@ -190,16 +190,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/grados/secretaria/validados',
-                permissions: ['SECRETARIA(O) DE FACULTAD']
+                permissions: ['SECRETARÍA GENERAL']
             },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.secretaria.aprobados',
-            //     title: 'Aprobados Secretaria',
-            //     type : 'basic',
-            //     link : '/grados/secretaria/aprobados',
-            //     permissions: ['SECRETARIA(O) DE FACULTAD'] //Secretaria general
-            // },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'grados.firma.decano',
@@ -231,6 +223,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/grados/ura/pendientes',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            }
+            ,
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'grados.consultas',
+                title: 'Consultas',
+                type : 'basic',
+                link : '/grados/consultas',
+                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
             }
         ]
     },
@@ -377,21 +378,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Cronogramas',
                         type : 'basic',
                         link : '/masters/bachiller_grado/cronogramas',
-                        permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
+                        permissions: ['SECRETARIA(O) DE FACULTAD','SECRETARÍA GENERAL']
                     },
-                    // {
-                    //     id   : 'masters.bachiller_grado.acreditadas',
-                    //     title: 'Acreditadas',
-                    //     type : 'basic',
-                    //     link : '/masters/bachiller_grado/acreditadas',
-                    //     permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
-                    // },
                     {
                         id   : 'masters.bachiller_grado.resoluciones',
                         title: 'Resoluciones',
                         type : 'basic',
                         link : '/masters/bachiller_grado/resoluciones',
-                        permissions: ['SECRETARIA(O) DE FACULTAD']
+                        permissions: ['SECRETARÍA GENERAL']
                     }
                 ]
             },

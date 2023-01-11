@@ -56,9 +56,8 @@ import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secret
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
 
 // -------------
-import { GradosSecretariaPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
-import { GradosSecretariaPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
-import { GradoSecretariaPendienteResolver } from 'app/modules/admin/grados/ura/pendientes/pendientes.resolvers';
+import { GradosURAPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
+import { GradosURAPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
 
 // ----
 import {GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
@@ -77,6 +76,11 @@ import {GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firma
 import {GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
 import {GradoFirmaRectorResolver, GradosFirmaRectorResolver } from 'app/modules/admin/grados/rector/firma_rector/firma_rector.resolvers';
 import {GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
+//--
+import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
+import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
+import { GradoFinalizadoResolver,GradosFinalizadosResolver } from 'app/modules/admin/grados/finalizados/finalizados.resolvers';
+
 
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
@@ -294,9 +298,6 @@ export const gradosRoutes: Route[] = [
     {
       path     : 'secretaria/validados',
       component: GradosSecretariaValidadosComponent,
-      // resolve  : {
-      //   grados  : GradosSecretariaValidadosResolver,
-      // },
       children : [
         {
           path     : '',
@@ -391,5 +392,35 @@ export const gradosRoutes: Route[] = [
                 },
             }
         ]
+    },
+    {
+        path     : 'consultas',
+        component: GradosFinalizadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SECRETARÍA GENERAL'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            grados  : GradosFinalizadosResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: GradosFinalizadosListComponent,
+            }
+        ]
+    },
+    {
+      path     : 'ura/pendientes',
+      component: GradosURAPendientesComponent,
+      children : [
+        {
+          path     : '',
+          component: GradosURAPendientesListComponent,
+        },
+      ]
     }
 ];

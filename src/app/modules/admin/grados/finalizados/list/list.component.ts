@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,15 +13,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'environments/environment';
 
 @Component({
-    selector       : 'grados-validados-list',
+    selector       : 'grados-finalizados-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .grados-validados-grid {
+            .grados-finalizados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -33,7 +32,7 @@ import { environment } from 'environments/environment';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 190px 112px 190px 72px;
+                    grid-template-columns: 48px 112px 220px 96px 250px 200px 96px 250px 48px 48px 48px;
                 }
             }
             .fondo_snackbar {
@@ -48,36 +47,33 @@ import { environment } from 'environments/environment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradosSecretariaValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class GradosFinalizadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-    @ViewChild('selectedResolucionNgForm') selectedResolucionNgForm: NgForm;
 
     grados$: Observable<GradoInterface[]>;
-    
+
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
         message: '',
         title: '',
     };
-    
+
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: GradoPagination;
     searchInputControl: FormControl = new FormControl();
     selectedGrado: GradoInterface | null = null;
     selectedGradoForm: FormGroup;
-    selectedResolucionForm: FormGroup;
     tagsEditMode: boolean = false;
     gradosCount: number = 0;
-    asignando: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    
+
     /**
      * Constructor
-    */
-   constructor(
+     */
+    constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
@@ -97,14 +93,6 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
      */
     ngOnInit(): void
     {
-        this._gradosService.cleanGrados$;
-        
-        // Create the selected resolucion form
-        this.selectedResolucionForm = this._formBuilder.group({
-            idResolucion     : [''],
-            nro_resolucion   : ['', [Validators.required]]
-        });
-
         // Create the selected grado form
         this.selectedGradoForm = this._formBuilder.group({
             id               : [''],
@@ -149,9 +137,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
             .subscribe((response: GradoInterface[]) => {
                 console.log(response);
                 // Update the counts
-                if (response) {
-                    this.gradosCount = response.length;
-                } else this.gradosCount = 0;
+                this.gradosCount = response.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -164,8 +150,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    var data = this.selectedResolucionForm.get('nro_resolucion').value;
-                    return this._gradosService.getGradosValidadosSecretaria(data, 0, 10, 'fecha', 'desc', query);
+                    return this._gradosService.getGradosFinalizados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -213,90 +198,13 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    // Get the product object
-                    const data = this.selectedResolucionForm.get('nro_resolucion').value;
-                    return this._gradosService.getGradosValidadosSecretaria(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._gradosService.getGradosFinalizados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
             ).subscribe();
         }
-    }
-    
-    buscarResolucion(): void
-    {
-        // Get the product object
-        const data = this.selectedResolucionForm.get('nro_resolucion').value;
-        
-        this._gradosService.getGradosValidadosSecretaria(data).subscribe((response) => {
-            if (response.resolucion) {
-                this.selectedResolucionForm.patchValue(response.resolucion);
-                this.selectedResolucionForm.disable();
-                
-                // Show a success message
-                this.alert = {
-                    type   : 'success',
-                    message: 'Resolución encontrada',
-                    title: 'Encontrado'
-                };
-                this.openSnack();
-                
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            } else {
-                this.selectedResolucionForm.enable();
-                // Show a warn message
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Resolución no encontrada, inténtelo nuevamente',
-                    title: 'No encontrado'
-                };
-                this.openSnack();
-                
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            }
-
-        });
-    }
-
-    limpiarResolucion() {
-        this.selectedResolucionForm.enable();
-        this.selectedResolucionForm.patchValue({nro_resolucion: ''});
-        this._gradosService.cleanGrados$;
-    }
-
-    registrarEnLibro() {
-        const data = this.selectedResolucionForm.getRawValue();
-        // Create the cronograma on the server
-        this._gradosService.registrarLibro(data.idResolucion).subscribe((response) => {
-            this.alert = {
-                type   : 'success',
-                message: 'Registrados en el libro correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
-        },
-        (response) => {
-            this.alert = {
-                type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
-            };
-            this.openSnack();
-        });
-    }
-
-    verLibro() {
-        const data = this.selectedResolucionForm.getRawValue();
-        
-        const link = document.createElement('a');
-        link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'enviados/impresion/' + data.idResolucion);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
     }
 
     /**

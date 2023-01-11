@@ -414,6 +414,26 @@ export class GradosService
         })
       );
     }
+
+
+    getGradosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/finalizados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._grados.next(response.data);
+        })
+      );
+    }   
     /**
      * Get grado by id
      */
@@ -428,7 +448,8 @@ export class GradosService
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
                 if (grado) {
                     grado.fut = environment.baseUrl + grado.fut;
-                    if (grado.diploma_final) grado.diploma_final = environment.baseUrl +  grado.diploma_final
+                    if (grado.diploma_final && grado.idEstado_tramite==13) grado.diploma_final = environment.baseUrl +  grado.diploma_final
+                    else grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
                     if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;
                     if (grado.exonerado) grado.exonerado = environment.baseUrlStorage + grado.exonerado;
                     if (grado.requisitos) {
