@@ -91,6 +91,7 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
         message: '',
         title: '',
     };
+    
     grado: GradoInterface | null = null;
     allgrados: GradoInterface[];
     gradoForm: FormGroup;
@@ -184,7 +185,6 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
         this._gradoService.grado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((grado: GradoInterface) => {
-                console.log(grado);
                 // Get the grado
                 this.grado = grado;
 
@@ -251,8 +251,8 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
         if (files) this.newGrado = true;
         else this.newGrado = false;
     }
+
     verDocumento(): void {
-        console.log(this.gradoForm.getRawValue());
         const respDial = this.visordialog.open(
             VisorPdfGradoComponent,
             {
@@ -263,6 +263,7 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
             }
         );
     }
+
     uploadGrado(): void{
         const data={
             idTramite: this.gradoForm.get('idTramite').value,
@@ -274,7 +275,6 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
         this.gradoForm.disable();
 
         this._gradoService.uploadGrado(data.idTramite,formData).subscribe((response) => {
-            console.log(response);
             // Toggle the edit mode off
             //this.toggleEditMode(false);
             // Re-enable the form
@@ -288,7 +288,6 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
             };
 
             this.openSnack();
-
             this.newGrado = false;
 
             // Mark for check
@@ -303,6 +302,10 @@ export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
                 title: 'Error'
             };
             this.openSnack();
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+
         });
     }
     
