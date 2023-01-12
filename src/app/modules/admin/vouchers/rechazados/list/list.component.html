@@ -82,6 +82,7 @@
                                 Banco
                             </div>
 
+
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'nro_operacion'">
@@ -140,12 +141,34 @@
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
                                             target="_blank"
-                                            matTooltip="Editar detalle"
+                                            matTooltip="Ver voucher"
                                             [href]="getFileVoucher(voucher.archivo)">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                         </a>
+
+                                        <a
+                                            *ngIf="voucher.exonerado_archivo"
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            target="_blank"
+                                            matTooltip="Ver documento"
+                                            [href]="getFileVoucher(voucher.exonerado_archivo)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                        </a>
+
+                                         <button
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            matTooltip="Editar detalle"
+                                            (click)="editarVoucher(voucher, true, 'RECHAZADO')">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </ng-container>
