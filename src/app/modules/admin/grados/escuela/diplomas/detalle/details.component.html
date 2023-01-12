@@ -51,7 +51,8 @@
                                 >
                                     <mat-label>Acto académico</mat-label>
                                     <mat-select
-                                        [formControlName]="'idModalidad_carpeta'">
+                                        [formControlName]="'idModalidad_carpeta'"
+                                        (selectionChange)="selectedActo($event.value)">
                                         <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
                                         <ng-container *ngFor="let modalidad of modalidades_sustentacion">
                                             <mat-option [value]="modalidad.idModalidad_carpeta">
@@ -77,7 +78,7 @@
                                     <mat-datepicker #fecha_sustentacion_carpeta></mat-datepicker>
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="gradoForm.get('idModalidad_carpeta').value != 1">
                                 <mat-form-field
                                     class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
@@ -90,7 +91,7 @@
                                     />
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="gradoForm.get('idModalidad_carpeta').value != 1">
                                 <mat-form-field
                                     class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
@@ -166,6 +167,7 @@
                                 <mat-form-field
                                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
+                                    *ngIf="gradoForm.get('dependencia_acreditado').value == 'SÍ'"
                                 >
                                     <mat-label>Fecha de fin de acreditación</mat-label>
                                     <input

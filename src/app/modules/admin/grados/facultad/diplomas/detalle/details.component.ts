@@ -173,31 +173,21 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
 
             idModalidad_carpeta: ['', Validators.required],
             fecha_sustentacion_carpeta: ['', Validators.required],
-            nombre_trabajo_carpeta: ['', Validators.required],
-            url_trabajo_carpeta: ['', Validators.required],
+            nombre_trabajo_carpeta: [''],
+            url_trabajo_carpeta: [''],
             nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
             fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
             idDiploma_carpeta: ['', Validators.required],
             anios_estudios: [{value: '', disabled: true}],
+            created_at: [''],
 
             idAcreditacion: [{value: '', disabled: true}],
             dependencia_acreditado: [{value: '', disabled: true}],
             fecha_inicio: [{value: '', disabled: true}],
-            fecha_fin: [{value: '', disabled: true}],
+            fecha_fin: [{value: '', disabled: true}]
         });
-
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
 
         // Get the grado
         this._gradoService.grado$
@@ -246,6 +236,30 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             });       
     }
 
+    selectedActo(acto_academico: number): void {
+        this.gradoForm.controls.nombre_trabajo_carpeta.clearValidators();
+        this.gradoForm.controls.url_trabajo_carpeta.clearValidators();
+        this.gradoForm.patchValue({fecha_sustentacion_carpeta: ''});
+        if (acto_academico != 1) {
+            this.gradoForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
+            this.gradoForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
+        } else {
+            this.gradoForm.patchValue({
+                fecha_sustentacion_carpeta: moment(this.gradoForm.get('created_at').value),
+                nombre_trabajo_carpeta: '',
+                url_trabajo_carpeta: ''
+            });
+        }
+        this.gradoForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
+        this.gradoForm.controls.url_trabajo_carpeta.updateValueAndValidity();
+    }
+    
+    calcularTiempo(): void {
+        let tiempo = moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value);
+        let tiempo_parcial = tiempo.split(" ");
+        this.gradoForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
+    }
+
     /**
      * On destroy
      */
@@ -271,36 +285,6 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     
-    // updateEstado(): void
-    // {
-    //     // Get the contact object
-    //     const grado = this.corregirForm.getRawValue();
-    //     console.log(grado);
-    //     // Disable the form
-    //     this.corregirForm.disable();
-        
-    //     // Update the contact on the server
-    //     this._gradoService.updateEstado(grado.idTramite, grado).subscribe(() => {
-
-    //         // Re-enable the form
-    //         this.corregirForm.enable();
-
-    //         // Show a success message
-    //         this.alert = {
-    //             type   : 'success',
-    //             message: 'Trámite retornado correctamente',
-    //             title: 'Guardado'
-    //         };
-    //         this.openSnack();
-            
-    //         // Mark for check
-    //         this._changeDetectorRef.markForCheck();
-    //     });
-    // }
-    calcularTiempo(): void {
-        this.gradoForm.patchValue({anios_estudios: moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value)});
-    }
-
     enviarDatos(): void {
         if (this.gradoForm.invalid) {
             this.gradoForm.markAllAsTouched();
@@ -312,7 +296,6 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
         grado.fecha_sustentacion_carpeta = new Date(grado.fecha_sustentacion_carpeta).toISOString().substring(0,10);
         grado.fecha_primera_matricula = new Date(grado.fecha_primera_matricula).toISOString().substring(0,10);
         grado.fecha_ultima_matricula = new Date(grado.fecha_ultima_matricula).toISOString().substring(0,10);
-        
         // Disable the form
         this.gradoForm.disable();
         
