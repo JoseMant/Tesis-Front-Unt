@@ -899,6 +899,28 @@ export class GradosService
         );
     }
 
+    sendNotification(id: number, data: any): Observable<any>
+    {
+        return this.grados$.pipe(
+            take(1),
+            switchMap(grados => this._httpClient.post<any>(environment.baseUrl + 'tramites/notification', data).pipe(
+                map((isSent: boolean) => {
+                    // Find the index of the updated grados
+                    const index = grados.findIndex(item => item.idTramite === id);
+                    
+                    // Update the grados
+                    // grados[index] = updatedGrado;
+
+                    // Update the grados
+                    // this._grados.next(grados);
+
+                    // Return the updated grados
+                    return isSent;
+                }),
+            ))
+        );
+    }
+
     registrarLibro(resolucion: Resolucion): Observable<any>
     {
         return this.grados$.pipe(

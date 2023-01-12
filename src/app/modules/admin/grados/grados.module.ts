@@ -25,6 +25,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { QuillModule } from 'ngx-quill';
 import * as moment from 'moment';
 
 import { GradosEscuelaValidadosComponent } from 'app/modules/admin/grados/escuela/validados/validados.component';
@@ -71,7 +72,8 @@ import { GradoURADiplomaDetalleComponent } from 'app/modules/admin/grados/ura/di
 
 import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/secretaria/validados/validados.component';
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
-import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
+import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/details/details.component';
+import { GradoSecretariaValidadoDialogComponent } from 'app/modules/admin/grados/secretaria/validados/dialog/dialog.component';
 
 import { GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
 import { GradosFirmaDecanoListComponent } from 'app/modules/admin/grados/facultad/firma_decano/list/list.component';
@@ -149,6 +151,7 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosSecretariaValidadosComponent,
         GradosSecretariaValidadosListComponent,
         GradoSecretariaValidadoDetalleComponent,
+        GradoSecretariaValidadoDialogComponent,
 
         GradosFirmaSecretariaComponent,
         GradosFirmaSecretariaListComponent,
@@ -191,7 +194,8 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatDividerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        QuillModule
     ],
     providers   : [
         {

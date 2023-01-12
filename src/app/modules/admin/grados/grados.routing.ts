@@ -53,7 +53,7 @@ import { GradoURADiplomaDetalleComponent } from 'app/modules/admin/grados/ura/di
 import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/secretaria/validados/validados.component';
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
 import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
-import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/detalle/details.component';
+import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/details/details.component';
 
 // -------------
 import { GradosURAPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
@@ -308,6 +308,8 @@ export const gradosRoutes: Route[] = [
           component    : GradoSecretariaValidadoDetalleComponent,
           resolve      : {
             grado  : GradoSecretariaValidadoResolver,
+            modalidades: ModalidadesSustentacionResolver,
+            programas_estudios: ProgramasEstudiosResolver,
           },
         }
       ]
