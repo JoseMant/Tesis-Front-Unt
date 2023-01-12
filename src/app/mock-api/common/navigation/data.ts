@@ -192,30 +192,30 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/secretaria/validados',
                 permissions: ['SECRETARÍA GENERAL']
             },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.firma.decano',
-                title: 'Firma decano',
-                type : 'basic',
-                link : '/grados/firma/decano',
-                permissions: ['DECANO(A)']
-            },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.firma.secretaria',
-                title: 'Firma secretaria',
-                type : 'basic',
-                link : '/grados/firma/secretaria_general',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS'] //secretaria general
-            },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.firma.rector',
-                title: 'Firma rector',
-                type : 'basic',
-                link : '/grados/firma/rector',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS'] //Rector
-            },
+            // {
+            //     // Se muestran al usuario para ser asignados después de validación en tesorería
+            //     id   : 'grados.firma.decano',
+            //     title: 'Firma decano',
+            //     type : 'basic',
+            //     link : '/grados/firma/decano',
+            //     permissions: ['ADMINISTRADOR']
+            // },
+            // {
+            //     // Se muestran al usuario para ser asignados después de validación en tesorería
+            //     id   : 'grados.firma.secretaria',
+            //     title: 'Firma secretaria',
+            //     type : 'basic',
+            //     link : '/grados/firma/secretaria_general',
+            //     permissions: ['ADMINISTRADOR'] //secretaria general
+            // },
+            // {
+            //     // Se muestran al usuario para ser asignados después de validación en tesorería
+            //     id   : 'grados.firma.rector',
+            //     title: 'Firma rector',
+            //     type : 'basic',
+            //     link : '/grados/firma/rector',
+            //     permissions: ['ADMINISTRADOR'] //Rector
+            // },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'grados.ura.pendientes',
