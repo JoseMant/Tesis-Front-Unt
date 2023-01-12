@@ -27,6 +27,7 @@ export interface GradoInterface
     idTipo_tramite_unidad?: number;
     fecha_primera_matricula?: number;
     fecha_ultima_matricula?: number;
+    certificado_final?: string;
 }
 export interface GradoPagination
 {

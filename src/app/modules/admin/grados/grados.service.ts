@@ -448,6 +448,7 @@ export class GradosService
                 const grado = JSON.parse( JSON.stringify(grados.find(item => item.idTramite === id) || null) )
                 if (grado) {
                     grado.fut = environment.baseUrl + grado.fut;
+                    if (grado.certificado_final) grado.certificado_final = environment.baseUrlStorage +  grado.certificado_final
                     if (grado.diploma_final && grado.idEstado_tramite==13) grado.diploma_final = environment.baseUrl +  grado.diploma_final
                     else grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
                     if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;

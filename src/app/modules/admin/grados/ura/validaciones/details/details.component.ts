@@ -162,18 +162,8 @@ export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
+            certificado_final: ['', Validators.required]
         });
-
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
 
         // Get the grado
         this._gradoService.grado$
