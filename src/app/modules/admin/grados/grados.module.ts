@@ -94,12 +94,17 @@ import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/p
 import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
 import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
 
+import { GradosSecretariaObservadosComponent } from 'app/modules/admin/grados/secretaria/observados/observados.component';
+import { GradosSecretariaObservadosListComponent } from 'app/modules/admin/grados/secretaria/observados/list/list.component';
+import { GradoSecretariaObservadoDetalleComponent } from 'app/modules/admin/grados/secretaria/observados/details/details.component';
+
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
 @NgModule({
     declarations: [
         VisorPdfGradoComponent,
         RequisitosDialogComponent,
+        
         // ESCUELA
         GradosEscuelaValidadosComponent,
         GradosEscuelaValidadosListComponent,
@@ -167,6 +172,10 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
         GradosFinalizadosComponent,
         GradosFinalizadosListComponent,
+
+        GradosSecretariaObservadosComponent,
+        GradosSecretariaObservadosListComponent,
+        GradoSecretariaObservadoDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

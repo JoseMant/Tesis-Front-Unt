@@ -173,8 +173,8 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
 
             idModalidad_carpeta: ['', Validators.required],
             fecha_sustentacion_carpeta: ['', Validators.required],
-            nombre_trabajo_carpeta: ['', Validators.required],
-            url_trabajo_carpeta: ['', Validators.required],
+            nombre_trabajo_carpeta: [''],
+            url_trabajo_carpeta: [''],
             nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
@@ -187,17 +187,6 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
             fecha_inicio: [{value: '', disabled: true}],
             fecha_fin: [{value: '', disabled: true}],
         });
-
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
 
         // Get the grado
         this._gradoService.grado$

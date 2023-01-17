@@ -162,18 +162,9 @@ export class GradoFacultadValidadoDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
+
+            fecha_cierre_decanato: ['']
         });
-
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
 
         // Get the grado
         this._gradoService.grado$
@@ -244,6 +235,19 @@ export class GradoFacultadValidadoDetalleComponent implements OnInit, OnDestroy
     
     updateRequisitos(): void
     {
+        // If the confirm button pressed...
+        const date = new Date().toISOString().substring(0,10);
+        if (this.gradoForm.get('fecha_cierre_decanato').value < date) {
+            // Show a success message
+            this.alert = {
+                type   : 'warn',
+                message: 'La fecha límite para este trámite fue ' + this.gradoForm.get('fecha_cierre_decanato').value,
+                title: 'Fuera de fecha'
+            };
+            this.openSnack();
+            return;
+        }
+        
         // Get the contact object
         const grado = this.gradoForm.getRawValue();
         console.log(grado);

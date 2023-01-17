@@ -415,7 +415,6 @@ export class GradosService
       );
     }
 
-
     getGradosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
@@ -433,7 +432,27 @@ export class GradosService
           this._grados.next(response.data);
         })
       );
-    }   
+    }
+
+    getGradosSecretariaObservados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/secretaria/observados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+            this._pagination.next(response.pagination);
+            this._grados.next(response.data);
+        })
+      );
+    }
+    
     /**
      * Get grado by id
      */
@@ -908,11 +927,11 @@ export class GradosService
                     // Find the index of the updated grados
                     const index = grados.findIndex(item => item.idTramite === id);
                     
-                    // Update the grados
-                    // grados[index] = updatedGrado;
+                    // Delete the product
+                    grados.splice(index, 1);
 
                     // Update the grados
-                    // this._grados.next(grados);
+                    this._grados.next(grados);
 
                     // Return the updated grados
                     return isSent;

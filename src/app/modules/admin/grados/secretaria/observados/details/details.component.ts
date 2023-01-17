@@ -1,24 +1,19 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorPdfGrado.component';
+import moment from 'moment';
 
 @Component({
-    selector       : 'grado-details',
+    selector       : 'grado-secretaria-diplomas-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -81,25 +76,24 @@ import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorP
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
+export class GradoSecretariaObservadoDetalleComponent implements OnInit, OnDestroy
 {
-    @ViewChild(MatPaginator) private _paginator: MatPaginator;
-    @ViewChild(MatAccordion) private _accordion: MatAccordion;
-    @ViewChild(MatSort) private _sort: MatSort;
-
+    @ViewChild('gradoNgForm') gradoNgForm: NgForm;
+    @ViewChild('corregirNgForm') corregirNgForm: NgForm;
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
         message: '',
         title: '',
     };
     grado: GradoInterface | null = null;
-    allgrados: GradoInterface[];
     gradoForm: FormGroup;
-    data: GradoInterface;
+    corregirForm: FormGroup;
     contador: number = 4;
-    requisitos: any;
+    maxDate: any;
+    modalidades_sustentacion: any;
+    programas_estudios: any;
+    diplomas: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    newGrado: boolean = false;
     /**
      * Constructor
      */
@@ -126,23 +120,31 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             data: this.alert,
         });
     }
+
+    limiteFecha(): void {
+        const now = moment();
+        this.maxDate = now;
+    }
+
     /**
      * On init
      */
     ngOnInit(): void
     {
+        this.limiteFecha();
+
+        // Create the selected grado form
         this.gradoForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
             idEstado_tramite: [''],
-            idModalidad_grado: [''],
             descripcion_estado: [''],
             codigo: [''],
-            entidad: ['', Validators.required],
-            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
-            fecha_operacion: ['', Validators.required],
+            entidad: [''],
+            nro_operacion: [''],
+            fecha_operacion: [''],
             archivo: [''],
             idMotivo_tramite: [''],
             comentario: [''],
@@ -163,25 +165,92 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             archivoImagen: [''],
             requisitos: [''],
 
-            fecha_cierre_decanato: ['']
+            idModalidad_carpeta: ['', Validators.required],
+            fecha_sustentacion_carpeta: ['', Validators.required],
+            nombre_trabajo_carpeta: [''],
+            url_trabajo_carpeta: [''],
+            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
+            idPrograma_estudios_carpeta: ['', Validators.required],
+            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
+            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
+            idDiploma_carpeta: ['', Validators.required],
+            anios_estudios: [{value: '', disabled: true}],
+
+            idAcreditacion: [{value: '', disabled: true}],
+            dependencia_acreditado: [{value: '', disabled: true}],
+            fecha_inicio: [{value: '', disabled: true}],
+            fecha_fin: [{value: '', disabled: true}],
         });
 
         // Get the grado
         this._gradoService.grado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((grado: GradoInterface) => {
-                console.log(grado);
+
                 // Get the grado
                 this.grado = grado;
-                this.requisitos = grado.requisitos;
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
+                console.log(this.gradoForm.getRawValue());
+                this.calcularTiempo();
+
+                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idDependencia_detalle)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((diplomas: any) => {
+                        this.diplomas = diplomas;
+                        
+                        // this.gradoForm.patchValue({idDiploma_carpeta: diplomas[0]});
+            
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
+        this._gradoService.modalidades_sustentacion$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((modalidades_sustentacion: any) => {
+                this.modalidades_sustentacion = modalidades_sustentacion;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        this._gradoService.programas_estudios$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((programas_estudios: any) => {
+                this.programas_estudios = programas_estudios;
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });       
+    }
+
+    selectedActo(acto_academico: number): void {
+        this.gradoForm.controls.nombre_trabajo_carpeta.clearValidators();
+        this.gradoForm.controls.url_trabajo_carpeta.clearValidators();
+        this.gradoForm.patchValue({fecha_sustentacion_carpeta: ''});
+        if (acto_academico != 1) {
+            this.gradoForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
+            this.gradoForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
+        } else {
+            this.gradoForm.patchValue({
+                fecha_sustentacion_carpeta: moment(this.gradoForm.get('created_at').value),
+                nombre_trabajo_carpeta: '',
+                url_trabajo_carpeta: ''
+            });
+        }
+        this.gradoForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
+        this.gradoForm.controls.url_trabajo_carpeta.updateValueAndValidity();
+    }
+    
+    calcularTiempo(): void {
+        let tiempo = moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value);
+        let tiempo_parcial = tiempo.split(" ");
+        this.gradoForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
     }
 
     /**
@@ -192,7 +261,6 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.complete();
     }
-    
     /**
      * Track by function for ngFor loops
      *
@@ -204,109 +272,44 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    selectGrado(event): void {
-        const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
-        console.log(this.gradoForm);
-        this.newGrado = true;
-    }
-    
-    selectReqDocumento(event, req): void {
-        const requisito = this.gradoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
-        requisito['archivoPdf'] = event.target.files[0];
-    }
 
-    verReqDocumento(req): void {
-        console.log(req);
-        const respDial = this.visordialog.open(
-            VisorPdfGradoComponent,
-            {
-                data: req,
-                disableClose: true,
-                minWidth: '50%',
-                maxWidth: '60%'
-            }
-        );
-    }
-    UpdateRequisitosFacultad(): void{
-        // If the confirm button pressed...
-        const date = new Date().toISOString().substring(0,10);
-        if (this.gradoForm.get('fecha_cierre_decanato').value < date) {
+    enviarDatos(): void {
+        if (this.gradoForm.invalid) {
+            this.gradoForm.markAllAsTouched();
+            return;
+        }
+
+        // Get the contact object
+        const grado = this.gradoForm.getRawValue();
+        grado.fecha_sustentacion_carpeta = new Date(grado.fecha_sustentacion_carpeta).toISOString().substring(0,10);
+        grado.fecha_primera_matricula = new Date(grado.fecha_primera_matricula).toISOString().substring(0,10);
+        grado.fecha_ultima_matricula = new Date(grado.fecha_ultima_matricula).toISOString().substring(0,10);
+        
+        // Disable the form
+        this.gradoForm.disable();
+        
+        // Update the contact on the server
+        this._gradoService.sendDatos(grado.idTramite, grado).subscribe(() => {
+
+            // Re-enable the form
+            // this.gradoForm.enable();
+
             // Show a success message
             this.alert = {
-                type   : 'warn',
-                message: 'La fecha límite para este trámite fue ' + this.gradoForm.get('fecha_cierre_decanato').value,
-                title: 'Fuera de fecha'
-            };
-            this.openSnack();
-            return;
-        }
-        
-        const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            requisitos: this.gradoForm.getRawValue().requisitos,
-        };
-
-        //Validar que subí todos los requisitos rechazados
-        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 8 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
-        if (requis) {
-            this.alert = {
-                type   : 'warn',
-                message: 'Cargar el archivo en el requisito: ' + requis.nombre,
-                title: 'Error'
-            };
-            this.openSnack();
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('idTramite', data.idTramite);
-        data.requisitos.forEach((element) => {
-            formData.append('requisitos[]', JSON.stringify(element));
-            if (element.idRequisito && element.extension === 'pdf') {
-                if (element.archivoPdf) {
-                    formData.append('files[]', element.archivoPdf);
-                } else {
-                    formData.append('files[]', new File([""], "vacio.kj"));
-                }
-            }
-            if (element.idRequisito && element.extension === 'jpg') {
-                formData.append('files[]', new File([""], "vacio.kj"));
-            }
-        });
-        // console.log(formData.getAll('files[]'));
-        
-        this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
-            
-            // Re-enable the form
-            this.gradoForm.enable();
-
-            this.alert = {
                 type   : 'success',
-                message: 'Requisitos actualizados correctamente',
+                message: 'Trámite retornado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
-
+            
             // Mark for check
             this._changeDetectorRef.markForCheck();
-        },
-        (response) => {
-
-            // Re-enable the form
-            this.gradoForm.enable();
-
-            this.alert = {
-                type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
-            };
-            this.openSnack();
         });
     }
+    
 }
