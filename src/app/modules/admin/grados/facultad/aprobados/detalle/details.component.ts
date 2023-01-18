@@ -126,19 +126,11 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             data: this.alert,
         });
     }
-
-    // limiteFecha(): void {
-    //     const now = moment();
-    //     this.maxDate = now;
-    // }
     /**
      * On init
      */
     ngOnInit(): void
     {
-        // this.limiteFecha();
-        // this.selectedGap = true;
-        // Create the selected maduritylevel form
         this.gradoForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
@@ -170,18 +162,9 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
+
+            fecha_cierre_decanato: ['']
         });
-
-        // Get the grados
-        // this._gradoService.allgrados$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((allgrados: GradoInterface[]) => {
-        //         this.allgrados = allgrados;
-        //         console.log(allgrados);
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
 
         // Get the grado
         this._gradoService.grado$
@@ -191,10 +174,6 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
                 // Get the grado
                 this.grado = grado;
                 this.requisitos = grado.requisitos;
-                // this.grado.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.grado.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
@@ -225,86 +204,7 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    // validarRequisito(requisito, lectura, index): void {
-    //     requisito['lectura'] = lectura;
-    //     const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-    //         autoFocus: false,
-    //         disableClose: true,
-    //         data: JSON.parse( JSON.stringify(requisito) )
-    //     });
-    //     //--------- desde aquí falta 
-    //     dialogRef.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             this.grado.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
-    //             if (requisito.des_estado_requisito == 'APROBADO') {
-    //                 this.grado.requisitos[index].aprobado = 1;
-    //             } else if (requisito.des_estado_requisito == 'RECHAZADO') {
-    //                 this.grado.requisitos[index].aprobado = 0;
-    //                 this.grado.requisitos[index].comentario = response.getRawValue().comentario;
-    //             }
-    //             this.gradoForm.patchValue({ requisitos: this.grado.requisitos});
-                
-    //             // Mark for check
-    //             this._changeDetectorRef.markForCheck();
-    //         }
-    //     });
-    // }
-
-
-    // updateRequisitos(): void
-    // {
-    //     // Get the contact object
-    //     const grado = this.gradoForm.getRawValue();
-    //     console.log(grado);
-    //     // Disable the form
-    //     this.gradoForm.disable();
-        
-    //     // Update the contact on the server
-    //     this._gradoService.updateRequisitos(grado.idTramite, grado).subscribe(() => {
-
-    //         // Re-enable the form
-    //         this.gradoForm.enable();
-
-    //         // Show a success message
-    //         this.alert = {
-    //             type   : 'success',
-    //             message: 'Trámite registrado correctamente',
-    //             title: 'Guardado'
-    //         };
-    //         this.openSnack();
-            
-    //         // Mark for check
-    //         this._changeDetectorRef.markForCheck();
-    //     });
-    // }
-
-    // rechazarRequisitos(): void {
-    //     for (const itera of this.grado.requisitos) {
-    //         itera['selected'] = false;
-    //     }
-    //     const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-    //         autoFocus: false,
-    //         disableClose: true,
-    //         data: JSON.parse( JSON.stringify( {
-    //             requisitos: this.grado.requisitos
-    //         } ))
-    //     });
-    //     dialogRef.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue().requisitos);
-    //             this.grado.requisitos = response.getRawValue().requisitos;
-    //             console.log(this.grado.requisitos);
-    //             this.gradoForm.patchValue({ requisitos: response.getRawValue().requisitos});
-    //             console.log(this.gradoForm.getRawValue());
-    //             // Mark for check
-    //             this._changeDetectorRef.markForCheck();
-    //         }
-    //     });
-    // }
+    
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -315,55 +215,7 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         console.log(this.gradoForm);
         this.newGrado = true;
     }
-    // verDocumento(): void {
-    //     console.log(this.gradoForm.getRawValue());
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfGradoComponent,
-    //         {
-    //             data: this.gradoForm.getRawValue(),
-    //             disableClose: true,
-    //             minWidth: '50%',
-    //             maxWidth: '60%'
-    //         }
-    //     );
-    // }
-    // uploadGrado(): void{
-    //     const data={
-    //         idTramite: this.gradoForm.getRawValue().idTramite,
-    //         archivo: this.gradoForm.getRawValue().archivo,
-    //     };
-    //     debugger;
-    //     const formData = new FormData();
-    //         formData.append('idTramite', data.idTramite);
-    //         formData.append('archivo', data.archivo);
-    //     console.log(formData);
-        
-    //     this._gradoService.uploadGrado(data.idTramite,formData).subscribe((newGrado) => {
-    //         // Re-enable the form
-    //         this.gradoForm.enable();
-            
-    //         this.alert = {
-    //             type   : 'success',
-    //             message: 'Grado cargado correctamente',
-    //             title: 'Guardado'
-    //         };
-    //         this.openSnack();
-    //         this.newGrado = false;
-    //         // Mark for check
-    //         this._changeDetectorRef.markForCheck();
-    //     },
-    //     (response) => {
-    //         // Re-enable the form
-    //         this.gradoForm.enable();
-
-    //         this.alert = {
-    //             type   : 'warn',
-    //             message: response,
-    //             title: 'Error'
-    //         };
-    //         this.openSnack();
-    //     });
-    // }
+    
     selectReqDocumento(event, req): void {
         const requisito = this.gradoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
         requisito['archivoPdf'] = event.target.files[0];
@@ -383,6 +235,18 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
     }
     UpdateRequisitosFacultad(): void{
         // If the confirm button pressed...
+        const date = new Date().toISOString().substring(0,10);
+        if (this.gradoForm.get('fecha_cierre_decanato').value < date) {
+            // Show a success message
+            this.alert = {
+                type   : 'warn',
+                message: 'La fecha límite para este trámite fue ' + this.gradoForm.get('fecha_cierre_decanato').value,
+                title: 'Fuera de fecha'
+            };
+            this.openSnack();
+            return;
+        }
+        
         const data={
             idTramite: this.gradoForm.getRawValue().idTramite,
             requisitos: this.gradoForm.getRawValue().requisitos,

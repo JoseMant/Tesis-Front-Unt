@@ -61,7 +61,9 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children   : [
-            {path: 'home2', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+            // {path: 'home2', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+            // Maintenance
+            // {path: 'maintenance', loadChildren: () => import('app/modules/maintenance/maintenance.module').then(m => m.MaintenanceModule)},
         ]
     },
 
@@ -81,6 +83,7 @@ export const appRoutes: Route[] = [
             {path: 'vouchers', loadChildren: () => import('app/modules/admin/vouchers/vouchers.module').then(m => m.VouchersModule)},
             {path: 'certificados', loadChildren: () => import('app/modules/admin/certificados/certificados.module').then(m => m.CertificadosModule)},
             {path: 'grados', loadChildren: () => import('app/modules/admin/grados/grados.module').then(m => m.GradosModule)},
+            {path: 'titulos', loadChildren: () => import('app/modules/admin/titulos/titulos.module').then(m => m.TitulosModule)},
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
             // Ajustes
@@ -88,7 +91,7 @@ export const appRoutes: Route[] = [
             // Masters
             {path: 'masters', children: [
                 {path: 'access', loadChildren: () => import('app/modules/admin/masters/access/access.module').then(m => m.AccessModule)},
-                {path: 'bachiller_grado', loadChildren: () => import('app/modules/admin/masters/bachiller_grado/bachiller_grado.module').then(m => m.BachillerGradoModule)},
+                {path: 'carpeta', loadChildren: () => import('app/modules/admin/masters/carpeta/carpeta.module').then(m => m.CarpetaModule)},
             ]},
         ]
     }

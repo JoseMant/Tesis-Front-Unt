@@ -231,15 +231,110 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/grados/ura/pendientes',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
-            }
-            ,
+            },
+            // {
+            //     // Se muestran al usuario para ser asignados después de validación en tesorería
+            //     id   : 'grados.consultas',
+            //     title: 'Consultas',
+            //     type : 'basic',
+            //     link : '/grados/consultas',
+            //     permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            // },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.consultas',
-                title: 'Consultas',
+                id   : 'secretaria.observados',
+                title: 'Secretaría Observados',
                 type : 'basic',
-                link : '/grados/consultas',
+                link : '/grados/secretaria/observados',
                 permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            }
+        ]
+    },
+    {
+        id   : 'titulos',
+        title: 'Títulos',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.escuela.validados',
+                title: 'Validados Escuela',
+                type : 'basic',
+                link : '/titulos/escuela/validados',
+                permissions: ['SECRETARIA(O) DE ESCUELA']
+            },
+            {
+                // Se muestran para subir el certificado
+                id   : 'titulos.escuela.aprobados',
+                title: 'Aprobados Escuela',
+                type : 'basic',
+                link : '/titulos/escuela/aprobados',
+                permissions: ['SECRETARIA(O) DE ESCUELA']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.escuela.revalidados',
+                title: 'Revalidados Escuela',
+                type : 'basic',
+                link : '/titulos/escuela/revalidados',
+                permissions: ['SECRETARIA(O) DE ESCUELA']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.facultad.validados',
+                title: 'Validados Facultad',
+                type : 'basic',
+                link : '/titulos/facultad/validados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.facultad.aprobados',
+                title: 'Aprobados Facultad',
+                type : 'basic',
+                link : '/titulos/facultad/aprobados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.facultad.revalidados',
+                title: 'Revalidados Facultad',
+                type : 'basic',
+                link : '/titulos/facultad/revalidados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.escuela.diplomas',
+                title: 'Datos Diplomas en Escuela',
+                type : 'basic',
+                link : '/titulos/escuela/diplomas',
+                permissions: ['SECRETARIA(O) DE ESCUELA']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.facultad.diplomas',
+                title: 'Datos Diplomas en Facultad',
+                type : 'basic',
+                link : '/titulos/facultad/diplomas',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.ura.validacion',
+                title: 'Validación URA',
+                type : 'basic',
+                link : '/titulos/ura/validacion',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos.ura.diplomas',
+                title: 'Datos Diplomas en URA',
+                type : 'basic',
+                link : '/titulos/ura/diplomas',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             }
         ]
     },
@@ -376,23 +471,23 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 ]
             },
             {
-                id      : 'masters.bachiller_grado',
-                title   : 'Bachiller / Grado Título',
+                id      : 'masters.carpeta',
+                title   : 'Carpeta',
                 type    : 'collapsable',
                 icon    : 'heroicons_outline:lock-closed',
                 children: [
                     {
-                        id   : 'masters.bachiller_grado.cronogramas',
+                        id   : 'masters.carpeta.cronogramas',
                         title: 'Cronogramas',
                         type : 'basic',
-                        link : '/masters/bachiller_grado/cronogramas',
+                        link : '/masters/carpeta/cronogramas',
                         permissions: ['SECRETARIA(O) DE FACULTAD','SECRETARÍA GENERAL']
                     },
                     {
-                        id   : 'masters.bachiller_grado.resoluciones',
+                        id   : 'masters.carpeta.resoluciones',
                         title: 'Resoluciones',
                         type : 'basic',
-                        link : '/masters/bachiller_grado/resoluciones',
+                        link : '/masters/carpeta/resoluciones',
                         permissions: ['SECRETARÍA GENERAL']
                     }
                 ]

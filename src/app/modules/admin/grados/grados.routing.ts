@@ -81,6 +81,11 @@ import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados
 import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
 import { GradoFinalizadoResolver,GradosFinalizadosResolver } from 'app/modules/admin/grados/finalizados/finalizados.resolvers';
 
+// -------------
+import { GradosSecretariaObservadosComponent } from 'app/modules/admin/grados/secretaria/observados/observados.component';
+import { GradosSecretariaObservadosListComponent } from 'app/modules/admin/grados/secretaria/observados/list/list.component';
+import { GradoSecretariaObservadoDetalleComponent } from 'app/modules/admin/grados/secretaria/observados/details/details.component';
+import { GradosSecretariaObservadosResolver, GradoSecretariaObservadoResolver } from 'app/modules/admin/grados/secretaria/observados/observados.resolvers';
 
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
@@ -96,9 +101,6 @@ export const gradosRoutes: Route[] = [
         {
           path     : '',
           component: GradosEscuelaValidadosListComponent,
-        //   resolve      : {
-        //     users  : UsersResolver,
-        //   },
         },
         {
           path         : ':idTramite',
@@ -396,6 +398,16 @@ export const gradosRoutes: Route[] = [
         ]
     },
     {
+      path     : 'ura/pendientes',
+      component: GradosURAPendientesComponent,
+      children : [
+        {
+          path     : '',
+          component: GradosURAPendientesListComponent,
+        },
+      ]
+    },
+    {
         path     : 'consultas',
         component: GradosFinalizadosComponent,
         canActivate: [NgxPermissionsGuard],
@@ -416,13 +428,32 @@ export const gradosRoutes: Route[] = [
         ]
     },
     {
-      path     : 'ura/pendientes',
-      component: GradosURAPendientesComponent,
+      path     : 'secretaria/observados',
+      component: GradosSecretariaObservadosComponent,
+      canActivate: [NgxPermissionsGuard],
+      data: {
+          permissions: {
+              only: ['ADMINISTRADOR', 'SECRETARÍA GENERAL'],
+              redirectTo: 'home'
+          }
+      },
+      resolve      : {
+        grados  : GradosSecretariaObservadosResolver,
+      },
       children : [
         {
           path     : '',
-          component: GradosURAPendientesListComponent,
+          component: GradosSecretariaObservadosListComponent,
         },
+        {
+          path         : ':idTramite',
+          component    : GradoSecretariaObservadoDetalleComponent,
+          resolve      : {
+            grado  : GradoSecretariaObservadoResolver,
+            modalidades: ModalidadesSustentacionResolver,
+            programas_estudios: ProgramasEstudiosResolver,
+          },
+        }
       ]
     }
 ];
