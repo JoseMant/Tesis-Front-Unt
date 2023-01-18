@@ -420,6 +420,10 @@ export class GradoEscuelaAprobadoDetalleComponent implements OnInit, OnDestroy
                 formData.append('files[]', new File([""], "vacio.kj"));
             }
         });
+
+        //faltaba desabilitar gradoform para que el ngif del spinner funcionara
+        this.gradoForm.disable();
+        
         // console.log(formData.getAll('files[]'));
         
         this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
@@ -433,7 +437,7 @@ export class GradoEscuelaAprobadoDetalleComponent implements OnInit, OnDestroy
                 title: 'Guardado'
             };
             this.openSnack();
-
+            
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
@@ -448,6 +452,7 @@ export class GradoEscuelaAprobadoDetalleComponent implements OnInit, OnDestroy
                 title: 'Error'
             };
             this.openSnack();
+            this._changeDetectorRef.markForCheck();
         });
     }
 }

@@ -77,6 +77,7 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'home', loadChildren: () => import('app/modules/admin/home/home.module').then(m => m.HomeModule)},
             {path: 'tramites', loadChildren: () => import('app/modules/admin/tramites/tramites.module').then(m => m.TramitesModule)},
+            {path: 'codigos_pago', loadChildren: () => import('app/modules/admin/codigos_pago/codigos_pago.module').then(m => m.CodigosPagoModule)},
             {path: 'vouchers', loadChildren: () => import('app/modules/admin/vouchers/vouchers.module').then(m => m.VouchersModule)},
             {path: 'certificados', loadChildren: () => import('app/modules/admin/certificados/certificados.module').then(m => m.CertificadosModule)},
             {path: 'grados', loadChildren: () => import('app/modules/admin/grados/grados.module').then(m => m.GradosModule)},

@@ -402,6 +402,7 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
 
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
+        
         data.requisitos.forEach((element) => {
             formData.append('requisitos[]', JSON.stringify(element));
             if (element.idRequisito && element.extension === 'pdf') {
@@ -415,6 +416,10 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
                 formData.append('files[]', new File([""], "vacio.kj"));
             }
         });
+
+        //faltaba desabilitar gradoform para que el ngif del spinner funcionara
+        this.gradoForm.disable();
+
         // console.log(formData.getAll('files[]'));
         
         this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
@@ -442,7 +447,10 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
                 message: response.error.message,
                 title: 'Error'
             };
+            console.log("aqui")
             this.openSnack();
+            //faltaba colocar el markforcheck
+            this._changeDetectorRef.markForCheck();
         });
     }
 }
