@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { UserInterface, GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { environment } from 'environments/environment';
-import { Resolucion } from '../masters/bachiller_grado/cronogramas/cronogramas.types';
+import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 
 @Injectable({
     providedIn: 'root'

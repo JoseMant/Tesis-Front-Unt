@@ -10,15 +10,15 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
-import { GradosService } from 'app/modules/admin/grados/grados.service';
-import { GradoInterface } from 'app/modules/admin/grados/grados.types';
+import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
+import { TituloInterface } from 'app/modules/admin/titulos/titulos.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorPdfGrado.component';
+import { VisorPdfTituloComponent } from 'app/modules/admin/titulos/visorPdf/visorPdfTitulo.component';
 
 @Component({
-    selector       : 'grado-details',
+    selector       : 'titulo-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -81,7 +81,7 @@ import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorP
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
+export class TituloFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
@@ -92,21 +92,21 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         message: '',
         title: '',
     };
-    grado: GradoInterface | null = null;
-    allgrados: GradoInterface[];
-    gradoForm: FormGroup;
-    data: GradoInterface;
+    titulo: TituloInterface | null = null;
+    alltitulos: TituloInterface[];
+    tituloForm: FormGroup;
+    data: TituloInterface;
     contador: number = 4;
     requisitos: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    newGrado: boolean = false;
+    newTitulo: boolean = false;
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _gradoService: GradosService,
+        private _tituloService: TitulosService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -131,13 +131,13 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.gradoForm = this._formBuilder.group({
+        this.tituloForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
             idEstado_tramite: [''],
-            idModalidad_grado: [''],
+            idModalidad_titulo: [''],
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
@@ -166,17 +166,17 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             fecha_cierre_decanato: ['']
         });
 
-        // Get the grado
-        this._gradoService.grado$
+        // Get the titulo
+        this._tituloService.titulo$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((grado: GradoInterface) => {
-                console.log(grado);
-                // Get the grado
-                this.grado = grado;
-                this.requisitos = grado.requisitos;
+            .subscribe((titulo: TituloInterface) => {
+                console.log(titulo);
+                // Get the titulo
+                this.titulo = titulo;
+                this.requisitos = titulo.requisitos;
 
                 // Patch values to the form
-                this.gradoForm.patchValue(grado);
+                this.tituloForm.patchValue(titulo);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -209,22 +209,22 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    selectGrado(event): void {
+    selectTitulo(event): void {
         const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
-        console.log(this.gradoForm);
-        this.newGrado = true;
+        this.tituloForm.patchValue({archivo: files});
+        console.log(this.tituloForm);
+        this.newTitulo = true;
     }
     
     selectReqDocumento(event, req): void {
-        const requisito = this.gradoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
+        const requisito = this.tituloForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
         requisito['archivoPdf'] = event.target.files[0];
     }
 
     verReqDocumento(req): void {
         console.log(req);
         const respDial = this.visordialog.open(
-            VisorPdfGradoComponent,
+            VisorPdfTituloComponent,
             {
                 data: req,
                 disableClose: true,
@@ -236,11 +236,11 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
     UpdateRequisitosFacultad(): void{
         // If the confirm button pressed...
         const date = new Date().toISOString().substring(0,10);
-        if (this.gradoForm.get('fecha_cierre_decanato').value < date) {
+        if (this.tituloForm.get('fecha_cierre_decanato').value < date) {
             // Show a success message
             this.alert = {
                 type   : 'warn',
-                message: 'La fecha límite para este trámite fue ' + this.gradoForm.get('fecha_cierre_decanato').value,
+                message: 'La fecha límite para este trámite fue ' + this.tituloForm.get('fecha_cierre_decanato').value,
                 title: 'Fuera de fecha'
             };
             this.openSnack();
@@ -248,12 +248,12 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         }
         
         const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            requisitos: this.gradoForm.getRawValue().requisitos,
+            idTramite: this.tituloForm.getRawValue().idTramite,
+            requisitos: this.tituloForm.getRawValue().requisitos,
         };
 
         //Validar que subí todos los requisitos rechazados
-        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 8 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
+        const requis = this.tituloForm.getRawValue().requisitos.find(element => element.responsable == 8 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
         if (requis) {
             this.alert = {
                 type   : 'warn',
@@ -266,7 +266,6 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
 
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
-        
         data.requisitos.forEach((element) => {
             formData.append('requisitos[]', JSON.stringify(element));
             if (element.idRequisito && element.extension === 'pdf') {
@@ -280,16 +279,12 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
                 formData.append('files[]', new File([""], "vacio.kj"));
             }
         });
-
-        //faltaba desabilitar gradoform para que el ngif del spinner funcionara
-        this.gradoForm.disable();
-
         // console.log(formData.getAll('files[]'));
         
-        this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
+        this._tituloService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
             
             // Re-enable the form
-            this.gradoForm.enable();
+            this.tituloForm.enable();
 
             this.alert = {
                 type   : 'success',
@@ -304,17 +299,14 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         (response) => {
 
             // Re-enable the form
-            this.gradoForm.enable();
+            this.tituloForm.enable();
 
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
                 title: 'Error'
             };
-            console.log("aqui")
             this.openSnack();
-            //faltaba colocar el markforcheck
-            this._changeDetectorRef.markForCheck();
         });
     }
 }

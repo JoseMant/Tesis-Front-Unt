@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { GradoInterface } from 'app/modules/admin/grados/grados.types';
@@ -18,7 +17,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorPdfGrado.component';
 
 @Component({
-    selector       : 'grado-details',
+    selector       : 'grado-firma-decano-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -81,7 +80,7 @@ import { VisorPdfGradoComponent } from 'app/modules/admin/grados/visorPdf/visorP
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
+export class GradoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
@@ -92,12 +91,11 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         message: '',
         title: '',
     };
+    
     grado: GradoInterface | null = null;
     allgrados: GradoInterface[];
     gradoForm: FormGroup;
-    data: GradoInterface;
     contador: number = 4;
-    requisitos: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     newGrado: boolean = false;
     /**
@@ -126,11 +124,19 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             data: this.alert,
         });
     }
+
+    // limiteFecha(): void {
+    //     const now = moment();
+    //     this.maxDate = now;
+    // }
     /**
      * On init
      */
     ngOnInit(): void
     {
+        // this.limiteFecha();
+        // this.selectedGap = true;
+        // Create the selected maduritylevel form
         this.gradoForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
@@ -143,7 +149,7 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
-            archivo: [''],
+            archivoPdf: [''],
             idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
@@ -162,18 +168,25 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
-
-            fecha_cierre_decanato: ['']
         });
+
+        // Get the grados
+        // this._gradoService.allgrados$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((allgrados: GradoInterface[]) => {
+        //         this.allgrados = allgrados;
+        //         console.log(allgrados);
+
+        //         // Mark for check
+        //         this._changeDetectorRef.markForCheck();
+        //     });
 
         // Get the grado
         this._gradoService.grado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((grado: GradoInterface) => {
-                console.log(grado);
                 // Get the grado
                 this.grado = grado;
-                this.requisitos = grado.requisitos;
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
@@ -192,7 +205,6 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.complete();
     }
-    
     /**
      * Track by function for ngFor loops
      *
@@ -204,117 +216,97 @@ export class GradoFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    
+    // rechazarRequisitos(): void {
+    //     for (const itera of this.grado.requisitos) {
+    //         itera['selected'] = false;
+    //     }
+    //     const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
+    //         autoFocus: false,
+    //         disableClose: true,
+    //         data: JSON.parse( JSON.stringify( {
+    //             requisitos: this.grado.requisitos
+    //         } ))
+    //     });
+    //     dialogRef.afterClosed().subscribe( (response) => {
+    //         // If the confirm button pressed...
+    //         if ( response )
+    //         {
+    //             console.log(response.getRawValue().requisitos);
+    //             this.grado.requisitos = response.getRawValue().requisitos;
+    //             console.log(this.grado.requisitos);
+    //             this.gradoForm.patchValue({ requisitos: response.getRawValue().requisitos});
+    //             console.log(this.gradoForm.getRawValue());
+    //             // Mark for check
+    //             this._changeDetectorRef.markForCheck();
+    //         }
+    //     });
+    // }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     selectGrado(event): void {
         const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
-        console.log(this.gradoForm);
-        this.newGrado = true;
-    }
-    
-    selectReqDocumento(event, req): void {
-        const requisito = this.gradoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
-        requisito['archivoPdf'] = event.target.files[0];
+        this.gradoForm.patchValue({archivoPdf: files});
+        if (files) this.newGrado = true;
+        else this.newGrado = false;
     }
 
-    verReqDocumento(req): void {
-        console.log(req);
+    verDocumento(): void {
         const respDial = this.visordialog.open(
             VisorPdfGradoComponent,
             {
-                data: req,
+                data: this.gradoForm.getRawValue(),
                 disableClose: true,
                 minWidth: '50%',
                 maxWidth: '60%'
             }
         );
     }
-    UpdateRequisitosFacultad(): void{
-        // If the confirm button pressed...
-        const date = new Date().toISOString().substring(0,10);
-        if (this.gradoForm.get('fecha_cierre_decanato').value < date) {
-            // Show a success message
-            this.alert = {
-                type   : 'warn',
-                message: 'La fecha límite para este trámite fue ' + this.gradoForm.get('fecha_cierre_decanato').value,
-                title: 'Fuera de fecha'
-            };
-            this.openSnack();
-            return;
-        }
-        
+
+    uploadGrado(): void{
         const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            requisitos: this.gradoForm.getRawValue().requisitos,
+            idTramite: this.gradoForm.get('idTramite').value,
+            archivo: this.gradoForm.get('archivoPdf').value
         };
-
-        //Validar que subí todos los requisitos rechazados
-        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 8 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
-        if (requis) {
-            this.alert = {
-                type   : 'warn',
-                message: 'Cargar el archivo en el requisito: ' + requis.nombre,
-                title: 'Error'
-            };
-            this.openSnack();
-            return;
-        }
-
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
-        
-        data.requisitos.forEach((element) => {
-            formData.append('requisitos[]', JSON.stringify(element));
-            if (element.idRequisito && element.extension === 'pdf') {
-                if (element.archivoPdf) {
-                    formData.append('files[]', element.archivoPdf);
-                } else {
-                    formData.append('files[]', new File([""], "vacio.kj"));
-                }
-            }
-            if (element.idRequisito && element.extension === 'jpg') {
-                formData.append('files[]', new File([""], "vacio.kj"));
-            }
-        });
-
-        //faltaba desabilitar gradoform para que el ngif del spinner funcionara
+        formData.append('archivo', data.archivo);
         this.gradoForm.disable();
 
-        // console.log(formData.getAll('files[]'));
-        
-        this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
-            
+        this._gradoService.uploadGrado(data.idTramite,formData).subscribe((response) => {
+            // Toggle the edit mode off
+            //this.toggleEditMode(false);
             // Re-enable the form
             this.gradoForm.enable();
-
+            // Go to new product
+            //this.createFormulario(this.user);
             this.alert = {
                 type   : 'success',
-                message: 'Requisitos actualizados correctamente',
+                message: 'Grado cargado correctamente',
                 title: 'Guardado'
             };
+
             this.openSnack();
+            this.newGrado = false;
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
         (response) => {
-
             // Re-enable the form
             this.gradoForm.enable();
-
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
                 title: 'Error'
             };
-            console.log("aqui")
             this.openSnack();
-            //faltaba colocar el markforcheck
+
+            // Mark for check
             this._changeDetectorRef.markForCheck();
+
         });
     }
+    
 }

@@ -1,0 +1,119 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+
+  <mat-card class="w-full">
+    <div class="flex flex-col mx-5">
+      <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+        CODIGO TRÁMITE: {{grado.codigo}}
+      </mat-card-title>
+      <mat-card-content>
+        <!-- Section -->
+        <!-- <div class="w-full">
+          <div class="text-xl">Datos del trámite</div>
+        </div> -->
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+
+          <!-- SOLICITANTE -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>SOLICITANTE:</b> {{grado.solicitante}}</div>
+          </div>
+          <!-- NUMERO DE DOCUMENTO -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{grado.nro_documento}}</div>
+          </div>
+          <!-- ESCUELA -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>ESCUELA:</b> {{grado.escuela}}</div>
+          </div>
+          <!-- FECHA DE REGISTRO -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{grado.fecha | date: 'dd-MM-yyyy'}}</div>
+          </div>
+          <!-- TRÁMITE -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>TRÁMITE:</b> {{grado.tramite}}</div>
+          </div>
+          <!-- CORREO ELECTRÓNICO -->
+          <div class="sm:col-span-2">
+            <div class="text-secondary"><b>NRO DE MATRÍCULA:</b> {{grado.nro_matricula}}</div>
+          </div>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+
+        <div class="grid grid-cols-12 gap-y-6">
+            <div class="sm:col-span-12 col-span-12 flex justify-center">
+                <button *ngIf="grado.idEstado_tramite==13"
+                    mat-button
+                    class="rounded-full bg-green-600 hover:bg-green-500 text-white mr-1"
+                    cmat-button
+                    (click)="fileInput.click()"
+                >
+                  <mat-icon
+                      class="h-6 w-6 mr-3"
+                      style="color: rgb(255, 255, 255)"
+                      [svgIcon]="'heroicons_solid:upload'">
+                  </mat-icon>
+                  Cargar diploma firmado
+                </button>
+                <input #fileInput type="file" accept=".pdf" hidden (change)="selectGrado($event)"/>
+                <button *ngIf="newGrado"
+                    mat-button
+                    class="rounded-full bg-blue-600 hover:bg-blue-500 text-white ml-1"
+                    (click)="verDocumento()">
+                    <mat-icon
+                        class="h-6 w-6 mr-3"
+                        style="color: rgb(255, 255, 255)"
+                        [svgIcon]="'heroicons_solid:eye'">
+                    </mat-icon>
+                    Ver documento cargado
+                </button>
+                <a *ngIf="!newGrado"
+                    mat-button
+                    class="rounded-full bg-blue-600 hover:bg-blue-500 text-white ml-1"
+                    cmat-button
+                    [href]="grado.diploma_final"
+                    [target]="'_blank'"
+                >
+                  <mat-icon
+                    class="h-6 w-6 mr-3"
+                    style="color: rgb(255, 255, 255)"
+                    [svgIcon]="'heroicons_solid:eye'">
+                  </mat-icon>
+                  Descargar diploma
+                </a>
+            </div>
+        </div>
+
+        <!-- Section -->
+      </mat-card-content>
+      <mat-card-actions class="flex justify-end">
+        <button
+          mat-button
+          class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+          cmat-button
+          [routerLink]="['/grados/firma/decano']"
+          >
+          Regresar
+        </button>
+        <button
+          *ngIf="newGrado"
+          class="ml-4"
+          mat-flat-button
+          [disabled]="gradoForm.disabled"
+          [color]="'primary'"
+          (click)="uploadGrado()">
+          <span *ngIf="!gradoForm.disabled">
+              Guardar
+          </span>
+          <mat-progress-spinner
+              *ngIf="gradoForm.disabled"
+              [diameter]="24"
+              [mode]="'indeterminate'"></mat-progress-spinner>
+      </button>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>
