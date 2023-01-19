@@ -21,18 +21,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         /* language=SCSS */
         `
             .certificados-pendientes-grid {
-                grid-template-columns: 48px auto 40px;
+                grid-template-columns: 28px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 48px 112px auto 72px;
+                    grid-template-columns: 28px 100px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 112px 190px auto 72px;
+                    grid-template-columns: 28px 100px auto 150px 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 112px 190px 190px 72px;
+                    grid-template-columns: 28px 100px 100px auto 100px 150px 100px 50px 72px;
                 }
             }
             .fondo_snackbar {

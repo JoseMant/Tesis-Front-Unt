@@ -105,7 +105,7 @@ export class ModalidadesSustentacionResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
-        return this._titulosService.getModalidadesSustentacion();
+        return this._titulosService.getModalidadesSustentacion(16);
     }
 }
 

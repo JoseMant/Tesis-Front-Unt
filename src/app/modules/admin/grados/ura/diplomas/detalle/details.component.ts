@@ -90,11 +90,6 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
     gradoForm: FormGroup;
     corregirForm: FormGroup;
     contador: number = 4;
-    // listEstados = [
-    //     {id: 0, value: 0, name: 'Seleccionar estado a retornar...'},
-    //     {id: 1, value: 17, name: 'VALIDANDO DOCUMENTOS DEL ALUMNO EN LA ESCUELA'},
-    //     {id: 2, value: 30, name: 'ADJUNTANDO DOCUMENTOS EN ESCUELA'}
-    // ];
     maxDate: any;
     modalidades_sustentacion: any;
     programas_estudios: any;
@@ -170,8 +165,10 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
+            fecha: ['', Validators.required],
 
             idModalidad_carpeta: ['', Validators.required],
+            fecha_inicio_acto_academico: ['', Validators.required],
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
@@ -238,13 +235,17 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
     selectedActo(acto_academico: number): void {
         this.gradoForm.controls.nombre_trabajo_carpeta.clearValidators();
         this.gradoForm.controls.url_trabajo_carpeta.clearValidators();
-        this.gradoForm.patchValue({fecha_sustentacion_carpeta: ''});
+        this.gradoForm.patchValue({
+            fecha_inicio_acto_academico: '',
+            fecha_sustentacion_carpeta: ''
+        });
         if (acto_academico != 1) {
             this.gradoForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
             this.gradoForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
         } else {
             this.gradoForm.patchValue({
-                fecha_sustentacion_carpeta: moment(this.gradoForm.get('created_at').value),
+                fecha_inicio_acto_academico: moment(this.gradoForm.get('fecha').value),
+                fecha_sustentacion_carpeta: moment(this.gradoForm.get('fecha').value),
                 nombre_trabajo_carpeta: '',
                 url_trabajo_carpeta: ''
             });
@@ -292,6 +293,7 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
 
         // Get the contact object
         const grado = this.gradoForm.getRawValue();
+        grado.fecha_inicio_acto_academico = new Date(grado.fecha_inicio_acto_academico).toISOString().substring(0,10);
         grado.fecha_sustentacion_carpeta = new Date(grado.fecha_sustentacion_carpeta).toISOString().substring(0,10);
         grado.fecha_primera_matricula = new Date(grado.fecha_primera_matricula).toISOString().substring(0,10);
         grado.fecha_ultima_matricula = new Date(grado.fecha_ultima_matricula).toISOString().substring(0,10);

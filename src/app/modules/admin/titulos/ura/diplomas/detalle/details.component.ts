@@ -90,11 +90,6 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
     tituloForm: FormGroup;
     corregirForm: FormGroup;
     contador: number = 4;
-    // listEstados = [
-    //     {id: 0, value: 0, name: 'Seleccionar estado a retornar...'},
-    //     {id: 1, value: 17, name: 'VALIDANDO DOCUMENTOS DEL ALUMNO EN LA ESCUELA'},
-    //     {id: 2, value: 30, name: 'ADJUNTANDO DOCUMENTOS EN ESCUELA'}
-    // ];
     maxDate: any;
     modalidades_sustentacion: any;
     programas_estudios: any;

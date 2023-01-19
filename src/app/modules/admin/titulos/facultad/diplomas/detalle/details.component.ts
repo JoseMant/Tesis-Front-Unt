@@ -90,11 +90,6 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
     tituloForm: FormGroup;
     corregirForm: FormGroup;
     contador: number = 4;
-    // listEstados = [
-    //     {id: 0, value: 0, name: 'Seleccionar estado a retornar...'},
-    //     {id: 1, value: 17, name: 'VALIDANDO DOCUMENTOS DEL ALUMNO EN LA ESCUELA'},
-    //     {id: 2, value: 30, name: 'ADJUNTANDO DOCUMENTOS EN ESCUELA'}
-    // ];
     maxDate: any;
     modalidades_sustentacion: any;
     programas_estudios: any;
@@ -170,7 +165,9 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
+            fecha: ['', Validators.required],
 
+            fecha_inicio_acto_academico: ['', Validators.required],
             idModalidad_carpeta: ['', Validators.required],
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: [''],
@@ -181,7 +178,6 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
             idDiploma_carpeta: ['', Validators.required],
             anios_estudios: [{value: '', disabled: true}],
-            created_at: [''],
 
             idAcreditacion: [{value: '', disabled: true}],
             dependencia_acreditado: [{value: '', disabled: true}],
@@ -239,13 +235,17 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
     selectedActo(acto_academico: number): void {
         this.tituloForm.controls.nombre_trabajo_carpeta.clearValidators();
         this.tituloForm.controls.url_trabajo_carpeta.clearValidators();
-        this.tituloForm.patchValue({fecha_sustentacion_carpeta: ''});
+        this.tituloForm.patchValue({
+            fecha_inicio_acto_academico: '',
+            fecha_sustentacion_carpeta: ''
+        });
         if (acto_academico != 1) {
             this.tituloForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
             this.tituloForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
         } else {
             this.tituloForm.patchValue({
-                fecha_sustentacion_carpeta: moment(this.tituloForm.get('created_at').value),
+                fecha_inicio_acto_academico: moment(this.tituloForm.get('fecha').value),
+                fecha_sustentacion_carpeta: moment(this.tituloForm.get('fecha').value),
                 nombre_trabajo_carpeta: '',
                 url_trabajo_carpeta: ''
             });
@@ -293,6 +293,7 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
 
         // Get the contact object
         const titulo = this.tituloForm.getRawValue();
+        titulo.fecha_inicio_acto_academico = new Date(titulo.fecha_inicio_acto_academico).toISOString().substring(0,10);
         titulo.fecha_sustentacion_carpeta = new Date(titulo.fecha_sustentacion_carpeta).toISOString().substring(0,10);
         titulo.fecha_primera_matricula = new Date(titulo.fecha_primera_matricula).toISOString().substring(0,10);
         titulo.fecha_ultima_matricula = new Date(titulo.fecha_ultima_matricula).toISOString().substring(0,10);

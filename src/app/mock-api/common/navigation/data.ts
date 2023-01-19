@@ -11,20 +11,26 @@ export const defaultNavigation: FuseNavigationItem[] = [
         permissions: []
     },
     {
-        id   : 'tramites.digitales',
+        id   : 'tramites',
         title: 'Registrar trámite',
-        type : 'basic',
+        type : 'collapsable',
         icon : 'heroicons_outline:pencil-alt',
-        link : '/tramites/digitales',
-        permissions: ['ALUMNO']
-    },
-    {
-        id   : 'tramites.fisicos',
-        title: 'Trámite físicos',
-        type : 'basic',
-        icon : 'heroicons_outline:pencil-alt',
-        link : '/tramites/fisicos',
-        permissions: ['ADMINISTRADOR']
+        children: [
+            {
+                id   : 'tramites.digitales',
+                title: 'Trámite digital',
+                type : 'basic',
+                link : '/tramites/digitales',
+                permissions: ['ALUMNO']
+            },
+            {
+                id   : 'tramites.fisicos',
+                title: 'Trámite físico',
+                type : 'basic',
+                link : '/tramites/fisicos',
+                permissions: ['ADMINISTRADOR']
+            },
+        ]
     },
     {
         id   : 'certificados',

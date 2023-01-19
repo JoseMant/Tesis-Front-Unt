@@ -768,7 +768,7 @@ export class GradosService
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
-                    if (updatedGrado.idEstado_tramite == 38 || updatedGrado.idEstado_tramite == 7 || updatedGrado.idEstado_tramite == 15) {
+                    if (updatedGrado.idEstado_tramite == 38 || updatedGrado.idEstado_tramite == 7 || updatedGrado.idEstado_tramite == 42) {
                         // Update the grado
                         grados.splice(index, 1);
                     }
@@ -891,10 +891,10 @@ export class GradosService
         );
     }
 
-    getModalidadesSustentacion(): Observable<any>
+    getModalidadesSustentacion(tipo_tramite_unidad: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'modalidad/carpeta').pipe(
-            tap((response: any[]) => {
+        return this._httpClient.get(environment.baseUrl + 'modalidad/carpeta/' + tipo_tramite_unidad).pipe(
+            tap((response: any) => {
                 this._modalidades_sustentacion.next(response);
             })
         );

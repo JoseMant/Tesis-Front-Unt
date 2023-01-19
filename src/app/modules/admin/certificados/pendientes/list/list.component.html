@@ -66,13 +66,13 @@
 
                             <!-- Solicitante-->
                             <div
+                                class="hidden lg:block"
                                 [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
 
                             <!-- Trámite-->
                             <div
-                                class="hidden md:block"
                                 [mat-sort-header]="'tramite'">
                                 Trámite
                             </div>
@@ -86,7 +86,7 @@
 
                             <!-- Nro Matrícula -->
                             <div
-                                class="hidden lg:block"
+                                class="hidden md:block"
                                 [mat-sort-header]="'usuario_asignado'">
                                 Usuario Asignado
                             </div>
@@ -124,12 +124,12 @@
                                     </div>
 
                                     <!-- Solicitante -->
-                                    <div class="truncate">
+                                    <div class="hidden lg:block truncate">
                                         {{certificado.solicitante}}
                                     </div>
 
                                     <!-- Trámite -->
-                                    <div  class="hidden md:block truncate">
+                                    <div  class="truncate">
                                         {{certificado.tramite}}
                                     </div>
 
@@ -138,7 +138,7 @@
                                         {{certificado.unidad}}
                                     </div> 
                                     <!-- Active -->
-                                    <div class="hidden lg:block">
+                                    <div class="hidden md:block truncate">
                                         {{certificado.usuario_asignado}}
                                     </div>
 

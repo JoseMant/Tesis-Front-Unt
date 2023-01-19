@@ -468,8 +468,8 @@ export class TitulosService
                 if (titulo) {
                     titulo.fut = environment.baseUrl + titulo.fut;
                     if (titulo.certificado_final) titulo.certificado_final = environment.baseUrlStorage +  titulo.certificado_final
-                    if (titulo.diploma_final && titulo.idEstado_tramite==13) titulo.diploma_final = environment.baseUrl +  titulo.diploma_final
-                    else titulo.diploma_final = environment.baseUrlStorage +  titulo.diploma_final
+                    // if (titulo.diploma_final && titulo.idEstado_tramite==13) titulo.diploma_final = environment.baseUrl +  titulo.diploma_final
+                    // else titulo.diploma_final = environment.baseUrlStorage +  titulo.diploma_final
                     if (titulo.voucher) titulo.voucher = environment.baseUrlStorage + titulo.voucher;
                     if (titulo.exonerado) titulo.exonerado = environment.baseUrlStorage + titulo.exonerado;
                     if (titulo.requisitos) {
@@ -768,7 +768,7 @@ export class TitulosService
                     // Find the index of the updated titulo
                     const index = titulos.findIndex(item => item.idTramite === id);
 
-                    if (updatedTitulo.idEstado_tramite == 38 || updatedTitulo.idEstado_tramite == 7 || updatedTitulo.idEstado_tramite == 15) {
+                    if (updatedTitulo.idEstado_tramite == 38 || updatedTitulo.idEstado_tramite == 7 || updatedTitulo.idEstado_tramite == 42) {
                         // Update the titulo
                         titulos.splice(index, 1);
                     }
@@ -891,9 +891,9 @@ export class TitulosService
         );
     }
 
-    getModalidadesSustentacion(): Observable<any>
+    getModalidadesSustentacion(tipo_tramite_unidad: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'modalidad/carpeta').pipe(
+        return this._httpClient.get(environment.baseUrl + 'modalidad/carpeta/' + tipo_tramite_unidad).pipe(
             tap((response: any[]) => {
                 this._modalidades_sustentacion.next(response);
             })

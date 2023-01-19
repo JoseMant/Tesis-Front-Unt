@@ -152,7 +152,7 @@ export class TituloURAValidacionDetalleComponent implements OnInit, OnDestroy
             celular: [''],
             correo: [''],
             idFacultad: [''],
-            idEscuela: [''],
+            idDependencia_detalle: [''],
             sede: [''],
             nro_matricula: [''],
             tipo_documento: [''],
