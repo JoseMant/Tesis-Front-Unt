@@ -11,6 +11,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         permissions: []
     },
     {
+        id   : 'codigos.pago',
+        title: 'Codigos de pago',
+        type : 'basic',
+        icon : 'heroicons_outline:photograph',
+        link : '/codigos_pago',
+        permissions: ['ALUMNO']
+    },
+    {
         id   : 'tramites',
         title: 'Registrar trámite',
         type : 'collapsable',
