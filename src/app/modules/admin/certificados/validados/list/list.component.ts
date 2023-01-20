@@ -267,8 +267,25 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
     {
         // Get the product object
         const data = this.selectedCertificadosForm.getRawValue();
-        
         // Update the product on the server
+        if(data.tramites.length == 0){
+            this.alert = {
+                type   : 'warn',
+                message: 'Seleccione los trámites para asignar',
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
+        if(data.idUsuario == 'all'){
+            this.alert = {
+                type   : 'warn',
+                message: 'Seleccione el usuario para asignar',
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
         this._certificadosService.asignarUsuarioCertificados(data).subscribe(() => {
             // this.selectedCertificadosNgForm.resetForm();
             this.selectedTramites = [];
@@ -284,6 +301,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
             this._changeDetectorRef.markForCheck();
 
         });
+
     }
 
     /**
