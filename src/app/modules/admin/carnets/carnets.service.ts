@@ -289,26 +289,6 @@ export class CarnetsService
         );
     }
 
-    // getCarnetsAprobadosRefresh(): Observable<CarnetInterface[]>
-    // {
-    //   return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'tramite/carnets/aprobados/refresh').pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       response.forEach(element => {
-              
-    //       });
-    //       // Find the index of the updated carnet
-    //       // const index = carnets.findIndex(item => item.idTramite === id);
-
-    //       // Update the carnet
-    //       // carnets.splice(index, 1);
-
-    //       this._pagination.next(response.pagination);
-    //       this._carnets.next(response.data);
-    //     })
-    //   );
-    // }
-
     setCarnetsValidados(): Observable<any>
     {
       return this._httpClient.get<any>(environment.baseUrl + 'carnets/validacion/sunedu').pipe(
@@ -379,7 +359,6 @@ export class CarnetsService
         );
     }
 
-    
     getRecibirCarnes(): Observable<CarnetInterface[]>
     {
         return this._httpClient.get<CarnetInterface[]>(environment.baseUrl + 'carnets/solicitados/recibidos');
@@ -393,37 +372,77 @@ export class CarnetsService
      */
     finalizarCarnet(id: number, data: CarnetInterface): Observable<CarnetInterface>
     {
-      return this.carnets$.pipe(
-        take(1),
-        switchMap(carnets => this._httpClient.put<CarnetInterface>(environment.baseUrl + 'carnets/recibidos/finalizar', data).pipe(
-            map((updatedCarnet) => {
-                console.log(updatedCarnet);
-                // debugger;
-                // Find the index of the updated carnet
-                const index = carnets.findIndex(item => item.idTramite === id);
+        return this.carnets$.pipe(
+            take(1),
+            switchMap(carnets => this._httpClient.put<CarnetInterface>(environment.baseUrl + 'carnets/recibidos/finalizar', data).pipe(
+                map((updatedCarnet) => {
+                    console.log(updatedCarnet);
+                    // debugger;
+                    // Find the index of the updated carnet
+                    const index = carnets.findIndex(item => item.idTramite === id);
+                    
+                    // Update the carnet
+                    carnets.splice(index, 1);
                 
-                // Update the carnet
-                carnets.splice(index, 1);
-            
-                // Update the carnets
-                this._carnets.next(carnets);
-
-                // Return the updated carnet
-                return updatedCarnet;
-            }),
-            switchMap(updatedCarnet => this.carnet$.pipe(
-                take(1),
-                filter(item => item && item.idTramite === id),
-                tap(() => {
-
-                    // Update the carnet if it's selected
-                    this._carnet.next(updatedCarnet);
+                    // Update the carnets
+                    this._carnets.next(carnets);
 
                     // Return the updated carnet
                     return updatedCarnet;
-                })
+                }),
+                switchMap(updatedCarnet => this.carnet$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the carnet if it's selected
+                        this._carnet.next(updatedCarnet);
+
+                        // Return the updated carnet
+                        return updatedCarnet;
+                    })
+                ))
             ))
-        ))
-    );
+        );
+    }
+
+    updateCarnet(id: number, carnet: CarnetInterface): Observable<CarnetInterface>
+    {
+        return this.carnets$.pipe(
+            take(1),
+            switchMap(carnets => this._httpClient.put<CarnetInterface>(environment.baseUrl + 'tramite/update', carnet).pipe(
+                map((updatedCarnet) => {
+                    console.log(updatedCarnet);
+                    // Find the index of the updated carnet
+                    const index = carnets.findIndex(item => item.idTramite === id);
+
+                    if (updatedCarnet.idEstado_tramite != 7) {
+                        // Update the carnet
+                        carnets.splice(index, 1);
+                    } else {
+                        // Update the carnet
+                        carnets[index] = updatedCarnet;
+                    }
+
+                    // Update the carnets
+                    this._carnets.next(carnets);
+
+                    // Return the updated carnet
+                    return updatedCarnet;
+                }),
+                switchMap(updatedCarnet => this.carnet$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the carnet if it's selected
+                        this._carnet.next(updatedCarnet);
+
+                        // Return the updated carnet
+                        return updatedCarnet;
+                    })
+                ))
+            ))
+        );
     }
 }

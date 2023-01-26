@@ -129,32 +129,25 @@ export class CarnetValidadoDetalleComponent implements OnInit, OnDestroy
             data: this.alert,
         });
     }
-
-    // limiteFecha(): void {
-    //     const now = moment();
-    //     this.maxDate = now;
-    // }
+    
     /**
      * On init
      */
     ngOnInit(): void
     {
-        // this.limiteFecha();
-        // this.selectedGap = true;
-        // Create the selected maduritylevel form
         this.carnetForm = this._formBuilder.group({
-            idTipo_carnet: [''],
+            idTramite: ['', Validators.required],
+            idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
-            idEstado_carnet: [''],
-            idModalidad_grado: [''],
+            idEstado_tramite: [''],
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
             nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
             fecha_operacion: ['', Validators.required],
             archivo: [''],
-            idMotivo_carnet: [''],
+            idMotivo_tramite: [''],
             comentario: [''],
             apellidos: [''],
             nombres: [''],
@@ -168,7 +161,7 @@ export class CarnetValidadoDetalleComponent implements OnInit, OnDestroy
             tipo_documento: [''],
             sexoNombre: [''],
             idUnidad: [''],
-            idTipo_carnet_unidad: [''],
+            idTipo_tramite_unidad: [''],
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
@@ -179,23 +172,19 @@ export class CarnetValidadoDetalleComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((carnets: CarnetInterface[]) => {
                 this.carnets = carnets;
-                console.log(carnets);
-
+                
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
-        // Get the carnet
-        this._carnetService.carnet$
+            
+            // Get the carnet
+            this._carnetService.carnet$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((carnet: CarnetInterface) => {
                 console.log(carnet);
+                
                 // Get the carnet
                 this.carnet = carnet;
-                // this.carnet.fut = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.carnet.voucher = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.carnet.requisitos[0].archivo = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-                // this.carnet.requisitos[0].nombre = 'PRUEBA';
 
                 // Patch values to the form
                 this.carnetForm.patchValue(carnet);
@@ -225,29 +214,81 @@ export class CarnetValidadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    rechazarRequisitos(): void {
-        for (const itera of this.carnet.requisitos) {
-            itera['selected'] = false;
-        }
+    validarRequisito(requisito, lectura, index): void {
+        requisito['lectura'] = lectura;
         const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
             autoFocus: false,
             disableClose: true,
-            data: JSON.parse( JSON.stringify( {
-                requisitos: this.carnet.requisitos
-            } ))
+            data: JSON.parse( JSON.stringify(requisito) )
         });
+        //--------- desde aquí falta 
         dialogRef.afterClosed().subscribe( (response) => {
             // If the confirm button pressed...
             if ( response )
             {
-                console.log(response.getRawValue().requisitos);
-                this.carnet.requisitos = response.getRawValue().requisitos;
-                console.log(this.carnet.requisitos);
-                this.carnetForm.patchValue({ requisitos: response.getRawValue().requisitos});
-                console.log(this.carnetForm.getRawValue());
+                this.carnet.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
+                if (requisito.des_estado_requisito == 'APROBADO') {
+                    this.carnet.requisitos[index].validado = 1;
+                } else if (requisito.des_estado_requisito == 'RECHAZADO') {
+                    this.carnet.requisitos[index].validado = 0;
+                    this.carnet.requisitos[index].comentario = response.getRawValue().comentario;
+                }
+                this.carnetForm.patchValue({ requisitos: this.carnet.requisitos});
+                
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             }
         });
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+    
+    updateRequisitos(): void
+    {
+        // If the confirm button pressed...
+        // Get the contact object
+        const carnet = this.carnetForm.getRawValue();
+        console.log(carnet);
+        
+        // Disable the form
+        this.carnetForm.disable();
+        
+        // Update the contact on the server
+        this._carnetService.updateCarnet(carnet.idTramite, carnet).subscribe(
+            () => {
+
+                // Re-enable the form
+                this.carnetForm.enable();
+
+                // Show a success message
+                this.alert = {
+                    type   : 'success',
+                    message: 'Trámite actualizado correctamente',
+                    title: 'Guardado'
+                };
+                this.openSnack();
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            },
+            (response) => {
+
+                // Re-enable the form
+                this.carnetForm.enable();
+    
+                // Show a warn message
+                this.alert = {
+                    type   : 'warn',
+                    message: response.error.message,
+                    title: 'Error'
+                };
+                this.openSnack();
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 }
