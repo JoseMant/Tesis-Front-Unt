@@ -64,6 +64,7 @@ export const appRoutes: Route[] = [
             // {path: 'home2', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
             // Maintenance
             // {path: 'maintenance', loadChildren: () => import('app/modules/maintenance/maintenance.module').then(m => m.MaintenanceModule)},
+            {path: 'mensaje', loadChildren: () => import('app/modules/message/message.module').then(m => m.MessageModule)},
         ]
     },
 
