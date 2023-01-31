@@ -345,6 +345,94 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id   : 'titulos_SE',
+        title: 'Títulos SE',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.especialidad.validados',
+                title: 'Validados Especialidad',
+                type : 'basic',
+                link : '/titulos_SE/especialidad/validados',
+                permissions: ['SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+            },
+            {
+                // Se muestran para subir el certificado
+                id   : 'titulos_SE.especialidad.aprobados',
+                title: 'Aprobados Especialidad',
+                type : 'basic',
+                link : '/titulos_SE/especialidad/aprobados',
+                permissions: ['SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.especialidad.revalidados',
+                title: 'Revalidados Especialidad',
+                type : 'basic',
+                link : '/titulos_SE/especialidad/revalidados',
+                permissions: ['SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.facultad.validados',
+                title: 'Validados Facultad',
+                type : 'basic',
+                link : '/titulos_SE/facultad/validados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.facultad.aprobados',
+                title: 'Aprobados Facultad',
+                type : 'basic',
+                link : '/titulos_SE/facultad/aprobados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.facultad.revalidados',
+                title: 'Revalidados Facultad',
+                type : 'basic',
+                link : '/titulos_SE/facultad/revalidados',
+                permissions: ['SECRETARIA(O) DE FACULTAD']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.especialidad.diplomas',
+                title: 'Datos Diplomas en Especialidad',
+                type : 'basic',
+                link : '/titulos_SE/especialidad/diplomas',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.facultad.diplomas',
+                title: 'Datos Diplomas en Facultad',
+                type : 'basic',
+                link : '/titulos_SE/facultad/diplomas',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.ura.validacion',
+                title: 'Validación URA',
+                type : 'basic',
+                link : '/titulos_SE/ura/validacion',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'titulos_SE.ura.diplomas',
+                title: 'Datos Diplomas en URA',
+                type : 'basic',
+                link : '/titulos_SE/ura/diplomas',
+                permissions: ['ADMINISTRADOR']
+            }
+        ]
+    },
+    {
         id   : 'constancias',
         title: 'Constancias',
         type : 'collapsable',
