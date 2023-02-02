@@ -167,15 +167,15 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             requisitos: [''],
             fecha: ['', Validators.required],
 
-            fecha_inicio_acto_academico: ['', Validators.required],
             idModalidad_carpeta: ['', Validators.required],
+            fecha_inicio_acto_academico: ['', Validators.required],
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
             nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
-            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
-            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
+            fecha_primera_matricula: ['', Validators.required],
+            fecha_ultima_matricula: ['', Validators.required],
             idDiploma_carpeta: ['', Validators.required],
             anios_estudios: [{value: '', disabled: true}],
 

@@ -120,15 +120,15 @@ export class AuthSignUpComponent implements OnInit
         );
 
         this.signUpForm = this._formBuilder.group({
-                apellidos       : ['', Validators.required],
-                nombres         : ['', Validators.required],
+                apellidos       : [{value: '', disabled: true}, Validators.required],
+                nombres         : [{value: '', disabled: true}, Validators.required],
                 celular         : ['', [Validators.maxLength(9),Validators.pattern(/^[0-9]+$/), Validators.required]],
                 correo          : ['', Validators.required],
                 direccion       : ['', Validators.required],
-                nro_documento   : ['', Validators.required],
+                nro_documento   : [{value: '', disabled: true}, Validators.required],
                 sexo            : ['', Validators.required],
                 tipo_documento  : ['', Validators.required],
-                username        : ['', Validators.required],
+                username        : [{value: '', disabled: true}, Validators.required],
                 password        : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z\d$@$!%*?&]|[^ ])/), Validators.required]],
                 idTipo_usuario  : ['4', Validators.required],
                 fecha_nacimiento: ['', Validators.required]
