@@ -150,7 +150,7 @@ export class TitulosFacultadValidadosListComponent implements OnInit, AfterViewI
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosValidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosValidadosFacultad(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

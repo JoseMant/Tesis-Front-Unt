@@ -82,40 +82,6 @@ export class TitulosService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    /**
-     * Get users
-     */
-    // getUsers(): Observable<UserInterface[]>
-    // {
-    //     return this._httpClient.get<UserInterface[]>(environment.baseUrl + 'usuario/uraa').pipe(
-    //         tap((users) => {
-    //             console.log(users);
-    //             this._users.next(users);
-    //         })
-    //     );
-    // }
-    
-     
-    // getTitulosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    // Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
-    // {
-    //   return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'tramite/titulos/asignados', {
-    //     params: {
-    //         page: '' + page,
-    //         size: '' + size,
-    //         sort,
-    //         order,
-    //         search
-    //     }
-    // }).pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       this._pagination.next(response.pagination);
-    //       this._titulos.next(response.data);
-    //     })
-    //   );
-    // }
-
 
     getTitulosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
@@ -176,7 +142,6 @@ export class TitulosService
         })
       );
     }
-
 
     getTitulosValidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
