@@ -147,7 +147,7 @@ export class CertificadosValidadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosValidados(0, 10, 'fecha', 'desc', query);
+                    return this._certificadosService.getCertificadosValidados(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
