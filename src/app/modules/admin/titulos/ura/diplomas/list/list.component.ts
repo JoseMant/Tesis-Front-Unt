@@ -148,7 +148,7 @@ export class TitulosURADiplomasListComponent implements OnInit, AfterViewInit, O
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosDiplomasURA(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -229,7 +229,7 @@ export class TitulosURADiplomasListComponent implements OnInit, AfterViewInit, O
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosDiplomasURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
