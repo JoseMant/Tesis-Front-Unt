@@ -234,8 +234,8 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
         
     }
 
-    getFileDiploma(fileName: string) {
-        return environment.baseUrlStorage + fileName;
+    getFileDiploma(idtramite: number) {
+        return environment.baseUrl+'diploma/' + idtramite;
     }
 
     verCodigoDiploma(grado): void {
