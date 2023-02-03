@@ -150,7 +150,7 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosAprobados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosAprobadosFacultad(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -168,39 +168,6 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
             data: this.alert,
         });
     }
-
-    // editarTitulo(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_titulo'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/titulos_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfTituloComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const tituloAprobado = response.getRawValue();
-    //             this._titulosService.updateTitulo(tituloAprobado.idTitulo, tituloAprobado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Titulo actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
 
     /**
      * After view init
@@ -231,7 +198,7 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosAprobadosFacultad(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

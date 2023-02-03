@@ -150,7 +150,7 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosRevalidadosFacultad(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -168,39 +168,6 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
             data: this.alert,
         });
     }
-
-    // editarTitulo(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_titulo'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/titulos_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfTituloComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const tituloRevalidado = response.getRawValue();
-    //             this._titulosService.updateTitulo(tituloRevalidado.idTitulo, tituloRevalidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Titulo actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
 
     /**
      * After view init
@@ -231,7 +198,7 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosRevalidadosFacultad(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
