@@ -148,7 +148,7 @@ export class GradosFacultadDiplomasListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosRevalidados(0, 10, 'fecha', 'desc', query);
+                    return this._gradosService.getGradosDiplomasFacultad(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -166,39 +166,6 @@ export class GradosFacultadDiplomasListComponent implements OnInit, AfterViewIni
             data: this.alert,
         });
     }
-
-    // editarGrado(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_grado'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/grados_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfGradoComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const gradoRevalidado = response.getRawValue();
-    //             this._gradosService.updateGrado(gradoRevalidado.idGrado, gradoRevalidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Grado actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
 
     /**
      * After view init
@@ -229,7 +196,7 @@ export class GradosFacultadDiplomasListComponent implements OnInit, AfterViewIni
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosRevalidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._gradosService.getGradosDiplomasFacultad(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
