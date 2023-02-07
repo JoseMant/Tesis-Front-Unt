@@ -72,7 +72,7 @@ export class HomeService
                 size: '' + size,
                 sort,
                 order,
-                search
+                search: '' + search
             }
         }).pipe(
             tap((response) => {
