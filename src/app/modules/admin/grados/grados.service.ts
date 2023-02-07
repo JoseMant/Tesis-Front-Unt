@@ -18,6 +18,7 @@ export class GradosService
     private _modalidades_sustentacion: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _programas_estudios: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    // private _facultadesEscuelas: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -57,6 +58,9 @@ export class GradosService
     /**
      * Getter for grados
      */
+    // get facultadesEscuelas$(): Observable<any> {
+    //     return this._facultadesEscuelas.asObservable();
+    // }
     get grados$(): Observable<GradoInterface[]>
     {
         return this._grados.asObservable();
@@ -315,7 +319,17 @@ export class GradosService
         })
       );
     }
-
+    //////////////////
+    // getFacultadesEscuelas(search: Text): Observable<any>
+    // {
+    //     console.log(search);
+    //     return this._httpClient.get(environment.baseUrl + 'facultades/' + search).pipe(
+    //         tap((response: any[]) => { 
+    //             this._facultadesEscuelas.next(response);
+    //         })
+    //     );
+    // }
+    /////////////////////////
     getGradosValidadosSecretaria(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
