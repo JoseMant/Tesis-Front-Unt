@@ -543,39 +543,41 @@ export class GradosService
             ))
         );
     }
+    
+    updateGradoRequisito(id: number, grado: GradoInterface): Observable<GradoInterface>
+    {
+        return this.grados$.pipe(
+            take(1),
+            switchMap(grados => this._httpClient.put<GradoInterface>(environment.baseUrl + 'tramite/update/requisito', grado).pipe(
+                map((updatedGrado) => {
+                    
+                    // Find the index of the updated grado
+                    const index = grados.findIndex(item => item.idTramite === id);
+                    
+                    // Update the grado
+                    grados[index] = updatedGrado;
+                    
+                    // Update the grados
+                    this._grados.next(grados);
 
-    /**
-     * Update product
-     *
-     * @param id
-     * @param product
-     */
-    // asignarUsuarioGrados(data: any): Observable<any[]>
-    // {
-    //     return this.grados$.pipe(
-    //         take(1),
-    //         switchMap(grados => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/asignar', data).pipe(
-    //             map((updatedGrados) => {
+                    // Return the updated grado
+                    return updatedGrado;
+                }),
+                switchMap(updatedGrado => this.grado$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
 
-    //                 // Update the messages with the new message
-    //                 // this._gradosService.getGradosValidados(0, 10, 'fecha', 'desc', query);
-    //                 updatedGrados.forEach(element => {
-    //                     // Find the index of the deleted product
-    //                     const index = grados.findIndex(item => item.idTramite === element);
+                        // Update the grado if it's selected
+                        this._grado.next(updatedGrado);
 
-    //                     // Delete the product
-    //                     grados.splice(index, 1);
-    //                 });
-
-    //                 // Update the grados
-    //                 this._grados.next(grados);
-
-    //                 // Return the new message from observable
-    //                 return grados;
-    //             })
-    //         ))
-    //     );
-    // }
+                        // Return the updated grado
+                        return updatedGrado;
+                    })
+                ))
+            ))
+        );
+    }
 
     /**
      * Update grado

@@ -224,6 +224,8 @@ export class TituloURAValidacionDetalleComponent implements OnInit, OnDestroy
                 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
+
+                this.updateRequisito();
             }
         });
     }
@@ -250,6 +252,33 @@ export class TituloURAValidacionDetalleComponent implements OnInit, OnDestroy
             this.alert = {
                 type   : 'success',
                 message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    updateRequisito(): void
+    {
+        // Get the contact object
+        const titulo = this.tituloForm.getRawValue();
+        
+        // Disable the form
+        this.tituloForm.disable();
+        
+        // Update the contact on the server
+        this._tituloService.updateTituloRequisito(titulo.idTramite, titulo).subscribe(() => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Requisito actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();

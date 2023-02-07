@@ -2,13 +2,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
 import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
 import { TituloInterface } from 'app/modules/admin/titulos/titulos.types';
@@ -224,6 +222,8 @@ export class TituloURAValidacionDetalleComponent implements OnInit, OnDestroy
                 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
+
+                this.updateRequisito();
             }
         });
     }
@@ -236,7 +236,7 @@ export class TituloURAValidacionDetalleComponent implements OnInit, OnDestroy
     {
         // Get the contact object
         const titulo = this.tituloForm.getRawValue();
-        console.log(titulo);
+        
         // Disable the form
         this.tituloForm.disable();
         
@@ -250,6 +250,33 @@ export class TituloURAValidacionDetalleComponent implements OnInit, OnDestroy
             this.alert = {
                 type   : 'success',
                 message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    updateRequisito(): void
+    {
+        // Get the contact object
+        const titulo = this.tituloForm.getRawValue();
+        
+        // Disable the form
+        this.tituloForm.disable();
+        
+        // Update the contact on the server
+        this._tituloService.updateTituloRequisito(titulo.idTramite, titulo).subscribe(() => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Requisito actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
