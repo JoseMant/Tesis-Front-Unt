@@ -508,39 +508,45 @@ export class TitulosService
             ))
         );
     }
+    updateTituloRequisito(id: number, titulo: TituloInterface): Observable<TituloInterface>
+    {
+        return this.titulos$.pipe(
+            take(1),
+            switchMap(titulos => this._httpClient.put<TituloInterface>(environment.baseUrl + 'tramite/update/requisito', titulo).pipe(
+                map((updatedTitulo) => {
+                    
+                    // Find the index of the updated titulo
+                    const index = titulos.findIndex(item => item.idTramite === id);
 
-    /**
-     * Update product
-     *
-     * @param id
-     * @param product
-     */
-    // asignarUsuarioTitulos(data: any): Observable<any[]>
-    // {
-    //     return this.titulos$.pipe(
-    //         take(1),
-    //         switchMap(titulos => this._httpClient.post<any[]>(environment.baseUrl + 'tramite/asignar', data).pipe(
-    //             map((updatedTitulos) => {
+                    if (updatedTitulo.idEstado_tramite != 17 && updatedTitulo.idEstado_tramite != 20 && updatedTitulo.idEstado_tramite != 7 ) {
+                        // Update the titulo
+                        titulos.splice(index, 1);
+                    } else {
+                        // Update the titulo
+                        titulos[index] = updatedTitulo;
+                    }
 
-    //                 // Update the messages with the new message
-    //                 // this._titulosService.getTitulosValidados(0, 10, 'fecha', 'desc', query);
-    //                 updatedTitulos.forEach(element => {
-    //                     // Find the index of the deleted product
-    //                     const index = titulos.findIndex(item => item.idTramite === element);
+                    // Update the titulos
+                    this._titulos.next(titulos);
 
-    //                     // Delete the product
-    //                     titulos.splice(index, 1);
-    //                 });
+                    // Return the updated titulo
+                    return updatedTitulo;
+                }),
+                switchMap(updatedTitulo => this.titulo$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
 
-    //                 // Update the titulos
-    //                 this._titulos.next(titulos);
+                        // Update the titulo if it's selected
+                        this._titulo.next(updatedTitulo);
 
-    //                 // Return the new message from observable
-    //                 return titulos;
-    //             })
-    //         ))
-    //     );
-    // }
+                        // Return the updated titulo
+                        return updatedTitulo;
+                    })
+                ))
+            ))
+        );
+    }
 
     /**
      * Update titulo

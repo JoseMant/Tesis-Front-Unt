@@ -224,6 +224,8 @@ export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
                 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
+
+                this.updateRequisito();
             }
         });
     }
@@ -250,6 +252,33 @@ export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
             this.alert = {
                 type   : 'success',
                 message: 'Trámite registrado correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    updateRequisito(): void
+    {
+        // Get the contact object
+        const grado = this.gradoForm.getRawValue();
+        
+        // Disable the form
+        this.gradoForm.disable();
+        
+        // Update the contact on the server
+        this._gradoService.updateGradoRequisito(grado.idTramite, grado).subscribe(() => {
+
+            // Re-enable the form
+            this.gradoForm.enable();
+
+            // Show a success message
+            this.alert = {
+                type   : 'success',
+                message: 'Requisito actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
