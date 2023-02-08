@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Datos de diplomas de titulo</div>
+            <div class="text-4xl font-extrabold tracking-tight">Datos de diplomas de título</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="titulosCount > 0">
                     {{titulosCount}}
                 </ng-container>
                 {{titulosCount | i18nPlural: {
-                    '=0'   : 'No hay diplomas de titulo',
-                    '=1'   : 'Diploma de titulo',
-                    'other': 'Diplomas de titulo revalidados'
+                    '=0'   : 'No hay diplomas de título',
+                    '=1'   : 'Diploma de título',
+                    'other': 'Diplomas de título'
                 } }}
             </div>
         </div>
@@ -84,11 +84,11 @@
                                 Unidad
                             </div>
 
-                            <!-- Facultad-->
+                            <!-- Especialidad-->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'facultad'">
-                                Facultad
+                                [mat-sort-header]="'dependencia'">
+                                Especialidad
                             </div>
 
                             <!-- Nro Matrícula -->
@@ -138,9 +138,9 @@
                                         {{titulo.unidad}}
                                     </div>
 
-                                    <!-- facultad -->
+                                    <!-- Especialidad -->
                                     <div class="hidden lg:block">
-                                        {{titulo.facultad}}
+                                        {{titulo.dependencia}}
                                     </div>
 
                                     <!-- Active -->

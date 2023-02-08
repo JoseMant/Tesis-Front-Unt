@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
-import { TituloPagination, TituloInterface } from 'app/modules/admin/titulos/titulos.types';
+import { TitulosService } from 'app/modules/admin/titulos_SE/titulos_SE.service';
+import { TituloPagination, TituloInterface } from 'app/modules/admin/titulos_SE/titulos_SE.types';
 
 
 @Injectable({

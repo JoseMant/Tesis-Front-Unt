@@ -198,62 +198,30 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/ura/diplomas',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.secretaria.validados',
-                title: 'Validados Secretaria',
-                type : 'basic',
-                link : '/grados/secretaria/validados',
-                permissions: ['SECRETARÍA GENERAL']
-            },
             // {
             //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.firma.decano',
+            //     id   : 'carpetas.firma.decano',
             //     title: 'Firma decano',
             //     type : 'basic',
-            //     link : '/grados/firma/decano',
+            //     link : '/carpetas/firma/decano',
             //     permissions: ['ADMINISTRADOR']
             // },
             // {
             //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.firma.secretaria',
+            //     id   : 'carpetas.firma.secretaria',
             //     title: 'Firma secretaria',
             //     type : 'basic',
-            //     link : '/grados/firma/secretaria_general',
+            //     link : '/carpetas/firma/secretaria_general',
             //     permissions: ['ADMINISTRADOR'] //secretaria general
             // },
             // {
             //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.firma.rector',
+            //     id   : 'carpetas.firma.rector',
             //     title: 'Firma rector',
             //     type : 'basic',
-            //     link : '/grados/firma/rector',
+            //     link : '/carpetas/firma/rector',
             //     permissions: ['ADMINISTRADOR'] //Rector
             // },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'grados.ura.pendientes',
-                title: 'Pendientes Impresión Ura',
-                type : 'basic',
-                link : '/grados/ura/pendientes',
-                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
-            },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'grados.consultas',
-            //     title: 'Consultas',
-            //     type : 'basic',
-            //     link : '/grados/consultas',
-            //     permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
-            // },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'secretaria.observados',
-                title: 'Secretaría Observados',
-                type : 'basic',
-                link : '/grados/secretaria/observados',
-                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
-            }
         ]
     },
     {
@@ -429,6 +397,46 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 link : '/titulos_SE/ura/diplomas',
                 permissions: ['ADMINISTRADOR']
+            }
+        ]
+    },
+    {
+        id   : 'carpetas',
+        title: 'Carpetas',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'carpetas.secretaria.validados',
+                title: 'Validados Secretaria',
+                type : 'basic',
+                link : '/grados/secretaria/validados',
+                permissions: ['SECRETARÍA GENERAL']
+            },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'carpetas.ura.pendientes',
+                title: 'Pendientes Impresión URA',
+                type : 'basic',
+                link : '/grados/ura/pendientes',
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
+            },
+            // {
+            //     // Se muestran al usuario para ser asignados después de validación en tesorería
+            //     id   : 'carpetas.consultas',
+            //     title: 'Consultas',
+            //     type : 'basic',
+            //     link : '/carpetas/consultas',
+            //     permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            // },
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'secretaria.observados',
+                title: 'Secretaría Observados',
+                type : 'basic',
+                link : '/grados/secretaria/observados',
+                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
             }
         ]
     },

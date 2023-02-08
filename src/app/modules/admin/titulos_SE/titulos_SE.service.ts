@@ -247,7 +247,7 @@ export class TitulosService
     getTitulosValidacionURA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
-      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/validacion/ura', {
+      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/validacion/uraSE', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -266,7 +266,7 @@ export class TitulosService
     getTitulosDiplomasURA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
-      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/diplomas/ura', {
+      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/diplomas/uraSE', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -509,6 +509,46 @@ export class TitulosService
             ))
         );
     }
+    
+    updateTituloRequisito(id: number, titulo: TituloInterface): Observable<TituloInterface>
+    {
+        return this.titulos$.pipe(
+            take(1),
+            switchMap(titulos => this._httpClient.put<TituloInterface>(environment.baseUrl + 'tramite/update/requisito', titulo).pipe(
+                map((updatedTitulo) => {
+                    
+                    // Find the index of the updated titulo
+                    const index = titulos.findIndex(item => item.idTramite === id);
+
+                    if (updatedTitulo.idEstado_tramite != 17 && updatedTitulo.idEstado_tramite != 20 && updatedTitulo.idEstado_tramite != 7 ) {
+                        // Update the titulo
+                        titulos.splice(index, 1);
+                    } else {
+                        // Update the titulo
+                        titulos[index] = updatedTitulo;
+                    }
+
+                    // Update the titulos
+                    this._titulos.next(titulos);
+
+                    // Return the updated titulo
+                    return updatedTitulo;
+                }),
+                switchMap(updatedTitulo => this.titulo$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the titulo if it's selected
+                        this._titulo.next(updatedTitulo);
+
+                        // Return the updated titulo
+                        return updatedTitulo;
+                    })
+                ))
+            ))
+        );
+    }
 
     /**
      * Update titulo
@@ -563,11 +603,11 @@ export class TitulosService
     }
     
     updateEstado(id: number, data: any): Observable<any> {
+        console.log(data);
         return this.titulos$.pipe(
             take(1),
-            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/correccion', data).pipe(
+            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/correccionSE', data).pipe(
                 map((updatedTitulo) => {
-                    console.log(updatedTitulo);
                     
                     // Find the index of the updated titulo
                     const index = titulos.findIndex(item => item.idTramite === id);
@@ -694,7 +734,7 @@ export class TitulosService
     sendDatos(id: number, data: any): Observable<any> {
         return this.titulos$.pipe(
             take(1),
-            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/datos', data).pipe(
+            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/datosSE', data).pipe(
                 map((updatedTitulo) => {
                     console.log(updatedTitulo);
                     

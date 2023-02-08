@@ -6,8 +6,8 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
-import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
-import { TituloInterface } from 'app/modules/admin/titulos/titulos.types';
+import { TitulosService } from 'app/modules/admin/titulos_SE/titulos_SE.service';
+import { TituloInterface } from 'app/modules/admin/titulos_SE/titulos_SE.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -172,7 +172,7 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
-            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
+            nro_creditos_carpeta: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
@@ -231,33 +231,12 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });       
     }
-
-    selectedActo(acto_academico: number): void {
-        this.tituloForm.controls.nombre_trabajo_carpeta.clearValidators();
-        this.tituloForm.controls.url_trabajo_carpeta.clearValidators();
-        this.tituloForm.patchValue({
-            fecha_inicio_acto_academico: '',
-            fecha_sustentacion_carpeta: ''
-        });
-        if (acto_academico != 1) {
-            this.tituloForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
-            this.tituloForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
-        } else {
-            this.tituloForm.patchValue({
-                fecha_inicio_acto_academico: moment(this.tituloForm.get('fecha').value),
-                fecha_sustentacion_carpeta: moment(this.tituloForm.get('fecha').value),
-                nombre_trabajo_carpeta: '',
-                url_trabajo_carpeta: ''
-            });
-        }
-        this.tituloForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
-        this.tituloForm.controls.url_trabajo_carpeta.updateValueAndValidity();
-    }
     
     calcularTiempo(): void {
         let tiempo = moment(this.tituloForm.get('fecha_primera_matricula').value).from(this.tituloForm.get('fecha_ultima_matricula').value);
-        let tiempo_parcial = tiempo.split(" ");
-        this.tituloForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
+        // let tiempo_parcial = tiempo.split(" ");
+        // console.log(tiempo_parcial)
+        this.tituloForm.patchValue({anios_estudios: tiempo});
     }
 
     /**

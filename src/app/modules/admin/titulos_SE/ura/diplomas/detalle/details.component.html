@@ -16,9 +16,9 @@
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{titulo.nro_documento}}</div>
                     </div>
-                    <!-- ESCUELA -->
+                    <!-- MENCIÓN -->
                     <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>ESCUELA:</b> {{titulo.escuela}}</div>
+                        <div class="text-secondary"><b>MENCIÓN:</b> {{titulo.mencion}}</div>
                     </div>
                     <!-- FECHA DE REGISTRO -->
                     <div class="sm:col-span-2">
@@ -38,7 +38,6 @@
                 <!-- Divider -->
                 <div class="my-10 border-t"></div>
 
-                
                 <!-- Section -->
                 <form [formGroup]="tituloForm" #tituloNgForm="ngForm">
                     <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
@@ -51,8 +50,7 @@
                                 >
                                     <mat-label>Acto académico</mat-label>
                                     <mat-select
-                                        [formControlName]="'idModalidad_carpeta'"
-                                        (selectionChange)="selectedActo($event.value)">
+                                        [formControlName]="'idModalidad_carpeta'">
                                         <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
                                         <ng-container *ngFor="let modalidad of modalidades_sustentacion">
                                             <mat-option [value]="modalidad.idModalidad_carpeta">
@@ -94,7 +92,7 @@
                                     <mat-datepicker #fecha_sustentacion_carpeta></mat-datepicker>
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="tituloForm.get('idModalidad_carpeta').value != 1">
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
                                     class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
@@ -107,7 +105,7 @@
                                     />
                                 </mat-form-field>
                             </div>
-                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="tituloForm.get('idModalidad_carpeta').value != 1">
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
                                     class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
