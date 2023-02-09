@@ -86,42 +86,8 @@ export class GradosService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    /**
-     * Get users
-     */
-    // getUsers(): Observable<UserInterface[]>
-    // {
-    //     return this._httpClient.get<UserInterface[]>(environment.baseUrl + 'usuario/uraa').pipe(
-    //         tap((users) => {
-    //             console.log(users);
-    //             this._users.next(users);
-    //         })
-    //     );
-    // }
-    
-     
-    // getGradosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    // Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    // {
-    //   return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'tramite/grados/asignados', {
-    //     params: {
-    //         page: '' + page,
-    //         size: '' + size,
-    //         sort,
-    //         order,
-    //         search
-    //     }
-    // }).pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       this._pagination.next(response.pagination);
-    //       this._grados.next(response.data);
-    //     })
-    //   );
-    // }
 
-
-    getGradosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosValidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/validados/escuela', {
@@ -141,7 +107,7 @@ export class GradosService
       );
     }
 
-    getGradosAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosAprobados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/aprobados/escuela', {
@@ -161,7 +127,7 @@ export class GradosService
       );
     }
 
-    getGradosRevalidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosRevalidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/revalidados/escuela', {
@@ -182,7 +148,7 @@ export class GradosService
     }
 
 
-    getGradosValidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosValidadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/validados/facultad', {
@@ -202,7 +168,7 @@ export class GradosService
       );
     }
 
-    getGradosAprobadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosAprobadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/aprobados/facultad', {
@@ -222,7 +188,7 @@ export class GradosService
       );
     }
 
-    getGradosRevalidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosRevalidadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/revalidados/facultad', {
@@ -242,7 +208,7 @@ export class GradosService
       );
     }
 
-    getGradosDiplomasEscuela(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosDiplomasEscuela(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/diplomas/escuela', {
@@ -262,7 +228,7 @@ export class GradosService
       );
     }
 
-    getGradosDiplomasFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosDiplomasFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/diplomas/facultad', {
@@ -282,7 +248,7 @@ export class GradosService
       );
     }
 
-    getGradosValidacionURA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosValidacionURA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/validacion/ura', {
@@ -301,7 +267,7 @@ export class GradosService
       );
     }
 
-    getGradosDiplomasURA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosDiplomasURA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/diplomas/ura', {
@@ -330,7 +296,7 @@ export class GradosService
     //     );
     // }
     /////////////////////////
-    getGradosValidadosSecretaria(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosValidadosSecretaria(resolucion: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
         console.log(resolucion);
@@ -352,7 +318,7 @@ export class GradosService
     }
 
 
-    getGradosFirmaDecano(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosFirmaDecano(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/firma/decano', {
@@ -371,7 +337,7 @@ export class GradosService
       );
     }
 
-    getGradosFirmaSecretaria(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosFirmaSecretaria(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/firma/secretaria', {
@@ -390,7 +356,7 @@ export class GradosService
       );
     }
 
-    getGradosFirmaRector(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosFirmaRector(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/firma/rector', {
@@ -409,7 +375,7 @@ export class GradosService
       );
     }
 
-    getGradosPendientesImpresion(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosPendientesImpresion(resolucion: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/pendientes/impresion/' + resolucion, {
@@ -429,7 +395,7 @@ export class GradosService
       );
     }
 
-    getGradosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getGradosFinalizados(page: number = 0, size: number = 100, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/finalizados', {
@@ -448,7 +414,7 @@ export class GradosService
       );
     }
 
-    getGradosSecretariaObservados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getGradosSecretariaObservados(page: number = 0, size: number = 100, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/secretaria/observados', {

@@ -76,7 +76,7 @@ export class CertificadosService
     }
     
      
-    getCertificadosAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosAsignados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/asignados', {
@@ -96,7 +96,7 @@ export class CertificadosService
       );
     }
 
-    getCertificadosAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosAprobados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/aprobados', {
@@ -290,7 +290,6 @@ export class CertificadosService
                 map((updatedCertificados) => {
 
                     // Update the messages with the new message
-                    // this._certificadosService.getCertificadosValidados(0, 10, 'fecha', 'desc', query);
                     updatedCertificados.forEach(element => {
                         // Find the index of the deleted product
                         const index = certificados.findIndex(item => item.idTramite === element);

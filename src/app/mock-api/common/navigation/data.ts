@@ -372,7 +372,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Datos Diplomas en Especialidad',
                 type : 'basic',
                 link : '/titulos_SE/especialidad/diplomas',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -380,7 +380,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Datos Diplomas en Facultad',
                 type : 'basic',
                 link : '/titulos_SE/facultad/diplomas',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SECRETARIA(O) DE FACULTAD']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -388,7 +388,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validación URA',
                 type : 'basic',
                 link : '/titulos_SE/ura/validacion',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -396,7 +396,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Datos Diplomas en URA',
                 type : 'basic',
                 link : '/titulos_SE/ura/diplomas',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             }
         ]
     },
