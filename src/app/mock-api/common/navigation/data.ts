@@ -591,6 +591,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type : 'basic',
                         link : '/masters/carpeta/resoluciones',
                         permissions: ['SECRETARÍA GENERAL']
+                    },
+                    {
+                        id   : 'masters.carpeta.oficios',
+                        title: 'Oficios',
+                        type : 'basic',
+                        link : '/masters/carpeta/oficios',
+                        permissions: ['SECRETARÍA GENERAL']
                     }
                 ]
             },

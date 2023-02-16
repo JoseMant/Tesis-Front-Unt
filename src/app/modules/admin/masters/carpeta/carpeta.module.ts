@@ -35,6 +35,11 @@ import { ResolucionesComponent } from 'app/modules/admin/masters/carpeta/resoluc
 import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/list/list.component';
 import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
 
+
+import { OficiosComponent } from 'app/modules/admin/masters/carpeta/oficios/oficios.component';
+import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
+import { OficiosDetailsComponent } from 'app/modules/admin/masters/carpeta/oficios/details/details.component';
+
 import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing';
 
 @NgModule({
@@ -46,6 +51,10 @@ import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing
         ResolucionesComponent,
         ResolucionesListComponent,
         ResolucionesDetailsComponent,
+
+        OficiosComponent,
+        OficiosListComponent,
+        OficiosDetailsComponent,
     ],
     imports     : [
         RouterModule.forChild(carpetaRoutes),

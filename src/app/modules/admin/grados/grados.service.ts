@@ -451,7 +451,7 @@ export class GradosService
                     if (grado.diploma_final && grado.idEstado_tramite==13) grado.diploma_final = environment.baseUrl +  grado.diploma_final
                     else grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
                     if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;
-                    if (grado.exonerado) grado.exonerado = environment.baseUrlStorage + grado.exonerado;
+                    if (grado.exonerado_archivo) grado.exonerado_archivo = environment.baseUrlStorage + grado.exonerado_archivo;
                     if (grado.requisitos) {
                         grado.requisitos.forEach(element => {
                             if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;

@@ -437,7 +437,7 @@ export class TitulosService
                     // if (titulo.diploma_final && titulo.idEstado_tramite==13) titulo.diploma_final = environment.baseUrl +  titulo.diploma_final
                     // else titulo.diploma_final = environment.baseUrlStorage +  titulo.diploma_final
                     if (titulo.voucher) titulo.voucher = environment.baseUrlStorage + titulo.voucher;
-                    if (titulo.exonerado) titulo.exonerado = environment.baseUrlStorage + titulo.exonerado;
+                    if (titulo.exonerado_archivo) titulo.exonerado_archivo = environment.baseUrlStorage + titulo.exonerado_archivo;
                     if (titulo.requisitos) {
                         titulo.requisitos.forEach(element => {
                             if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;

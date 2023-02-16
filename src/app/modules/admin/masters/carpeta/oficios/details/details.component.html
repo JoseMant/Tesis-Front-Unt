@@ -1,0 +1,305 @@
+<div class="flex flex-col w-full">
+
+    <!-- View mode -->
+    <ng-container *ngIf="!editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="oficio.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="oficio.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Cerrar'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Oficio -->
+        <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+
+                <!-- Avatar and actions -->
+                <div class="flex flex-auto items-end -mt-16">
+                    <!-- Avatar -->
+                    <div class="flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                        <img
+                            class="object-cover w-full h-full"
+                            *ngIf="oficio.avatar"
+                            [src]="oficio.avatar">
+                        <div
+                            class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!oficio.avatar">
+                            {{oficio.idOficio}}
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center ml-auto mb-1">
+                        <button
+                            mat-stroked-button
+                            (click)="toggleEditMode(true)">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Editar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Name -->
+                <div class="mt-3 text-4xl font-bold truncate">{{oficio.nro_oficio}}</div>
+
+                <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
+
+                    <!-- Role -->
+                    <ng-container *ngIf="oficio.fecha">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <div class="ml-6 leading-6">{{oficio.fecha}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Estado -->
+                    <ng-container *ngIf="oficio.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                            <div class="ml-6 leading-6">Activo</div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!oficio.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:ban'"></mat-icon>
+                            <div class="ml-6 leading-6">Inactivo</div>
+                        </div>
+                    </ng-container>
+
+                    
+                    <div class="mt-8">
+                        <div class="fuse-mat-no-subscript w-full text-center">
+                            <a
+                                mat-flat-button
+                                target="_blank"
+                                matTooltip="Ver documento"
+                                [color]="'accent'"
+                                [href]="oficio.archivo">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                Ver archivo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Edit mode -->
+    <ng-container *ngIf="editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="oficio.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="oficio.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Close'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Oficio form -->
+        <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+                <form [formGroup]="oficioForm">
+
+                    <!-- Avatar -->
+                    <div class="flex flex-auto items-end -mt-16">
+                        <div class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                            <!-- Image/Letter -->
+                            <img
+                                class="object-cover w-full h-full"
+                                *ngIf="oficio.avatar"
+                                [src]="oficio.avatar">
+                            <div
+                                class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                                *ngIf="!oficio.avatar">
+                                {{oficio.idOficio}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Oficio -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Oficio</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'nro_oficio'"
+                                [placeholder]="'Oficio'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha de oficio -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Fecha de oficio</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                            <input
+                                matInput
+                                [max]="maxDate"
+                                [matDatepicker]="fecha_oficioDatepicker"
+                                [formControlName]="'fecha'"
+                                [placeholder]="'Seleccionar fecha de Oficio'">
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_oficioDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_oficioDatepicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Resolución -->
+                    <ng-container *ngxPermissionsOnly="['ADMINISTRADOR','SECRETARÍA GENERAL']">
+                        <div class="mt-8">
+                            <mat-form-field class="fuse-mat-no-subscript w-full">
+                                <mat-label>Resolución</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden sm:flex icon-size-5"
+                                    [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                                <mat-select>
+                                    <ng-container>
+                                        <mat-option [value]="'all'" disabled>Seleccionar resolución...</mat-option>
+                                    </ng-container>
+                                    <ng-container *ngFor="let resolucion of resoluciones">
+                                        <mat-option [value]="resolucion.idResolucion">{{resolucion.nro_resolucion}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+
+                    <!-- Archivo -->
+                    <div class="mt-8">
+                        <div class="fuse-mat-no-subscript w-full text-center">
+                            <button
+                                mat-flat-button
+                                [color]="'accent'"
+                                matTooltip="Agregar documento"
+                                (click)="fileInput.click()">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                Subir oficio
+                            </button>
+                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectOficio($event)"/>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <div class="fuse-mat-no-subscript w-full text-center">
+                            <button
+                                *ngIf="oficioForm.get('archivoPdf').value"
+                                mat-flat-button
+                                [color]="'accent'"
+                                matTooltip="Ver documento"
+                                (click)="verDocumento()">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                Ver archivo
+                            </button>
+                            <a
+                                *ngIf="oficioForm.get('archivo').value && !oficioForm.get('archivoPdf').value"
+                                mat-flat-button
+                                target="_blank"
+                                matTooltip="Ver documento"
+                                [color]="'accent'"
+                                [href]="oficio.archivo">
+                                <mat-icon
+                                    class="h-6 w-6 mr-3"
+                                    style="color: rgb(6, 11, 88)"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                Ver archivo
+                            </a>
+                        </div>
+                    </div>
+
+                    
+                    <!-- Estado -->
+                    <!-- <div class="flex flex-col mt-8" *ngIf="oficio.idOficio">
+                        <span class="font-semibold mb-2">Estado</span>
+                        <mat-slide-toggle
+                            [formControlName]="'estado'"
+                            [color]="'primary'">
+                            {{oficioForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
+                        </mat-slide-toggle>
+                    </div> -->
+
+                    <!-- Actions -->
+                    <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+                        <!-- Eliminar -->
+                        <button
+                            mat-button
+                            [color]="'warn'"
+                            [matTooltip]="'Eliminar'"
+                            (click)="deleteOficio()">
+                            Eliminar
+                        </button>
+                        <!-- Cancel -->
+                        <button
+                            class="ml-auto"
+                            mat-button
+                            [matTooltip]="'Cancel'"
+                            (click)="toggleEditMode(false)">
+                            Cancelar
+                        </button>
+                        <!-- Guardar -->
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="oficioForm.invalid"
+                            [matTooltip]="'Guardar'"
+                            (click)="saveOficio()">
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>
