@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Titulos en validación de URA</div>
+            <div class="text-4xl font-extrabold tracking-tight">Títulos en validación de URA</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="titulosCount > 0">
                     {{titulosCount}}
                 </ng-container>
                 {{titulosCount | i18nPlural: {
-                    '=0'   : 'No hay titulos en validación de URA',
-                    '=1'   : 'Titulo en validación de URA',
-                    'other': 'Titulos en validación de URA'
+                    '=0'   : 'No hay títulos en validación de URA',
+                    '=1'   : 'Título en validación de URA',
+                    'other': 'Títulos en validación de URA'
                 } }}
             </div>
         </div>
@@ -84,11 +84,11 @@
                                 Unidad
                             </div>
 
-                            <!-- Facultad-->
+                            <!-- Especialidad -->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'facultad'">
-                                Facultad
+                                [mat-sort-header]="'dependencia'">
+                                Especialidad
                             </div>
 
                             <!-- Nro Matrícula -->
@@ -138,9 +138,9 @@
                                         {{titulo.unidad}}
                                     </div>
 
-                                    <!-- facultad -->
+                                    <!-- Dependencia -->
                                     <div class="hidden lg:block">
-                                        {{titulo.facultad}}
+                                        {{titulo.dependencia}}
                                     </div>
 
                                     <!-- Active -->

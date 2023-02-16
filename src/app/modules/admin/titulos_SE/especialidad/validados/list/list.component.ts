@@ -77,7 +77,7 @@ export class TitulosEspecialidadValidadosListComponent implements OnInit, AfterV
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _titulos_SEService: TitulosService,
+        private _titulosService: TitulosService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
     )
@@ -118,7 +118,7 @@ export class TitulosEspecialidadValidadosListComponent implements OnInit, AfterV
         });
 
         // Get the pagination
-        this._titulos_SEService.pagination$
+        this._titulosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: TituloPagination) => {
 
@@ -130,9 +130,9 @@ export class TitulosEspecialidadValidadosListComponent implements OnInit, AfterV
             });
 
         // Get the titulos_SE
-        this.titulos_SE$ = this._titulos_SEService.titulos$;
+        this.titulos_SE$ = this._titulosService.titulos$;
 
-        this._titulos_SEService.titulos$
+        this._titulosService.titulos$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: TituloInterface[]) => {
                 console.log(response);
@@ -150,7 +150,7 @@ export class TitulosEspecialidadValidadosListComponent implements OnInit, AfterV
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulos_SEService.getTitulosValidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosValidados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -198,7 +198,7 @@ export class TitulosEspecialidadValidadosListComponent implements OnInit, AfterV
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulos_SEService.getTitulosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

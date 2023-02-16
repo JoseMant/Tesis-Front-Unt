@@ -70,10 +70,6 @@ import { TitulosURADiplomasComponent } from 'app/modules/admin/titulos_SE/ura/di
 import { TitulosURADiplomasListComponent } from 'app/modules/admin/titulos_SE/ura/diplomas/list/list.component';
 import { TituloURADiplomaDetalleComponent } from 'app/modules/admin/titulos_SE/ura/diplomas/detalle/details.component';
 
-import { TitulosURAPendientesComponent } from 'app/modules/admin/titulos_SE/ura/pendientes/pendientes.component';
-import { TitulosURAPendientesListComponent } from 'app/modules/admin/titulos_SE/ura/pendientes/list/list.component';
-import { TituloURAPendienteDialogComponent } from 'app/modules/admin/titulos_SE/ura/pendientes/dialog/dialog.component';
-
 import { titulos_SERoutes } from 'app/modules/admin/titulos_SE/titulos_SE.routing';
 
 @NgModule({
@@ -123,10 +119,6 @@ import { titulos_SERoutes } from 'app/modules/admin/titulos_SE/titulos_SE.routin
         TitulosURADiplomasComponent,
         TitulosURADiplomasListComponent,
         TituloURADiplomaDetalleComponent,
-
-        TitulosURAPendientesComponent,
-        TitulosURAPendientesListComponent,        
-        TituloURAPendienteDialogComponent,
     ],
     imports     : [
         RouterModule.forChild(titulos_SERoutes),

@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Títulos revalidados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Títulos en revalidación</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="titulosCount > 0">
                     {{titulosCount}}
                 </ng-container>
                 {{titulosCount | i18nPlural: {
-                    '=0'   : 'No hay titulos revalidados',
-                    '=1'   : 'Titulo revalidado',
-                    'other': 'Titulos revalidados'
+                    '=0'   : 'No hay títulos en revalidación',
+                    '=1'   : 'Título en revalidación',
+                    'other': 'Titulos en revalidación'
                 } }}
             </div>
         </div>
@@ -35,7 +35,7 @@
                     matInput
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
-                    [placeholder]="'Buscar titulos'">
+                    [placeholder]="'Buscar títulos'">
             </mat-form-field>
         </div>
     </div>
@@ -84,10 +84,10 @@
                                 Unidad
                             </div>
 
-                            <!-- Especialidad-->
+                            <!-- Especialidad -->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'facultad'">
+                                [mat-sort-header]="'dependencia'">
                                 Especialidad
                             </div>
 
@@ -138,9 +138,9 @@
                                         {{titulo.unidad}}
                                     </div>
 
-                                    <!-- facultad -->
+                                    <!-- dependencia -->
                                     <div class="hidden lg:block">
-                                        {{titulo.facultad}}
+                                        {{titulo.dependencia}}
                                     </div>
 
                                     <!-- Active -->
@@ -182,7 +182,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay titulos revalidados!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay títulos en revalidación!</div>
             </ng-template>
 
         </div>

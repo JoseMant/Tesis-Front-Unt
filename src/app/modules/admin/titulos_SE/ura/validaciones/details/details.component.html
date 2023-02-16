@@ -19,9 +19,9 @@
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{titulo.nro_documento}}</div>
                     </div>
-                    <!-- ESCUELA -->
+                    <!-- MENCIÓN -->
                     <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>ESCUELA:</b> {{titulo.escuela}}</div>
+                        <div class="text-secondary"><b>MENCIÓN:</b> {{titulo.mencion}}</div>
                     </div>
                     <!-- FECHA DE REGISTRO -->
                     <div class="sm:col-span-2">
@@ -120,7 +120,7 @@
                             <div class="col-span-1">3</div>
                             <div class="col-span-5">CERTIFICADO DE ESTUDIOS</div>
                             <div class="col-span-4 text-center">
-                              <ng-container *ngIf="titulo.idDependencia_detalle == 11">
+                              <ng-container>
                                   <ng-container *ngIf="!titulo.certificado_final">PENDIENTE</ng-container>
                                   <a
                                       mat-button
@@ -136,7 +136,6 @@
                                       <span class="hidden sm:block ml-2">CERTIFICADO</span>
                                   </a>
                               </ng-container>
-                              <ng-container *ngIf="titulo.idDependencia_detalle != 11">NO APLICA</ng-container>
                             </div>
                             <div class="col-span-2 text-center">
                                 <button
@@ -191,7 +190,7 @@
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                     cmat-button
-                    [routerLink]="['/titulos/ura/validacion']"
+                    [routerLink]="['/titulos_SE/ura/validacion']"
                     >
                     Regresar
                 </button>
@@ -200,7 +199,7 @@
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="tituloForm.disabled || (!tituloForm.get('certificado_final').value && tituloForm.get('idDependencia_detalle').value == 11)"
+                    [disabled]="tituloForm.disabled || !tituloForm.get('certificado_final').value"
                     (click)="updateRequisitos()">
                     <span *ngIf="!tituloForm.disabled">
                         Guardar

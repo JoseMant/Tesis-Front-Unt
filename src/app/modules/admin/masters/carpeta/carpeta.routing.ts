@@ -10,6 +10,12 @@ import { ResolucionResolver, ResolucionesResolver, ResolucionesUnidadesResolver 
 import { ResolucionesComponent } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.component';
 import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/list/list.component';
 import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
+// -----------
+import { CanDeactivateOficiosDetails } from 'app/modules/admin/masters/carpeta/oficios/oficios.guards';
+import { OficioResolver, OficiosResolver, OficiosUnidadesResolver,OficiosResolucionesResolver } from 'app/modules/admin/masters/carpeta/oficios/oficios.resolvers';
+import { OficiosComponent } from 'app/modules/admin/masters/carpeta/oficios/oficios.component';
+import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
+import { OficiosDetailsComponent } from 'app/modules/admin/masters/carpeta/oficios/details/details.component';
 export const carpetaRoutes: Route[] = [
     {
         path      : '',
@@ -59,6 +65,30 @@ export const carpetaRoutes: Route[] = [
                         component    : ResolucionesDetailsComponent,
                         resolve      : {
                             resoluciones: ResolucionResolver
+                        },
+                        canDeactivate: [CanDeactivateOficiosDetails]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        path     : 'oficios',
+        component: OficiosComponent,
+        children : [
+            {
+                path     : '',
+                component: OficiosListComponent,
+                resolve  : {
+                    resoluciones : OficiosResolver
+                },
+                children : [
+                    {
+                        path         : ':id',
+                        component    : OficiosDetailsComponent,
+                        resolve      : {
+                            oficios: OficioResolver,
+                            resoluciones: OficiosResolucionesResolver
                         },
                         canDeactivate: [CanDeactivateResolucionesDetails]
                     }

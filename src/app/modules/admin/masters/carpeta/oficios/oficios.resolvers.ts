@@ -1,20 +1,47 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { TitulosService } from 'app/modules/admin/titulos_SE/titulos_SE.service';
-import { TituloPagination, TituloInterface } from 'app/modules/admin/titulos_SE/titulos_SE.types';
-
+import { OficiosService } from 'app/modules/admin/masters/carpeta/oficios/oficios.service';
+import { Oficio, Role, Unidad,Resolucion } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class TituloEspecialidadDiplomaResolver implements Resolve<any>
+export class OficiosResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _oficiosService: OficiosService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Oficio[]>
+    {
+        return this._oficiosService.getOficios();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class OficioResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
     constructor(
-        private _titulosService: TitulosService,
+        private _oficiosService: OficiosService,
         private _router: Router
     )
     {
@@ -30,11 +57,11 @@ export class TituloEspecialidadDiplomaResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TituloInterface>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Oficio>
     {
-        return this._titulosService.getTituloById(Number(route.paramMap.get('idTramite')))
+        return this._oficiosService.getOficioById(Number(route.paramMap.get('id')))
                    .pipe(
-                       // Error here means the requested madurity_level is not available
+                       // Error here means the requested user is not available
                        catchError((error) => {
 
                            // Log the error
@@ -56,12 +83,12 @@ export class TituloEspecialidadDiplomaResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class TitulosEspecialidadDiplomasResolver implements Resolve<any>
+export class OficiosRolesResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _titulosService: TitulosService)
+    constructor(private _oficiosService: OficiosService)
     {
     }
 
@@ -75,21 +102,21 @@ export class TitulosEspecialidadDiplomasResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Role[]>
     {
-        return this._titulosService.getTitulosDiplomasEspecialidad();
+        return this._oficiosService.getRoles();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class ModalidadesSustentacionResolver implements Resolve<any>
+export class OficiosUnidadesResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _titulosService: TitulosService)
+    constructor(private _oficiosService: OficiosService)
     {
     }
 
@@ -103,21 +130,22 @@ export class ModalidadesSustentacionResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Unidad[]>
     {
-        return this._titulosService.getModalidadesSustentacion(34);
+        return this._oficiosService.getUnidades();
     }
 }
+
 
 @Injectable({
     providedIn: 'root'
 })
-export class ProgramasEstudiosResolver implements Resolve<any>
+export class OficiosResolucionesResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _titulosService: TitulosService)
+    constructor(private _oficiosService: OficiosService)
     {
     }
 
@@ -131,36 +159,8 @@ export class ProgramasEstudiosResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Resolucion[]>
     {
-        return this._titulosService.getProgramasEstudios();
+        return this._oficiosService.getResoluciones();
     }
 }
-
-// @Injectable({
-//     providedIn: 'root'
-// })
-// export class DiplomasResolver implements Resolve<any>
-// {
-//     /**
-//      * Constructor
-//      */
-//     constructor(private _titulosService: TitulosService)
-//     {
-//     }
-
-//     // -----------------------------------------------------------------------------------------------------
-//     // @ Public methods
-//     // -----------------------------------------------------------------------------------------------------
-
-//     /**
-//      * Resolver
-//      *
-//      * @param route
-//      * @param state
-//      */
-//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
-//     {
-//         return this._titulosService.getDiplomasByTipoTramiteUnidad();
-//     }
-// }

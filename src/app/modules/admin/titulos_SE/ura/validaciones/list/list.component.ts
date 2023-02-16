@@ -6,10 +6,9 @@ import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { TituloPagination, TituloInterface } from 'app/modules/admin/titulos/titulos.types';
-import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
+import { TituloPagination, TituloInterface } from 'app/modules/admin/titulos_SE/titulos_SE.types';
+import { TitulosService } from 'app/modules/admin/titulos_SE/titulos_SE.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfTituloComponent } from '../visorPdf/visorPdfTitulo.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -150,7 +149,7 @@ export class TitulosURAValidacionesListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosValidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosValidacionURA(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -168,39 +167,6 @@ export class TitulosURAValidacionesListComponent implements OnInit, AfterViewIni
             data: this.alert,
         });
     }
-
-    // editarTitulo(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_titulo'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/titulos_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfTituloComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const tituloValidado = response.getRawValue();
-    //             this._titulosService.updateTitulo(tituloValidado.idTitulo, tituloValidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Titulo actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
 
     /**
      * After view init
@@ -231,7 +197,7 @@ export class TitulosURAValidacionesListComponent implements OnInit, AfterViewIni
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

@@ -84,7 +84,7 @@ export class ConstanciasService
     }
     
      
-     getConstanciasAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+     getConstanciasAsignados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>
     {
       return this._httpClient.get<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>(environment.baseUrl + 'tramite/constancias/asignados', {
@@ -104,27 +104,7 @@ export class ConstanciasService
       );
     }
 
-    // getConstanciasAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    // Observable<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>
-    // {
-    //   return this._httpClient.get<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>(environment.baseUrl + 'tramite/constancias/aprobados', {
-    //     params: {
-    //         page: '' + page,
-    //         size: '' + size,
-    //         sort,
-    //         order,
-    //         search
-    //     }
-    // }).pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       this._pagination.next(response.pagination);
-    //       this._constancias.next(response.data);
-    //     })
-    //   );
-    // }
-
-    getConstanciasValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getConstanciasValidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>
     {
       return this._httpClient.get<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>(environment.baseUrl + 'tramite/constancias/validados', {
@@ -355,7 +335,7 @@ export class ConstanciasService
          );
      }
 
-    getConstanciasFirmaURAA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getConstanciasFirmaURAA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>
     {
       return this._httpClient.get<{ pagination: ConstanciaPagination; data: ConstanciaInterface[] }>(environment.baseUrl + 'tramite/constancias/firma_uraa', {

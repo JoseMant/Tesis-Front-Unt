@@ -83,7 +83,7 @@ export class TitulosService
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    getTitulosValidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosValidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/validados/especialidad', {
@@ -103,7 +103,7 @@ export class TitulosService
       );
     }
 
-    getTitulosAprobados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosAprobados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/aprobados/especialidad', {
@@ -123,7 +123,7 @@ export class TitulosService
       );
     }
 
-    getTitulosRevalidados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosRevalidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/revalidados/especialidad', {
@@ -144,7 +144,7 @@ export class TitulosService
     }
 
 
-    getTitulosValidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosValidadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/validados/facultadSE', {
@@ -164,7 +164,7 @@ export class TitulosService
       );
     }
 
-    getTitulosAprobadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosAprobadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/aprobados/facultadSE', {
@@ -184,7 +184,7 @@ export class TitulosService
       );
     }
 
-    getTitulosRevalidadosFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosRevalidadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/revalidados/facultadSE', {
@@ -204,7 +204,7 @@ export class TitulosService
       );
     }
 
-    getTitulosDiplomasEspecialidad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosDiplomasEspecialidad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/diplomas/especialidad', {
@@ -224,7 +224,7 @@ export class TitulosService
       );
     }
 
-    getTitulosDiplomasFacultad(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosDiplomasFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/diplomas/facultadSE', {
@@ -244,10 +244,10 @@ export class TitulosService
       );
     }
 
-    getTitulosValidacionURA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosValidacionURA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
-      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/validacion/ura', {
+      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/validacion/uraSE', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -263,10 +263,10 @@ export class TitulosService
       );
     }
 
-    getTitulosDiplomasURA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosDiplomasURA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
-      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/diplomas/ura', {
+      return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/diplomas/uraSE', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -282,7 +282,7 @@ export class TitulosService
       );
     }
 
-    getTitulosValidadosSecretaria(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosValidadosSecretaria(resolucion: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[]; resolucion: Resolucion }>
     {
         console.log(resolucion);
@@ -304,7 +304,7 @@ export class TitulosService
     }
 
 
-    getTitulosFirmaDecano(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosFirmaDecano(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/firma/decano', {
@@ -323,7 +323,7 @@ export class TitulosService
       );
     }
 
-    getTitulosFirmaSecretaria(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosFirmaSecretaria(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/firma/secretaria', {
@@ -342,7 +342,7 @@ export class TitulosService
       );
     }
 
-    getTitulosFirmaRector(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosFirmaRector(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/firma/rector', {
@@ -361,7 +361,7 @@ export class TitulosService
       );
     }
 
-    getTitulosPendientesImpresion(resolucion: string, page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTitulosPendientesImpresion(resolucion: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[]; resolucion: Resolucion }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'titulos/pendientes/impresion/' + resolucion, {
@@ -381,7 +381,7 @@ export class TitulosService
       );
     }
 
-    getTitulosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getTitulosFinalizados(page: number = 0, size: number = 100, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/finalizados', {
@@ -400,7 +400,7 @@ export class TitulosService
       );
     }
 
-    getTitulosSecretariaObservados(page: number = 0, size: number = 10, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getTitulosSecretariaObservados(page: number = 0, size: number = 100, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
     {
       return this._httpClient.get<{ pagination: TituloPagination; data: TituloInterface[] }>(environment.baseUrl + 'titulos/secretaria/observados', {
@@ -437,7 +437,7 @@ export class TitulosService
                     // if (titulo.diploma_final && titulo.idEstado_tramite==13) titulo.diploma_final = environment.baseUrl +  titulo.diploma_final
                     // else titulo.diploma_final = environment.baseUrlStorage +  titulo.diploma_final
                     if (titulo.voucher) titulo.voucher = environment.baseUrlStorage + titulo.voucher;
-                    if (titulo.exonerado) titulo.exonerado = environment.baseUrlStorage + titulo.exonerado;
+                    if (titulo.exonerado_archivo) titulo.exonerado_archivo = environment.baseUrlStorage + titulo.exonerado_archivo;
                     if (titulo.requisitos) {
                         titulo.requisitos.forEach(element => {
                             if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
@@ -477,6 +477,46 @@ export class TitulosService
                 map((updatedTitulo) => {
                     console.log(updatedTitulo);
                     // debugger;
+                    // Find the index of the updated titulo
+                    const index = titulos.findIndex(item => item.idTramite === id);
+
+                    if (updatedTitulo.idEstado_tramite != 17 && updatedTitulo.idEstado_tramite != 20 && updatedTitulo.idEstado_tramite != 7 ) {
+                        // Update the titulo
+                        titulos.splice(index, 1);
+                    } else {
+                        // Update the titulo
+                        titulos[index] = updatedTitulo;
+                    }
+
+                    // Update the titulos
+                    this._titulos.next(titulos);
+
+                    // Return the updated titulo
+                    return updatedTitulo;
+                }),
+                switchMap(updatedTitulo => this.titulo$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the titulo if it's selected
+                        this._titulo.next(updatedTitulo);
+
+                        // Return the updated titulo
+                        return updatedTitulo;
+                    })
+                ))
+            ))
+        );
+    }
+    
+    updateTituloRequisito(id: number, titulo: TituloInterface): Observable<TituloInterface>
+    {
+        return this.titulos$.pipe(
+            take(1),
+            switchMap(titulos => this._httpClient.put<TituloInterface>(environment.baseUrl + 'tramite/update/requisito', titulo).pipe(
+                map((updatedTitulo) => {
+                    
                     // Find the index of the updated titulo
                     const index = titulos.findIndex(item => item.idTramite === id);
 
@@ -563,11 +603,11 @@ export class TitulosService
     }
     
     updateEstado(id: number, data: any): Observable<any> {
+        console.log(data);
         return this.titulos$.pipe(
             take(1),
-            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/correccion', data).pipe(
+            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/correccionSE', data).pipe(
                 map((updatedTitulo) => {
-                    console.log(updatedTitulo);
                     
                     // Find the index of the updated titulo
                     const index = titulos.findIndex(item => item.idTramite === id);
@@ -694,7 +734,7 @@ export class TitulosService
     sendDatos(id: number, data: any): Observable<any> {
         return this.titulos$.pipe(
             take(1),
-            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/datos', data).pipe(
+            switchMap(titulos => this._httpClient.put<any>(environment.baseUrl + 'titulos/datosSE', data).pipe(
                 map((updatedTitulo) => {
                     console.log(updatedTitulo);
                     
