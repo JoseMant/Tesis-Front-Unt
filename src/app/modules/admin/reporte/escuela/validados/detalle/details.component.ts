@@ -16,6 +16,7 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
 import { RequisitosDialogComponent } from 'app/modules/admin/grados/dialogReq/dialogReq.component';
+import moment from 'moment';
 
 @Component({
     selector       : 'grado-details',
@@ -81,7 +82,7 @@ import { RequisitosDialogComponent } from 'app/modules/admin/grados/dialogReq/di
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
+export class GradoEscuelaValidadoDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatAccordion) private _accordion: MatAccordion;
@@ -162,7 +163,8 @@ export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
-            certificado_final: ['', Validators.required]
+
+            fecha_cierre_secretaria: ['']
         });
 
         // Get the grado
@@ -234,6 +236,19 @@ export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
     
     updateRequisitos(): void
     {
+        // If the confirm button pressed...
+        const date = new Date().toISOString().substring(0,10);
+        if (this.gradoForm.get('fecha_cierre_secretaria').value < date) {
+            // Show a success message
+            this.alert = {
+                type   : 'warn',
+                message: 'La fecha límite para este trámite fue ' + this.gradoForm.get('fecha_cierre_secretaria').value,
+                title: 'Fuera de fecha'
+            };
+            this.openSnack();
+            return;
+        }
+        
         // Get the contact object
         const grado = this.gradoForm.getRawValue();
         console.log(grado);

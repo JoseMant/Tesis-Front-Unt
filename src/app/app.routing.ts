@@ -65,6 +65,7 @@ export const appRoutes: Route[] = [
             // Maintenance
             // {path: 'maintenance', loadChildren: () => import('app/modules/maintenance/maintenance.module').then(m => m.MaintenanceModule)},
             {path: 'mensaje', loadChildren: () => import('app/modules/message/message.module').then(m => m.MessageModule)},
+            {path: 'carpeta', loadChildren: () => import('app/modules/carpeta/carpeta.module').then(m => m.CarpetaModule)},
         ]
     },
 
@@ -88,6 +89,7 @@ export const appRoutes: Route[] = [
             {path: 'titulos_SE', loadChildren: () => import('app/modules/admin/titulos_SE/titulos_SE.module').then(m => m.TitulosModule)},
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
+            {path: 'reportes', loadChildren: () => import('app/modules/admin/reporte/reporte.module').then(m => m.ReporteModule)},
             // Ajustes
             {path: 'settings', loadChildren: () => import('app/modules/admin/settings/settings.module').then(m => m.SettingsModule)},
             // Masters

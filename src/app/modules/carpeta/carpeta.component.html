@@ -1,0 +1,65 @@
+<div class="w-full">
+    <div class="grid grid-cols-3 bg-slate-800 ">
+        <div class="col-span-1 grid place-content-center">
+          <img src="assets/images/logo/logocarpeta.png" class="w-30 h-30 m-auto bg-white rounded-full">
+        </div>
+        <div class="col-span-2 text-center text-3xl md:text-4xl md:text-left font-serif text-white py-10">
+            Universidad Nacional de Trujillo
+            <p class="text-xl font-serif text-white pt-2">Unidad de Registros Academicos</p>
+        </div>
+    </div>
+    <div class="pl-5 pt-5" >
+      <button
+              mat-icon-button
+              (click)="home()">
+              <mat-icon [svgIcon]="'heroicons_outline:arrow-left'"></mat-icon>
+      </button>
+      <span class="font-mono font-bold pl-2">Regresar a inicio</span>
+      
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-12 pt-10 px-10">
+      <div class="col-span-1 m-2 md:col-span-1 grid place-content-center lg:place-content-start">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFoCegdTo0veSCjGgm8xi-8jjRSM5yf5g0ItnAtU2qL8JJD2bO9jzJPQsMndi-PtlxCas&usqp=CAU"
+        class="w-auto h-auto m-auto border-2 border-stone-900 rounded-xl" alt="">
+      </div>
+  
+      <div class="col-span-2 sm:mx-2 md:col-span-1 lg:col-span-2">
+        <p class="font-serif font-bold text-lg p-2 mb-2 bg-zinc-300 rounded-xl md:text-xl">Datos personales</p>
+        <tr class="grid font-serif text-right text-sm grid-cols-3 grid-rows-6 md:text-base ">
+            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Nombres y Apellidos</td>
+            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.nombres}} {{datosDiploma.apellidos}} </td>
+  
+            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Documento de Identidad</td>
+            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.nro_documento}} </td>
+  
+            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Sede Campus Universitario</td>
+            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.sede}} </td>
+  
+            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Facultad</td>
+            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.Facultad}} </td>
+  
+            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Escuela Profesional</td>
+            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.escuela}} </td>
+  
+            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Codigo De Matricula</td>
+            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.nro_matricula}} </td>
+        </tr>
+      </div>
+  
+      <div class="col-span-2 mb-6 sm:mx-2 md:col-span-2">
+        <p class="text-lg font-serif font-bold p-2 mb-2 bg-zinc-300 rounded-xl md:text-xl">Datos de Diploma</p>
+        <tr class="grid font-serif text-right text-sm grid-cols-3 grid-rows-3 md:text-base ">
+          <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Denominación Diploma</td>
+          <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.diploma}}</td>
+  
+          <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Código Diploma</td>
+          <td class="col-span-2 text-left px-3 py-2">{{datosDiploma.codigo_certificado}}</td>
+  
+          <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Fecha Emitido</td>
+          <td class="col-span-2 text-left px-3 py-2">{{datosDiploma.fecha_colacion}}</td>
+  
+      </tr>
+      </div>
+    </div>
+  
+  </div>

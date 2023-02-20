@@ -549,6 +549,37 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     },
+
+    {
+        id   : 'reportes',
+        title: 'Reportes',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                id   : 'reportes.secretaria',
+                title: 'Secretaria',
+                type : 'basic',
+                link : '/reportes/secretaria',
+                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            },
+            {
+                id   : 'reportes.ura',
+                title: 'URA',
+                type : 'basic',
+                link : '/reportes/ura',
+                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            },
+            {
+                id   : 'reportes.escuela',
+                title: 'Escuela',
+                type : 'basic',
+                link : '/reportes/escuela',
+                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+            },
+        ]
+    },
+
     {
         id      : 'masters',
         title   : 'Maestros',
@@ -590,6 +621,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Resoluciones',
                         type : 'basic',
                         link : '/masters/carpeta/resoluciones',
+                        permissions: ['SECRETARÍA GENERAL']
+                    },
+                    {
+                        id   : 'masters.carpeta.oficios',
+                        title: 'Oficios',
+                        type : 'basic',
+                        link : '/masters/carpeta/oficios',
                         permissions: ['SECRETARÍA GENERAL']
                     }
                 ]

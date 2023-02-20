@@ -8,7 +8,7 @@ import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronog
 @Injectable({
     providedIn: 'root'
 })
-export class GradosService
+export class ReporteService
 {
     // Private
     private _users: BehaviorSubject<UserInterface[] | null> = new BehaviorSubject(null);
@@ -168,25 +168,6 @@ export class GradosService
       );
     }
 
-    getGradosAprobadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/aprobados/facultad', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          console.log(response);
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
 
     getGradosRevalidadosFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
@@ -228,25 +209,6 @@ export class GradosService
       );
     }
 
-    getGradosDiplomasFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-    {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/diplomas/facultad', {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-          console.log(response);
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
-    }
 
     getGradosValidacionURA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
