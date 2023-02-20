@@ -241,14 +241,10 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     createResolucion(): void
     {
         // Get the resolucion object
-        const formData = new FormData();
-        formData.append('nro_resolucion', this.resolucionForm.get('nro_resolucion').value);
-        formData.append('fecha', (new Date(this.resolucionForm.get('fecha').value)).toISOString().substring(0,10));
-        formData.append('archivoPdf', this.resolucionForm.get('archivoPdf').value);
-        
+        const resolucion = this.resolucionForm.getRawValue();      
 
         // Create the resolucion on the server
-        this._resolucionesService.createResolucion(formData).subscribe((newResolucion) => {
+        this._resolucionesService.createResolucion(resolucion).subscribe((newResolucion) => {
             // Toggle the edit mode off
             this.toggleEditMode(false);
 
@@ -281,9 +277,25 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
 
         // Update the resolucion on the server
         this._resolucionesService.updateResolucion(resolucion.idResolucion, resolucion).subscribe(() => {
-
             // Toggle the edit mode off
             this.toggleEditMode(false);
+
+            this._router.navigate(['./..'], {relativeTo: this._activatedRoute});
+            
+            this.alert = {
+                type   : 'success',
+                message: 'Resolución actualizada correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+        },
+        (response) => {
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
 
@@ -347,50 +359,6 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             }
         });
 
-    }
-
-    /**
-     * Upload avatar
-     *
-     * @param fileList
-     */
-    uploadAvatar(fileList: FileList): void
-    {
-        // Return if canceled
-        if ( !fileList.length )
-        {
-            return;
-        }
-
-        const allowedTypes = ['image/jpeg', 'image/png'];
-        const file = fileList[0];
-
-        // Return if the file is not allowed
-        if ( !allowedTypes.includes(file.type) )
-        {
-            return;
-        }
-
-        // Upload the avatar
-        // this._resolucionesService.uploadAvatar(this.resolucion.idResolucion, file).subscribe();
-    }
-
-    /**
-     * Remove the avatar
-     */
-    removeAvatar(): void
-    {
-        // Get the form control for 'avatar'
-        const avatarFormControl = this.resolucionForm.get('avatar');
-
-        // Set the avatar as null
-        avatarFormControl.setValue(null);
-
-        // Set the file input value as null
-        this._avatarFileInput.nativeElement.value = null;
-
-        // Update the resolucion
-        this.resolucion.avatar = null;
     }
 
     /**
