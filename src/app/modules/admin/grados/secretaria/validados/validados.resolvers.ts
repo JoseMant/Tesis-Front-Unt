@@ -53,30 +53,51 @@ export class GradoSecretariaValidadoResolver implements Resolve<any>
     }
 }
 
-// @Injectable({
-//     providedIn: 'root'
-// })
-// export class GradosSecretariaValidadosResolver implements Resolve<any>
-// {
-//     /**
-//      * Constructor
-//      */
-//     constructor(private _gradosService: GradosService)
-//     {
-//     }
+@Injectable({
+    providedIn: 'root'
+})
+export class GradosSecretariaValidadosResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(
+        private _gradosService: GradosService,
+        private _router: Router
+    )
+    {
+    }
 
-//     // -----------------------------------------------------------------------------------------------------
-//     // @ Public methods
-//     // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-//     /**
-//      * Resolver
-//      *
-//      * @param route
-//      * @param state
-//      */
-//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
-//     {
-//         return this._gradosService.getGradosValidadosSecretaria();
-//     }
-// }
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
+    {
+        // debugger;
+        return this._gradosService.getGradosValidadosSecretaria(Number(route.paramMap.get('idResolucion')))
+                   .pipe(
+                       // Error here means the requested resolucion is not available
+                       catchError((error) => {
+
+                           // Log the error
+                           console.error(error);
+
+                           // Get the parent url
+                           const parentUrl = state.url.split('/').slice(0, -1).join('/');
+
+                           // Navigate to there
+                           this._router.navigateByUrl(parentUrl);
+
+                           // Throw an error
+                           return throwError(error);
+                       })
+                   );
+    }
+}

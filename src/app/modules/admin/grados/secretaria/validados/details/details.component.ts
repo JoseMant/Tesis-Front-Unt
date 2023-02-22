@@ -14,7 +14,7 @@ import { GradoSecretariaValidadoDialogComponent } from 'app/modules/admin/grados
 import moment from 'moment';
 
 @Component({
-    selector       : 'grado-secretaria-diplomas-details',
+    selector       : 'grado-secretaria-validados-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -166,16 +166,16 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
             archivoImagen: [''],
             requisitos: [''],
 
-            idModalidad_carpeta: ['', Validators.required],
-            fecha_inicio_acto_academico: ['', Validators.required],
-            fecha_sustentacion_carpeta: ['', Validators.required],
-            nombre_trabajo_carpeta: [''],
-            url_trabajo_carpeta: [''],
+            idModalidad_carpeta: [{value: '', disabled: true}, Validators.required],
+            fecha_inicio_acto_academico: [{value: '', disabled: true}, Validators.required],
+            fecha_sustentacion_carpeta: [{value: '', disabled: true}, Validators.required],
+            nombre_trabajo_carpeta: [{value: '', disabled: true}],
+            url_trabajo_carpeta: [{value: '', disabled: true}],
             nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
-            idPrograma_estudios_carpeta: ['', Validators.required],
-            fecha_primera_matricula: ['', Validators.required],
-            fecha_ultima_matricula: ['', Validators.required],
-            idDiploma_carpeta: ['', Validators.required],
+            idPrograma_estudios_carpeta: [{value: '', disabled: true}, Validators.required],
+            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
+            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
+            idDiploma_carpeta: [{value: '', disabled: true}, Validators.required],
             anios_estudios: [{value: '', disabled: true}],
 
             idAcreditacion: [{value: '', disabled: true}],
@@ -194,28 +194,26 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
-                console.log(this.gradoForm.getRawValue());
+                console.log(this.grado);
                 this.calcularTiempo();
 
-                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idDependencia_detalle)
+                this._gradoService.getModalidadesSustentacion(grado.idTipo_tramite_unidad)
                     .pipe(takeUntil(this._unsubscribeAll))
-                    .subscribe((diplomas: any) => {
-                        this.diplomas = diplomas;
-                        
-                        // this.gradoForm.patchValue({idDiploma_carpeta: diplomas[0]});
+                    .subscribe((modalidades: any) => {
+                        this.modalidades_sustentacion = modalidades;
             
                         // Mark for check
                         this._changeDetectorRef.markForCheck();
                     });
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        this._gradoService.modalidades_sustentacion$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((modalidades_sustentacion: any) => {
-                this.modalidades_sustentacion = modalidades_sustentacion;
+                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idDependencia_detalle)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((diplomas: any) => {
+                        this.diplomas = diplomas;
+            
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -230,24 +228,6 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
                 this._changeDetectorRef.markForCheck();
             });       
     }
-
-    selectedActo(acto_academico: number): void {
-        this.gradoForm.controls.nombre_trabajo_carpeta.clearValidators();
-        this.gradoForm.controls.url_trabajo_carpeta.clearValidators();
-        this.gradoForm.patchValue({fecha_sustentacion_carpeta: ''});
-        if (acto_academico != 1) {
-            this.gradoForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
-            this.gradoForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
-        } else {
-            this.gradoForm.patchValue({
-                fecha_sustentacion_carpeta: moment(this.gradoForm.get('created_at').value),
-                nombre_trabajo_carpeta: '',
-                url_trabajo_carpeta: ''
-            });
-        }
-        this.gradoForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
-        this.gradoForm.controls.url_trabajo_carpeta.updateValueAndValidity();
-    }
     
     calcularTiempo(): void {
         let tiempo = moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value);
@@ -255,7 +235,6 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
         this.gradoForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
     }
 
-    
     modalNotification(): void {
         // console.log(this.gradoForm.getRawValue());
         const respDial = this.visordialog.open(

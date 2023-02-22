@@ -166,13 +166,14 @@ export class GradoSecretariaObservadoDetalleComponent implements OnInit, OnDestr
             requisitos: [''],
 
             idModalidad_carpeta: ['', Validators.required],
+            fecha_inicio_acto_academico: ['', Validators.required],
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
-            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
+            nro_creditos_carpeta: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
-            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
-            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
+            fecha_primera_matricula: ['', Validators.required],
+            fecha_ultima_matricula: ['', Validators.required],
             idDiploma_carpeta: ['', Validators.required],
             anios_estudios: [{value: '', disabled: true}],
 
@@ -192,8 +193,17 @@ export class GradoSecretariaObservadoDetalleComponent implements OnInit, OnDestr
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
-                console.log(this.gradoForm.getRawValue());
+                
                 this.calcularTiempo();
+
+                this._gradoService.getModalidadesSustentacion(grado.idTipo_tramite_unidad)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((modalidades: any) => {
+                        this.modalidades_sustentacion = modalidades;
+            
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
 
                 this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idDependencia_detalle)
                     .pipe(takeUntil(this._unsubscribeAll))

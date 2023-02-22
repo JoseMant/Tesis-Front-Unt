@@ -31,6 +31,6 @@ export interface Unidad
 
 export interface Resolucion
 {
-    id: string;
+    idResolucion: number;
     nro_resolucion: string;
 }

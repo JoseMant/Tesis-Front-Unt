@@ -17,9 +17,9 @@
                     {{gradosCount}}
                 </ng-container>
                 {{gradosCount | i18nPlural: {
-                    '=0'   : 'No hay grados en validación de Secretaría General',
-                    '=1'   : 'Grado en validación de Secretaría General',
-                    'other': 'Grados en validación de Secretaría General'
+                    '=0'   : 'No hay grados observados',
+                    '=1'   : 'Grado observado',
+                    'other': 'Grados observados'
                 } }}
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="grados-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="grados-secretaria-observados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -98,20 +98,13 @@
                                 N° Matrícula
                             </div>
 
-                            <!-- Fecha-->
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'fecha'">
-                                Fecha
-                            </div>
-
                             <!-- Opciones -->
                             <div class="hidden sm:block">Opciones</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(grados$ | async) as grados">
                             <ng-container *ngFor="let grado of grados; trackBy: trackByFn let id=index">
-                                <div class="grados-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="grados-secretaria-observados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
@@ -148,11 +141,6 @@
                                         {{grado.nro_matricula}}
                                     </div>
 
-                                    <!-- Stock -->
-                                    <div class="hidden lg:block">
-                                        {{grado.fecha}}
-                                    </div>
-
                                     <!-- Details button -->
                                     <div>
                                         <button
@@ -182,7 +170,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay grados validados!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay grados observados!</div>
             </ng-template>
 
         </div>

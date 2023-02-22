@@ -21,7 +21,7 @@ import { environment } from 'environments/environment';
     styles         : [
         /* language=SCSS */
         `
-            .grados-validados-grid {
+            .grados-secretaria-observados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -29,11 +29,11 @@ import { environment } from 'environments/environment';
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 112px 190px auto 72px;
+                    grid-template-columns: 48px 112px auto 190px 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 190px 112px 190px 72px;
+                    grid-template-columns: 48px 112px auto 190px 96px 190px 112px 72px;
                 }
             }
             .fondo_snackbar {
@@ -160,7 +160,7 @@ export class GradosSecretariaObservadosListComponent implements OnInit, AfterVie
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosSecretariaObservados(0, 10, 'fecha', 'desc', query);
+                    return this._gradosService.getSecretariaObservados(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -209,7 +209,7 @@ export class GradosSecretariaObservadosListComponent implements OnInit, AfterVie
                 switchMap(() => {
                     this.isLoading = true;
                     // Get the product object
-                    return this._gradosService.getGradosSecretariaObservados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._gradosService.getSecretariaObservados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

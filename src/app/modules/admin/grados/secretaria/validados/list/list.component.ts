@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -9,19 +8,20 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
+import { ActivatedRoute, RouterStateSnapshot, Router } from '@angular/router';
+import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 
 @Component({
-    selector       : 'grados-validados-list',
+    selector       : 'grados-secretaria-validados-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .grados-validados-grid {
+            .grados-secretaria-validados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -29,11 +29,11 @@ import { environment } from 'environments/environment';
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 112px 190px auto 72px;
+                    grid-template-columns: 48px 112px auto 190px 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 190px 112px 190px 72px;
+                    grid-template-columns: 48px 112px auto 190px 96px 190px 112px 72px;
                 }
             }
             .fondo_snackbar {
@@ -55,6 +55,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
     @ViewChild('selectedResolucionNgForm') selectedResolucionNgForm: NgForm;
 
     grados$: Observable<GradoInterface[]>;
+    resolucion$: Observable<Resolucion>;
     
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
@@ -82,6 +83,8 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _gradosService: GradosService,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
     )
@@ -96,9 +99,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
      * On init
      */
     ngOnInit(): void
-    {
-        this._gradosService.cleanGrados$;
-        
+    {        
         // Create the selected resolucion form
         this.selectedResolucionForm = this._formBuilder.group({
             idResolucion     : [''],
@@ -128,6 +129,31 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
             currentImageIndex: [0], // Image index that is currently being viewed
             active           : [false]
         });
+
+        const idResolucion: any = this._activatedRoute.snapshot.params.idResolucion || null;
+        
+        if (idResolucion) {
+            // Get the resolucion
+            this.resolucion$ = this._gradosService.resolucion$;
+
+            this._gradosService.resolucion$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: Resolucion) => {
+
+                this.selectedResolucionForm.patchValue(response);
+                this.selectedResolucionForm.disable();
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        }
+        else {
+            this.selectedResolucionForm.enable();
+            this.selectedResolucionForm.patchValue({nro_resolucion: ''});
+
+            this._gradosService.cleanGrados$;
+        };
 
         // Get the pagination
         this._gradosService.pagination$
@@ -224,12 +250,12 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
         }
     }
     
-    buscarResolucion(): void
+    buscarResolucion(state: RouterStateSnapshot): void
     {
         // Get the product object
         const data = this.selectedResolucionForm.get('nro_resolucion').value;
         
-        this._gradosService.getGradosValidadosSecretaria(data).subscribe((response) => {
+        this._gradosService.getResolucion(data).subscribe((response) => {
             if (response.resolucion) {
                 this.selectedResolucionForm.patchValue(response.resolucion);
                 this.selectedResolucionForm.disable();
@@ -244,6 +270,13 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
+
+                // Get the parent url
+                const parentUrl = this._router.url + '/' + response.resolucion.idResolucion;
+                
+                // Navigate to there
+                this._router.navigateByUrl(parentUrl);
+                
             } else {
                 this.selectedResolucionForm.enable();
                 // Show a warn message
@@ -262,12 +295,15 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
     }
 
     limpiarResolucion() {
-        this.selectedResolucionForm.enable();
-        this.selectedResolucionForm.patchValue({nro_resolucion: ''});
-        this._gradosService.cleanGrados$;
+        // Get the parent url
+        const parentUrl = this._router.url.split('/').slice(0, -1).join('/');
+        
+        // Navigate to there
+        this._router.navigateByUrl(parentUrl);
     }
 
     registrarEnLibro() {
+        this.asignando = true;
         const data = this.selectedResolucionForm.getRawValue();
         // Create the cronograma on the server
         this._gradosService.registrarLibro(data.idResolucion).subscribe((response) => {
@@ -286,6 +322,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
             };
             this.openSnack();
         });
+        this.asignando = false;
     }
 
     verLibro() {

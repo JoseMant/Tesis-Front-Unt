@@ -18,6 +18,7 @@ export class GradosService
     private _modalidades_sustentacion: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _programas_estudios: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _resolucion: BehaviorSubject<any | null> = new BehaviorSubject(null);
     // private _facultadesEscuelas: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
@@ -81,6 +82,10 @@ export class GradosService
 
     get diplomas$(): Observable<any> {
         return this._diplomas.asObservable();
+    }
+
+    get resolucion$(): Observable<any> {
+        return this._resolucion.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -296,25 +301,35 @@ export class GradosService
     //     );
     // }
     /////////////////////////
-    getGradosValidadosSecretaria(resolucion: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getResolucion(resolucion: string): Observable<{ resolucion: Resolucion }>
+    {
+        return this._httpClient.get<{ resolucion: Resolucion }>(environment.baseUrl + 'resolucion/secretaria/' + resolucion).pipe(
+            tap((response) => {
+                console.log(response);
+            })
+        );
+    } 
+    
+    getGradosValidadosSecretaria(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
-        console.log(resolucion);
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/validados/secretaria/' + resolucion, {
-        params: {
-            page: '' + page,
-            size: '' + size,
-            sort,
-            order,
-            search
-        }
-    }).pipe(
-        tap((response) => {
-            console.log(response)
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
-        })
-      );
+        return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/validados/secretaria/' + resolucion, {
+            params: {
+                page: '' + page,
+                size: '' + size,
+                sort,
+                order,
+                search
+            }
+        }).pipe(
+            tap((response) => {
+                console.log(response)
+                this._pagination.next(response.pagination);
+                this._grados.next(response.data);
+                this._resolucion.next(response.resolucion);
+                console.log(this._grados);
+            })
+        );
     }
 
 
@@ -414,10 +429,10 @@ export class GradosService
       );
     }
 
-    getGradosSecretariaObservados(page: number = 0, size: number = 100, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    getSecretariaObservados(page: number = 0, size: number = 100, sort: string = 'fecha_colacion', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
-      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/secretaria/observados', {
+      return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'secretaria/observados', {
         params: {
             page: '' + page,
             size: '' + size,
@@ -438,7 +453,7 @@ export class GradosService
      */
     getGradoById(id: number): Observable<GradoInterface>
     {
-        // console.log(this._grados);
+        console.log(this._grados.value);
         return this._grados.pipe(
             take(1),
             map((grados) => {
@@ -449,7 +464,7 @@ export class GradosService
                     grado.fut = environment.baseUrl + grado.fut;
                     if (grado.certificado_final) grado.certificado_final = environment.baseUrlStorage +  grado.certificado_final
                     if (grado.diploma_final && grado.idEstado_tramite==13) grado.diploma_final = environment.baseUrl +  grado.diploma_final
-                    else grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
+                    else if (grado.diploma_final) grado.diploma_final = environment.baseUrlStorage +  grado.diploma_final
                     if (grado.voucher) grado.voucher = environment.baseUrlStorage + grado.voucher;
                     if (grado.exonerado_archivo) grado.exonerado_archivo = environment.baseUrlStorage + grado.exonerado_archivo;
                     if (grado.requisitos) {

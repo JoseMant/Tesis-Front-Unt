@@ -52,7 +52,7 @@ import { GradoURADiplomaDetalleComponent } from 'app/modules/admin/grados/ura/di
 // -------------
 import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/secretaria/validados/validados.component';
 import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
-import { GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
+import { GradosSecretariaValidadosResolver, GradoSecretariaValidadoResolver } from 'app/modules/admin/grados/secretaria/validados/validados.resolvers';
 import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/details/details.component';
 
 // -------------
@@ -306,7 +306,14 @@ export const gradosRoutes: Route[] = [
           component: GradosSecretariaValidadosListComponent,
         },
         {
-          path         : ':idTramite',
+          path     : ':idResolucion',
+          component: GradosSecretariaValidadosListComponent,
+          resolve      : {
+            grados  : GradosSecretariaValidadosResolver,
+          },
+        },
+        {
+          path         : ':idResolucion/:idTramite',
           component    : GradoSecretariaValidadoDetalleComponent,
           resolve      : {
             grado  : GradoSecretariaValidadoResolver,

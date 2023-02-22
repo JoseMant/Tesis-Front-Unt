@@ -11,6 +11,7 @@ export interface GradoInterface
     fecha: string;
     fut: string;
     idDependencia_detalle: number;
+    dependenciaDetalle?: string;
     idTramite: number;
     idUnidad: number;
     idUsuario: number;
@@ -28,6 +29,7 @@ export interface GradoInterface
     fecha_primera_matricula?: number;
     fecha_ultima_matricula?: number;
     certificado_final?: string;
+    idResolucion?: number;
 }
 export interface GradoPagination
 {

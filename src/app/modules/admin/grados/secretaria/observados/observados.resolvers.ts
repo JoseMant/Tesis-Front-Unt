@@ -77,6 +77,6 @@ export class GradosSecretariaObservadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
-        return this._gradosService.getGradosSecretariaObservados();
+        return this._gradosService.getSecretariaObservados();
     }
 }

@@ -41,7 +41,7 @@
                         <mat-card-content>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
-                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
                                     <mat-label>Acto académico</mat-label>
@@ -57,7 +57,23 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de solicitud de inicio de acto académico</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_inicio_acto_academico"
+                                        [formControlName]="'fecha_inicio_acto_academico'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_inicio_acto_academico">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_inicio_acto_academico></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
                                     <mat-label>Fecha de acto académico</mat-label>

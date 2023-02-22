@@ -18,7 +18,7 @@
                     </div>
                     <!-- ESCUELA -->
                     <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>ESCUELA:</b> {{grado.escuela}}</div>
+                        <div class="text-secondary"><b>PROGRAMA:</b> {{grado.dependenciaDetalle}}</div>
                     </div>
                     <!-- FECHA DE REGISTRO -->
                     <div class="sm:col-span-2">
@@ -68,8 +68,7 @@
                                 >
                                     <mat-label>Acto académico</mat-label>
                                     <mat-select
-                                        [formControlName]="'idModalidad_carpeta'"
-                                        (selectionChange)="selectedActo($event.value)">
+                                        [formControlName]="'idModalidad_carpeta'">
                                         <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
                                         <ng-container *ngFor="let modalidad of modalidades_sustentacion">
                                             <mat-option [value]="modalidad.idModalidad_carpeta">
@@ -288,7 +287,7 @@
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                     cmat-button
-                    [routerLink]="['/grados/secretaria/validados']"
+                    [routerLink]="['/grados/secretaria/validados/' + grado.idResolucion]"
                     >
                     Regresar
                 </button>

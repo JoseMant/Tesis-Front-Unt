@@ -42,7 +42,7 @@
                 class="ml-4"
                 mat-flat-button
                 [color]="'primary'"
-                [disabled]="!selectedResolucionForm.disabled"
+                [disabled]="asignando"
                 (click)="registrarEnLibro()">
                 <mat-icon *ngIf="!asignando"
                     [svgIcon]="'heroicons_outline:upload'">
@@ -60,7 +60,7 @@
                 class="ml-4"
                 mat-flat-button
                 [color]="'warn'"
-                [disabled]="!selectedResolucionForm.disabled"
+                [disabled]="asignando"
                 (click)="verLibro()"
                 >
                 <mat-icon [svgIcon]="'heroicons_outline:download'"></mat-icon>
@@ -109,7 +109,7 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="grados-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="grados-secretaria-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -157,20 +157,13 @@
                                 N° Matrícula
                             </div>
 
-                            <!-- Fecha-->
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'fecha'">
-                                Fecha
-                            </div>
-
                             <!-- Opciones -->
                             <div class="hidden sm:block">Opciones</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(grados$ | async) as grados">
                             <ng-container *ngFor="let grado of grados; trackBy: trackByFn let id=index">
-                                <div class="grados-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="grados-secretaria-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
@@ -207,17 +200,12 @@
                                         {{grado.nro_matricula}}
                                     </div>
 
-                                    <!-- Stock -->
-                                    <div class="hidden lg:block">
-                                        {{grado.fecha}}
-                                    </div>
-
                                     <!-- Details button -->
                                     <div>
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
-                                            [routerLink]="['./',grado.idTramite]">
+                                            [routerLink]="['./', grado.idTramite]">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>
@@ -241,7 +229,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay grados validados!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay grados en validación!</div>
             </ng-template>
 
         </div>
