@@ -276,21 +276,15 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                 
                 // Navigate to there
                 this._router.navigateByUrl(parentUrl);
-                
-            } else {
-                this.selectedResolucionForm.enable();
-                // Show a warn message
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Resolución no encontrada, inténtelo nuevamente',
-                    title: 'No encontrado'
-                };
-                this.openSnack();
-                
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
             }
-
+        },
+        (response) => {
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
 

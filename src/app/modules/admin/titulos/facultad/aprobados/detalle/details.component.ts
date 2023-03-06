@@ -279,7 +279,9 @@ export class TituloFacultadAprobadoDetalleComponent implements OnInit, OnDestroy
                 formData.append('files[]', new File([""], "vacio.kj"));
             }
         });
-        // console.log(formData.getAll('files[]'));
+
+        //faltaba desabilitar gradoform para que el ngif del spinner funcionara
+        this.tituloForm.disable();
         
         this._tituloService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
             

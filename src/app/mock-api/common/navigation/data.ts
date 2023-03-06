@@ -412,7 +412,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/grados/secretaria/validados',
-                permissions: ['SECRETARÍA GENERAL']
+                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
@@ -436,7 +436,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Secretaría Observados',
                 type : 'basic',
                 link : '/grados/secretaria/observados',
-                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
             }
         ]
     },
@@ -561,21 +561,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Secretaria',
                 type : 'basic',
                 link : '/reportes/secretaria',
-                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 id   : 'reportes.ura',
                 title: 'URA',
                 type : 'basic',
                 link : '/reportes/ura',
-                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 id   : 'reportes.escuela',
                 title: 'Escuela',
                 type : 'basic',
                 link : '/reportes/escuela',
-                permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
+                permissions: ['ADMINISTRADOR']
             },
         ]
     },

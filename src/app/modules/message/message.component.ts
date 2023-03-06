@@ -17,8 +17,8 @@ export class MessageComponent
     {
     }
     continue(){
-        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-        this._router.navigateByUrl(redirectURL);
+        // const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+        this._router.navigateByUrl('home');
     }
     
 

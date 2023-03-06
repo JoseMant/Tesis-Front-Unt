@@ -347,8 +347,6 @@ export class GradoEscuelaAprobadoDetalleComponent implements OnInit, OnDestroy
         //faltaba desabilitar gradoform para que el ngif del spinner funcionara
         this.gradoForm.disable();
         
-        // console.log(formData.getAll('files[]'));
-        
         this._gradoService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
             
             // Re-enable the form
