@@ -6,7 +6,7 @@ import { CronogramasListComponent } from 'app/modules/admin/masters/carpeta/cron
 import { CronogramasDetailsComponent } from 'app/modules/admin/masters/carpeta/cronogramas/details/details.component';
 // -----------
 import { CanDeactivateResolucionesDetails } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.guards';
-import { ResolucionResolver, ResolucionesResolver, ResolucionesUnidadesResolver } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.resolvers';
+import { ResolucionResolver, ResolucionesResolver, ResolucionesUnidadesResolver, ResolucionCronogramasResolver } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.resolvers';
 import { ResolucionesComponent } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.component';
 import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/list/list.component';
 import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
@@ -64,7 +64,8 @@ export const carpetaRoutes: Route[] = [
                         path         : ':id',
                         component    : ResolucionesDetailsComponent,
                         resolve      : {
-                            resoluciones: ResolucionResolver
+                            resoluciones: ResolucionResolver,
+                            cronogramas: ResolucionCronogramasResolver
                         },
                         canDeactivate: [CanDeactivateOficiosDetails]
                     }

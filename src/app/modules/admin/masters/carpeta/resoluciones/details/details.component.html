@@ -60,7 +60,7 @@
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
 
-                    <!-- Role -->
+                    <!-- Fecha Resolución -->
                     <ng-container *ngIf="resolucion.fecha">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
@@ -82,24 +82,103 @@
                             <div class="ml-6 leading-6">Inactivo</div>
                         </div>
                     </ng-container>
-
                     
-                    <!-- <div class="mt-8">
-                        <div class="fuse-mat-no-subscript w-full text-center">
-                            <a
-                                mat-flat-button
-                                target="_blank"
-                                matTooltip="Ver documento"
-                                [color]="'accent'"
-                                [href]="resolucion.archivo">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                Ver archivo
-                            </a>
+                    <!-- Fecha Cronogramas -->
+                    <ng-container *ngIf="resolucion.cronogramas.length">
+                        <!-- table -->
+                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="p-6">
+                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Colaciones</div>
+                                <div class="text-secondary font-medium">{{resolucionForm.get('cronogramas').value.length}} seleccionada(s)</div>
+                            </div>
+                            <div class="overflow-x-auto mx-6">
+                                <table
+                                    class="w-full bg-transparent"
+                                    mat-table
+                                    matSort
+                                    [dataSource]="cronogramasDataSource"
+                                    [trackBy]="trackByFn"
+                                    #cronogramasTable>
+
+                                    <!-- ID -->
+                                    <ng-container matColumnDef="ID">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            #
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6 font-medium text-sm text-secondary">
+                                                {{cronograma.idCronograma_carpeta}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Unidad -->
+                                    <ng-container matColumnDef="unidad">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Unidad
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.unidad}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Dependencia -->
+                                    <ng-container matColumnDef="dependencia">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Dependencia
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.dependencia}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Fecha de Colación -->
+                                    <ng-container matColumnDef="fecha_colacion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Fecha de Colación
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.fecha_colacion | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="cronogramasTableColumns"></tr>
+                                    <tr
+                                        class="order-row h-16"
+                                        mat-row
+                                        *matRowDef="let row; columns: cronogramasTableColumns;"></tr>
+                                </table>
+                            </div>
                         </div>
-                    </div> -->
+                    </ng-container>
                 </div>
 
             </div>
@@ -189,54 +268,103 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Archivo -->
-                    <!-- <div class="mt-8">
-                        <div class="fuse-mat-no-subscript w-full text-center">
-                            <button
-                                mat-flat-button
-                                [color]="'accent'"
-                                matTooltip="Agregar documento"
-                                (click)="fileInput.click()">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                                Subir resolución
-                            </button>
-                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectResolucion($event)"/>
+                    <!-- Fecha Cronogramas -->
+                    <div class="flex flex-col mt-8" *ngIf="resolucionForm.get('cronogramas').value.length">                        
+                        <!-- table -->
+                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="p-6">
+                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Colaciones</div>
+                                <div class="text-secondary font-medium">{{resolucionForm.get('cronogramas').value.length}} seleccionada(s)</div>
+                            </div>
+                            <div class="overflow-x-auto mx-6">
+                                <table
+                                    class="w-full bg-transparent"
+                                    mat-table
+                                    matSort
+                                    [dataSource]="recentCronogramasDataSource"
+                                    [trackBy]="trackByFn"
+                                    #recentCronogramasTable>
+
+                                    <!-- ID -->
+                                    <ng-container matColumnDef="ID">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            #
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6 font-medium text-sm text-secondary">
+                                                {{cronograma.idCronograma_carpeta}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Unidad -->
+                                    <ng-container matColumnDef="unidad">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Unidad
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.unidad}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Dependencia -->
+                                    <ng-container matColumnDef="dependencia">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Dependencia
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.dependencia}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Fecha de Colación -->
+                                    <ng-container matColumnDef="fecha_colacion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Fecha de Colación
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.fecha_colacion | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="recentCronogramasTableColumns"></tr>
+                                    <tr
+                                        class="order-row h-16"
+                                        mat-row
+                                        *matRowDef="let row; columns: recentCronogramasTableColumns;"></tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-8">
-                        <div class="fuse-mat-no-subscript w-full text-center">
-                            <button
-                                *ngIf="resolucionForm.get('archivoPdf').value"
-                                mat-flat-button
-                                [color]="'accent'"
-                                matTooltip="Ver documento"
-                                (click)="verDocumento()">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                Ver archivo
-                            </button>
-                            <a
-                                *ngIf="resolucionForm.get('archivo').value && !resolucionForm.get('archivoPdf').value"
-                                mat-flat-button
-                                target="_blank"
-                                matTooltip="Ver documento"
-                                [color]="'accent'"
-                                [href]="resolucion.archivo">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                Ver archivo
-                            </a>
-                        </div>
-                    </div> -->
 
-                    
                     <!-- Estado -->
                     <div class="flex flex-col mt-8" *ngIf="resolucion.idResolucion">
                         <span class="font-semibold mb-2">Estado</span>
@@ -246,6 +374,18 @@
                             {{resolucionForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
                         </mat-slide-toggle>
                     </div>
+
+                    <div class="flex flex-col mt-8 items-center">
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [matTooltip]="'Gestionar cronogramas'"
+                            (click)="dialogCronogramas()">
+                            Cronogramas
+                        </button>
+                    </div>
+
 
                     <!-- Actions -->
                     <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">

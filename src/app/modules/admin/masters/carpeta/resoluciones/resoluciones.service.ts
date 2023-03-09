@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Resolucion, Role, Unidad } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
 import { environment } from 'environments/environment';
+import { Cronograma } from '../cronogramas/cronogramas.types';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,7 @@ export class ResolucionesService
     private _roles: BehaviorSubject<Role[] | null> = new BehaviorSubject(null);
     private _unidades: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _cronogramas: BehaviorSubject<Cronograma[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -57,6 +59,14 @@ export class ResolucionesService
     get unidades$(): Observable<Unidad[]>
     {
         return this._unidades.asObservable();
+    }
+
+    /**
+     * Getter for cronogramas
+     */
+    get cronogramas$(): Observable<Cronograma[]>
+    {
+        return this._cronogramas.asObservable();
     }
 
     /**
@@ -270,8 +280,17 @@ export class ResolucionesService
     {
         return this._httpClient.get(environment.baseUrl + 'dependencia/escuelas/' + facultad).pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._dependencias.next(response);
+            })
+        );
+    }
+
+    getCronogramas(resolucion: number): Observable<Cronograma[]>
+    {
+        return this._httpClient.get(environment.baseUrl + 'resolucion/cronogramas/' + resolucion).pipe(
+            tap((response: Cronograma[]) => {
+                console.log(response)
+                this._cronogramas.next(response);
             })
         );
     }

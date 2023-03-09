@@ -8,6 +8,7 @@ export interface Resolucion
     archivo:any;
     archivoPdf?:any;
     estado: boolean;
+    cronogramas?: any
 }
 
 export interface Role

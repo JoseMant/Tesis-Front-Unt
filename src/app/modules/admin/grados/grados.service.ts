@@ -562,6 +562,12 @@ export class GradosService
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
+                        updatedGrado.fut = environment.baseUrl + updatedGrado.fut;
+                        if (updatedGrado.voucher) updatedGrado.voucher = environment.baseUrlStorage + updatedGrado.voucher;
+                        if (updatedGrado.exonerado_archivo) updatedGrado.exonerado_archivo = environment.baseUrlStorage + updatedGrado.exonerado_archivo;
+                        updatedGrado.requisitos.forEach(element => {
+                            if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
+                        });
 
                         // Update the grado if it's selected
                         this._grado.next(updatedGrado);

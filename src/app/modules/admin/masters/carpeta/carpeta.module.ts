@@ -21,6 +21,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { QuillModule } from 'ngx-quill';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
@@ -34,7 +35,7 @@ import { CronogramasDetailsComponent } from 'app/modules/admin/masters/carpeta/c
 import { ResolucionesComponent } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.component';
 import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/list/list.component';
 import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
-
+import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/dialog/dialog.component';
 
 import { OficiosComponent } from 'app/modules/admin/masters/carpeta/oficios/oficios.component';
 import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
@@ -51,6 +52,7 @@ import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing
         ResolucionesComponent,
         ResolucionesListComponent,
         ResolucionesDetailsComponent,
+        ResolucionCronogramasDialogComponent,
 
         OficiosComponent,
         OficiosListComponent,
@@ -69,6 +71,7 @@ import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing
         MatIconModule,
         MatInputModule,
         MatDialogModule,
+        QuillModule,
         MatMenuModule,
         MatMomentDateModule,
         MatPaginatorModule,

@@ -11,7 +11,8 @@ import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resolucio
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { VisorPdfComponent } from 'app/shared/visorPdf/visorPdf.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/dialog/dialog.component';
 @Component({
     selector       : 'resoluciones-details',
     templateUrl    : './details.component.html',
@@ -42,18 +43,12 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     resolucion: Resolucion;
     resolucionForm: FormGroup;
     resoluciones: Resolucion[];
-    roles: Role[];
     unidades: Unidad[];
-    dependencias: any;
-    facultades: any;
-    tipos_documentos = [
-        {id: '1', name: 'DNI', description: 'DOCUMENTO NACIONAL DE IDENTIDAD'},
-        {id: '3', name: 'CE', description: 'CARNET DE EXTRANGERÍA' }
-    ];
-    generos = [
-        {id: 'M', name: 'MASCULINO' },
-        {id: 'F', name: 'FEMENINO'}
-    ];
+    cronogramas: any;
+    cronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    cronogramasTableColumns: string[] = ['ID', 'unidad', 'dependencia', 'fecha_colacion'];
+    recentCronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    recentCronogramasTableColumns: string[] = ['ID', 'unidad', 'dependencia', 'fecha_colacion'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -103,6 +98,7 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             archivo       : [''],
             archivoPdf        : [''],
             estado        : [null, [Validators.required]],
+            cronogramas : [[]],
             avatar      : [null]
         });
 
@@ -131,22 +127,15 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
                 // Patch values to the form
                 this.resolucionForm.patchValue(resolucion);
 
+                // Store the table data
+                this.cronogramasDataSource.data = resolucion.cronogramas;
+
                 // Toggle the edit mode off
-                if(!resolucion.idResolucion){
+                if (!resolucion.idResolucion) {
                     this.toggleEditMode(true);
-                }else{
+                } else {
                     this.toggleEditMode(false);
                 }
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the country telephone codes
-        this._resolucionesService.roles$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((roles: Role[]) => {
-                this.roles = roles;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -166,9 +155,22 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
         this.resolucionForm.patchValue({archivoPdf: event.target.files[0]});
     }
 
-    verDocumento(): void {
-        const respDial = this._matDialog.open(
-            VisorPdfComponent,
+    // verDocumento(): void {
+    //     const respDial = this._matDialog.open(
+    //         VisorPdfComponent,
+    //         {
+    //             data: this.resolucionForm.getRawValue(),
+    //             disableClose: true,
+    //             minWidth: '50%',
+    //             maxWidth: '60%'
+    //         }
+    //     );
+    // }
+
+    dialogCronogramas(): void {
+        console.log(this.resolucionForm.getRawValue())
+        const dialogRef = this._matDialog.open(
+            ResolucionCronogramasDialogComponent,
             {
                 data: this.resolucionForm.getRawValue(),
                 disableClose: true,
@@ -176,6 +178,22 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
                 maxWidth: '60%'
             }
         );
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.seleccionados.length) {
+                let cronogramasSeleccionados = []
+                result.seleccionados.forEach(element => {
+                    const cronograma = result.cronogramas.find((item) => item.idCronograma_carpeta == element)
+                    cronogramasSeleccionados.push(cronograma)
+                });
+                this.resolucionForm.get('cronogramas').patchValue(cronogramasSeleccionados);
+                this.recentCronogramasDataSource.data = cronogramasSeleccionados;
+                // console.log(this.recentCronogramasDataSource);
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+          });
     }
 
     /**
@@ -214,6 +232,9 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
         else
         {
             this.editMode = editMode;
+        }
+        if(this.editMode) {
+            this.recentCronogramasDataSource.data = this.resolucionForm.get('cronogramas').value;
         }
 
         // Mark for check

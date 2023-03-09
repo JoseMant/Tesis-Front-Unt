@@ -101,39 +101,14 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             idCronograma_carpeta    : [null],
             tipo_colacion           : ['none', [Validators.required]],
             idUnidad                : [0, [Validators.required]],
-            idResolucion            : [0],
             idTipo_tramite_unidad   : [0, [Validators.required]],
             idDependencia           : [0, [Validators.required]],
-            fecha_colacion          : [''],
-            fecha_cierre_alumno     : [''],
-            fecha_cierre_secretaria : [''],
-            fecha_cierre_decanato   : [''],
+            fecha_colacion          : ['', [Validators.required]],
+            fecha_cierre_alumno     : ['', [Validators.required]],
+            fecha_cierre_secretaria : ['', [Validators.required]],
+            fecha_cierre_decanato   : ['', [Validators.required]],
             estado                  : [true, [Validators.required]],
-            avatar      : [null]
-        });
-        
-        // Subscribe to the user service
-        this._userService.user$
-        .pipe((takeUntil(this._unsubscribeAll)))
-        .subscribe((user: User) => {
-            if (user.idTipoUsuario = 10) {
-                this.cronogramaForm.get('fecha_colacion').clearValidators();
-                this.cronogramaForm.get('fecha_cierre_alumno').clearValidators();
-                this.cronogramaForm.get('fecha_cierre_secretaria').clearValidators();
-                this.cronogramaForm.get('fecha_cierre_decanato').clearValidators();
-                this.cronogramaForm.get('idResolucion').addValidators(Validators.required);
-            } else {
-                this.cronogramaForm.get('idResolucion').clearValidators();
-                this.cronogramaForm.get('fecha_colacion').addValidators(Validators.required);
-                this.cronogramaForm.get('fecha_cierre_alumno').addValidators(Validators.required);
-                this.cronogramaForm.get('fecha_cierre_secretaria').addValidators(Validators.required);
-                this.cronogramaForm.get('fecha_cierre_decanato').addValidators(Validators.required);
-            }
-            this.cronogramaForm.controls.fecha_colacion.updateValueAndValidity();
-            this.cronogramaForm.controls.fecha_cierre_alumno.updateValueAndValidity();
-            this.cronogramaForm.controls.fecha_cierre_secretaria.updateValueAndValidity();
-            this.cronogramaForm.controls.fecha_cierre_decanato.updateValueAndValidity();
-            this.cronogramaForm.controls.idResolucion.updateValueAndValidity();
+            avatar                  : [null]
         });
 
         // Get the cronogramas
@@ -195,18 +170,6 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: Unidad[]) => {
                 this.unidades = unidades;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the resoluciones
-        this._cronogramasService.resoluciones$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((resoluciones: Resolucion[]) => {
-
-                // Update the users
-                this.resoluciones = resoluciones;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

@@ -497,6 +497,12 @@ export class TitulosService
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
+                        updatedTitulo.fut = environment.baseUrl + updatedTitulo.fut;
+                        if (updatedTitulo.voucher) updatedTitulo.voucher = environment.baseUrlStorage + updatedTitulo.voucher;
+                        if (updatedTitulo.exonerado_archivo) updatedTitulo.exonerado_archivo = environment.baseUrlStorage + updatedTitulo.exonerado_archivo;
+                        updatedTitulo.requisitos.forEach(element => {
+                            if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
+                        });
 
                         // Update the titulo if it's selected
                         this._titulo.next(updatedTitulo);
@@ -536,6 +542,12 @@ export class TitulosService
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
+                        updatedTitulo.fut = environment.baseUrl + updatedTitulo.fut;
+                        if (updatedTitulo.voucher) updatedTitulo.voucher = environment.baseUrlStorage + updatedTitulo.voucher;
+                        if (updatedTitulo.exonerado_archivo) updatedTitulo.exonerado_archivo = environment.baseUrlStorage + updatedTitulo.exonerado_archivo;
+                        updatedTitulo.requisitos.forEach(element => {
+                            if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
+                        });
 
                         // Update the titulo if it's selected
                         this._titulo.next(updatedTitulo);

@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { catchError, Observable, throwError } from 'rxjs';
 import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.service';
 import { Resolucion, Role, Unidad } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
+import { Cronograma } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 
 @Injectable({
     providedIn: 'root'
@@ -133,5 +134,33 @@ export class ResolucionesUnidadesResolver implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Unidad[]>
     {
         return this._resolucionesService.getUnidades();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ResolucionCronogramasResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _resolucionesService: ResolucionesService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Cronograma[]>
+    {
+        return this._resolucionesService.getCronogramas(Number(route.paramMap.get('id')));
     }
 }
