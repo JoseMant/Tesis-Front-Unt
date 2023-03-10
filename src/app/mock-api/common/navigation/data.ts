@@ -614,21 +614,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Cronogramas',
                         type : 'basic',
                         link : '/masters/carpeta/cronogramas',
-                        permissions: ['SECRETARIA(O) DE FACULTAD','SECRETARÍA GENERAL']
+                        permissions: ['SECRETARIA(O) DE FACULTAD']
                     },
                     {
                         id   : 'masters.carpeta.resoluciones',
                         title: 'Resoluciones',
                         type : 'basic',
                         link : '/masters/carpeta/resoluciones',
-                        permissions: ['SECRETARÍA GENERAL']
+                        permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
                     },
                     {
                         id   : 'masters.carpeta.oficios',
                         title: 'Oficios',
                         type : 'basic',
                         link : '/masters/carpeta/oficios',
-                        permissions: ['SECRETARÍA GENERAL']
+                        permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
                     }
                 ]
             },
