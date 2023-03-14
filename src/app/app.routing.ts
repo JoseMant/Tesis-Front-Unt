@@ -91,7 +91,7 @@ export const appRoutes: Route[] = [
             {path: 'titulos_SE', loadChildren: () => import('app/modules/admin/titulos_SE/titulos_SE.module').then(m => m.TitulosModule)},
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
-            {path: 'reportes', loadChildren: () => import('app/modules/admin/reporte/reporte.module').then(m => m.ReporteModule)},
+            {path: 'reportes', loadChildren: () => import('app/modules/admin/reportes/reportes.module').then(m => m.ReporteModule)},
             // Ajustes
             {path: 'settings', loadChildren: () => import('app/modules/admin/settings/settings.module').then(m => m.SettingsModule)},
             // Masters

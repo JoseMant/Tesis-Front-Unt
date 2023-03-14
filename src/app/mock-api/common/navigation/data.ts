@@ -557,12 +557,26 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:document-text',
         children: [
             {
-                id   : 'reportes.secretaria',
-                title: 'Secretaria',
+                id   : 'reportes.escuela',
+                title: 'Escuela',
                 type : 'basic',
-                link : '/reportes/secretaria',
-                permissions: ['ADMINISTRADOR']
+                link : '/reportes/escuela',
+                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE ESCUELA']
             },
+            {
+                id   : 'reportes.facultad',
+                title: 'Facultad',
+                type : 'basic',
+                link : '/reportes/facultad',
+                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
+            },
+            // {
+            //     id   : 'reportes.secretaria',
+            //     title: 'Secretaria',
+            //     type : 'basic',
+            //     link : '/reportes/secretaria',
+            //     permissions: ['ADMINISTRADOR']
+            // },
             {
                 id   : 'reportes.ura',
                 title: 'URA',
@@ -571,12 +585,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['ADMINISTRADOR']
             },
             {
-                id   : 'reportes.escuela',
-                title: 'Escuela',
+                id   : 'reportes.tesoreria',
+                title: 'Tesorería',
                 type : 'basic',
-                link : '/reportes/escuela',
-                permissions: ['ADMINISTRADOR']
-            },
+                link : '/reportes/tesoreria',
+                permissions: ['ADMINISTRADOR','DIRECCIÓN DE TESORERÍA']
+            }
         ]
     },
 
