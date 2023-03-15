@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { Oficio, Role, Unidad,Resolucion } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
+import { Oficio } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
 import { environment } from 'environments/environment';
+import { Resolucion } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +13,6 @@ export class OficiosService
     // Private
     private _oficio: BehaviorSubject<Oficio | null> = new BehaviorSubject(null);
     private _oficios: BehaviorSubject<Oficio[] | null> = new BehaviorSubject(null);
-    private _roles: BehaviorSubject<Role[] | null> = new BehaviorSubject(null);
-    private _unidades: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _resoluciones: BehaviorSubject<Resolucion[] | null> = new BehaviorSubject(null);
 
@@ -45,37 +44,13 @@ export class OficiosService
     }
 
     /**
-     * Getter for roles
-     */
-    get roles$(): Observable<Role[]>
-    {
-        return this._roles.asObservable();
-    }
-
-    /**
-     * Getter for unidades
-     */
-    get unidades$(): Observable<Unidad[]>
-    {
-        return this._unidades.asObservable();
-    }
-
-    /**
-     * Getter for dependencias
-     */
-    get dependencias$(): Observable<Unidad[]>
-    {
-        return this._dependencias.asObservable();
-    }
-
-
-    /**
      * Getter for resoluciones
      */
-     get resoluciones$(): Observable<Resolucion[]>
-     {
-         return this._resoluciones.asObservable();
-     }
+    get resoluciones$(): Observable<Resolucion[]>
+    {
+        return this._resoluciones.asObservable();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -127,11 +102,9 @@ export class OficiosService
                         idOficio: 0,
                         nro_oficio: '',
                         fecha: '',
-                        archivo: '',
-                        estado: true
+                        estado: true,
+                        resoluciones: []
                     };
-                } else {
-                    if (oficio.archivo) oficio.archivo = environment.baseUrlStorage + oficio.archivo;
                 }
 
                 // Update the oficio
@@ -161,7 +134,7 @@ export class OficiosService
             take(1),
             switchMap(oficios => this._httpClient.post<Oficio>(environment.baseUrl + 'oficios/create', oficio).pipe(
                 map((newOficio) => {
-                    newOficio.archivo = environment.baseUrl + newOficio.archivo;
+
                     // Update the oficios with the new oficio
                     this._oficios.next([newOficio, ...oficios]);
 
@@ -241,30 +214,6 @@ export class OficiosService
         );
     }
 
-    /**
-     * Get roles
-     */
-    getRoles(): Observable<Role[]>
-    {
-        return this._httpClient.get<Role[]>(environment.baseUrl + 'roles').pipe(
-            tap((roles) => {
-                this._roles.next(roles);
-            })
-        );
-    }
-
-    /**
-     * Get unidades
-     */
-    getUnidades(): Observable<Unidad[]>
-    {
-        return this._httpClient.get<Unidad[]>(environment.baseUrl + 'unidades').pipe(
-            tap((response) => {
-                this._unidades.next(response);
-            })
-        );
-    }
-
     getDependenciasByUnidad(unidad: number): Observable<any>
     {
         return this._httpClient.get(environment.baseUrl + 'dependencias/' + unidad).pipe(
@@ -279,18 +228,17 @@ export class OficiosService
     {
         return this._httpClient.get(environment.baseUrl + 'dependencia/escuelas/' + facultad).pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._dependencias.next(response);
             })
         );
     }
 
-    getResoluciones(): Observable<Resolucion[]>
+    getResoluciones(oficio: number): Observable<Resolucion[]>
     {
-        return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/all').pipe(
-            tap((resoluciones) => {
-                console.log(resoluciones);
-                this._resoluciones.next(resoluciones);
+        return this._httpClient.get(environment.baseUrl + 'oficio/resoluciones/' + oficio).pipe(
+            tap((response: Resolucion[]) => {
+                console.log(response)
+                this._resoluciones.next(response);
             })
         );
     }

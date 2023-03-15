@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <!-- Oficio -->
+        <!-- Resolucion -->
         <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
             <div class="w-full max-w-3xl">
 
@@ -60,10 +60,10 @@
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
 
-                    <!-- Role -->
+                    <!-- Fecha Resolución -->
                     <ng-container *ngIf="oficio.fecha">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
                             <div class="ml-6 leading-6">{{oficio.fecha}}</div>
                         </div>
                     </ng-container>
@@ -82,23 +82,96 @@
                             <div class="ml-6 leading-6">Inactivo</div>
                         </div>
                     </ng-container>
-
                     
-                    <div class="mt-8">
-                        <div class="fuse-mat-no-subscript w-full text-center">
-                            <a
-                                mat-flat-button
-                                target="_blank"
-                                matTooltip="Ver documento"
-                                [color]="'accent'"
-                                [href]="oficio.archivo">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                Ver archivo
-                            </a>
+                    <!-- Resoluciones -->
+                    <ng-container *ngIf="oficio.resoluciones.length">
+                        <!-- table -->
+                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="p-6">
+                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Colaciones</div>
+                                <div class="text-secondary font-medium">{{oficioForm.get('resoluciones').value.length}} seleccionada(s)</div>
+                            </div>
+                            <div class="overflow-x-auto mx-6">
+                                <table
+                                    class="w-full bg-transparent"
+                                    mat-table
+                                    matSort
+                                    [dataSource]="resolucionesDataSource"
+                                    [trackBy]="trackByFn"
+                                    #resolucionesTable>
+
+                                    <!-- ID -->
+                                    <ng-container matColumnDef="ID">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            #
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6 font-medium text-sm text-secondary">
+                                                {{resolucion.idResolucion}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Nro. Resolución -->
+                                    <ng-container matColumnDef="nro_resolucion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Nro. Resolución
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6">
+                                                {{resolucion.nro_resolucion}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Fecha de Resolución -->
+                                    <ng-container matColumnDef="fecha">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Fecha de Resolución
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6">
+                                                {{resolucion.fecha | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="resolucionesTableColumns"></tr>
+                                    <tr
+                                        class="order-row h-16"
+                                        mat-row
+                                        *matRowDef="let row; columns: resolucionesTableColumns;"></tr>
+                                </table>
+                            </div>
                         </div>
+                    </ng-container>
+
+                    <div *ngIf="oficio.resoluciones" class="flex flex-col mt-8 items-center">
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [matTooltip]="'Descargar reporte de SUNEDU'"
+                            (click)="verReporteSUNEDU()">
+                            Reporte SUNEDU
+                        </button>
                     </div>
                 </div>
 
@@ -130,7 +203,7 @@
             </div>
         </div>
 
-        <!-- Oficio form -->
+        <!-- Resolucion form -->
         <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
             <div class="w-full max-w-3xl">
                 <form [formGroup]="oficioForm">
@@ -151,10 +224,10 @@
                         </div>
                     </div>
 
-                    <!-- Oficio -->
+                    <!-- Resolución -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Oficio</mat-label>
+                            <mat-label>Resolución</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -162,15 +235,15 @@
                             <input
                                 matInput
                                 [formControlName]="'nro_oficio'"
-                                [placeholder]="'Oficio'"
+                                [placeholder]="'Resolución'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
 
-                    <!-- Fecha de oficio -->
+                    <!-- Fecha de resolución -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Fecha de oficio</mat-label>
+                            <mat-label>Fecha de resolución</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -180,7 +253,7 @@
                                 [max]="maxDate"
                                 [matDatepicker]="fecha_oficioDatepicker"
                                 [formControlName]="'fecha'"
-                                [placeholder]="'Seleccionar fecha de Oficio'">
+                                [placeholder]="'Seleccionar fecha de Resolución'">
                             <mat-datepicker-toggle
                                 matSuffix
                                 [for]="fecha_oficioDatepicker">
@@ -189,95 +262,118 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Resolución -->
-                    <ng-container *ngxPermissionsOnly="['ADMINISTRADOR','SECRETARÍA GENERAL']">
-                        <div class="mt-8">
-                            <mat-form-field class="fuse-mat-no-subscript w-full">
-                                <mat-label>Resolución</mat-label>
-                                <mat-icon
-                                    matPrefix
-                                    class="hidden sm:flex icon-size-5"
-                                    [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
-                                <mat-select>
-                                    <ng-container>
-                                        <mat-option [value]="'all'" disabled>Seleccionar resolución...</mat-option>
-                                    </ng-container>
-                                    <ng-container *ngFor="let resolucion of resoluciones">
-                                        <mat-option [value]="resolucion.idResolucion">{{resolucion.nro_resolucion}}</mat-option>
-                                    </ng-container>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </ng-container>
+                    <!-- Fecha Resoluciones -->
+                    <div class="flex flex-col mt-8" *ngIf="oficioForm.get('resoluciones').value.length">                        
+                        <!-- table -->
+                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="p-6">
+                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Colaciones</div>
+                                <div class="text-secondary font-medium">{{oficioForm.get('resoluciones').value.length}} seleccionada(s)</div>
+                            </div>
+                            <div class="overflow-x-auto mx-6">
+                                <table
+                                    class="w-full bg-transparent"
+                                    mat-table
+                                    matSort
+                                    [dataSource]="recentResolucionesDataSource"
+                                    [trackBy]="trackByFn"
+                                    #recentResolucionesTable>
 
-                    <!-- Archivo -->
-                    <div class="mt-8">
-                        <div class="fuse-mat-no-subscript w-full text-center">
-                            <button
-                                mat-flat-button
-                                [color]="'accent'"
-                                matTooltip="Agregar documento"
-                                (click)="fileInput.click()">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                                Subir oficio
-                            </button>
-                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectOficio($event)"/>
+                                    <!-- ID -->
+                                    <ng-container matColumnDef="ID">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            #
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6 font-medium text-sm text-secondary">
+                                                {{resolucion.idResolucion}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Nro. Resolución -->
+                                    <ng-container matColumnDef="nro_resolucion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Nro. Resolución
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6">
+                                                {{resolucion.nro_resolucion}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Fecha de Resolución -->
+                                    <ng-container matColumnDef="fecha">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Fecha de Resolución
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6">
+                                                {{resolucion.fecha | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="recentResolucionesTableColumns"></tr>
+                                    <tr
+                                        class="order-row h-16"
+                                        mat-row
+                                        *matRowDef="let row; columns: recentResolucionesTableColumns;"></tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-8">
-                        <div class="fuse-mat-no-subscript w-full text-center">
-                            <button
-                                *ngIf="oficioForm.get('archivoPdf').value"
-                                mat-flat-button
-                                [color]="'accent'"
-                                matTooltip="Ver documento"
-                                (click)="verDocumento()">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                Ver archivo
-                            </button>
-                            <a
-                                *ngIf="oficioForm.get('archivo').value && !oficioForm.get('archivoPdf').value"
-                                mat-flat-button
-                                target="_blank"
-                                matTooltip="Ver documento"
-                                [color]="'accent'"
-                                [href]="oficio.archivo">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                Ver archivo
-                            </a>
-                        </div>
-                    </div>
 
-                    
                     <!-- Estado -->
-                    <!-- <div class="flex flex-col mt-8" *ngIf="oficio.idOficio">
+                    <div class="flex flex-col mt-8" *ngIf="oficio.idResolucion">
                         <span class="font-semibold mb-2">Estado</span>
                         <mat-slide-toggle
                             [formControlName]="'estado'"
                             [color]="'primary'">
                             {{oficioForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
                         </mat-slide-toggle>
-                    </div> -->
+                    </div>
+
+                    <div class="flex flex-col mt-8 items-center">
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [matTooltip]="'Gestionar resoluciones'"
+                            (click)="dialogResoluciones()">
+                            Resoluciones
+                        </button>
+                    </div>
+
 
                     <!-- Actions -->
                     <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
                         <!-- Eliminar -->
-                        <button
+                        <!-- <button
                             mat-button
                             [color]="'warn'"
                             [matTooltip]="'Eliminar'"
-                            (click)="deleteOficio()">
+                            (click)="deleteResolucion()">
                             Eliminar
-                        </button>
+                        </button> -->
                         <!-- Cancel -->
                         <button
                             class="ml-auto"

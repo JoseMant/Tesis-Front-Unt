@@ -129,7 +129,8 @@ export class ResolucionesService
                         nro_resolucion: '',
                         fecha: '',
                         archivo: '',
-                        estado: true
+                        estado: true,
+                        cronogramas: []
                     };
                 } else {
                     if (resolucion.archivo) resolucion.archivo = environment.baseUrlStorage + resolucion.archivo;

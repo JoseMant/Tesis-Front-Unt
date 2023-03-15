@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { OficiosService } from 'app/modules/admin/masters/carpeta/oficios/oficios.service';
-import { Oficio, Role, Unidad,Resolucion } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
+import { Oficio, Resolucion } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
 
 @Injectable({
     providedIn: 'root'
@@ -83,63 +83,6 @@ export class OficioResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class OficiosRolesResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _oficiosService: OficiosService)
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Role[]>
-    {
-        return this._oficiosService.getRoles();
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class OficiosUnidadesResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _oficiosService: OficiosService)
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Unidad[]>
-    {
-        return this._oficiosService.getUnidades();
-    }
-}
-
-
-@Injectable({
-    providedIn: 'root'
-})
 export class OficiosResolucionesResolver implements Resolve<any>
 {
     /**
@@ -161,6 +104,6 @@ export class OficiosResolucionesResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Resolucion[]>
     {
-        return this._oficiosService.getResoluciones();
+        return this._oficiosService.getResoluciones(Number(route.paramMap.get('id')));
     }
 }

@@ -40,6 +40,7 @@ import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/
 import { OficiosComponent } from 'app/modules/admin/masters/carpeta/oficios/oficios.component';
 import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
 import { OficiosDetailsComponent } from 'app/modules/admin/masters/carpeta/oficios/details/details.component';
+import { OficioResolucionesDialogComponent } from 'app/modules/admin/masters/carpeta/oficios/dialog/dialog.component';
 
 import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing';
 
@@ -57,6 +58,7 @@ import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing
         OficiosComponent,
         OficiosListComponent,
         OficiosDetailsComponent,
+        OficioResolucionesDialogComponent
     ],
     imports     : [
         RouterModule.forChild(carpetaRoutes),
