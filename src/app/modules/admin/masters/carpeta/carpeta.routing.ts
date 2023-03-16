@@ -12,7 +12,7 @@ import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/res
 import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
 // -----------
 import { CanDeactivateOficiosDetails } from 'app/modules/admin/masters/carpeta/oficios/oficios.guards';
-import { OficioResolver, OficiosResolver, OficiosUnidadesResolver,OficiosResolucionesResolver } from 'app/modules/admin/masters/carpeta/oficios/oficios.resolvers';
+import { OficioResolver, OficiosResolver, OficiosResolucionesResolver } from 'app/modules/admin/masters/carpeta/oficios/oficios.resolvers';
 import { OficiosComponent } from 'app/modules/admin/masters/carpeta/oficios/oficios.component';
 import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
 import { OficiosDetailsComponent } from 'app/modules/admin/masters/carpeta/oficios/details/details.component';
@@ -67,7 +67,7 @@ export const carpetaRoutes: Route[] = [
                             resoluciones: ResolucionResolver,
                             cronogramas: ResolucionCronogramasResolver
                         },
-                        canDeactivate: [CanDeactivateOficiosDetails]
+                        canDeactivate: [CanDeactivateResolucionesDetails]
                     }
                 ]
             }
@@ -91,7 +91,7 @@ export const carpetaRoutes: Route[] = [
                             oficios: OficioResolver,
                             resoluciones: OficiosResolucionesResolver
                         },
-                        canDeactivate: [CanDeactivateResolucionesDetails]
+                        canDeactivate: [CanDeactivateOficiosDetails]
                     }
                 ]
             }

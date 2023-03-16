@@ -93,7 +93,7 @@
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #fecha_inicio_acto_academico></mat-datepicker>
                                 </mat-form-field>
-                                <mat-form-field
+                                <mat-form-field *ngIf="gradoForm.get('idModalidad_carpeta').value != 1"
                                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >

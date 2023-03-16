@@ -7,8 +7,8 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Cronograma } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
-import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.service';
+import { Resolucion } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
+import { OficiosService } from 'app/modules/admin/masters/carpeta/oficios/oficios.service';
 import { Subject, takeUntil } from 'rxjs';
 import { forEach } from 'lodash';
 
@@ -17,16 +17,16 @@ import { forEach } from 'lodash';
     templateUrl  : './dialog.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class ResolucionCronogramasDialogComponent implements OnInit
+export class OficioResolucionesDialogComponent implements OnInit
 {
-    @ViewChild('selectedResolucionNgForm') selectedResolucionNgForm: NgForm;
-    @ViewChild('cronogramasTable', {read: MatSort}) cronogramasTableMatSort: MatSort;
-    cronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    cronogramasTableColumns: string[] = ['checkbox', 'unidad', 'dependencia', 'fecha_colacion'];
+    @ViewChild('selectedOficioNgForm') selectedOficioNgForm: NgForm;
+    @ViewChild('resolucionesTable', {read: MatSort}) resolucionesTableMatSort: MatSort;
+    resolucionesDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    resolucionesTableColumns: string[] = ['checkbox', 'nro_resolucion', 'fecha'];
     composeForm: FormGroup;
-    cronogramas: Cronograma[];
-    selectedCronogramas = [];
-    selectedResolucionForm: FormGroup;
+    resoluciones: Resolucion[];
+    selectedResoluciones = [];
+    selectedOficioForm: FormGroup;
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
         message: '',
@@ -39,10 +39,10 @@ export class ResolucionCronogramasDialogComponent implements OnInit
      */
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        public matDialogRef: MatDialogRef<ResolucionCronogramasDialogComponent>,
+        public matDialogRef: MatDialogRef<OficioResolucionesDialogComponent>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _resolucionesService: ResolucionesService,
+        private _oficiosService: OficiosService,
         private snackBar: MatSnackBar
     )
     {
@@ -68,23 +68,24 @@ export class ResolucionCronogramasDialogComponent implements OnInit
     ngOnInit(): void
     {
         
-        // Create the selected resolución y cronogramas form
-        this.selectedResolucionForm = this._formBuilder.group({
-            idResolucion        : [this.data.idResolucion, [Validators.required]],
-            cronogramas         : [[]]
+        // Create the selected resolución y resoluciones form
+        this.selectedOficioForm = this._formBuilder.group({
+            idOficio        : [this.data.idOficio, [Validators.required]],
+            resoluciones         : [[]]
         });
 
 
-        // Get the cronogramas
-        this._resolucionesService.cronogramas$
+        // Get the resoluciones
+        this._oficiosService.resoluciones$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((cronogramas: Cronograma[]) => {
-                this.cronogramasDataSource.data = cronogramas;
-
-                if (this.data.cronogramas.length) {
-                    this.data.cronogramas.forEach((element) => {
-                        const cronograma = cronogramas.find(item => item.idCronograma_carpeta == element.idCronograma_carpeta)
-                        this.addCronogramaToForm(cronograma)
+            .subscribe((resoluciones: Resolucion[]) => {
+                this.resolucionesDataSource.data = resoluciones;
+                if (this.data.resoluciones.length) {
+                    this.data.resoluciones.forEach((element) => {
+                        console.log(element)
+                        const resolucion = resoluciones.find(item => item.idResolucion == element.idResolucion)
+                        console.log(resolucion)
+                        this.addResolucionToForm(resolucion)
                     });
                 }
 
@@ -100,7 +101,7 @@ export class ResolucionCronogramasDialogComponent implements OnInit
     ngAfterViewInit(): void
     {
         // Make the data source sortable
-        this.cronogramasDataSource.sort = this.cronogramasTableMatSort;
+        this.resolucionesDataSource.sort = this.resolucionesTableMatSort;
     }
 
     /**
@@ -108,13 +109,13 @@ export class ResolucionCronogramasDialogComponent implements OnInit
      *
      * @param cronograma
      */
-    addCronogramaToForm(cronograma: Cronograma): void
+    addResolucionToForm(resolucion: Resolucion): void
     {
-        // Add the cronograma
-        this.selectedCronogramas.unshift(cronograma.idCronograma_carpeta);
+        // Add the resolucion
+        this.selectedResoluciones.unshift(resolucion.idResolucion);
 
         // Update the selected product form
-        this.selectedResolucionForm.get('cronogramas').patchValue(this.selectedCronogramas);
+        this.selectedOficioForm.get('resoluciones').patchValue(this.selectedResoluciones);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -125,27 +126,27 @@ export class ResolucionCronogramasDialogComponent implements OnInit
      *
      * @param tramite
      */
-    removeCronogramaFromForm(tramite: Cronograma): void
+    removeResolucionFromForm(tramite: Resolucion): void
     {
         // Remove the tramite
-        this.selectedCronogramas.splice(this.selectedCronogramas.findIndex(item => item === tramite.idCronograma_carpeta), 1);
-
+        this.selectedResoluciones.splice(this.selectedResoluciones.findIndex(item => item === tramite.idResolucion), 1);
         // Update the selected product form
-        this.selectedResolucionForm.get('cronogramas').patchValue(this.selectedCronogramas);
+        this.selectedOficioForm.get('resoluciones').patchValue(this.selectedResoluciones);
+        console.log( this.selectedOficioForm.getRawValue())
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
-    toggleCronograma(cronograma: Cronograma, change: MatCheckboxChange): void
+    toggleResolucion(resolucion: Resolucion, change: MatCheckboxChange): void
     {
         if ( change.checked )
         {
-            this.addCronogramaToForm(cronograma);
+            this.addResolucionToForm(resolucion);
         }
         else
         {
-            this.removeCronogramaFromForm(cronograma);
+            this.removeResolucionFromForm(resolucion);
         }
     }
 
@@ -171,7 +172,7 @@ export class ResolucionCronogramasDialogComponent implements OnInit
     discard(): void
     {
         // Reset the form
-        // this.selectedResolucionNgForm.resetForm();
+        // this.selectedOficioNgForm.resetForm();
 
         // Close the dialog
         this.matDialogRef.close();
@@ -193,8 +194,8 @@ export class ResolucionCronogramasDialogComponent implements OnInit
     {
         // Close the dialog
         this.matDialogRef.close({
-            seleccionados: this.selectedResolucionForm.get('cronogramas').value,
-            cronogramas: this.cronogramasDataSource.data
+            seleccionados: this.selectedOficioForm.get('resoluciones').value,
+            resoluciones: this.resolucionesDataSource.data
         });
     }
 

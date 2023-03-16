@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { filter, fromEvent, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Oficio, Role } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
+import { Oficio } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
 import { OficiosService } from 'app/modules/admin/masters/carpeta/oficios/oficios.service';
 
 @Component({
@@ -22,7 +22,6 @@ export class OficiosListComponent implements OnInit, OnDestroy
 
     oficiosCount: number = 0;
     oficiosTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
-    roles: Role[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
     selectedOficio: Oficio;
@@ -71,18 +70,6 @@ export class OficiosListComponent implements OnInit, OnDestroy
 
                 // Update the selected oficio
                 this.selectedOficio = oficio;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the roles
-        this._oficiosService.roles$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((roles: Role[]) => {
-
-                // Update the roles
-                this.roles = roles;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

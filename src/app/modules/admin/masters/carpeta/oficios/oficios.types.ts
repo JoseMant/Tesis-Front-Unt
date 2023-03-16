@@ -5,26 +5,12 @@ export interface Oficio
     idOficio: number;
     nro_oficio: string;
     fecha:string;
-    archivo:any;
-    archivoPdf?:any;
+    resoluciones?: Resolucion[];
     estado: boolean;
-}
-
-export interface Role
-{
-    id: number;
-    nombre: string;
-    estado: number;
-}
-
-export interface Unidad
-{
-    id?: string;
-    title?: string;
 }
 
 export interface Resolucion
 {
-    id: string;
+    idResolucion: number;
     nro_resolucion: string;
 }

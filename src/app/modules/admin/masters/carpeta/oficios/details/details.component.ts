@@ -5,13 +5,15 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Oficio, Role, Unidad,Resolucion } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
+import { Oficio } from 'app/modules/admin/masters/carpeta/oficios/oficios.types';
 import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
 import { OficiosService } from 'app/modules/admin/masters/carpeta/oficios/oficios.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { VisorPdfComponent } from 'app/shared/visorPdf/visorPdf.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { OficioResolucionesDialogComponent } from 'app/modules/admin/masters/carpeta/oficios/dialog/dialog.component';
+import { environment } from 'environments/environment';
 @Component({
     selector       : 'oficios-details',
     templateUrl    : './details.component.html',
@@ -42,19 +44,11 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
     oficio: Oficio;
     oficioForm: FormGroup;
     oficios: Oficio[];
-    roles: Role[];
-    unidades: Unidad[];
-    dependencias: any;
-    facultades: any;
-    resoluciones: Resolucion[];
-    tipos_documentos = [
-        {id: '1', name: 'DNI', description: 'DOCUMENTO NACIONAL DE IDENTIDAD'},
-        {id: '3', name: 'CE', description: 'CARNET DE EXTRANGERÍA' }
-    ];
-    generos = [
-        {id: 'M', name: 'MASCULINO' },
-        {id: 'F', name: 'FEMENINO'}
-    ];
+    resoluciones: any;
+    resolucionesDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    resolucionesTableColumns: string[] = ['ID', 'nro_resolucion', 'fecha'];
+    recentResolucionesDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    recentResolucionesTableColumns: string[] = ['ID', 'nro_resolucion', 'fecha'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -104,6 +98,7 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
             archivo       : [''],
             archivoPdf        : [''],
             estado        : [null, [Validators.required]],
+            resoluciones : [[]],
             avatar      : [null]
         });
 
@@ -132,56 +127,41 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
                 // Patch values to the form
                 this.oficioForm.patchValue(oficio);
 
+                // Store the table data
+                this.resolucionesDataSource.data = oficio.resoluciones;
+
                 // Toggle the edit mode off
-                if(!oficio.idOficio){
+                if (!oficio.idOficio) {
                     this.toggleEditMode(true);
-                }else{
+                } else {
                     this.toggleEditMode(false);
                 }
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
-        // Get the country telephone codes
-        this._oficiosService.roles$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((roles: Role[]) => {
-                this.roles = roles;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        this._oficiosService.unidades$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((unidades: Unidad[]) => {
-                this.unidades = unidades;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the resoluciones
-        this._oficiosService.resoluciones$
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((resoluciones: Resolucion[]) => {
-            console.log(resoluciones);
-            // Update the users
-            this.resoluciones = resoluciones;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
     }
 
     selectOficio(event): void {
         this.oficioForm.patchValue({archivoPdf: event.target.files[0]});
     }
 
-    verDocumento(): void {
-        const respDial = this._matDialog.open(
-            VisorPdfComponent,
+    // verDocumento(): void {
+    //     const respDial = this._matDialog.open(
+    //         VisorPdfComponent,
+    //         {
+    //             data: this.oficioForm.getRawValue(),
+    //             disableClose: true,
+    //             minWidth: '50%',
+    //             maxWidth: '60%'
+    //         }
+    //     );
+    // }
+
+    dialogResoluciones(): void {
+        console.log(this.oficioForm.getRawValue())
+        const dialogRef = this._matDialog.open(
+            OficioResolucionesDialogComponent,
             {
                 data: this.oficioForm.getRawValue(),
                 disableClose: true,
@@ -189,6 +169,33 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
                 maxWidth: '60%'
             }
         );
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result.seleccionados.length) {
+                let resolucionesSeleccionados = []
+                result.seleccionados.forEach(element => {
+                    const resolucion = result.resoluciones.find((item) => item.idResolucion == element)
+                    resolucionesSeleccionados.push(resolucion)
+                });
+                this.oficioForm.get('resoluciones').patchValue(resolucionesSeleccionados);
+                this.recentResolucionesDataSource.data = resolucionesSeleccionados;
+                console.log(this.recentResolucionesDataSource);
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            } else {
+                this.recentResolucionesDataSource.data = [];
+            }
+          });
+    }
+
+    verReporteSUNEDU() {
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'padron_sunedu/' + this.oficio.idOficio);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 
     /**
@@ -228,6 +235,9 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
         {
             this.editMode = editMode;
         }
+        if(this.editMode) {
+            this.recentResolucionesDataSource.data = this.oficioForm.get('resoluciones').value;
+        }
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -254,14 +264,10 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
     createOficio(): void
     {
         // Get the oficio object
-        const formData = new FormData();
-        formData.append('nro_oficio', this.oficioForm.get('nro_oficio').value);
-        formData.append('fecha', (new Date(this.oficioForm.get('fecha').value)).toISOString().substring(0,10));
-        formData.append('archivoPdf', this.oficioForm.get('archivoPdf').value);
-        
+        const oficio = this.oficioForm.getRawValue();      
 
         // Create the oficio on the server
-        this._oficiosService.createOficio(formData).subscribe((newOficio) => {
+        this._oficiosService.createOficio(oficio).subscribe((newOficio) => {
             // Toggle the edit mode off
             this.toggleEditMode(false);
 
@@ -294,9 +300,25 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
 
         // Update the oficio on the server
         this._oficiosService.updateOficio(oficio.idOficio, oficio).subscribe(() => {
-
             // Toggle the edit mode off
             this.toggleEditMode(false);
+
+            this._router.navigate(['./..'], {relativeTo: this._activatedRoute});
+            
+            this.alert = {
+                type   : 'success',
+                message: 'Resolución actualizada correctamente',
+                title: 'Guardado'
+            };
+            this.openSnack();
+        },
+        (response) => {
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
 
@@ -360,50 +382,6 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
             }
         });
 
-    }
-
-    /**
-     * Upload avatar
-     *
-     * @param fileList
-     */
-    uploadAvatar(fileList: FileList): void
-    {
-        // Return if canceled
-        if ( !fileList.length )
-        {
-            return;
-        }
-
-        const allowedTypes = ['image/jpeg', 'image/png'];
-        const file = fileList[0];
-
-        // Return if the file is not allowed
-        if ( !allowedTypes.includes(file.type) )
-        {
-            return;
-        }
-
-        // Upload the avatar
-        // this._oficiosService.uploadAvatar(this.oficio.idOficio, file).subscribe();
-    }
-
-    /**
-     * Remove the avatar
-     */
-    removeAvatar(): void
-    {
-        // Get the form control for 'avatar'
-        const avatarFormControl = this.oficioForm.get('avatar');
-
-        // Set the avatar as null
-        avatarFormControl.setValue(null);
-
-        // Set the file input value as null
-        this._avatarFileInput.nativeElement.value = null;
-
-        // Update the oficio
-        this.oficio.avatar = null;
     }
 
     /**
