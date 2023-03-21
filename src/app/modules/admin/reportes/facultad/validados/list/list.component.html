@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Reporte URA</div>
+            <div class="text-4xl font-extrabold tracking-tight">Reporte Facultad</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="reportesCount > 0">
                     {{reportesCount}}
                 </ng-container>
                 {{reportesCount | i18nPlural: {
-                    '=0'   : 'No hay tramites validados en URA',
-                    '=1'   : 'Trámite en validación de URA',
-                    'other': 'Tramites en validación de URA'
+                    '=0'   : 'No hay tramites validados en Facultad',
+                    '=1'   : 'Trámite validados en Facultad',
+                    'other': 'Trámites validados en Facultad'
                 } }}
             </div>
         </div>
