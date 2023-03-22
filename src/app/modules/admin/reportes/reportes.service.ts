@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { UserInterface, ReportePagination, ReporteInterface } from 'app/modules/admin/reportes/reportes.types';
+import { UserInterface, ReportePagination, ReporteInterface, Unidad } from 'app/modules/admin/reportes/reportes.types';
 import { environment } from 'environments/environment';
 import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 
@@ -15,11 +15,10 @@ export class ReportesService
     private _pagination: BehaviorSubject<ReportePagination | null> = new BehaviorSubject(null);
     private _reporte: BehaviorSubject<ReporteInterface | null> = new BehaviorSubject(null);
     private _reportes: BehaviorSubject<ReporteInterface[] | null> = new BehaviorSubject(null);
-    private _modalidades_sustentacion: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    private _programas_estudios: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    private _resolucion: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    // private _facultadesEscuelas: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _unidades: BehaviorSubject<Unidad[] | null> = new BehaviorSubject(null);
+    private _tipoTramiteUnidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _dependencias_detalle: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -72,15 +71,43 @@ export class ReportesService
         return this._reportes.asObservable();
     }
 
+    /**
+     * Getter for unidades
+     */
+    get unidades$(): Observable<Unidad[]>
+    {
+        return this._unidades.asObservable();
+    }
+
+    /**
+     * Getter for dependencias
+     */
+    get dependencias$(): Observable<Unidad[]>
+    {
+        return this._dependencias.asObservable();
+    }
+
+    /**
+     * Getter for dependencias detalle
+     */
+    get dependencias_detalle$(): Observable<Unidad[]>
+    {
+        return this._dependencias_detalle.asObservable();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    getReportesEscuela(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getReporteStatusTramites(idUnidad: number = 0, idDependencia: number = 0, idDependencia_detalle: number = 0, idTipo_tramite_unidad: number = 0, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
     {
-      return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'reporte/enviado/facultad', {
+      return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'reporte/elaboracion_carpeta/status_tramites', {
         params: {
+            idUnidad,
+            idDependencia,
+            idDependencia_detalle,
+            idTipo_tramite_unidad,
             page: '' + page,
             size: '' + size,
             sort,
@@ -89,7 +116,7 @@ export class ReportesService
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
+          console.log("entró");
           this._pagination.next(response.pagination);
           this._reportes.next(response.data);
         })
@@ -196,6 +223,48 @@ export class ReportesService
                 }
 
                 return of(reporte);
+            })
+        );
+    }
+
+    /**
+     * Get unidades
+     */
+    getUnidades(): Observable<Unidad[]>
+    {
+        return this._httpClient.get<Unidad[]>(environment.baseUrl + 'unidades').pipe(
+            tap((response) => {
+                this._unidades.next(response);
+            })
+        );
+    }
+
+    getTipoTramiteUnidades(idUnidad: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'tipo_tramites_unidades/2/' + idUnidad).pipe(
+            tap((response: any) => {
+                console.log(response);
+                this._tipoTramiteUnidades.next(response.tipo_tramite_unidad);
+            })
+        );
+    }
+
+    getDependenciasByUnidad(unidad: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'dependencias/' + unidad).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._dependencias.next(response);
+            })
+        );
+    }
+
+    getDependenciaDetalleByDependencia(dependencia: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'dependencias_detalle/' + dependencia).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._dependencias_detalle.next(response);
             })
         );
     }

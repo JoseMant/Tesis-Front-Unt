@@ -28,20 +28,20 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { QuillModule } from 'ngx-quill';
 import * as moment from 'moment';
 
-import { ReportesEscuelaValidadosComponent } from 'app/modules/admin/reportes/escuela/validados/validados.component';
-import { ReportesEscuelaValidadosListComponent } from 'app/modules/admin/reportes/escuela/validados/list/list.component';
-import { ReporteEscuelaValidadoDetalleComponent } from 'app/modules/admin/reportes/escuela/validados/detalle/details.component';
+import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/status_tramites.component';
+import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/list/list.component';
+// import { ReporteCrpetasStatusTramitesDetilsComponent } from 'app/modules/admin/reportes/escuela/validados/detalle/details.component';
 
-import { ReportesFacultadValidadosComponent } from 'app/modules/admin/reportes/facultad/validados/validados.component';
-import { ReportesFacultadValidadosListComponent } from 'app/modules/admin/reportes/facultad/validados/list/list.component';
-import { ReporteFacultadValidadoDetalleComponent } from 'app/modules/admin/reportes/facultad/validados/detalle/details.component';
+// import { ReportesFacultadValidadosComponent } from 'app/modules/admin/reportes/facultad/validados/validados.component';
+// import { ReportesFacultadValidadosListComponent } from 'app/modules/admin/reportes/facultad/validados/list/list.component';
+// import { ReporteFacultadValidadoDetalleComponent } from 'app/modules/admin/reportes/facultad/validados/detalle/details.component';
 
-import { ReportesURAValidacionesComponent } from 'app/modules/admin/reportes/ura/validaciones/validaciones.component';
-import { ReportesURAValidacionesListComponent } from 'app/modules/admin/reportes/ura/validaciones/list/list.component';
-import { ReporteURAValidacionDetalleComponent } from './ura/validaciones/details/details.component';
+// import { ReportesURAValidacionesComponent } from 'app/modules/admin/reportes/ura/validaciones/validaciones.component';
+// import { ReportesURAValidacionesListComponent } from 'app/modules/admin/reportes/ura/validaciones/list/list.component';
+// import { ReporteURAValidacionDetalleComponent } from './ura/validaciones/details/details.component';
 
-import { ReportesTesoreriaValidadosComponent } from 'app/modules/admin/reportes/tesoreria/validados/validados.component';
-import { ReportesTesoreriaValidadosListComponent } from 'app/modules/admin/reportes/tesoreria/validados/list/list.component';
+// import { ReportesTesoreriaValidadosComponent } from 'app/modules/admin/reportes/tesoreria/validados/validados.component';
+// import { ReportesTesoreriaValidadosListComponent } from 'app/modules/admin/reportes/tesoreria/validados/list/list.component';
 // import { ReporteTesoreriaValidacionDetalleComponent } from './tesoreria/validados/details/details.component';
 
 
@@ -56,23 +56,22 @@ import { ReporteRoutes } from './reportes.routing';
 @NgModule({
     declarations: [
         // ESCUELA
-        ReportesEscuelaValidadosComponent,
-        ReportesEscuelaValidadosListComponent,
-        ReporteEscuelaValidadoDetalleComponent,
+        ReporteCarpetasStatusTramitesComponent,
+        ReporteCarpetasStatusTramitesListComponent,
         
         // FACULTAD
-        ReportesFacultadValidadosComponent,
-        ReportesFacultadValidadosListComponent,
-        ReporteFacultadValidadoDetalleComponent,
+        // ReportesFacultadValidadosComponent,
+        // ReportesFacultadValidadosListComponent,
+        // ReporteFacultadValidadoDetalleComponent,
         
-        // URA
-        ReportesURAValidacionesComponent,
-        ReportesURAValidacionesListComponent,
-        ReporteURAValidacionDetalleComponent,
+        // // URA
+        // ReportesURAValidacionesComponent,
+        // ReportesURAValidacionesListComponent,
+        // ReporteURAValidacionDetalleComponent,
         
-        // TESORERÍA
-        ReportesTesoreriaValidadosComponent,
-        ReportesTesoreriaValidadosListComponent,
+        // // TESORERÍA
+        // ReportesTesoreriaValidadosComponent,
+        // ReportesTesoreriaValidadosListComponent,
 
 
 

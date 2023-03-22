@@ -48,3 +48,14 @@ export interface UserInterface
     idTipoUsuario: number;
     rol: string;
 }
+export interface Unidad
+{
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    status?: string;
+    nro_doc?: string;
+    idTipoUsuario: number;
+    rol: string;
+}
