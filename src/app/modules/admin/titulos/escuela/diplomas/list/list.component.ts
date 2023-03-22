@@ -148,7 +148,7 @@ export class TitulosEscuelaDiplomasListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosDiplomasEscuela(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -229,7 +229,7 @@ export class TitulosEscuelaDiplomasListComponent implements OnInit, AfterViewIni
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosDiplomasEscuela(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

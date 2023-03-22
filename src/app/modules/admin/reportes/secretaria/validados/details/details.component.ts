@@ -171,7 +171,7 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
             fecha_sustentacion_carpeta: ['', Validators.required],
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
-            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
+            nro_creditos_carpeta: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],

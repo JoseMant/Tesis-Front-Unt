@@ -167,39 +167,6 @@ export class TitulosURADiplomasListComponent implements OnInit, AfterViewInit, O
         });
     }
 
-    // editarTitulo(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_titulo'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/titulos_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfTituloComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const tituloRevalidado = response.getRawValue();
-    //             this._titulosService.updateTitulo(tituloRevalidado.idTitulo, tituloRevalidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Titulo actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
-
     /**
      * After view init
      */

@@ -422,14 +422,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/ura/pendientes',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'carpetas.consultas',
-            //     title: 'Consultas',
-            //     type : 'basic',
-            //     link : '/carpetas/consultas',
-            //     permissions: ['ADMINISTRADOR','SECRETARÍA GENERAL']
-            // },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'secretaria.observados',
@@ -557,39 +549,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:document-text',
         children: [
             {
-                id   : 'reportes.escuela',
-                title: 'Escuela',
+                id   : 'reportes.elaboracion_carpeta',
+                title: 'Elaboración de carpeta',
                 type : 'basic',
-                link : '/reportes/escuela',
-                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE ESCUELA']
-            },
-            {
-                id   : 'reportes.facultad',
-                title: 'Facultad',
-                type : 'basic',
-                link : '/reportes/facultad',
-                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD']
-            },
-            // {
-            //     id   : 'reportes.secretaria',
-            //     title: 'Secretaria',
-            //     type : 'basic',
-            //     link : '/reportes/secretaria',
-            //     permissions: ['ADMINISTRADOR']
-            // },
-            {
-                id   : 'reportes.ura',
-                title: 'URA',
-                type : 'basic',
-                link : '/reportes/ura',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                id   : 'reportes.tesoreria',
-                title: 'Tesorería',
-                type : 'basic',
-                link : '/reportes/tesoreria',
-                permissions: ['ADMINISTRADOR','DIRECCIÓN DE TESORERÍA']
+                link : '/reportes/elaboracion_carpeta',
+                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE FACULTAD', 'SECRETARIA(O) DE FACULTAD']
+
             }
         ]
     },
