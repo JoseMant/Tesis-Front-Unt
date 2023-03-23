@@ -150,7 +150,7 @@ export class GradosURAValidacionesListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosValidacionURA(0, 10, 'fecha', 'desc', query);
+                    return this._gradosService.getGradosValidacionURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
