@@ -77,6 +77,18 @@
                     </ng-container>
                 </mat-select>
             </mat-form-field>
+            <mat-form-field 
+                *ngIf="selectedReporteForm.get('idDependencia').value"
+                class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
+                <mat-select
+                    [formControlName]="'cronograma'"
+                    (selectionChange)="changedDependencia_detalle()">
+                    <ng-container>
+                        <mat-option [value]="0">Todos las colaciones disponibles</mat-option>
+                        <mat-option *ngFor="let cronograma of cronogramas" [value]="cronograma.fecha_colacion">{{cronograma.fecha_colacion}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
             <!-- Search -->
             <!-- <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
                 <mat-icon

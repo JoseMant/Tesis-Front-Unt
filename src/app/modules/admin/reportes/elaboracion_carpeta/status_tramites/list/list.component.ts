@@ -75,6 +75,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
     tipoTramiteUnidades: any;
     dependencias: any;
     dependencias_detalle: any;
+    cronogramas: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -106,8 +107,9 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         this.selectedReporteForm = this._formBuilder.group({
             idUnidad         : [0],
             idDependencia    : [0],
-            idDependencia_detalle : [0, [Validators.required]],
+            idDependencia_detalle : [0],
             idTipo_tramite_unidad : [0],
+            cronograma       : [0]
         });
 
         // Get the unidades
@@ -180,7 +182,8 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         this.selectedReporteForm.patchValue({
             idDependencia: 0,
             idDependencia_detalle: 0,
-            idTipo_tramite_unidad: 0
+            idTipo_tramite_unidad: 0,
+            cronograma: 0
         });
         
         this._reportesService.getTipoTramiteUnidades(idUnidad).subscribe((resp)=>{
@@ -200,11 +203,18 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
 
     changedDependencia(idDependencia: number) : void {
         this.selectedReporteForm.patchValue({
-            idDependencia_detalle: 0
+            idDependencia_detalle: 0,
+            cronograma: 0
         });
 
         this._reportesService.getDependenciaDetalleByDependencia(idDependencia).subscribe((response)=>{
             this.dependencias_detalle = response;
+            
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._reportesService.getCronogramasByDependencia(idDependencia).subscribe((response)=>{
+            this.cronogramas = response;
             
             this._changeDetectorRef.markForCheck();
         });
@@ -246,7 +256,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction)
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -278,20 +288,5 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
-    }
-
-    getDataReporte(): void {
-        console.log("llamando service...")
-        const form = this.selectedReporteForm.getRawValue();
-        merge(form).pipe(
-            switchMap(() => {
-                this.isLoading = true;
-                return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction)
-            }),
-            map(() => {
-                this.isLoading = false;
-            })
-        ).subscribe();
-        // this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction)
     }
 }

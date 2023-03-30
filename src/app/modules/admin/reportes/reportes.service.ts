@@ -19,6 +19,7 @@ export class ReportesService
     private _tipoTramiteUnidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _dependencias_detalle: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _cronogramas: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -95,11 +96,20 @@ export class ReportesService
         return this._dependencias_detalle.asObservable();
     }
 
+    /**
+     * Getter for cronogramas
+     */
+    get cronogramas$(): Observable<Unidad[]>
+    {
+        return this._cronogramas.asObservable();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    getReporteStatusTramites(idUnidad: number = 0, idDependencia: number = 0, idDependencia_detalle: number = 0, idTipo_tramite_unidad: number = 0, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getReporteStatusTramites(idUnidad: number = 0, idDependencia: number = 0, idDependencia_detalle: number = 0, idTipo_tramite_unidad: number = 0, cronograma: number = 0, 
+        page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
     {
       return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'reporte/elaboracion_carpeta/status_tramites', {
@@ -108,6 +118,7 @@ export class ReportesService
             idDependencia,
             idDependencia_detalle,
             idTipo_tramite_unidad,
+            cronograma,
             page: '' + page,
             size: '' + size,
             sort,
@@ -253,7 +264,6 @@ export class ReportesService
     {
         return this._httpClient.get(environment.baseUrl + 'dependencias/' + unidad).pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._dependencias.next(response);
             })
         );
@@ -263,8 +273,17 @@ export class ReportesService
     {
         return this._httpClient.get(environment.baseUrl + 'dependencias_detalle/' + dependencia).pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._dependencias_detalle.next(response);
+            })
+        );
+    }
+
+    getCronogramasByDependencia(dependencia: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'cronogramas/dependencia/' + dependencia).pipe(
+            tap((response: any[]) => {
+                console.log(response);
+                this._cronogramas.next(response);
             })
         );
     }
