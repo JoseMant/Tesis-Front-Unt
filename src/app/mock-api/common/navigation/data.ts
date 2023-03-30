@@ -553,7 +553,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Elaboración de carpeta',
                 type : 'basic',
                 link : '/reportes/elaboracion_carpeta',
-                permissions: ['SECRETARIA(O) DE FACULTAD', 'SECRETARIA(O) DE FACULTAD', 'SUBUNIDAD DE GRADOS Y TÍTULOS']
+                permissions: ['SECRETARIA(O) DE FACULTAD', 'SECRETARIA(O) DE ESCUELA', 'SUBUNIDAD DE GRADOS Y TÍTULOS']
 
             }
         ]
