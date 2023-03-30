@@ -23,7 +23,7 @@ import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronograma
     styles         : [
         /* language=SCSS */
         `
-            .reportes-validados-grid {
+            .reportes-elaboracion_carpeta-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -35,7 +35,7 @@ import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronograma
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px 190px 96px 190px auto;
+                    grid-template-columns: 48px 120px auto 190px 120px 120px 450px;
                 }
             }
             .fondo_snackbar {
@@ -117,7 +117,6 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: any) => {
                 this.unidades = unidades;
-                console.log(unidades);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -141,7 +140,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         this._reportesService.reportes$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: ReporteInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
                 if (response) {
                     this.reportesCount = response.length;
@@ -152,19 +151,61 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             });
 
         // Subscribe to search input field value changes
-        // this.searchInputControl.valueChanges
-        //     .pipe(
-        //         takeUntil(this._unsubscribeAll),
-        //         debounceTime(300),
-        //         switchMap((query) => {
-        //             this.isLoading = true;
-        //             return this._reportesService.getReportesEscuela(0, 10, 'fecha', 'desc', query);
-        //         }),
-        //         map(() => {
-        //             this.isLoading = false;
-        //         })
-        //     )
-        //     .subscribe();
+        this.selectedReporteForm.get('idUnidad').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
+        this.selectedReporteForm.get('idDependencia').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
+        this.selectedReporteForm.get('idDependencia_detalle').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
+        this.selectedReporteForm.get('idTipo_tramite_unidad').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
+        this.selectedReporteForm.get('cronograma').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
     }
 
     openSnack(): void {
@@ -198,7 +239,6 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             this._changeDetectorRef.markForCheck();
         });
 
-        this.ngAfterViewInit();
     }
 
     changedDependencia(idDependencia: number) : void {
@@ -213,17 +253,24 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             this._changeDetectorRef.markForCheck();
         });
 
-        this._reportesService.getCronogramasByDependencia(idDependencia).subscribe((response)=>{
+        this._reportesService.getCronogramasByDependencia(idDependencia, this.selectedReporteForm.get('idTipo_tramite_unidad').value).subscribe((response)=>{
             this.cronogramas = response;
             
             this._changeDetectorRef.markForCheck();
         });
 
-        this.ngAfterViewInit();
     }
 
-    changedDependencia_detalle() : void {
-        this.ngAfterViewInit();
+    changedTipo_tramite_unidad(idTipo_tramite_unidad: number) : void {
+        this.selectedReporteForm.patchValue({
+            cronograma: 0
+        });
+
+        this._reportesService.getCronogramasByDependencia(this.selectedReporteForm.get('idDependencia').value, idTipo_tramite_unidad).subscribe((response)=>{
+            this.cronogramas = response;
+            
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**

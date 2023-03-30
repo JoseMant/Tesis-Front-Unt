@@ -198,7 +198,11 @@ export class GradosURAValidacionesListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    if(this.searchInputControl.value ){
+                        return this._gradosService.getGradosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    }else{
+                        return this._gradosService.getGradosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    }
                 }),
                 map(() => {
                     this.isLoading = false;

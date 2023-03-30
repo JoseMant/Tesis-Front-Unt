@@ -127,7 +127,6 @@ export class ReportesService
         }
     }).pipe(
         tap((response) => {
-          console.log("entró");
           this._pagination.next(response.pagination);
           this._reportes.next(response.data);
         })
@@ -278,11 +277,10 @@ export class ReportesService
         );
     }
 
-    getCronogramasByDependencia(dependencia: number): Observable<any>
+    getCronogramasByDependencia(dependencia: number, tipo_tramite_unidad: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'cronogramas/dependencia/' + dependencia).pipe(
+        return this._httpClient.get(environment.baseUrl + 'cronogramas/dependencia/' + dependencia + "/" + tipo_tramite_unidad).pipe(
             tap((response: any[]) => {
-                console.log(response);
                 this._cronogramas.next(response);
             })
         );

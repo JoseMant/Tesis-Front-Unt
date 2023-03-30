@@ -58,8 +58,7 @@
                     *ngIf="selectedReporteForm.get('idDependencia').value"
                     class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
                     <mat-select
-                        [formControlName]="'idDependencia_detalle'"
-                        (selectionChange)="changedDependencia_detalle()">
+                        [formControlName]="'idDependencia_detalle'">
                             <mat-option [value]="0">Todas las sub dependencias</mat-option>
                             <mat-option *ngFor="let dependencia_detalle of dependencias_detalle" [value]="dependencia_detalle.idDependencia_detalle">{{dependencia_detalle.nombre}}</mat-option>
                     </mat-select>
@@ -70,7 +69,7 @@
                 class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
                 <mat-select
                     [formControlName]="'idTipo_tramite_unidad'"
-                    (selectionChange)="changedDependencia_detalle()">
+                    (selectionChange)="changedTipo_tramite_unidad($event.value)">
                     <ng-container>
                         <mat-option [value]="0">Todos los tipos de tramites</mat-option>
                         <mat-option *ngFor="let tipo_tramite_unidad of tipoTramiteUnidades" [value]="tipo_tramite_unidad.idTipo_tramite_unidad">{{tipo_tramite_unidad.descripcion}}</mat-option>
@@ -81,8 +80,7 @@
                 *ngIf="selectedReporteForm.get('idDependencia').value"
                 class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
                 <mat-select
-                    [formControlName]="'cronograma'"
-                    (selectionChange)="changedDependencia_detalle()">
+                    [formControlName]="'cronograma'">
                     <ng-container>
                         <mat-option [value]="0">Todos las colaciones disponibles</mat-option>
                         <mat-option *ngFor="let cronograma of cronogramas" [value]="cronograma.fecha_colacion">{{cronograma.fecha_colacion}}</mat-option>
@@ -114,7 +112,7 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="reportes-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="reportes-elaboracion_carpeta-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -151,8 +149,8 @@
                             <!-- Fecha-->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'fecha'">
-                                Fecha
+                                [mat-sort-header]="'fecha_colacion'">
+                                Fecha colación
                             </div>
 
                             <div
@@ -166,7 +164,7 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(reportes$ | async) as reportes">
                             <ng-container *ngFor="let reporte of reportes; trackBy: trackByFn let id=index">
-                                <div class="reportes-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="reportes-elaboracion_carpeta-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
@@ -193,9 +191,9 @@
                                         {{reporte.nro_matricula}}
                                     </div>
 
-                                    <!-- Stock -->
+                                    <!-- fECHA COLACIÓN -->
                                     <div class="hidden lg:block">
-                                        {{reporte.fecha}}
+                                        {{reporte.fecha_colacion}}
                                     </div>
 
                                     <div class="hidden lg:block">
@@ -219,7 +217,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay reportes en validación de URA!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carpetas para mostrar!</div>
             </ng-template>
 
         </div>
