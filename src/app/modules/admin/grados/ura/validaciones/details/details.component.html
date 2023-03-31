@@ -217,7 +217,7 @@
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="gradoForm.disabled || !gradoForm.get('certificado_final').value"
+                    [disabled]="gradoForm.disabled"
                     (click)="updateRequisitos()">
                     <span *ngIf="!gradoForm.disabled">
                         Guardar
