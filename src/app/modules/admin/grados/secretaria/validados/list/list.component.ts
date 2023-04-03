@@ -191,7 +191,7 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                 switchMap((query) => {
                     this.isLoading = true;
                     var data = this.selectedResolucionForm.get('nro_resolucion').value;
-                    return this._gradosService.getGradosValidadosSecretaria(data, 0, 10, 'fecha', 'desc', query);
+                    return this._gradosService.getGradosValidadosSecretaria(data, 0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -241,7 +241,11 @@ export class GradosSecretariaValidadosListComponent implements OnInit, AfterView
                     this.isLoading = true;
                     // Get the product object
                     const data = this.selectedResolucionForm.get('nro_resolucion').value;
-                    return this._gradosService.getGradosValidadosSecretaria(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    if (this.searchInputControl.value) {
+                        return this._gradosService.getGradosValidadosSecretaria(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    } else {
+                        return this._gradosService.getGradosValidadosSecretaria(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    }
                 }),
                 map(() => {
                     this.isLoading = false;
