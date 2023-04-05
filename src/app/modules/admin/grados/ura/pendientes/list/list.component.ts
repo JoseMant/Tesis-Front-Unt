@@ -14,6 +14,8 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
 import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/pendientes/dialog/dialog.component';
+import { ActivatedRoute, RouterStateSnapshot, Router } from '@angular/router';
+import { Resolucion } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
 
 @Component({
     selector       : 'grados-pendientes-list',
@@ -55,6 +57,7 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
     @ViewChild('selectedResolucionNgForm') selectedResolucionNgForm: NgForm;
 
     grados$: Observable<GradoInterface[]>;
+    resolucion$: Observable<Resolucion>;
     
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
@@ -82,6 +85,8 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _gradosService: GradosService,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
     )
@@ -97,12 +102,10 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
      */
     ngOnInit(): void
     {
-        this._gradosService.cleanGrados$;
-        
         // Create the selected resolucion form
         this.selectedResolucionForm = this._formBuilder.group({
             idResolucion     : [''],
-            nro_resolucion             : ['', [Validators.required]]
+            nro_resolucion   : ['', [Validators.required]]
         });
 
         // Create the selected grado form
@@ -128,6 +131,31 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
             currentImageIndex: [0], // Image index that is currently being viewed
             active           : [false]
         });
+
+        const idResolucion: any = this._activatedRoute.snapshot.params.idResolucion || null;
+
+        if (idResolucion) {
+            // Get the resolucion
+            this.resolucion$ = this._gradosService.resolucion$;
+
+            this._gradosService.resolucion$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: Resolucion) => {
+
+                this.selectedResolucionForm.patchValue(response);
+                this.selectedResolucionForm.disable();
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        }
+        else {
+            this.selectedResolucionForm.enable();
+            this.selectedResolucionForm.patchValue({nro_resolucion: ''});
+
+            this._gradosService.cleanGrados$;
+        };
 
         // Get the pagination
         this._gradosService.pagination$
@@ -184,12 +212,6 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
         });
     }
 
-    limpiarResolucion() {
-        this.selectedResolucionForm.enable();
-        this.selectedResolucionForm.patchValue({nro_resolucion: ''});
-        this._gradosService.cleanGrados$;
-    }
-
     /**
      * After view init
      */
@@ -234,8 +256,12 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
         }
     }
 
-    verLibro() {
+    limpiarResolucion() {
+        // Get the parent url
+        const parentUrl = this._router.url.split('/').slice(0, -1).join('/');
         
+        // Navigate to there
+        this._router.navigateByUrl(parentUrl);
     }
 
     getFileDiploma(idtramite: number) {
@@ -268,15 +294,16 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    buscarResolucion(): void
+    buscarResolucion(state: RouterStateSnapshot): void
     {
         // Get the product object
         const data = this.selectedResolucionForm.get('nro_resolucion').value;
         
-        this._gradosService.getGradosPendientesImpresion(data).subscribe((response) => {
-            console.log(response)
+        this._gradosService.getResolucion(data).subscribe((response) => {
+            console.log(response);
             if (response.resolucion) {
                 this.selectedResolucionForm.patchValue(response.resolucion);
+                console.log(this.selectedResolucionForm.getRawValue());
                 this.selectedResolucionForm.disable();
                 
                 // Show a success message
@@ -289,34 +316,13 @@ export class GradosURAPendientesListComponent implements OnInit, AfterViewInit, 
                 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
-            } else {
-                this.selectedResolucionForm.enable();
+
+                // Get the parent url
+                const parentUrl = this._router.url + '/' + response.resolucion.idResolucion;
                 
-                // Show a warn message
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Resolución no encontrada, inténtelo nuevamente',
-                    title: 'No encontrado'
-                };
-                this.openSnack();
-                
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
+                // Navigate to there
+                this._router.navigateByUrl(parentUrl);
             }
-
-        });
-    }
-
-    registrarEnLibro() {
-        const data = this.selectedResolucionForm.getRawValue();
-        // Create the cronograma on the server
-        this._gradosService.registrarLibro(data.idResolucion).subscribe((response) => {
-            this.alert = {
-                type   : 'success',
-                message: 'Registrados en el libro correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
         },
         (response) => {
             this.alert = {

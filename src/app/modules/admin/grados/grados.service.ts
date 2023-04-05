@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { UserInterface, GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { environment } from 'environments/environment';
-import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import { Resolucion } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
 
 @Injectable({
     providedIn: 'root'
@@ -323,11 +323,9 @@ export class GradosService
             }
         }).pipe(
             tap((response) => {
-                console.log(response)
                 this._pagination.next(response.pagination);
                 this._grados.next(response.data);
                 this._resolucion.next(response.resolucion);
-                console.log(this._grados);
             })
         );
     }
@@ -390,7 +388,7 @@ export class GradosService
       );
     }
 
-    getGradosPendientesImpresion(resolucion: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getGradosPendientesImpresion(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/pendientes/impresion/' + resolucion, {
@@ -403,9 +401,10 @@ export class GradosService
         }
     }).pipe(
         tap((response) => {
-            console.log(response)
-          this._pagination.next(response.pagination);
-          this._grados.next(response.data);
+            console.log(response);
+            this._pagination.next(response.pagination);
+            this._grados.next(response.data);
+            this._resolucion.next(response.resolucion);
         })
       );
     }
