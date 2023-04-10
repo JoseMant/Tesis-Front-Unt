@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'reportes-validados',
-    templateUrl    : './validados.component.html',
+    selector       : 'reportes-tesoreria-aprobados',
+    templateUrl    : './aprobados.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReportesTesoreriaValidadosComponent
+export class ReportesTesoreriaAprobadosComponent
 {
     /**
      * Constructor

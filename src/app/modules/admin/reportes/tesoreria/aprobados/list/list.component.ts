@@ -8,11 +8,15 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ReportePagination, ReporteInterface } from 'app/modules/admin/reportes/reportes.types';
 import { ReportesService } from 'app/modules/admin/reportes/reportes.service';
+import { TramiteService } from 'app/modules/admin/tramites/tramites.service';
+import { CronogramasService } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.service';
 import { MatDialog } from '@angular/material/dialog';
 // import { VisorPdfReporteComponent } from '../visorPdf/visorPdfReporte.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import moment from 'moment';
 
 @Component({
     selector       : 'reportes-validados-list',
@@ -20,7 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styles         : [
         /* language=SCSS */
         `
-            .reportes-validados-grid {
+            .reportes-vouchers-validados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -32,7 +36,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                 }
 
                 @screen lg {
-                    grid-template-columns: 200px 60px 250px 90px 190px 100px 100px 100px 100px;
+                    grid-template-columns: 48px auto 120px 120px 190px 190px 120px 120px 120px;
                 }
             }
             .fondo_snackbar {
@@ -47,10 +51,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class ReportesTesoreriaValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
-    @ViewChild(MatSort) private _sort: MatSort;
 
     reportes$: Observable<ReporteInterface[]>;
 
@@ -68,6 +71,12 @@ export class ReportesTesoreriaValidadosListComponent implements OnInit, AfterVie
     selectedReporteForm: FormGroup;
     tagsEditMode: boolean = false;
     reportesCount: number = 0;
+    unidades: Unidad;
+    tipoTramiteUnidades: any;
+    dependencias: any;
+    dependencias_detalle: any;
+    cronogramas: any;
+    minDate: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -78,6 +87,8 @@ export class ReportesTesoreriaValidadosListComponent implements OnInit, AfterVie
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _reportesService: ReportesService,
+        private _tramiteService: TramiteService,
+        private _cronogramasService: CronogramasService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
     )
@@ -95,26 +106,8 @@ export class ReportesTesoreriaValidadosListComponent implements OnInit, AfterVie
     {
         // Create the selected reporte form
         this.selectedReporteForm = this._formBuilder.group({
-            id               : [''],
-            category         : [''],
-            name             : ['', [Validators.required]],
-            description      : [''],
-            tags             : [[]],
-            sku              : [''],
-            barcode          : [''],
-            brand            : [''],
-            vendor           : [''],
-            stock            : [''],
-            reserved         : [''],
-            cost             : [''],
-            basePrice        : [''],
-            taxPercent       : [''],
-            price            : [''],
-            weight           : [''],
-            thumbnail        : [''],
-            images           : [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
-            active           : [false]
+            fecha_inicio         : [moment('2023-01-01'), Validators.required],
+            fecha_fin    : [moment(), Validators.required],
         });
 
         // Get the pagination
@@ -135,28 +128,41 @@ export class ReportesTesoreriaValidadosListComponent implements OnInit, AfterVie
         this._reportesService.reportes$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: ReporteInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
-                this.reportesCount = response.length;
+                if (response) {
+                    this.reportesCount = response.length;
+                } else this.reportesCount = 0;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+        
+        this.minDate = new Date();
+        
         // Subscribe to search input field value changes
-        this.searchInputControl.valueChanges
+        this.selectedReporteForm.get('fecha_inicio').valueChanges
             .pipe(
-                takeUntil(this._unsubscribeAll),
-                debounceTime(300),
-                switchMap((query) => {
+                switchMap(() => {
                     this.isLoading = true;
-                    return this._reportesService.getReportesTesoreria(0, 10, 'fecha', 'desc', query);
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteVouchersAprobados(this.formatDate(form.fecha_inicio.toDate()), this.formatDate(form.fecha_fin.toDate()))
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe();
+        this.selectedReporteForm.get('fecha_fin').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteVouchersAprobados(this.formatDate(form.fecha_inicio.toDate()), this.formatDate(form.fecha_fin.toDate()))
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
     }
 
     openSnack(): void {
@@ -169,69 +175,49 @@ export class ReportesTesoreriaValidadosListComponent implements OnInit, AfterVie
         });
     }
 
-    // editarReporte(dataCer, lectura, estado): void {
-    //     console.log(dataCer);
-    //     dataCer['lectura'] = lectura;
-    //     dataCer['des_estado_reporte'] = estado;
-    //     // dataCer['archivo'] = 'http://127.0.0.1:8000/storage/reportes_tramites/001030822.pdf';
-    //     const respDial = this.visordialog.open(
-    //         VisorPdfReporteComponent,
-    //         {
-    //             data: dataCer,
-    //             disableClose: true,
-    //             width: '75%',
-    //         }
-    //     );
-    //     respDial.afterClosed().subscribe( (response) => {
-    //         // If the confirm button pressed...
-    //         if ( response )
-    //         {
-    //             console.log(response.getRawValue());
-    //             const reporteValidado = response.getRawValue();
-    //             this._reportesService.updateReporte(reporteValidado.idReporte, reporteValidado ).subscribe((updateNew) => {
-    //                 console.log(updateNew);
-    //                 // Toggle the edit mode off
-    //                 this.alert = {
-    //                     type   : 'success',
-    //                     message: 'Reporte actualizado correctamente',
-    //                     title: 'Guardado'
-    //                 };
-    //                 this.openSnack();
-    //             });
-    //         }
-    //     });
-    // }
+    startDateChange(event: any) : void {
+        this.selectedReporteForm.patchValue({
+            fecha_inicio: event
+        })
+    }
+
+    endDateChange(event: any) : void {
+        this.selectedReporteForm.patchValue({
+            fecha_fin: event
+        })
+    }
+
+    padTo2Digits(num: number) {
+        return num.toString().padStart(2, '0');
+    }
+      
+    formatDate(date: Date) {
+        return (
+          [
+            date.getFullYear(),
+            this.padTo2Digits(date.getMonth() + 1),
+            this.padTo2Digits(date.getDate()),
+          ].join('-')
+        );
+    }
 
     /**
      * After view init
      */
     ngAfterViewInit(): void
     {
-        if ( this._sort && this._paginator )
+        if ( this._paginator )
         {
-            // Set the initial sort
-            this._sort.sort({
-                id          : 'nro_tramite',
-                start       : 'asc',
-                disableClear: true
-            });
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
 
-            // If the user changes the sort order...
-            this._sort.sortChange
-                .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe(() => {
-                    // Reset back to the first page
-                    this._paginator.pageIndex = 0;
-                });
-
             // Get reportes if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._reportesService.getReportesTesoreria(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    const form = this.selectedReporteForm.getRawValue();
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma, this._paginator.pageIndex, this._paginator.pageSize)
                 }),
                 map(() => {
                     this.isLoading = false;

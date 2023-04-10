@@ -30,7 +30,6 @@ import * as moment from 'moment';
 
 import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/status_tramites.component';
 import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/list/list.component';
-// import { ReporteCrpetasStatusTramitesDetilsComponent } from 'app/modules/admin/reportes/escuela/validados/detalle/details.component';
 
 // import { ReportesFacultadValidadosComponent } from 'app/modules/admin/reportes/facultad/validados/validados.component';
 // import { ReportesFacultadValidadosListComponent } from 'app/modules/admin/reportes/facultad/validados/list/list.component';
@@ -40,10 +39,8 @@ import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/re
 // import { ReportesURAValidacionesListComponent } from 'app/modules/admin/reportes/ura/validaciones/list/list.component';
 // import { ReporteURAValidacionDetalleComponent } from './ura/validaciones/details/details.component';
 
-// import { ReportesTesoreriaValidadosComponent } from 'app/modules/admin/reportes/tesoreria/validados/validados.component';
-// import { ReportesTesoreriaValidadosListComponent } from 'app/modules/admin/reportes/tesoreria/validados/list/list.component';
-// import { ReporteTesoreriaValidacionDetalleComponent } from './tesoreria/validados/details/details.component';
-
+import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
+import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
 
 
 // import { ReportesSecretariaValidadosComponent } from 'app/modules/admin/reportes/secretaria/validados/validados.component';
@@ -70,8 +67,8 @@ import { ReporteRoutes } from './reportes.routing';
         // ReporteURAValidacionDetalleComponent,
         
         // // TESORERÍA
-        // ReportesTesoreriaValidadosComponent,
-        // ReportesTesoreriaValidadosListComponent,
+        ReportesTesoreriaAprobadosComponent,
+        ReportesTesoreriaAprobadosListComponent,
 
 
 

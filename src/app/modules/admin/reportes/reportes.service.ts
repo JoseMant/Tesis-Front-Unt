@@ -173,11 +173,13 @@ export class ReportesService
       );
     }
 
-    getReportesTesoreria(page: number = 0, size: number = 100, sort: string = 'apellidos', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getReporteVouchersAprobados(fecha_inicio: string, fecha_fin: string, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
     {
-      return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'vouchers/reporte/aprobados', {
+      return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'reporte/tesoreria/aprobados', {
         params: {
+            fecha_inicio: fecha_inicio,
+            fecha_fin: fecha_fin,
             page: '' + page,
             size: '' + size,
             sort,
@@ -186,55 +188,10 @@ export class ReportesService
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._reportes.next(response.data);
         })
       );
-    }
-    
-    /**
-     * Get reporte by id
-     */
-    getReporteById(id: number): Observable<ReporteInterface>
-    {
-        console.log(this._reportes.value);
-        return this._reportes.pipe(
-            take(1),
-            map((reportes) => {
-                // Find the reporte
-                // const reporte = reportes.find(item => item.idTramite === id) || null;
-                const reporte = JSON.parse( JSON.stringify(reportes.find(item => item.idTramite === id) || null) )
-                if (reporte) {
-                    reporte.fut = environment.baseUrl + reporte.fut;
-                    if (reporte.certificado_final) reporte.certificado_final = environment.baseUrlStorage +  reporte.certificado_final
-                    if (reporte.diploma_final && reporte.idEstado_tramite==13) reporte.diploma_final = environment.baseUrl +  reporte.diploma_final
-                    else if (reporte.diploma_final) reporte.diploma_final = environment.baseUrlStorage +  reporte.diploma_final
-                    if (reporte.voucher) reporte.voucher = environment.baseUrlStorage + reporte.voucher;
-                    if (reporte.exonerado_archivo) reporte.exonerado_archivo = environment.baseUrlStorage + reporte.exonerado_archivo;
-                    if (reporte.requisitos) {
-                        reporte.requisitos.forEach(element => {
-                            if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
-                        });
-                    }
-                }
-                
-                // Update the reporte
-                this._reporte.next(reporte);
-                
-                // Return the reporte
-                return reporte;
-            }),
-            switchMap((reporte) => {
-
-                if ( !reporte )
-                {
-                    return throwError('Could not found reporte with id of ' + id + '!');
-                }
-
-                return of(reporte);
-            })
-        );
     }
 
     /**

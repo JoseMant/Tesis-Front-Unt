@@ -11,22 +11,63 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Reporte Tesorería</div>
+            <div class="text-4xl font-extrabold tracking-tight">Reporte de vouchers aprobados</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="reportesCount > 0">
                     {{reportesCount}}
                 </ng-container>
                 {{reportesCount | i18nPlural: {
-                    '=0'   : 'No hay tramites validados en Tesorería',
-                    '=1'   : 'Trámite validado en Tesorería',
-                    'other': 'Tramites validados en Tesorería'
+                    '=0'   : 'No hay vouchers',
+                    '=1'   : 'Voucher',
+                    'other': 'Vouchers'
                 } }}
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <form 
+            [formGroup]="selectedReporteForm"
+            class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Fecha de inicio -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-56">
+                <!-- <mat-icon
+                    matPrefix
+                    class="hidden sm:flex icon-size-5"
+                    [svgIcon]="'heroicons_solid:calendar'"></mat-icon> -->
+                <input
+                    matInput
+                    [max]="minDate"
+                    [matDatepicker]="fecha_inicioDatepicker"
+                    [formControlName]="'fecha_inicio'"
+                    [placeholder]="'Seleccionar fecha de colación'"
+                    (dateChange)="startDateChange($event.value)">
+                <mat-datepicker-toggle
+                    matSuffix
+                    [for]="fecha_inicioDatepicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #fecha_inicioDatepicker></mat-datepicker>
+            </mat-form-field>
+            <!-- Fecha de fin -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-56">
+                <!-- <mat-icon
+                    matPrefix
+                    class="hidden sm:flex icon-size-5"
+                    [svgIcon]="'heroicons_solid:calendar'"></mat-icon> -->
+                <input
+                    matInput
+                    [min]="selectedReporteForm.get('fecha_inicio').value"
+                    [max]="minDate"
+                    [matDatepicker]="fecha_finDatepicker"
+                    [formControlName]="'fecha_fin'"
+                    [placeholder]="'Seleccionar fecha de colación'"
+                    (dateChange)="endDateChange($event.value)">
+                <mat-datepicker-toggle
+                    matSuffix
+                    [for]="fecha_finDatepicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #fecha_finDatepicker></mat-datepicker>
+            </mat-form-field>
             <!-- Search -->
-            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+            <!-- <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
                 <mat-icon
                     class="icon-size-5"
                     matPrefix
@@ -36,8 +77,8 @@
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar reportes'">
-            </mat-form-field>
-        </div>
+            </mat-form-field> -->
+        </form>
     </div>
 
     <!-- Main -->
@@ -50,10 +91,12 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="reportes-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="reportes-vouchers-validados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
+                            <!-- Nro. -->
+                            <div>#</div>
 
                             <!-- Solicitante-->
                             <div
@@ -61,14 +104,18 @@
                                 Solicitante
                             </div>
 
-                            <!-- Nro. -->
-                            <!-- <div>#</div> -->
-
-                            <!-- Nro. Trámite -->
+                            <!-- Nro Matrícula -->
                             <div
-                                class="hidden md:block"
-                                [mat-sort-header]="'documento'">
+                                class="hidden lg:block"
+                                [mat-sort-header]="'nro_documento'">
                                 Nro. Documento
+                            </div>
+
+                            <!-- Nro Matrícula -->
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'nro_matricula'">
+                                Nro. Matrícula
                             </div>
 
                             <!-- Trámite-->
@@ -78,47 +125,32 @@
                                 Trámite
                             </div>
 
-                            <!-- Nro Matrícula -->
+                            <!-- Programa -->
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'dependencia_detalle'">
+                                Programa
+                            </div>
+
+                            <!-- Entidad -->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'nro_matricula'">
-                                N° Matrícula
-                            </div>
-
-                            <!-- Trámite-->
-                            <div
-                                class="hidden md:block md: w-40"
-                                [mat-sort-header]="'programa'">
-                                Escuela/Programa/Mención
-                            </div>
-
-                            <!-- Trámite-->
-                            <div
-                                class="hidden md:block md: w-40"
                                 [mat-sort-header]="'entidad'">
                                 Entidad
                             </div>
 
-                            <!-- Trámite-->
+                            <!-- Fecha Operación -->
                             <div
-                                class="hidden md:block md: w-40"
-                                [mat-sort-header]="'nro_operacion'">
-                                Nro. Operación
-                            </div>
-                            <!-- Fecha-->
-
-                            <!-- Fecha-->
-                            
-                            <div
-                                class="hidden lg:block"
+                                class="hidden sm:block"
                                 [mat-sort-header]="'fecha_operacion'">
                                 Fecha Operación
                             </div>
 
+                            <!-- Monto -->
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'costo'">
-                                Monto (S/.)
+                                Monto
                             </div>
 
                            
@@ -126,57 +158,51 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(reportes$ | async) as reportes">
                             <ng-container *ngFor="let reporte of reportes; trackBy: trackByFn let id=index">
-                                <div class="reportes-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="reportes-vouchers-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+                                    <!-- Nro. Trámite -->
+                                    <div >
+                                        {{id+1}}
+                                    </div>
 
                                     <!-- Solicitante -->
                                     <div class="truncate">
                                         {{reporte.solicitante}}
                                     </div>
 
-                                    <!-- Nro. Trámite -->
-                                    <!-- <div >
-                                        {{id+1}}
-                                    </div> -->
-
-                                    <!-- Active -->
-                                    <div class="hidAden md:block">
+                                    <!-- Nro Documento -->
+                                    <div class="hidden lg:block">
                                         {{reporte.nro_documento}}
                                     </div>
 
-                                    
+                                    <!-- Nro Matrícula -->
+                                    <div class="hidden lg:block">
+                                        {{reporte.nro_matricula}}
+                                    </div>
 
                                     <!-- Trámite -->
                                     <div  class="hidden md:block truncate">
                                         {{reporte.tipo_tramite}}
                                     </div>
 
-                                    <!-- Active -->
+                                    <!-- Programa -->
                                     <div class="hidden lg:block">
-                                        {{reporte.nro_matricula}}
-                                    </div>
-
-
-                                    <!-- Trámite -->
-                                    <div  class="hidden md:block truncate">
                                         {{reporte.programa}}
                                     </div>
 
-                                    <!-- Trámite -->
-                                    <div  class="hidden md:block truncate">
+                                    <!-- Entidad -->
+                                    <div class="hidden lg:block">
                                         {{reporte.entidad}}
                                     </div>
 
-                                     <!-- Trámite -->
-                                     <div  class="hidden md:block truncate">
-                                        {{reporte.nro_operacion}}
-                                    </div>
-                                    <!-- Stock -->
+                                    <!-- fECHA Operación -->
                                     <div class="hidden lg:block">
-                                        {{reporte.fecha_operacion}}
+                                        {{reporte.fecha_operacion | date:'mediumDate'}}
                                     </div>
 
+                                    <!-- Monto -->
                                     <div class="hidden lg:block">
-                                        {{reporte.costo}}
+                                        S/. {{reporte.costo | number:'0.2-2'}}
                                     </div>
                                 </div>
                             </ng-container>
@@ -196,7 +222,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay reportes en validación de URA!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carpetas para mostrar!</div>
             </ng-template>
 
         </div>

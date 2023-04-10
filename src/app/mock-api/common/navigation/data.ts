@@ -555,6 +555,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/reportes/elaboracion_carpeta',
                 permissions: ['SECRETARIA(O) DE FACULTAD', 'SECRETARIA(O) DE ESCUELA', 'SUBUNIDAD DE GRADOS Y TÍTULOS']
 
+            },
+            {
+                id   : 'reportes.tesoreria',
+                title: 'Tesorería',
+                type : 'basic',
+                link : '/reportes/tesoreria/aprobados',
+                permissions: ['DIRECCIÓN DE TESORERÍA']
+
             }
         ]
     },

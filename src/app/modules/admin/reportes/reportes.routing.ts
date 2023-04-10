@@ -21,9 +21,9 @@ import { ReporteCarpetasStatusTramitesResolver, UnidadesResolver } from 'app/mod
 
 // // // -------------
 
-// import { ReportesTesoreriaValidadosComponent } from 'app/modules/admin/reportes/tesoreria/validados/validados.component';
-// import { ReportesTesoreriaValidadosListComponent } from 'app/modules/admin/reportes/tesoreria/validados/list/list.component';
-// import { ReportesTesoreriaValidadosResolver, ReporteTesoreriaValidadoResolver } from 'app/modules/admin/reportes/tesoreria/validados/validados.resolvers';
+import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
+import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
+import { ReportesTesoreriaAprobadosResolver } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.resolvers';
 
 // // -------------
 
@@ -110,24 +110,17 @@ export const ReporteRoutes: Route[] =[
     //   ]
     // },
     
-    // {
-    //   path     : 'tesoreria',
-    //   component: ReportesTesoreriaValidadosComponent,
-    //   resolve  : {
-    //     reportes  : ReportesTesoreriaValidadosResolver,
-    //   },
-    //   children : [
-    //     {
-    //       path     : '',
-    //       component: ReportesTesoreriaValidadosListComponent,
-    //     }
-        // {
-        //   path         : ':idTramite',
-        //   component    : ReporteTesoreriaValidadoDetalleComponent,
-        //   resolve      : {
-        //     reporte  : ReporteTesoreriaValidadoResolver,
-        //   },
-        // }
-      // ]
-    // },
+    {
+      path     : 'tesoreria/aprobados',
+      component: ReportesTesoreriaAprobadosComponent,
+      resolve  : {
+        reportes  : ReportesTesoreriaAprobadosResolver,
+      },
+      children : [
+        {
+          path     : '',
+          component: ReportesTesoreriaAprobadosListComponent,
+        }
+      ]
+    },
 ];
