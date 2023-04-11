@@ -571,8 +571,7 @@ export class TitulosService
             take(1),
             switchMap(titulos => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
                 map((updatedTitulo) => {
-                    console.log(updatedTitulo);
-                    // debugger;
+                    
                     // Find the index of the updated titulo
                     const index = titulos.findIndex(item => item.idTramite === id);
 

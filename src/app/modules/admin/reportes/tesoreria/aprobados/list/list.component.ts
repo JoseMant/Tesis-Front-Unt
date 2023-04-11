@@ -217,7 +217,7 @@ export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterVie
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma, this._paginator.pageIndex, this._paginator.pageSize)
+                    return this._reportesService.getReporteVouchersAprobados(this.formatDate(form.fecha_inicio.toDate()), this.formatDate(form.fecha_fin.toDate()), this._paginator.pageIndex, this._paginator.pageSize)
                 }),
                 map(() => {
                     this.isLoading = false;
