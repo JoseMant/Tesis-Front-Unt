@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -16,6 +15,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import { environment } from 'environments/environment';
 import moment from 'moment';
 
 @Component({
@@ -249,5 +249,18 @@ export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterVie
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
+    }
+
+    createReporteExcel(): void
+    {
+        this.isLoading = true;
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        const form = this.selectedReporteForm.getRawValue();
+        link.setAttribute('href', environment.baseUrl + 'excel/tesoreria/' + this.formatDate(form.fecha_inicio.toDate()) + "/" + this.formatDate(form.fecha_fin.toDate()));
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        this.isLoading = false;
     }
 }
