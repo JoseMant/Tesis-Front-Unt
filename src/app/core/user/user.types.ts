@@ -17,7 +17,7 @@ export interface User
     // idUsuario: 2
     // nombres: "CESAR"
     // nro_documento: "74660603"
-    // sexo: "M"
+    idDependencia?: number;
     tipo_documento: string;
     username: string;
 }
