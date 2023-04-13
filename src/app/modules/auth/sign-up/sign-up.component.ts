@@ -115,7 +115,7 @@ export class AuthSignUpComponent implements OnInit
 
         // Create the form
         this.documentForm = this._formBuilder.group({
-                nro_documento      : ['', [Validators.pattern(/^[0-9]+$/), Validators.required]]
+                nro_documento      : ['', Validators.required]
             }
         );
 

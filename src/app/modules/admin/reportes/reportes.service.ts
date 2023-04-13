@@ -225,6 +225,15 @@ export class ReportesService
         );
     }
 
+    getDependenciaByDependenciaDetalle(dependencia_detalle: number): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'dependencia/' + dependencia_detalle).pipe(
+            tap((response: any[]) => {
+                this._dependencias.next(response);
+            })
+        );
+    }
+
     getDependenciaDetalleByDependencia(dependencia: number): Observable<any>
     {
         return this._httpClient.get(environment.baseUrl + 'dependencias_detalle/' + dependencia).pipe(

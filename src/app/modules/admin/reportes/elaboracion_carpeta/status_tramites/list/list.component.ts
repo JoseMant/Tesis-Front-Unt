@@ -8,14 +8,14 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ReportePagination, ReporteInterface } from 'app/modules/admin/reportes/reportes.types';
 import { ReportesService } from 'app/modules/admin/reportes/reportes.service';
-import { TramiteService } from 'app/modules/admin/tramites/tramites.service';
 import { CronogramasService } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfReporteComponent } from '../visorPdf/visorPdfReporte.component';
+import { UserService } from 'app/core/user/user.service';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import { User } from 'app/core/user/user.types';
 
 @Component({
     selector       : 'reportes-validados-list',
@@ -86,7 +86,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _reportesService: ReportesService,
-        private _tramiteService: TramiteService,
+        private _userService: UserService,
         private _cronogramasService: CronogramasService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
@@ -103,6 +103,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
      */
     ngOnInit(): void
     {
+
         // Create the selected reporte form
         this.selectedReporteForm = this._formBuilder.group({
             idUnidad         : [0],
@@ -111,6 +112,27 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idTipo_tramite_unidad : [0],
             cronograma       : [0]
         });
+
+        // Get the user
+        this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) => {
+                if (user.idTipoUsuario == 5) {
+                    this._reportesService.getDependenciaByDependenciaDetalle(user.idDependencia).subscribe((dependencia)=>{
+                        
+                        this.changedUnidad(1);
+                        this.changedDependencia(dependencia.idDependencia);
+                        
+                        this.selectedReporteForm.patchValue({
+                            idUnidad: 1,
+                            idDependencia: dependencia.idDependencia,
+                            idDependencia_detalle: user.idDependencia
+                        });
+                        
+                        this._changeDetectorRef.markForCheck();
+                    });
+                }
+            });
 
         // Get the unidades
         this._reportesService.unidades$
@@ -246,7 +268,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idDependencia_detalle: 0,
             cronograma: 0
         });
-
+        console.log()
         this._reportesService.getDependenciaDetalleByDependencia(idDependencia).subscribe((response)=>{
             this.dependencias_detalle = response;
             
