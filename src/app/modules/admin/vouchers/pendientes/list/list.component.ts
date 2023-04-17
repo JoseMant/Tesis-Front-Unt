@@ -25,15 +25,15 @@ import { environment } from 'environments/environment';
                 grid-template-columns: 96px auto 90px;
 
                 @screen sm {
-                    grid-template-columns: 96px 190px auto 90px;
+                    grid-template-columns: 96px 220px auto 90px;
                 }
 
                 @screen md {
-                    grid-template-columns: 96px 190px auto 96px 90px;
+                    grid-template-columns: 96px 220px auto 196px 96px 90px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 96px 190px auto 96px 96px 96px 96px 90px;
+                    grid-template-columns: 96px 220px auto 196px 96px 96px 96px 96px 90px;
                 }
             }
             .fondo_snackbar {

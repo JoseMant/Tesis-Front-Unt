@@ -69,12 +69,12 @@
 
                             <div [mat-sort-header]="'tramite'">Trámite</div>
 
-                            <!-- Exonerado -->
-                            <!-- <div
+                            <!-- Programa -->
+                            <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'exonerado'">
-                                Exonerado
-                            </div> -->
+                                [mat-sort-header]="'programa'">
+                                Programa
+                            </div>
                             <div
                                 class="hidden md:block"
                                 [mat-sort-header]="'costo'">
@@ -120,17 +120,15 @@
                                         {{voucher.tramite}}
                                     </div>
 
-                                    <!-- Exonerado -->
-                                    <!-- <div *ngIf="voucher.exonerado_archivo" class="hidden md:block truncate">
-                                        SI
+                                    <!-- Programa -->
+                                    <div class="hidden lg:block truncate">
+                                        {{voucher.programa}}
                                     </div>
-                                    <div *ngIf="!voucher.exonerado_archivo" class="hidden md:block truncate">
-                                        NO
-                                    </div> -->
+
+                                    <!-- Costo -->
                                     <div class="truncate">
                                         {{voucher.costo}}
                                     </div>
-
 
                                     <!-- Stock -->
                                     <div class="hidden lg:flex items-center">
