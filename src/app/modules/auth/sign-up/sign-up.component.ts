@@ -80,7 +80,11 @@ export class AuthSignUpComponent implements OnInit
     listTipoDocumentos = [
         {id: 1, name: 'DOCUMENTO NACIONAL DE IDENTIDAD (DNI)'},
         {id: 2, name: 'PASAPORTE'},
-        {id: 3, name: 'CARNET DE EXTRANJERÍA'}
+        {id: 3, name: 'CARNÉ DE EXTRANJERÍA'},
+        {id: 4, name: 'CÉDULA DE IDENTIDAD'},
+        {id: 5, name: 'DOCUMENTO EXTRANJERO - OTROS'},
+        {id: 6, name: 'PERMISO TEMPORAL DE PERMANENCIA'},
+        {id: 7, name: 'CARNÉ DE IDENTIDAD'}
     ]
     maxDate: any;
 
