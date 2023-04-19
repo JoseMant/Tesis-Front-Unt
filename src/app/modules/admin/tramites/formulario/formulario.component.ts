@@ -446,15 +446,18 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     selectedEscuela(id): void {
-        console.log(id);
+        // console.log(id);
+        const escuela = this.subdependencias.find(escuela => escuela.idEscuela == id);
         this.data.idSubdependencia = id;
-        for (const itera of this.subdependencias) {
-            if (itera.idSubdependencia === id) {
-                this.data.codigo = itera.nro_matricula;
-                this.data.sede = itera.sede;
-            }
-        }
-        this.tramiteForm.patchValue({idSubdependencia: id, codigo: this.data.codigo, sede: this.data.sede});
+        this.data.codigo = escuela.nro_matricula;
+        this.data.sede = escuela.sede;
+        this.tramiteForm.patchValue({
+            idSubdependencia: id, 
+            codigo: escuela.nro_matricula, 
+            sede: escuela.sede
+        });
+            
+        this._changeDetectorRef.markForCheck();
     }
 
     selectedTipoTramiteUnidades(id): void{
