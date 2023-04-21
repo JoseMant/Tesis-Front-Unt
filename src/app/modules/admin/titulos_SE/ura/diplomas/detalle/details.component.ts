@@ -229,12 +229,33 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });       
     }
+
+    selectedActo(acto_academico: number): void {
+        this.tituloForm.controls.nombre_trabajo_carpeta.clearValidators();
+        this.tituloForm.controls.url_trabajo_carpeta.clearValidators();
+        this.tituloForm.patchValue({
+            fecha_inicio_acto_academico: '',
+            fecha_sustentacion_carpeta: ''
+        });
+        if (acto_academico != 1) {
+            this.tituloForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
+            this.tituloForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
+        } else {
+            this.tituloForm.patchValue({
+                fecha_inicio_acto_academico: moment(this.tituloForm.get('fecha').value),
+                fecha_sustentacion_carpeta: moment(this.tituloForm.get('fecha').value),
+                nombre_trabajo_carpeta: '',
+                url_trabajo_carpeta: ''
+            });
+        }
+        this.tituloForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
+        this.tituloForm.controls.url_trabajo_carpeta.updateValueAndValidity();
+    }
     
     calcularTiempo(): void {
         let tiempo = moment(this.tituloForm.get('fecha_primera_matricula').value).from(this.tituloForm.get('fecha_ultima_matricula').value);
-        // let tiempo_parcial = tiempo.split(" ");
-        // console.log(tiempo_parcial)
-        this.tituloForm.patchValue({anios_estudios: tiempo});
+        let tiempo_parcial = tiempo.split(" ");
+        this.tituloForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
     }
 
     /**
@@ -270,6 +291,7 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
 
         // Get the contact object
         const titulo = this.tituloForm.getRawValue();
+        titulo.fecha_inicio_acto_academico = new Date(titulo.fecha_inicio_acto_academico).toISOString().substring(0,10);
         titulo.fecha_sustentacion_carpeta = new Date(titulo.fecha_sustentacion_carpeta).toISOString().substring(0,10);
         titulo.fecha_primera_matricula = new Date(titulo.fecha_primera_matricula).toISOString().substring(0,10);
         titulo.fecha_ultima_matricula = new Date(titulo.fecha_ultima_matricula).toISOString().substring(0,10);
