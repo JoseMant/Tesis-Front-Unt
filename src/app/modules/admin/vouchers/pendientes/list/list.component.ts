@@ -151,7 +151,7 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._vouchersService.getVouchersPendientes(0, 10, 'alumno', 'asc', query);
+                    return this._vouchersService.getVouchersPendientes(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -196,7 +196,7 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                     title: 'Advertencia'
                 };
                 this.openSnack();
-                this._vouchersService.updateVoucher(voucherPendiente.idVoucher, voucherPendiente ).subscribe((updateNew) => {
+                this._vouchersService.updateVoucher(voucherPendiente.idVoucher, voucherPendiente).subscribe((updateNew) => {
                     console.log(updateNew);
                     // Toggle the edit mode off
                     this.alert = {
@@ -239,7 +239,10 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._vouchersService.getVouchersPendientes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    if (this.searchInputControl.value)
+                        return this._vouchersService.getVouchersPendientes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    else
+                        return this._vouchersService.getVouchersPendientes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
