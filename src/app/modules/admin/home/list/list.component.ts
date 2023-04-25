@@ -148,7 +148,10 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._homeService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator)
+                        return this._homeService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    else
+                        return this._homeService.getTramites(0, 10, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
