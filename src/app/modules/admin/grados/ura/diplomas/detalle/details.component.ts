@@ -296,8 +296,8 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
         // Get the contact object
         const grado = this.gradoForm.getRawValue();
         grado.fecha_inicio_acto_academico = new Date(grado.fecha_inicio_acto_academico).toISOString().substring(0,10);
-        if (grado.sustentacion_carpeta) grado.fecha_sustentacion_carpeta = new Date(grado.fecha_sustentacion_carpeta).toISOString().substring(0,10);
-        else grado.sustentacion_carpeta = null;
+        if (grado.fecha_sustentacion_carpeta) grado.fecha_sustentacion_carpeta = new Date(grado.fecha_sustentacion_carpeta).toISOString().substring(0,10);
+        else grado.fecha_sustentacion_carpeta = null;
         grado.fecha_primera_matricula = new Date(grado.fecha_primera_matricula).toISOString().substring(0,10);
         grado.fecha_ultima_matricula = new Date(grado.fecha_ultima_matricula).toISOString().substring(0,10);
         
