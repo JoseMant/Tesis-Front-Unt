@@ -124,20 +124,20 @@ export class AuthSignUpComponent implements OnInit
         );
 
         this.signUpForm = this._formBuilder.group({
-                apellidos       : [{value: '', disabled: true}, Validators.required],
-                nombres         : [{value: '', disabled: true}, Validators.required],
-                celular         : ['', [Validators.maxLength(9),Validators.pattern(/^[0-9]+$/), Validators.required]],
-                correo          : ['', Validators.required],
-                direccion       : ['', Validators.required],
-                nro_documento   : [{value: '', disabled: true}, Validators.required],
-                sexo            : ['', Validators.required],
-                tipo_documento  : ['', Validators.required],
-                username        : [{value: '', disabled: true}, Validators.required],
-                password        : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z\d$@$!%*?&]|[^ ])/), Validators.required]],
-                idTipo_usuario  : ['4', Validators.required],
-                fecha_nacimiento: ['', Validators.required]
-            }
-        );
+            apellido_paterno: [{value: '', disabled: true}, Validators.required],
+            apellido_materno: [{value: '', disabled: true}, Validators.required],
+            nombres         : [{value: '', disabled: true}, Validators.required],
+            celular         : ['', [Validators.maxLength(9),Validators.pattern(/^[0-9]+$/), Validators.required]],
+            correo          : ['', Validators.required],
+            direccion       : ['', Validators.required],
+            nro_documento   : [{value: '', disabled: true}, Validators.required],
+            sexo            : ['', Validators.required],
+            tipo_documento  : ['', Validators.required],
+            username        : [{value: '', disabled: true}, Validators.required],
+            password        : ['', [Validators.minLength(8), Validators.maxLength(15), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z\d$@$!%*?&]|[^ ])/), Validators.required]],
+            idTipo_usuario  : ['4', Validators.required],
+            fecha_nacimiento: ['', Validators.required]
+        });
 
         this.signUpForm.disable();
     }
@@ -220,7 +220,8 @@ export class AuthSignUpComponent implements OnInit
                         tipo_documento  : response.datos_alumno.tipo_documento,
                         nro_matricula   : response.datos_alumno.nro_matricula,
                         nombres         : response.datos_alumno.nombres,
-                        apellidos       : response.datos_alumno.apellidos,
+                        apellido_paterno: response.datos_alumno.apellido_paterno,
+                        apellido_materno: response.datos_alumno.apellido_materno,
                         celular         : response.datos_alumno.celular,
                         correo          : response.datos_alumno.correo,
                         direccion       : response.datos_alumno.direccion,

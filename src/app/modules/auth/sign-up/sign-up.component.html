@@ -140,6 +140,32 @@
                                 </mat-form-field>
                             </div>
 
+                            <!-- Surname -->
+                            <div class="flex">
+                                <mat-form-field class="w-1/2 pr-2">
+                                    <mat-label>Apellido Paterno</mat-label>
+                                    <input
+                                        id="apellido_paterno"
+                                        matInput
+                                        [readonly]="foundDocument"
+                                        [formControlName]="'apellido_paterno'">
+                                    <mat-error *ngIf="signUpForm.get('apellido_paterno').hasError('required')">
+                                        Se requiere apellidos
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="w-1/2 pl-2">
+                                    <mat-label>Apellido Materno</mat-label>
+                                    <input
+                                        id="apellido_materno"
+                                        matInput
+                                        [readonly]="foundDocument"
+                                        [formControlName]="'apellido_materno'">
+                                    <mat-error *ngIf="signUpForm.get('apellido_materno').hasError('required')">
+                                        Se requiere apellidos
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
                             <!-- Name -->
                             <mat-form-field class="w-full">
                                 <mat-label>Nombres</mat-label>
@@ -150,19 +176,6 @@
                                         [formControlName]="'nombres'">
                                 <mat-error *ngIf="signUpForm.get('nombres').hasError('required')">
                                     Se requiere nombre
-                                </mat-error>
-                            </mat-form-field>
-
-                            <!-- Surname -->
-                            <mat-form-field class="w-full">
-                                <mat-label>Apellidos</mat-label>
-                                <input
-                                    id="apellidos"
-                                    matInput
-                                    [readonly]="foundDocument"
-                                    [formControlName]="'apellidos'">
-                                <mat-error *ngIf="signUpForm.get('apellidos').hasError('required')">
-                                    Se requiere apellidos
                                 </mat-error>
                             </mat-form-field>
 
