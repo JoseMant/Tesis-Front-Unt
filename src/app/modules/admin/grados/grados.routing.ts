@@ -458,7 +458,7 @@ export const gradosRoutes: Route[] = [
       canActivate: [NgxPermissionsGuard],
       data: {
           permissions: {
-              only: ['ADMINISTRADOR', 'SECRETARÍA GENERAL'],
+              only: ['ADMINISTRADOR', 'SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL'],
               redirectTo: 'home'
           }
       },
