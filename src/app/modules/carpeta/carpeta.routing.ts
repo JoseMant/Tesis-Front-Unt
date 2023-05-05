@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { CarpetaComponent } from './carpeta.component';
-import { CarpetaResolver } from './carpeta.resolver';
+import { CarpetaComponent } from 'app/modules/carpeta/carpeta.component';
+import { CarpetaResolver } from 'app/modules/carpeta/carpeta.resolver';
 
 export const CarpetaRoutes: Route[] = [
     {

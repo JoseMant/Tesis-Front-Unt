@@ -1,65 +1,87 @@
-<div class="w-full">
-    <div class="grid grid-cols-3 bg-slate-800 ">
-        <div class="col-span-1 grid place-content-center">
-          <img src="assets/images/logo/logocarpeta.png" class="w-30 h-30 m-auto bg-white rounded-full">
+
+    
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
+                <fuse-card class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden items-center filter-info">
+                    <img
+                        class="w-64 rounded-full"
+                        [src]="environment+carpeta.foto"
+                        alt="Imagen">
+                    <div class="text-2xl font-semibold leading-tight text-center mt-8">{{carpeta.nombres}} {{carpeta.apellidos}}</div>
+                    <div class="text-secondary leading-tight text-center mt-1">{{carpeta.nro_documento}} <span class="mx-2">&bull;</span> DNI</div>
+                    <hr class="w-full border-t mt-8 mb-0">
+                    <div class="w-full flex items-center justify-between my-4 px-2">
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold">{{carpeta.sede}}</span>
+                            <span class="text-sm font-medium text-secondary">SEDE</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold">{{carpeta.facultad}}</span>
+                            <span class="text-sm font-medium text-secondary">FACULTAD</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold">{{carpeta.programa}}</span>
+                            <span class="text-sm font-medium text-secondary">PROGRAMA</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="font-bold">{{carpeta.nro_matricula}}</span>
+                            <span class="text-sm font-medium text-secondary">NRO. MATRÍCULA</span>
+                        </div>
+                    </div>
+                    <hr class="w-full border-t mt-0 mb-8">
+                    <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                        <table *ngIf="rows"
+                            class="min-w-240 overflow-y-visible"
+                            mat-table
+                            [dataSource]="rows">
+
+                            <!-- Title -->
+                            <ng-container matColumnDef="title">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef>
+                                    Titles
+                                </th>
+                                <td
+                                    class="font-bold"
+                                    mat-cell
+                                    *matCellDef="let rowContent">
+                                    {{rowContent.title}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Total -->
+                            <ng-container matColumnDef="detail">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef>
+                                    Details
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let rowContent">
+                                    {{rowContent.detail}}
+                                </td>
+                            </ng-container>
+
+                            <!-- <tr
+                                mat-header-row
+                                *matHeaderRowDef="columns"></tr> -->
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: columns;"></tr>
+                        </table>
+                    </div>
+                    <button
+                        class="px-6 mt-4"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [routerLink]="['/home']">
+                        Regresar
+                    </button>
+                </fuse-card>
+                
+            </div>
         </div>
-        <div class="col-span-2 text-center text-3xl md:text-4xl md:text-left font-serif text-white py-10">
-            Universidad Nacional de Trujillo
-            <p class="text-xl font-serif text-white pt-2">Unidad de Registros Academicos</p>
-        </div>
     </div>
-    <div class="pl-5 pt-5" >
-      <button
-              mat-icon-button
-              (click)="home()">
-              <mat-icon [svgIcon]="'heroicons_outline:arrow-left'"></mat-icon>
-      </button>
-      <span class="font-mono font-bold pl-2">Regresar a inicio</span>
-      
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-12 pt-10 px-10">
-      <div class="col-span-1 m-2 md:col-span-1 grid place-content-center lg:place-content-start">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFoCegdTo0veSCjGgm8xi-8jjRSM5yf5g0ItnAtU2qL8JJD2bO9jzJPQsMndi-PtlxCas&usqp=CAU"
-        class="w-auto h-auto m-auto border-2 border-stone-900 rounded-xl" alt="">
-      </div>
-  
-      <div class="col-span-2 sm:mx-2 md:col-span-1 lg:col-span-2">
-        <p class="font-serif font-bold text-lg p-2 mb-2 bg-zinc-300 rounded-xl md:text-xl">Datos personales</p>
-        <tr class="grid font-serif text-right text-sm grid-cols-3 grid-rows-6 md:text-base ">
-            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Nombres y Apellidos</td>
-            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.nombres}} {{datosDiploma.apellidos}} </td>
-  
-            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Documento de Identidad</td>
-            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.nro_documento}} </td>
-  
-            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Sede Campus Universitario</td>
-            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.sede}} </td>
-  
-            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Facultad</td>
-            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.Facultad}} </td>
-  
-            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Escuela Profesional</td>
-            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.escuela}} </td>
-  
-            <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Codigo De Matricula</td>
-            <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.nro_matricula}} </td>
-        </tr>
-      </div>
-  
-      <div class="col-span-2 mb-6 sm:mx-2 md:col-span-2">
-        <p class="text-lg font-serif font-bold p-2 mb-2 bg-zinc-300 rounded-xl md:text-xl">Datos de Diploma</p>
-        <tr class="grid font-serif text-right text-sm grid-cols-3 grid-rows-3 md:text-base ">
-          <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Denominación Diploma</td>
-          <td class="col-span-2 text-left px-3 py-2"> {{datosDiploma.diploma}}</td>
-  
-          <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Código Diploma</td>
-          <td class="col-span-2 text-left px-3 py-2">{{datosDiploma.codigo_certificado}}</td>
-  
-          <td class="col-span-1 p-2 bg-sky-300 mb-2 rounded-lg">Fecha Emitido</td>
-          <td class="col-span-2 text-left px-3 py-2">{{datosDiploma.fecha_colacion}}</td>
-  
-      </tr>
-      </div>
-    </div>
-  
-  </div>

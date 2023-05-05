@@ -1,37 +1,53 @@
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
-import { Observable, of, catchError,throwError } from 'rxjs';
-import { ServicesService } from './carpeta.service';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { catchError, Observable, throwError } from 'rxjs';
+import { CarpetaService } from 'app/modules/carpeta/carpeta.service';
+import { Carpeta } from 'app/modules/carpeta/carpeta.types';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class CarpetaResolver implements Resolve<any> {
-  constructor(private _services:ServicesService, private _router: Router){
+export class CarpetaResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(
+        private _carpetaService: CarpetaService,
+        private _router: Router
+    )
+    {
+    }
 
-  }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-    return this._services.getDatos(route.paramMap.get('id'))
-                   .pipe(
-                       // Error here means the requested madurity_level is not available
-                       catchError((error) => {
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-                           // Log the error
-                           console.error(error);
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Carpeta>
+    {
+        return this._carpetaService.getTramiteById(Number(route.paramMap.get('id')))
+            .pipe(
+                // Error here means the requested carpeta is not available
+                catchError((error) => {
 
-                           // Get the parent url
-                           const parentUrl = state.url.split('/').slice(0, -1).join('/');
+                    // Log the error
+                    console.error(error);
 
-                           // Navigate to there
-                           this._router.navigateByUrl(parentUrl);
+                    // Get the parent url
+                    const parentUrl = state.url.split('/').slice(0, -1).join('/');
 
-                           // Throw an error
-                           return throwError(error);
-                       })
-                   );
-  }
+                    // Navigate to there
+                    this._router.navigateByUrl(parentUrl);
+
+                    // Throw an error
+                    return throwError(error);
+                })
+            );
+    }
 }

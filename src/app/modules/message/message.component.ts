@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 
 @Component({
-    selector     : 'auth-confirmation-required',
+    selector     : 'message',
     templateUrl  : './message.component.html',
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations

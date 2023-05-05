@@ -1,29 +1,50 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-@Injectable({
-  providedIn: 'root'
-})
-export class ServicesService {
-  private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
-  constructor(private _httpClient: HttpClient) { }
+import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
+import { Carpeta } from 'app/modules/carpeta/carpeta.types';
+import { environment } from 'environments/environment';
 
-  get diplomas$(): Observable<any>
+@Injectable({
+    providedIn: 'root'
+})
+export class CarpetaService
+{
+    // Private
+    private _carpeta: BehaviorSubject<Carpeta | null> = new BehaviorSubject(null);
+    
+    /**
+     * Constructor
+     */
+    constructor(private _httpClient: HttpClient)
     {
-        return this._diplomas.asObservable();
     }
 
-  getDatos(id:string): Observable<any>{
-    // console.log(environment.baseUrl+'carpeta/'+id)
-    return this._httpClient.get(environment.baseUrl+'carpeta/'+id).pipe(
-      tap((response) => {
-          this._diplomas.next(response);
-      })
-  );;
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
 
-    // return this._httpClient.get(environment.baseUrl+'carpeta/'+id);
-  }
+    /**
+     * Getter for carpeta
+     */
+    get carpeta$(): Observable<Carpeta>
+    {
+        return this._carpeta.asObservable();
+    }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * Get carpeta by id
+     */
+    getTramiteById(id: number): Observable<Carpeta>
+    {
+        return this._httpClient.get<Carpeta>(environment.baseUrl + 'carpeta/' + id).pipe(
+            tap((response) => {
+                this._carpeta.next(response);
+            })
+        );
+    }
+    
 }
