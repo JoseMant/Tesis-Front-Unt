@@ -148,10 +148,19 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    if (this._paginator)
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'created_at',
+                                start       : 'desc',
+                                disableClear: true
+                            });
+                        }
                         return this._homeService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
                     else
-                        return this._homeService.getTramites(0, 10, this._sort.active, this._sort.direction, query);
+                        return this._homeService.getTramites(0, 10, 'created_at', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -173,6 +182,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                 start       : 'desc',
                 disableClear: true
             });
+            console.log(this._sort);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
