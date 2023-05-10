@@ -33,7 +33,7 @@ import { User } from 'app/core/user/user.types';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 112px 190px 190px 72px;
+                    grid-template-columns: 48px 112px 190px 250px 96px 200px 112px 190px 160px 50px;
                 }
             }
             .fondo_snackbar {
@@ -146,7 +146,7 @@ export class CertificadosReasignadosListComponent implements OnInit, AfterViewIn
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosReasignados(0, 10, 'fecha', 'desc', query);
+                    return this._certificadosService.getCertificadosReasignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -194,7 +194,12 @@ export class CertificadosReasignadosListComponent implements OnInit, AfterViewIn
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosReasignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    // return this._certificadosService.getCertificadosReasignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    if(this.searchInputControl.value ){
+                        return this._certificadosService.getCertificadosReasignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    }else{
+                        return this._certificadosService.getCertificadosReasignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    }
                 }),
                 map(() => {
                     this.isLoading = false;

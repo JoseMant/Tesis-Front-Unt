@@ -150,7 +150,7 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAprobados(0, 10, 'fecha', 'desc', query);
+                    return this._certificadosService.getCertificadosAprobados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -198,7 +198,12 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    // return this._certificadosService.getCertificadosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    if(this.searchInputControl.value ){
+                        return this._certificadosService.getCertificadosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    }else{
+                        return this._certificadosService.getCertificadosAprobados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    }
                 }),
                 map(() => {
                     this.isLoading = false;

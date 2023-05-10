@@ -137,7 +137,7 @@ export class CertificadosService
     }
 
 
-    getCertificadosFirmaURAA(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosFirmaURAA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/firma_uraa', {
@@ -156,7 +156,7 @@ export class CertificadosService
       );
     }
 
-    getCertificadosFirmaDecano(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosFirmaDecano(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/firma_decano', {
@@ -196,7 +196,7 @@ export class CertificadosService
     }
 
 
-    getCertificadosReasignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosReasignados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/reasignados', {
@@ -216,7 +216,7 @@ export class CertificadosService
       );
     }
 
-    getCertificadosFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosFinalizados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/finalizados', {
