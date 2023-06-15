@@ -16,6 +16,7 @@ export interface TramiteInterface
     idDependencia: number;
     dependencia?: string;
     idSubdependencia: number;
+    programa?: string;
     comentario?: string;
     idMotivo_certificado?: number;
     apellidos: string;
@@ -39,4 +40,8 @@ export interface TramiteInterface
     archivoPdf?: any;
     archivoExonerado?: any;
     exonerado: boolean
+    exonerado_archivo?: string;
+    costo_exonerado?: number;
+    comentario_voucher?: string;
+    fut?: string;
 }

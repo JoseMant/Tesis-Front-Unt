@@ -28,15 +28,12 @@
 
                         <!-- Dependencia -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary" *ngIf="tramite.idUnidad === 1"><b>Facultad:</b> {{tramite.facultad}}</div>
-                            <div class="text-secondary" *ngIf="tramite.idUnidad === 4"><b>Especialidad:</b> {{tramite.facultad}}</div>
+                            <div class="text-secondary"><b>Dependencia:</b> {{tramite.dependencia}}</div>
                         </div>
 
-                        <!-- Sub dependencia -->
+                        <!-- Programa -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary" *ngIf="tramite.idUnidad === 1"><b>Escuela:</b> {{tramite.escuela}}</div>
-                            <div class="text-secondary" *ngIf="tramite.idUnidad === 4"><b>Mención:</b> {{tramite.escuela}}</div>
-                            <!-- <div class="text-secondary"><b>Escuela:</b> {{tramite.escuela}}</div> -->
+                            <div class="text-secondary"><b>Programa:</b> {{tramite.programa}}</div>
                         </div>
 
                         <!-- Sede -->
@@ -54,72 +51,223 @@
                             <div class="text-secondary" *ngIf="tramite.comentario_tramite"><b>Comentarios:</b> {{tramite.comentario_tramite}}</div>
                         </div>
 
+                        <!-- FUT -->
+                        <div class="sm:col-span-2">
+                            <div class="text-secondary">
+                                <b>Formato Único de Trámite (FUT):</b>
+                                <a
+                                    mat-button
+                                    class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-amber-600 hover:bg-amber-500 text-white ml-6"
+                                    cmat-button
+                                    [href]="tramite.fut"
+                                    [target]="'_blank'">
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        style="color: white;"
+                                        [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    <span class="hidden sm:block ml-2">DESCARGAR</span>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Divider -->
                     <div class="my-10 border-t"></div>
 
                     <!-- Section -->
-                    <div class="w-full">
-                        <div class="text-xl">Datos del pago</div>
-                    </div>
-                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                        <!-- Tipo de trámite -->
-                        <div class="sm:col-span-1">
-                            <div class="text-secondary"><b>Entidad:</b> {{tramite.entidad}}</div>
-                        </div>
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">Datos del Pago</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid sm:grid-cols-4 gap-6 w-full mb-4 ml-2 pt-2" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'">
+                                <!-- Tipo de trámite -->
+                                <div class="sm:col-span-1">
+                                    <div class="text-secondary"><b>Entidad:</b> {{tramite.entidad}}</div>
+                                </div>
 
-                        <!-- Trámite -->
-                        <div class="sm:col-span-1">
-                            <div class="text-secondary"><b>N° operación:</b> {{tramite.nro_operacion}}</div>
-                        </div>
+                                <!-- Trámite -->
+                                <div class="sm:col-span-1">
+                                    <div class="text-secondary"><b>N° operación:</b> {{tramite.nro_operacion}}</div>
+                                </div>
 
-                        <!-- Unidad -->
-                        <div class="sm:col-span-1">
-                            <div class="text-secondary"><b>Fecha operación:</b> {{tramite.fecha_operacion}}</div>
-                        </div>
+                                <!-- Unidad -->
+                                <div class="sm:col-span-1">
+                                    <div class="text-secondary"><b>Fecha operación:</b> {{tramite.fecha_operacion | date:'longDate' }}</div>
+                                </div>
 
-                        <!-- Voucher -->
-                        <div class="sm:col-span-3">
-                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
-                            <div class="text-secondary" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
-                                <b>Comprobante de pago:</b> <span style="color: rgb(223, 14, 14)"> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}</span>
+                                <!-- Voucher -->
+                                <div class="sm:col-span-3">
+                                    <div class="text-secondary"><b>Comprobante de pago:</b> {{tramite.des_estado_voucher}}</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="sm:col-span-1" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
-                            <button
-                                matTooltip="Agregar documento"
-                                (click)="fileInput.click()">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3 ml-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:upload'"></mat-icon>
-                            </button>
-                            <input #fileInput type="file" accept=".pdf" hidden (change)="selectNewVoucher($event)"/>
-                            <a
-                                *ngIf="!tramiteForm.getRawValue().archivoPdf"
-                                target="_blank"
-                                matTooltip="Ver documento"
-                                [href]="tramite.voucher">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3 ml-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                            </a>
-                            <button *ngIf="tramiteForm.getRawValue().archivoPdf"
-                                matTooltip="Ver documento"
-                                (click)="verDocumento()">
-                                <mat-icon
-                                    class="h-6 w-6 mr-3 ml-3"
-                                    style="color: rgb(6, 11, 88)"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                            </button>
-                        </div>
-
-                    </div>
-
+                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'" [formGroup]="tramiteForm">
+                                <!-- Entidad -->
+                                <mat-form-field
+                                    *ngIf="!tramite.exonerado_archivo || (tramite.exonerado_archivo && tramite.costo_exonerado > 0)"
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>BANCOS</mat-label>
+                                    <mat-select
+                                        [formControlName]="'entidad'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar banco...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let bank of bancos">
+                                            <mat-option [value]="bank.ban_nombre">
+                                            {{bank.ban_nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                
+                                <!-- Fecha operación -->
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label *ngIf="!tramite.exonerado_archivo || (tramite.exonerado_archivo && tramite.costo_exonerado > 0)">FECHA DE OPERACION</mat-label>
+                                    <mat-label *ngIf="tramite.exonerado_archivo && tramite.costo_exonerado == 0">FECHA DE LA RESOLUCIÓN DE EXONERACIÓN</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="birthday"
+                                        [formControlName]="'fecha_operacion'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="birthday">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #birthday></mat-datepicker>
+                                </mat-form-field>
+                                
+                                <!-- N° operación -->
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label *ngIf="!tramite.exonerado_archivo || (tramite.exonerado_archivo && tramite.costo_exonerado > 0)">NUMERO DE OPERACION</mat-label>
+                                    <mat-label *ngIf="tramite.exonerado_archivo && tramite.costo_exonerado == 0">NUMERO DE RESOLUCIÓN DE EXONERACIÓN</mat-label>
+                                    <input
+                                            type="text"
+                                            matInput
+                                            [formControlName]="'nro_operacion'"
+                                        />
+                                </mat-form-field>
+                            </div>
+                            <!-- Voucher -->
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="tramite.des_estado_voucher === 'RECHAZADO' && !tramite.exonerado_archivo">
+                                <div class="nombre col-span-4 ml-3">
+                                    COMPROBANTE DE PAGO
+                                </div>
+                                <div class="flex flex-row items-center justify-start col-span-2">
+                                    <button
+                                        matTooltip="Agregar documento"
+                                        (click)="fileInput.click()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                    </button>
+                                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectNewVoucher($event)"/>
+                                    <a
+                                        *ngIf="!tramiteForm.getRawValue().archivoPdf"
+                                        target="_blank"
+                                        matTooltip="Ver documento"
+                                        [href]="tramite.voucher">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </a>
+                                    <button *ngIf="tramiteForm.getRawValue().archivoPdf"
+                                        matTooltip="Ver documento"
+                                        (click)="verDocumento()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="tramite.des_estado_voucher === 'RECHAZADO' && tramite.exonerado_archivo && tramite.costo_exonerado > 0">
+                                <div class="nombre col-span-4 ml-3">
+                                    COMPROBANTE DE PAGO {{tramite.costo_exonerado}} SOLES
+                                </div>
+                                <div class="flex flex-row items-center justify-start col-span-2">
+                                    <button
+                                        matTooltip="Agregar documento"
+                                        (click)="fileInput.click()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                    </button>
+                                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectNewVoucher($event)"/>
+                                    <a
+                                        *ngIf="!tramiteForm.getRawValue().archivoPdf"
+                                        target="_blank"
+                                        matTooltip="Ver documento"
+                                        [href]="tramite.voucher">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </a>
+                                    <button *ngIf="tramiteForm.getRawValue().archivoPdf"
+                                        matTooltip="Ver documento"
+                                        (click)="verDocumento()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="tramite.des_estado_voucher === 'RECHAZADO' && tramite.exonerado_archivo">
+                                <div class="nombre col-span-4 ml-3">
+                                    RESOLUCIÓN DE EXONERACIÓN
+                                </div>
+                                <div class="flex flex-row items-center justify-start col-span-2">
+                                    <button
+                                        matTooltip="Agregar documento"
+                                        (click)="fileInput.click()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                    </button>
+                                    <input #fileInput type="file" accept=".pdf" hidden (change)="selectNewExoneracion($event)"/>
+                                    <a
+                                        *ngIf="!tramiteForm.getRawValue().archivoExonerado"
+                                        target="_blank"
+                                        matTooltip="Ver documento"
+                                        [href]="tramite.exonerado_archivo">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </a>
+                                    <button *ngIf="tramiteForm.getRawValue().archivoExonerado"
+                                        matTooltip="Ver documento"
+                                        (click)="verDocumentoExoneracion()">
+                                        <mat-icon
+                                            class="h-6 w-6 mr-3 ml-3"
+                                            style="color: rgb(6, 11, 88)"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="tramite.des_estado_voucher === 'RECHAZADO'">
+                                <div class="nombre col-span-4 ml-3">
+                                    <span style="color: rgb(223, 14, 14)"> {{tramite.des_estado_voucher}} - {{tramite.comentario_voucher}}</span>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
                     <!-- Divider -->
-                    <div *ngIf="requisitosCount>0" class="my-10 border-t"></div>
+                    <!-- <div *ngIf="requisitosCount>0" class="my-10 border-t"></div> -->
 
                     <!-- Section -->
                     <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;" *ngIf="requisitosCount>0">
@@ -202,7 +350,7 @@
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="!tramiteForm.getRawValue().archivoPdf || tramiteForm.disabled"
+                    [disabled]="!newVoucher || tramiteForm.disabled || tramiteForm.invalid"
                     (click)="updateTramite()">
                     <span *ngIf="!tramiteForm.disabled">
                         Actualizar Voucher

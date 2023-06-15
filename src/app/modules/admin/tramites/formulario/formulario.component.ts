@@ -197,7 +197,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((bancos: any) => {
                 this.bancos = bancos;
-                console.log(bancos);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -208,7 +207,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: any) => {
                 this.unidades = unidades;
-                console.log(unidades);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -219,7 +217,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((tipoTramites: any) => {
                 this.tipoTramites = tipoTramites;
-                console.log(tipoTramites);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -240,15 +237,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
         .subscribe((user: any) => {
             this.user = user;
             
-            if (this.user.tipo_documento === '1') {
-                this.user['documento'] = 'DNI';
-            }
-            if (this.user.tipo_documento === '2') {
-                this.user['documento'] = 'PASAPORTE';
-            }
-            if (this.user.tipo_documento === '3') {
-                this.user['documento'] = 'CARNET DE EXTRANJERIA';
-            }
             if (this.user.sexo === 'M') {
                 this.user['sexoNombre'] = 'MASCULINO';
             }
@@ -273,7 +261,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     fileSizeValidator(file: any) {
-        console.log(file);
         if (file) {
             // var path = file.replace(/^.*[\\\/]/, "");
             const fileSize = file.size;
@@ -334,61 +321,48 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     selectedTipoTramite(id: number): void {
-      this.tramiteForm.patchValue({idTipo_tramite: id,idUnidad: 0});
-      this.data.idTipo_tramite = id;
-      this.data.idUnidad = 0;
+        this.tramiteForm.patchValue({idTipo_tramite: id,idTipo_tramite_unidad: 0});
+        this.data.idTipo_tramite = id;
+        this.data.idTipo_tramite_unidad = 0;
+        
+        if(this.data.idUnidad) {
+            this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
+                this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
+                this._changeDetectorRef.markForCheck();
+            });
+        }
     }
 
     selectedUnidad(id): void{
-        this.tramiteForm.patchValue({idUnidad: id, idTipo_tramite_unidad: 0, archivo: '', sede: '', nro_matricula: ''});
+        this.tramiteForm.patchValue({
+            idUnidad: id,
+            idDependencia: 0,
+            idSubdependencia: 0,
+            idTipo_tramite_unidad: 0, 
+            archivo: '', 
+            sede: '', 
+            codigo: ''
+        });
         this.data.idUnidad = id;
+        this.data.idDependencia = 0;
+        this.data.idSubdependencia = 0;
         this.data.idTipo_tramite_unidad = 0;
         this.data.archivoPdf = null;
+        
         this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
-            // this.requisitos = resp.requisitos;
-            // this.data.requisitos = resp.requisitos;
             this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
-            // this.tramiteForm.patchValue({requisitos: resp.requisitos});
             this._changeDetectorRef.markForCheck();
         });
 
         this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
             if (resp.dependencias.length) {
-                // console.log(resp);
                 this.dependencias = resp.dependencias;
                 const dependencia = this.dependencias[0];
-                // console.log(dependencia);
-                this.data.idDependencia = dependencia.idDependencia;
                 if (dependencia) {
-                    const subdependencia = dependencia.subdependencias[0];
-                    // console.log(subdependencia);
-                    switch (subdependencia.idUnidad) {
-                        case 1:
-                            this.data.idSubdependencia = subdependencia.idEscuela;
-                            break;
-                        case 4:
-                            this.data.idSubdependencia = subdependencia.idMencion;
-                            break;
-                    }
-                    this.data.codigo = subdependencia.nro_matricula;
-                    this.data.sede = subdependencia.sede;
-                    switch (subdependencia.idUnidad) {
-                        case 1:
-                            this.tramiteForm.patchValue({idSubdependencia: subdependencia.idEscuela, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
-                            break;
-                        case 4:
-                            this.tramiteForm.patchValue({idSubdependencia: subdependencia.idMencion, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
-                            break;
-                    }
-                }
-                // console.log(this.dependencias);
-                // console.log(this.data);
-                this.tramiteForm.patchValue({idDependencia: dependencia.idDependencia});
-                let first = this.dependencias.find(item => item.idDependencia === this.data.idDependencia);
-                // console.log(first);
-                if (first) {
-                    this.subdependencias = first.subdependencias;
-                    console.log(this.subdependencias);
+                    this.data.idDependencia = dependencia.idDependencia;
+                    this.tramiteForm.patchValue({idDependencia: dependencia.idDependencia});
+                    this.subdependencias = dependencia.subdependencias;
+                    this.selectedEscuela(dependencia.subdependencias[0].idPrograma);
                 }
             }else{
                 this.dependencias = null;
@@ -422,32 +396,22 @@ export class TramiteListComponent implements OnInit, OnDestroy
         if (first) {
             const subdependencia = first.subdependencias[0];
             if (subdependencia) {
-                switch (subdependencia.idUnidad) {
-                    case 1:
-                        this.data.idSubdependencia = subdependencia.idEscuela;
-                        break;
-                    case 4:
-                        this.data.idSubdependencia = subdependencia.idMencion;
-                        break;
-                }
+                this.data.idSubdependencia = subdependencia.idPrograma;
                 this.data.codigo = subdependencia.nro_matricula;
                 this.data.sede = subdependencia.sede;
-                switch (subdependencia.idUnidad) {
-                    case 1:
-                        this.tramiteForm.patchValue({idSubdependencia: subdependencia.idEscuela, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
-                        break;
-                    case 4:
-                        this.tramiteForm.patchValue({idSubdependencia: subdependencia.idMencion, codigo: subdependencia.nro_matricula, sede: subdependencia.sede});
-                        break;
-                }
+                this.tramiteForm.patchValue({
+                    idSubdependencia: subdependencia.idPrograma, 
+                    codigo: subdependencia.nro_matricula, 
+                    sede: subdependencia.sede
+                });
             }
             this.subdependencias = first.subdependencias;
         }
     }
 
     selectedEscuela(id): void {
-        // console.log(id);
-        const escuela = this.subdependencias.find(escuela => escuela.idEscuela == id);
+        console.log(this.subdependencias);
+        const escuela = this.subdependencias.find(escuela => escuela.idPrograma == id);
         this.data.idSubdependencia = id;
         this.data.codigo = escuela.nro_matricula;
         this.data.sede = escuela.sede;
@@ -639,7 +603,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         formData.append('idTipo_tramite_unidad', this.tramiteForm.getRawValue().idTipo_tramite_unidad);
         formData.append('idUnidad', this.tramiteForm.getRawValue().idUnidad);
         formData.append('idDependencia', this.tramiteForm.getRawValue().idDependencia);
-        formData.append('idDependencia_detalle', this.tramiteForm.getRawValue().idSubdependencia);
+        formData.append('idPrograma', this.tramiteForm.getRawValue().idSubdependencia);
         formData.append('nro_matricula', this.tramiteForm.getRawValue().codigo);
         formData.append('sede', this.tramiteForm.getRawValue().sede);
         formData.append('archivo_firma', this.tramiteForm.getRawValue().archivoImagen);

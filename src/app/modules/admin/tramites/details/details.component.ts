@@ -16,10 +16,10 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
 import moment from 'moment';
 import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
+import { VisorExoneradoComponent } from '../visorExonerado/visorExonerado.component';
 
 @Component({
     selector       : 'tramite-details',
@@ -197,7 +197,6 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     escuelas: any;
     selectedGap: boolean;
     maxDate: any;
-    costo: any;
     motivos: any;
     newVoucher: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -254,9 +253,9 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             descripcion_estado: [''],
             codigo: [''],
             entidad: ['', Validators.required],
-            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
+            nro_operacion: ['', Validators.required],
             fecha_operacion: ['', Validators.required],
-            archivoPdf: [''],
+            archivoPdf: [null],
             voucher: [''],
             idMotivo_certificado: [0],
             comentario: [''],
@@ -272,7 +271,8 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             archivoImagen: [''],
             requisitos: [[]],
             idUsuario: [0],
-            des_estado_voucher: ['']
+            des_estado_voucher: [''],
+            archivoExonerado: [null]
         });
 
         // Get the tramites
@@ -281,6 +281,16 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             .subscribe((tramites: TramiteInterface[]) => {
                 this.tramites = tramites;
                 console.log(tramites);
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the banks
+        this._tramiteService.bancos$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((bancos: any) => {
+                this.bancos = bancos;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -295,8 +305,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 this.tramite = tramite;
                 this.requisitos = tramite.requisitos;
                 this.requisitosCount=tramite.requisitos.length;
-                console.log(this.tramite);
-
+                
                 // Patch values to the form
                 // this.createFormulario(this.tramite);
                 
@@ -334,6 +343,10 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this.tramiteForm.valueChanges.subscribe(
+            () => {this.newVoucher = true;}
+        );
     }
 
     /**
@@ -351,6 +364,11 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
 
     selectNewVoucher(event): void {
         this.tramiteForm.patchValue({archivoPdf: event.target.files[0]});
+        this.newVoucher = true;
+    }
+
+    selectNewExoneracion(event): void {
+        this.tramiteForm.patchValue({archivoExonerado: event.target.files[0]});
         this.newVoucher = true;
     }
 
@@ -418,7 +436,6 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     verDocumento(): void {
-        console.log(this.tramiteForm.getRawValue());
         const respDial = this.visordialog.open(
             VisorPdfComponent,
             {
@@ -430,10 +447,32 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         );
     }
 
+    verDocumentoExoneracion(): void {
+        const respDial = this.visordialog.open(
+            VisorExoneradoComponent,
+            {
+                data: this.tramiteForm.getRawValue(),
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
+    }
+
     updateTramite(): void{
+        // If the confirm button pressed...
+        if (this.tramiteForm.invalid) {
+            this.tramiteForm.markAllAsTouched();
+            return;
+        }
+
         const formData = new FormData();
         formData.append('idTramite', this.tramiteForm.getRawValue().idTramite);
-        formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
+        formData.append('entidad', this.tramiteForm.getRawValue().entidad);
+        formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);
+        formData.append('fecha_operacion', (new Date(this.tramiteForm.getRawValue().fecha_operacion)).toISOString().substring(0,10));
+        formData.append('archivo_voucher', this.tramiteForm.getRawValue().archivoPdf);
+        formData.append('archivo_exonerado', this.tramiteForm.getRawValue().archivoExonerado);
         this.tramiteForm.disable();
     
         this._tramiteService.updateVoucher(this.tramiteForm.getRawValue().idTramite,formData).subscribe((updatedTramite) => {
@@ -453,14 +492,14 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         },
-        (error) => {
+        (response) => {
     
             // Re-enable the form
             this.tramiteForm.enable();
     
             this.alert = {
                 type   : 'warn',
-                message: 'Error al actualizar voucher',
+                message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();

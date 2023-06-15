@@ -301,7 +301,6 @@ export class TramiteService
     {
        return this._httpClient.get<TramiteInterface[]>(environment.baseUrl + 'tramite/usuario/all').pipe(
             tap((tramites) => {
-                console.log(tramites);
                 this._tramites.next(tramites);
             })
         );
@@ -319,10 +318,14 @@ export class TramiteService
 
                 // Find the tramite
                 const tramite = tramites.find(item => item.idTramite === id) || null;
-                tramite.voucher = environment.baseUrlStorage + tramite.voucher;
-                tramite.requisitos.forEach(element => {
-                    element.archivo = environment.baseUrlStorage + element.archivo;
-                });
+                tramite.fut = environment.baseUrl + tramite.fut;
+                if (tramite.voucher) tramite.voucher = environment.baseUrlStorage + tramite.voucher;
+                if (tramite.exonerado_archivo) tramite.exonerado_archivo = environment.baseUrlStorage + tramite.exonerado_archivo;
+                if (tramite.requisitos) {
+                    tramite.requisitos.forEach(element => {
+                        if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
+                    });
+                }
 
                 // Update the tramite
                 this._tramite.next(tramite);
