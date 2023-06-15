@@ -10,7 +10,7 @@ import { GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { GradoSecretariaValidadoDialogComponent } from 'app/modules/admin/grados/secretaria/validados/dialog/dialog.component';
+import { CarpetaSecretariaValidadosDialogComponent } from 'app/modules/admin/grados/secretaria/validados/dialog/dialog.component';
 import moment from 'moment';
 
 @Component({
@@ -77,7 +77,7 @@ import moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestroy
+export class CarpetasSecretariaValidadosDetalleComponent implements OnInit, OnDestroy
 {
     @ViewChild('gradoNgForm') gradoNgForm: NgForm;
     @ViewChild('corregirNgForm') corregirNgForm: NgForm;
@@ -197,7 +197,7 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
                 console.log(this.gradoForm.getRawValue());
                 this.calcularTiempo();
 
-                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idDependencia_detalle)
+                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;
@@ -259,7 +259,7 @@ export class GradoSecretariaValidadoDetalleComponent implements OnInit, OnDestro
     modalNotification(): void {
         // console.log(this.gradoForm.getRawValue());
         const respDial = this.visordialog.open(
-            GradoSecretariaValidadoDialogComponent,
+            CarpetaSecretariaValidadosDialogComponent,
             {
                 data: this.gradoForm.getRawValue(),
                 disableClose: true,

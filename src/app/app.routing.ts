@@ -89,6 +89,7 @@ export const appRoutes: Route[] = [
             {path: 'grados', loadChildren: () => import('app/modules/admin/grados/grados.module').then(m => m.GradosModule)},
             {path: 'titulos', loadChildren: () => import('app/modules/admin/titulos/titulos.module').then(m => m.TitulosModule)},
             {path: 'titulos_SE', loadChildren: () => import('app/modules/admin/titulos_SE/titulos_SE.module').then(m => m.TitulosModule)},
+            {path: 'carpetas', loadChildren: () => import('app/modules/admin/carpetas/carpetas.module').then(m => m.CarpetasModule)},
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
             {path: 'reportes', loadChildren: () => import('app/modules/admin/reportes/reportes.module').then(m => m.ReporteModule)},

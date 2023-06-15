@@ -173,6 +173,7 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
             nro_creditos_carpeta: ['', Validators.required],
+            originalidad: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
@@ -192,17 +193,16 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
 
                 // Get the titulo
                 this.titulo = titulo;
-
+                console.log(titulo);
                 // Patch values to the form
                 this.tituloForm.patchValue(titulo);
                 this.calcularTiempo();
 
-                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idDependencia_detalle)
+                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
+                        // 
                         this.diplomas = diplomas;
-                        
-                        // this.tituloForm.patchValue({idDiploma_carpeta: diplomas[0]});
             
                         // Mark for check
                         this._changeDetectorRef.markForCheck();

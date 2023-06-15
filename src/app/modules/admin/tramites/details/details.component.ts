@@ -2,7 +2,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -262,7 +261,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             solicitante: [''],
             celular: [''],
             correo: [''],
-            idDependencia_detalle: [''],
+            idPrograma: [''],
             sede: [''],
             nro_matricula: [''],
             tipo_documento: [''],

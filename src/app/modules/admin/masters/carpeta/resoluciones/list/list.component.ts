@@ -24,7 +24,7 @@ export class ResolucionesListComponent implements OnInit, OnDestroy
     resolucionesTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     roles: Role[];
     drawerMode: 'side' | 'over';
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedResolucion: Resolucion;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

@@ -197,7 +197,7 @@ export class GradoEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
                 this.gradoForm.patchValue(grado);
                 this.calcularTiempo();
 
-                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idDependencia_detalle)
+                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;

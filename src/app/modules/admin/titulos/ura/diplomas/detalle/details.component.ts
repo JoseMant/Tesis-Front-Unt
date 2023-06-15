@@ -173,6 +173,7 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
             url_trabajo_carpeta: [''],
             nro_creditos_carpeta: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
+            originalidad: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
             idDiploma_carpeta: ['', Validators.required],
@@ -197,7 +198,7 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
                 console.log(this.tituloForm.getRawValue());
                 this.calcularTiempo();
 
-                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idDependencia_detalle)
+                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;

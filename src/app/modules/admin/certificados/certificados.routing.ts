@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { CertificadosAsignadosComponent } from 'app/modules/admin/certificados/asignados/asignados.component';
 import { CertificadosAsignadosListComponent } from 'app/modules/admin/certificados/asignados/list/list.component';
-import { CertificadoAsignadoResolver, CertificadosAsignadosResolver } from 'app/modules/admin/certificados/asignados/asignados.resolvers';
+import { CertificadoAsignadoResolver, CertificadosAsignadosResolver, DependenciasResolver } from 'app/modules/admin/certificados/asignados/asignados.resolvers';
 import { CertificadoAsignadoDetalleComponent } from './asignados/detalle/details.component';
 // ------------
 import { CertificadosAprobadosComponent } from 'app/modules/admin/certificados/aprobados/aprobados.component';
@@ -83,6 +83,7 @@ export const certificadosRoutes: Route[] = [
         },
         resolve  : {
             certificados  : CertificadosAsignadosResolver,
+            dependencias  : DependenciasResolver
         },
         children : [
             {

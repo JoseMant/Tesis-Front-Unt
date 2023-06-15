@@ -136,31 +136,3 @@ export class ProgramasEstudiosResolver implements Resolve<any>
         return this._titulosService.getProgramasEstudios();
     }
 }
-
-// @Injectable({
-//     providedIn: 'root'
-// })
-// export class DiplomasResolver implements Resolve<any>
-// {
-//     /**
-//      * Constructor
-//      */
-//     constructor(private _titulosService: TitulosService)
-//     {
-//     }
-
-//     // -----------------------------------------------------------------------------------------------------
-//     // @ Public methods
-//     // -----------------------------------------------------------------------------------------------------
-
-//     /**
-//      * Resolver
-//      *
-//      * @param route
-//      * @param state
-//      */
-//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: TituloPagination; data: TituloInterface[] }>
-//     {
-//         return this._titulosService.getDiplomasByTipoTramiteUnidad();
-//     }
-// }

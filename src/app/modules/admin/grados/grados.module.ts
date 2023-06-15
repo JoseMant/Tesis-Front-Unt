@@ -70,33 +70,9 @@ import { GradosURADiplomasComponent } from 'app/modules/admin/grados/ura/diploma
 import { GradosURADiplomasListComponent } from 'app/modules/admin/grados/ura/diplomas/list/list.component';
 import { GradoURADiplomaDetalleComponent } from 'app/modules/admin/grados/ura/diplomas/detalle/details.component';
 
-import { GradosSecretariaValidadosComponent } from 'app/modules/admin/grados/secretaria/validados/validados.component';
-import { GradosSecretariaValidadosListComponent } from 'app/modules/admin/grados/secretaria/validados/list/list.component';
-import { GradoSecretariaValidadoDetalleComponent } from 'app/modules/admin/grados/secretaria/validados/details/details.component';
-import { GradoSecretariaValidadoDialogComponent } from 'app/modules/admin/grados/secretaria/validados/dialog/dialog.component';
-
-import { GradosFirmaDecanoComponent } from 'app/modules/admin/grados/facultad/firma_decano/firma_decano.component';
-import { GradosFirmaDecanoListComponent } from 'app/modules/admin/grados/facultad/firma_decano/list/list.component';
-import { GradoFirmaDecanoDetalleComponent } from './facultad/firma_decano/detalle/details.component';
-
-import { GradosFirmaSecretariaComponent } from 'app/modules/admin/grados/secretaria/firma_secretaria/firma_secretaria.component';
-import { GradosFirmaSecretariaListComponent } from 'app/modules/admin/grados/secretaria/firma_secretaria/list/list.component';
-import { GradoFirmaSecretariaDetalleComponent } from './secretaria/firma_secretaria/detalle/details.component';
-
-import { GradosFirmaRectorComponent } from 'app/modules/admin/grados/rector/firma_rector/firma_rector.component';
-import { GradosFirmaRectorListComponent } from 'app/modules/admin/grados/rector/firma_rector/list/list.component';
-import { GradoFirmaRectorDetalleComponent } from './rector/firma_rector/detalle/details.component';
-
-import { GradosURAPendientesComponent } from 'app/modules/admin/grados/ura/pendientes/pendientes.component';
-import { GradosURAPendientesListComponent } from 'app/modules/admin/grados/ura/pendientes/list/list.component';
-import { GradoURAPendienteDialogComponent } from 'app/modules/admin/grados/ura/pendientes/dialog/dialog.component';
-
 import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
 import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
 
-import { GradosSecretariaObservadosComponent } from 'app/modules/admin/grados/secretaria/observados/observados.component';
-import { GradosSecretariaObservadosListComponent } from 'app/modules/admin/grados/secretaria/observados/list/list.component';
-import { GradoSecretariaObservadoDetalleComponent } from 'app/modules/admin/grados/secretaria/observados/details/details.component';
 
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
@@ -139,10 +115,6 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosFacultadDiplomasListComponent,
         GradoFacultadDiplomaDetalleComponent,
 
-        GradosFirmaDecanoComponent,
-        GradosFirmaDecanoListComponent,
-        GradoFirmaDecanoDetalleComponent,
-
         //URA
         GradosURAValidacionesComponent,
         GradosURAValidacionesListComponent,
@@ -152,30 +124,8 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosURADiplomasListComponent,
         GradoURADiplomaDetalleComponent,
 
-        // SECRETARIA GENERAL
-        GradosSecretariaValidadosComponent,
-        GradosSecretariaValidadosListComponent,
-        GradoSecretariaValidadoDetalleComponent,
-        GradoSecretariaValidadoDialogComponent,
-
-        GradosFirmaSecretariaComponent,
-        GradosFirmaSecretariaListComponent,
-        GradoFirmaSecretariaDetalleComponent,
-
-        GradosFirmaRectorComponent,
-        GradosFirmaRectorListComponent,
-        GradoFirmaRectorDetalleComponent,
-
-        GradosURAPendientesComponent,
-        GradosURAPendientesListComponent,        
-        GradoURAPendienteDialogComponent,
-
         GradosFinalizadosComponent,
         GradosFinalizadosListComponent,
-
-        GradosSecretariaObservadosComponent,
-        GradosSecretariaObservadosListComponent,
-        GradoSecretariaObservadoDetalleComponent
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

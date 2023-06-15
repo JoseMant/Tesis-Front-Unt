@@ -61,7 +61,7 @@ export class GradosURADiplomasListComponent implements OnInit, AfterViewInit, On
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: GradoPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedGrado: GradoInterface | null = null;
     selectedGradoForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -148,7 +148,19 @@ export class GradosURADiplomasListComponent implements OnInit, AfterViewInit, On
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosDiplomasURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'dependencia',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._gradosService.getGradosDiplomasURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._gradosService.getGradosDiplomasURA(0, 100, 'dependencia', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -196,11 +208,8 @@ export class GradosURADiplomasListComponent implements OnInit, AfterViewInit, On
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    if(this.searchInputControl.value ){
-                        return this._gradosService.getGradosDiplomasURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._gradosService.getGradosDiplomasURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._gradosService.getGradosDiplomasURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    
                 }),
                 map(() => {
                     this.isLoading = false;

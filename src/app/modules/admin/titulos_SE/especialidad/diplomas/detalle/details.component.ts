@@ -197,7 +197,7 @@ export class TituloEspecialidadDiplomaDetalleComponent implements OnInit, OnDest
                 this.tituloForm.patchValue(titulo);
                 this.calcularTiempo();
 
-                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idDependencia_detalle)
+                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;

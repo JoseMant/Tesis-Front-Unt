@@ -271,7 +271,7 @@ export class TramiteFisicoListComponent implements OnInit, OnDestroy
             idEstado_tramite: 0,
             descripcion_estado: '',
             comentario: '',
-            codigo: '',
+            nro_tramite: '',
             entidad: '',
             nro_operacion: '',
             fecha_operacion: '',
@@ -448,7 +448,7 @@ export class TramiteFisicoListComponent implements OnInit, OnDestroy
         formData.append('idTipo_tramite_unidad', this.tramiteForm.getRawValue().idTipo_tramite_unidad);
         formData.append('idUnidad', this.tramiteForm.getRawValue().idUnidad);
         formData.append('idDependencia', this.tramiteForm.getRawValue().idDependencia);
-        formData.append('idDependencia_detalle', this.tramiteForm.getRawValue().idSubdependencia);
+        formData.append('idPrograma', this.tramiteForm.getRawValue().idSubdependencia);
         formData.append('nro_matricula', this.tramiteForm.getRawValue().nro_matricula);
         formData.append('sede', this.tramiteForm.getRawValue().sede);
         formData.append('idMotivo_certificado', this.tramiteForm.getRawValue().idMotivo_certificado);

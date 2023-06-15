@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Datos de diplomas de titulo</div>
+            <div class="text-4xl font-extrabold tracking-tight">Datos de diplomas de título</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="titulosCount > 0">
                     {{titulosCount}}
                 </ng-container>
                 {{titulosCount | i18nPlural: {
-                    '=0'   : 'No hay diplomas de titulo',
-                    '=1'   : 'Diploma de titulo',
-                    'other': 'Diplomas de titulo revalidados'
+                    '=0'   : 'No hay diplomas de título',
+                    '=1'   : 'Diploma de título',
+                    'other': 'Diplomas de título revalidados'
                 } }}
             </div>
         </div>
@@ -35,7 +35,7 @@
                     matInput
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
-                    [placeholder]="'Buscar titulos'">
+                    [placeholder]="'Buscar títulos'">
             </mat-form-field>
         </div>
     </div>
@@ -84,10 +84,10 @@
                                 Unidad
                             </div>
 
-                            <!-- Escuela-->
+                            <!-- Programa-->
                             <div
                                 class="hidden lg:block">
-                                Escuela
+                                Programa
                             </div>
 
                             <!-- Nro Matrícula -->
@@ -119,7 +119,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden sm:block">
-                                        {{titulo.codigo}}
+                                        {{titulo.nro_tramite}}
                                     </div>
 
                                     <!-- Solicitante -->
@@ -137,9 +137,9 @@
                                         {{titulo.unidad}}
                                     </div>
 
-                                    <!-- escuela -->
+                                    <!-- programa -->
                                     <div class="hidden lg:block">
-                                        {{titulo.escuela}}
+                                        {{titulo.programa}}
                                     </div>
 
                                     <!-- Active -->
@@ -181,7 +181,7 @@
             </ng-container>
 
             <ng-template #noTitulos>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay diplomas de titulos!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay diplomas de títulos!</div>
             </ng-template>
 
         </div>

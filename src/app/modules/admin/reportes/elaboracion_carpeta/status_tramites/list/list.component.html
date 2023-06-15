@@ -58,9 +58,9 @@
                     *ngIf="selectedReporteForm.get('idDependencia').value"
                     class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
                     <mat-select
-                        [formControlName]="'idDependencia_detalle'">
+                        [formControlName]="'idPrograma'">
                             <mat-option [value]="0">Todas las sub dependencias</mat-option>
-                            <mat-option *ngFor="let dependencia_detalle of dependencias_detalle" [value]="dependencia_detalle.idDependencia_detalle">{{dependencia_detalle.nombre}}</mat-option>
+                            <mat-option *ngFor="let dependencia_detalle of dependencias_detalle" [value]="dependencia_detalle.idPrograma">{{dependencia_detalle.nombre}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </ng-container>
@@ -173,7 +173,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden sm:block">
-                                        {{reporte.codigo}}
+                                        {{reporte.nro_tramite}}
                                     </div>
 
                                     <!-- Solicitante -->

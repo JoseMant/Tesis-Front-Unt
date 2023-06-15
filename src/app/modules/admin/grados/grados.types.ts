@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface GradoInterface
 {
-    codigo: string;
+    nro_tramite: string;
     correo: string;
     costo: number;
     entidad: string;
-    escuela: string;
+    programa: string;
     exonerado_archivo: any;
     facultad: string;
     fecha: string;
     fut: string;
-    idDependencia_detalle: number;
-    dependenciaDetalle?: string;
+    idPrograma: number;
     idTramite: number;
     idUnidad: number;
     idUsuario: number;

@@ -9,7 +9,7 @@ export interface TramiteInterface
     idEstado_tramite: number;
     idModalidad_grado: number;
     descripcion_estado: string;
-    codigo: string;
+    nro_tramite: string;
     entidad: string;
     nro_operacion: string;
     fecha_operacion: string;

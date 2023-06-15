@@ -88,24 +88,22 @@ export class ResolucionesService
     {
         return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/all').pipe(
             tap((resoluciones) => {
-                console.log(resoluciones);
                 this._resoluciones.next(resoluciones);
             })
         );
     }
 
     /**
-     * Search resoluciones with given query
+     * Search resoluciones with given search
      *
-     * @param query
+     * @param search
      */
-    searchResoluciones(query: string): Observable<Resolucion[]>
+    searchResoluciones(search: string): Observable<Resolucion[]>
     {
-        return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/search', {
-            params: {query}
+        return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/all', {
+            params: {search}
         }).pipe(
             tap((resoluciones) => {
-                console.log(resoluciones);
                 this._resoluciones.next(resoluciones);
             })
         );

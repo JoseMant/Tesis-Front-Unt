@@ -198,30 +198,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/grados/ura/diplomas',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'carpetas.firma.decano',
-            //     title: 'Firma decano',
-            //     type : 'basic',
-            //     link : '/carpetas/firma/decano',
-            //     permissions: ['ADMINISTRADOR']
-            // },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'carpetas.firma.secretaria',
-            //     title: 'Firma secretaria',
-            //     type : 'basic',
-            //     link : '/carpetas/firma/secretaria_general',
-            //     permissions: ['ADMINISTRADOR'] //secretaria general
-            // },
-            // {
-            //     // Se muestran al usuario para ser asignados después de validación en tesorería
-            //     id   : 'carpetas.firma.rector',
-            //     title: 'Firma rector',
-            //     type : 'basic',
-            //     link : '/carpetas/firma/rector',
-            //     permissions: ['ADMINISTRADOR'] //Rector
-            // },
+            
         ]
     },
     {
@@ -411,15 +388,36 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'carpetas.secretaria.validados',
                 title: 'Validados Secretaria',
                 type : 'basic',
-                link : '/grados/secretaria/validados',
+                link : '/carpetas/secretaria/validados',
                 permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
+            },
+            {
+                id   : 'carpetas.firmas.decano',
+                title: 'Firma Decano',
+                type : 'basic',
+                link : '/carpetas/firmas/decano',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'carpetas.firmas.rector',
+                title: 'Firma Rector',
+                type : 'basic',
+                link : '/carpetas/firmas/rector',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'carpetas.firmas.secretaria_general',
+                title: 'Firma Secretaria General',
+                type : 'basic',
+                link : '/carpetas/firmas/secretaria_general',
+                permissions: ['ADMINISTRADOR']
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'carpetas.ura.pendientes',
                 title: 'Pendientes Impresión URA',
                 type : 'basic',
-                link : '/grados/ura/pendientes',
+                link : '/carpetas/ura/pendientes',
                 permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
             },
             {
@@ -427,7 +425,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'secretaria.observados',
                 title: 'Secretaría Observados',
                 type : 'basic',
-                link : '/grados/secretaria/observados',
+                link : '/carpetas/secretaria/observados',
                 permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
             }
         ]

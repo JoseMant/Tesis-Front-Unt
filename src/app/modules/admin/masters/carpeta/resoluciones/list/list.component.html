@@ -72,9 +72,9 @@
                         <ng-container *ngIf="resoluciones.length; else noResoluciones">
                             <ng-container *ngFor="let resolucion of resoluciones; let i = index; trackBy: trackByFn">
                                 <!-- Group -->
-                                <ng-container *ngIf="i === 0 || resolucion.fecha !== resoluciones[i - 1].fecha">
+                                <ng-container *ngIf="i === 0 || resolucion.anio !== resoluciones[i - 1].anio">
                                     <div class="z-10 sticky top-0 -mt-px px-6 py-1 md:px-8 border-t border-b font-medium uppercase text-secondary bg-gray-50 dark:bg-gray-900">
-                                        {{resolucion.fecha}}
+                                        {{resolucion.anio}}
                                     </div>
                                 </ng-container>
                                 <!-- Resolucion -->
@@ -92,14 +92,14 @@
                                         </ng-container>
                                         <ng-container *ngIf="!resolucion.avatar">
                                             <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                                {{ resolucion.idResolucion}}
+                                                {{i + 1}}
                                             </div>
                                         </ng-container>
                                     </div>
                                     <div class="min-w-0 ml-4">
                                         <div class="font-medium leading-5 truncate">{{resolucion.nro_resolucion}}</div>
                                         <div class="leading-5 truncate text-secondary">
-                                            {{resolucion.rol}}
+                                            {{resolucion.fecha | date:'longDate'}}
                                             <span class="mx-2">&bull;</span>
                                             <span *ngIf="resolucion.estado" class="font-medium">Activo</span>
                                             <span *ngIf="!resolucion.estado" class="font-medium">Inactivo</span>

@@ -63,7 +63,7 @@ export class TitulosURAValidacionesListComponent implements OnInit, AfterViewIni
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: TituloPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedTitulo: TituloInterface | null = null;
     selectedTituloForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -150,7 +150,19 @@ export class TitulosURAValidacionesListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosValidacionURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'dependencia',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._titulosService.getTitulosValidacionURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._titulosService.getTitulosValidacionURA(0, 100, 'dependencia', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -198,11 +210,7 @@ export class TitulosURAValidacionesListComponent implements OnInit, AfterViewIni
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    if(this.searchInputControl.value ){
-                        return this._titulosService.getTitulosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._titulosService.getTitulosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._titulosService.getTitulosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;

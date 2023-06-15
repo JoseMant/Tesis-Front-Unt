@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertaComponent } from './alerta/alerta.component';
 import { VisorPdfComponent } from './visorPdf/visorPdf.component';
+import { RequisitosDialogComponent } from './dialogReq/dialogReq.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -13,7 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
     declarations: [
         AlertaComponent,
-        VisorPdfComponent
+        VisorPdfComponent,
+        RequisitosDialogComponent
     ],
     imports: [
         CommonModule,

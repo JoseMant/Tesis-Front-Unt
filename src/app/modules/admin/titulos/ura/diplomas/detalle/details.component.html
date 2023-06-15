@@ -2,7 +2,7 @@
     <mat-card class="w-full">
         <div class="flex flex-col mx-5">
             <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
-                CODIGO TRÁMITE: {{titulo.codigo}}
+                CODIGO TRÁMITE: {{titulo.nro_tramite}}
             </mat-card-title>
             <mat-card-content>
                 <!-- Section -->
@@ -18,7 +18,7 @@
                     </div>
                     <!-- ESCUELA -->
                     <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>ESCUELA:</b> {{titulo.escuela}}</div>
+                        <div class="text-secondary"><b>PROGRAMA:</b> {{titulo.programa}}</div>
                     </div>
                     <!-- FECHA DE REGISTRO -->
                     <div class="sm:col-span-2">
@@ -57,7 +57,7 @@
                             <div class="col-span-1">1</div>
                             <div class="col-span-6">CERTIFICADO DE ESTUDIOS</div>
                             <div class="col-span-5 text-center">
-                              <ng-container *ngIf="titulo.idDependencia_detalle == 11">
+                              <ng-container *ngIf="titulo.idPrograma == 11 || titulo.idPrograma == 47">
                                   <ng-container *ngIf="!titulo.certificado_final">PENDIENTE</ng-container>
                                   <a
                                       mat-button
@@ -73,20 +73,30 @@
                                       <span class="hidden sm:block ml-2">CERTIFICADO</span>
                                   </a>
                               </ng-container>
-                              <ng-container *ngIf="titulo.idDependencia_detalle != 11">NO APLICA</ng-container>
-                            </div>
-                            <div class="col-span-2 text-center">
-                                <button
-                                    class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                    mat-stroked-button
-                                    matTooltip="NINGUNO"
-                                    disabled>
-                                    <mat-icon
-                                        class="icon-size-5"
-                                        [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                                </button>
+                              <ng-container *ngIf="titulo.idPrograma != 11 && titulo.idPrograma != 47">NO APLICA</ng-container>
                             </div>
                         </div>
+                        <ng-container *ngFor="let requisito of titulo.requisitos; let id = index">
+                            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == 4">
+                                <div class="col-span-1">{{id+2}}</div>
+                                <div class="col-span-6">{{requisito.nombre}}</div>
+                                <div class="col-span-5 text-center">
+                                    <a
+                                        *ngIf="requisito.archivo"
+                                        mat-button
+                                        class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-lime-500 hover:bg-lime-400 text-white"
+                                        cmat-button
+                                        [href]="requisito.archivo"
+                                        [target]="'_blank'">
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            style="color: white;"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                        <span class="hidden sm:block ml-2">VER</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-container>
                     </mat-card-content>
                 </mat-card>
 
@@ -174,7 +184,7 @@
                             </div>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
-                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    class="sm:col-span-2 col-span-4 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
                                     <mat-label>Número de créditos</mat-label>
@@ -185,7 +195,7 @@
                                     />
                                 </mat-form-field>
                                 <mat-form-field
-                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    class="sm:col-span-2 col-span-4 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
                                     <mat-label>Programa académico</mat-label>
@@ -202,6 +212,21 @@
                                             </mat-option>
                                         </ng-container>
                                     </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-4 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Porcentaje de originalidad</mat-label>
+                                    <mat-icon
+                                    class="icon-size-5"
+                                    matSuffix
+                                    [svgIcon]="'feather:percent'"></mat-icon>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'originalidad'"
+                                    />
                                 </mat-form-field>
                             </div>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">

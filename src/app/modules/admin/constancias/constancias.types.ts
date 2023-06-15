@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface ConstanciaInterface
 {
-    codigo: string;
+    nro_tramite: string;
     correo: string;
     costo: number;
     entidad: string;
@@ -10,7 +10,7 @@ export interface ConstanciaInterface
     facultad: string;
     fecha: string;
     fut: string;
-    idDependencia_detalle: number;
+    idPrograma: number;
     idTramite: number;
     idUnidad: number;
     idUsuario: number;

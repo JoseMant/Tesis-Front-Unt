@@ -63,7 +63,7 @@ export class GradosURAValidacionesListComponent implements OnInit, AfterViewInit
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: GradoPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedGrado: GradoInterface | null = null;
     selectedGradoForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -150,7 +150,19 @@ export class GradosURAValidacionesListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosValidacionURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'dependencia',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._gradosService.getGradosValidacionURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._gradosService.getGradosValidacionURA(0, 100, 'dependencia', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -198,11 +210,7 @@ export class GradosURAValidacionesListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    if(this.searchInputControl.value ){
-                        return this._gradosService.getGradosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._gradosService.getGradosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._gradosService.getGradosValidacionURA(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;

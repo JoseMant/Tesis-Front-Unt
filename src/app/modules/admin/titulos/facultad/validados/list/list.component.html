@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Titulos validados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Títulos validados</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="titulosCount > 0">
                     {{titulosCount}}
                 </ng-container>
                 {{titulosCount | i18nPlural: {
-                    '=0'   : 'No hay titulos validados',
-                    '=1'   : 'Titulo validado',
-                    'other': 'Titulos validados'
+                    '=0'   : 'No hay títulos validados',
+                    '=1'   : 'Título validado',
+                    'other': 'Títulos validados'
                 } }}
             </div>
         </div>
@@ -84,11 +84,11 @@
                                 Unidad
                             </div>
 
-                            <!-- Escuela-->
+                            <!-- Programa -->
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'escuela'">
-                                Escuela
+                                [mat-sort-header]="'programa'">
+                                Programa
                             </div>
 
                             <!-- Nro Matrícula -->
@@ -120,7 +120,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden sm:block">
-                                        {{titulo.codigo}}
+                                        {{titulo.nro_tramite}}
                                     </div>
 
                                     <!-- Solicitante -->
@@ -138,9 +138,9 @@
                                         {{titulo.unidad}}
                                     </div>
 
-                                    <!-- escuela -->
+                                    <!-- programa -->
                                     <div class="hidden lg:block">
-                                        {{titulo.escuela}}
+                                        {{titulo.programa}}
                                     </div>
 
                                     <!-- Active -->

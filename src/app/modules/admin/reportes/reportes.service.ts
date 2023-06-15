@@ -108,7 +108,7 @@ export class ReportesService
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    getReporteStatusTramites(idUnidad: number = 0, idDependencia: number = 0, idDependencia_detalle: number = 0, idTipo_tramite_unidad: number = 0, cronograma: number = 0, 
+    getReporteStatusTramites(idUnidad: number = 0, idDependencia: number = 0, idPrograma: number = 0, idTipo_tramite_unidad: number = 0, cronograma: number = 0, 
         page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
     {
@@ -116,7 +116,7 @@ export class ReportesService
         params: {
             idUnidad,
             idDependencia,
-            idDependencia_detalle,
+            idPrograma,
             idTipo_tramite_unidad,
             cronograma,
             page: '' + page,

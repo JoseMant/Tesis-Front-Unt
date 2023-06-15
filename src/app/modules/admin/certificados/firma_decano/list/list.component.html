@@ -95,7 +95,7 @@
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'motivo'"  *ngxPermissionsExcept="['DECANO(A)']">
-                                Facultad
+                                Dependencia
                             </div>
 
                             <!-- Motivo -->
@@ -127,7 +127,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden sm:block">
-                                        {{certificado.codigo}}
+                                        {{certificado.nro_tramite}}
                                     </div>
 
                                     <!-- Solicitante -->
@@ -152,7 +152,7 @@
 
                                     <!-- fACULTAD -->
                                     <div class="hidden lg:block"  *ngxPermissionsExcept="['DECANO(A)']">
-                                        {{certificado.facultad}}
+                                        {{certificado.dependencia}}
                                     </div>
 
                                     <!-- Active -->

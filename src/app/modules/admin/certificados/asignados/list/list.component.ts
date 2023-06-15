@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -9,7 +8,6 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
 import { CertificadosService } from 'app/modules/admin/certificados/certificados.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfCertificadoComponent } from '../visorPdf/visorPdfCertificado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -63,11 +61,13 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CertificadoPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
+    dependenciaSelectControl: FormControl = new FormControl(0);
     selectedCertificado: CertificadoInterface | null = null;
     selectedCertificadoForm: FormGroup;
     tagsEditMode: boolean = false;
     certificadosCount: number = 0;
+    dependencias: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -135,13 +135,48 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         this._certificadosService.certificados$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: CertificadoInterface[]) => {
-                console.log(response);
                 // Update the counts
                 this.certificadosCount = response.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this._certificadosService.dependencias$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: any[]) => {
+                // Update the counts
+                this.dependencias = response;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+
+        this.dependenciaSelectControl.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                switchMap((query) => {
+                    this.isLoading = true;
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'dependencia',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query, this.searchInputControl.value);
+                    }
+                    else
+                        return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', query, this.searchInputControl.value);
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -150,7 +185,19 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'dependencia',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, this.dependenciaSelectControl.value, query);
+                    }
+                    else
+                        return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', this.dependenciaSelectControl.value, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -178,7 +225,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'nro_tramite',
+                id          : 'dependencia',
                 start       : 'asc',
                 disableClear: true
             });
@@ -198,12 +245,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    // return this._certificadosService.getCertificadosAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    if(this.searchInputControl.value ){
-                        return this._certificadosService.getCertificadosAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._certificadosService.getCertificadosAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._certificadosService.getCertificadosAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.dependenciaSelectControl.value, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;

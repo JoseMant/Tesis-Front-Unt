@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { UserInterface, CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
 import { environment } from 'environments/environment';
-import { identity } from 'lodash';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +14,7 @@ export class CertificadosService
     private _pagination: BehaviorSubject<CertificadoPagination | null> = new BehaviorSubject(null);
     private _certificado: BehaviorSubject<CertificadoInterface | null> = new BehaviorSubject(null);
     private _certificados: BehaviorSubject<CertificadoInterface[] | null> = new BehaviorSubject(null);
+    private _dependencias: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -59,6 +59,14 @@ export class CertificadosService
         return this._certificados.asObservable();
     }
 
+    /**
+     * Getter for dependencias
+     */
+    get dependencias$(): Observable<any[]>
+    {
+        return this._dependencias.asObservable();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -76,7 +84,7 @@ export class CertificadosService
     }
     
      
-    getCertificadosAsignados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCertificadosAsignados(page: number = 0, size: number = 100, sort: string = 'dependencia', order: 'asc' | 'desc' | '' = 'asc', dependencia: number = 0, search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
       return this._httpClient.get<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>(environment.baseUrl + 'tramite/certificados/asignados', {
@@ -85,11 +93,11 @@ export class CertificadosService
             size: '' + size,
             sort,
             order,
-            search
+            search,
+            dependencia
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._certificados.next(response.data);
         })
@@ -136,7 +144,6 @@ export class CertificadosService
       );
     }
 
-
     getCertificadosFirmaURAA(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
@@ -175,7 +182,6 @@ export class CertificadosService
       );
     }
 
-
     getCertificadosPendientes(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
     {
@@ -194,7 +200,6 @@ export class CertificadosService
         })
       );
     }
-
 
     getCertificadosReasignados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CertificadoPagination; data: CertificadoInterface[] }>
@@ -473,6 +478,15 @@ export class CertificadosService
                     })
                 ))
             ))
+        );
+    }
+
+    getDependencias(): Observable<any>
+    {
+        return this._httpClient.get<any[]>(environment.baseUrl + 'dependencias').pipe(
+            tap((response) => {
+                this._dependencias.next(response);
+            })
         );
     }
 }

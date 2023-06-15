@@ -182,7 +182,6 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                 start       : 'desc',
                 disableClear: true
             });
-            console.log(this._sort);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();

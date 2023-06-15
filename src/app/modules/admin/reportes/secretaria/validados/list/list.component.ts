@@ -48,7 +48,7 @@ import { environment } from 'environments/environment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradosSecretariaValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;

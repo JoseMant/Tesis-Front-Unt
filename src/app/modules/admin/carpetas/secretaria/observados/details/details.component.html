@@ -1,0 +1,291 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+                CODIGO TRÁMITE: {{grado.nro_tramite}}
+            </mat-card-title>
+            <mat-card-content>
+                <!-- Section -->
+                <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+  
+                    <!-- SOLICITANTE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>SOLICITANTE:</b> {{grado.solicitante}}</div>
+                    </div>
+                    <!-- NUMERO DE DOCUMENTO -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{grado.nro_documento}}</div>
+                    </div>
+                    <!-- PROGRAMA-->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>PROGRAMA:</b> {{grado.programa}}</div>
+                    </div>
+                    <!-- FECHA DE REGISTRO -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{grado.fecha | date: 'dd-MM-yyyy'}}</div>
+                    </div>
+                    <!-- TRÁMITE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>TRÁMITE:</b> {{grado.tramite}}</div>
+                    </div>
+                    <!-- CORREO ELECTRÓNICO -->
+                    <div class="sm:col-span-2">
+                      <div class="text-secondary"><b>NRO DE MATRÍCULA:</b> {{grado.nro_matricula}}</div>
+                    </div>
+                </div>
+                
+                <!-- Section -->
+                <form [formGroup]="gradoForm" #gradoNgForm="ngForm">
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-xl">DATOS DEL DIPLOMA</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Acto académico</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idModalidad_carpeta'"
+                                        (selectionChange)="selectedActo($event.value)">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <ng-container *ngFor="let modalidad of modalidades_sustentacion">
+                                            <mat-option [value]="modalidad.idModalidad_carpeta">
+                                                {{modalidad.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de solicitud de inicio de acto académico</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_inicio_acto_academico"
+                                        [formControlName]="'fecha_inicio_acto_academico'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_inicio_acto_academico">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_inicio_acto_academico></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field *ngIf="gradoForm.get('idModalidad_carpeta').value != 1"
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de acto académico</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_sustentacion_carpeta"
+                                        [formControlName]="'fecha_sustentacion_carpeta'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_sustentacion_carpeta">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_sustentacion_carpeta></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="gradoForm.get('idModalidad_carpeta').value != 1">
+                                <mat-form-field
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Nombre del trabajo</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'nombre_trabajo_carpeta'"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="gradoForm.get('idModalidad_carpeta').value != 1">
+                                <mat-form-field
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>URL del trabajo</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'url_trabajo_carpeta'"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Número de créditos</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'nro_creditos_carpeta'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Programa académico</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idPrograma_estudios_carpeta'">
+                                        <ng-container>
+                                            <mat-option [value]="''" disabled>
+                                                Seleccionar una opción...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let programa of programas_estudios">
+                                            <mat-option [value]="programa.idPrograma_estudios_carpeta">
+                                                {{programa.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Escuela/Mención/Programa Acreditado</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'dependencia_acreditado'"
+                                    />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                    *ngIf="gradoForm.get('dependencia_acreditado').value == 'SÍ'"
+                                >
+                                    <mat-label>Fecha de inicio de acreditación</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="fecha_inicio"
+                                        [formControlName]="'fecha_inicio'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_inicio">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_inicio></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                    *ngIf="gradoForm.get('dependencia_acreditado').value == 'SÍ'"
+                                >
+                                    <mat-label>Fecha de fin de acreditación</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="fecha_fin"
+                                        [formControlName]="'fecha_fin'">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_fin">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_fin></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de matrícula (I Ciclo)</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_primera_matricula"
+                                        [formControlName]="'fecha_primera_matricula'"
+                                        (dateChange)="calcularTiempo()">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_primera_matricula">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_primera_matricula></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha de egreso (Último Ciclo)</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_ultima_matricula"
+                                        [formControlName]="'fecha_ultima_matricula'"
+                                        (dateChange)="calcularTiempo()">
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_ultima_matricula">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_ultima_matricula></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Años de estudios</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput
+                                        [formControlName]="'anios_estudios'"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Diploma</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idDiploma_carpeta'">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <ng-container *ngFor="let diploma of diplomas">
+                                            <mat-option [value]="diploma.idDiploma_carpeta">
+                                                {{diploma.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </form>
+                
+            </mat-card-content>
+            <mat-card-actions class="flex justify-end">
+                <button
+                    mat-button
+                    class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                    cmat-button
+                    [routerLink]="['/grados/secretaria/observados']"
+                    >
+                    Regresar
+                </button>
+                <button
+                    *ngIf="grado.idEstado_tramite==50"
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="gradoForm.disabled"
+                    (click)="enviarDatos()">
+                    <span *ngIf="!gradoForm.disabled">
+                        Habilitar trámite
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="gradoForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card>
+</div>

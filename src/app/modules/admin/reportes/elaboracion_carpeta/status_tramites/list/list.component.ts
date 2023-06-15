@@ -108,7 +108,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         this.selectedReporteForm = this._formBuilder.group({
             idUnidad         : [0],
             idDependencia    : [0],
-            idDependencia_detalle : [0],
+            idPrograma : [0],
             idTipo_tramite_unidad : [0],
             cronograma       : [0]
         });
@@ -126,7 +126,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                         this.selectedReporteForm.patchValue({
                             idUnidad: 1,
                             idDependencia: dependencia.idDependencia,
-                            idDependencia_detalle: user.idDependencia
+                            idPrograma: user.idDependencia
                         });
                         
                         this._changeDetectorRef.markForCheck();
@@ -178,7 +178,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idPrograma, form.idTipo_tramite_unidad, form.cronograma)
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -189,18 +189,18 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idPrograma, form.idTipo_tramite_unidad, form.cronograma)
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
             ).subscribe();
-        this.selectedReporteForm.get('idDependencia_detalle').valueChanges
+        this.selectedReporteForm.get('idPrograma').valueChanges
             .pipe(
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idPrograma, form.idTipo_tramite_unidad, form.cronograma)
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -211,7 +211,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idPrograma, form.idTipo_tramite_unidad, form.cronograma)
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -222,7 +222,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idPrograma, form.idTipo_tramite_unidad, form.cronograma)
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -244,7 +244,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
 
         this.selectedReporteForm.patchValue({
             idDependencia: 0,
-            idDependencia_detalle: 0,
+            idPrograma: 0,
             idTipo_tramite_unidad: 0,
             cronograma: 0
         });
@@ -265,7 +265,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
 
     changedDependencia(idDependencia: number) : void {
         this.selectedReporteForm.patchValue({
-            idDependencia_detalle: 0,
+            idPrograma: 0,
             cronograma: 0
         });
         console.log()
@@ -325,7 +325,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedReporteForm.getRawValue();
-                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idDependencia_detalle, form.idTipo_tramite_unidad, form.cronograma, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction)
+                    return this._reportesService.getReporteStatusTramites(form.idUnidad, form.idDependencia, form.idPrograma, form.idTipo_tramite_unidad, form.cronograma, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction)
                 }),
                 map(() => {
                     this.isLoading = false;

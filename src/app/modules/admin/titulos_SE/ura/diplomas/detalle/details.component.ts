@@ -196,7 +196,7 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
                 console.log(this.tituloForm.getRawValue());
                 this.calcularTiempo();
 
-                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idDependencia_detalle)
+                this._tituloService.getDiplomasByTipoTramiteUnidad(titulo.idUnidad, titulo.idTipo_tramite_unidad, titulo.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;
