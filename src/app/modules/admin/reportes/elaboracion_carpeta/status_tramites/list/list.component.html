@@ -59,8 +59,8 @@
                     class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
                     <mat-select
                         [formControlName]="'idPrograma'">
-                            <mat-option [value]="0">Todas las sub dependencias</mat-option>
-                            <mat-option *ngFor="let dependencia_detalle of dependencias_detalle" [value]="dependencia_detalle.idPrograma">{{dependencia_detalle.nombre}}</mat-option>
+                            <mat-option [value]="0">Todas los programas</mat-option>
+                            <mat-option *ngFor="let programa of programas" [value]="programa.idPrograma">{{programa.nombre}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </ng-container>

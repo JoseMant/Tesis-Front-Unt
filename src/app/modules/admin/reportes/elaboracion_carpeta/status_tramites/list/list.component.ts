@@ -74,7 +74,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
     unidades: Unidad;
     tipoTramiteUnidades: any;
     dependencias: any;
-    dependencias_detalle: any;
+    programas: any;
     cronogramas: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -268,9 +268,10 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idPrograma: 0,
             cronograma: 0
         });
-        console.log()
-        this._reportesService.getDependenciaDetalleByDependencia(idDependencia).subscribe((response)=>{
-            this.dependencias_detalle = response;
+        
+        this._reportesService.getProgramasByDependencia(idDependencia).subscribe((response)=>{
+            console.log(response);
+            this.programas = response;
             
             this._changeDetectorRef.markForCheck();
         });

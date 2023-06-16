@@ -5,7 +5,7 @@ export interface ReporteInterface
     correo: string;
     costo: number;
     entidad: string;
-    escuela: string;
+    programa: string;
     exonerado_archivo: any;
     facultad: string;
     fecha: string;

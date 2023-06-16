@@ -911,9 +911,9 @@ export class GradosService
         );
     }
 
-    getDiplomasByTipoTramiteUnidad(unidad: number, tipo_tramite_unidad: number, dependencia_detalle: number): Observable<any>
+    getDiplomasByTipoTramiteUnidad(unidad: number, tipo_tramite_unidad: number, programa: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'diplomas/carpeta/' + unidad + "/" + tipo_tramite_unidad + "/" + dependencia_detalle).pipe(
+        return this._httpClient.get(environment.baseUrl + 'diplomas/carpeta/' + unidad + "/" + tipo_tramite_unidad + "/" + programa).pipe(
             tap((response: any[]) => {
                 this._diplomas.next(response);
             })

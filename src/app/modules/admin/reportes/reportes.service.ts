@@ -18,7 +18,7 @@ export class ReportesService
     private _unidades: BehaviorSubject<Unidad[] | null> = new BehaviorSubject(null);
     private _tipoTramiteUnidades: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    private _dependencias_detalle: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _programas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _cronogramas: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
@@ -91,9 +91,9 @@ export class ReportesService
     /**
      * Getter for dependencias detalle
      */
-    get dependencias_detalle$(): Observable<Unidad[]>
+    get programas$(): Observable<Unidad[]>
     {
-        return this._dependencias_detalle.asObservable();
+        return this._programas.asObservable();
     }
 
     /**
@@ -225,20 +225,20 @@ export class ReportesService
         );
     }
 
-    getDependenciaByDependenciaDetalle(dependencia_detalle: number): Observable<any>
+    getDependenciaByDependenciaDetalle(programa: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'dependencia/' + dependencia_detalle).pipe(
+        return this._httpClient.get(environment.baseUrl + 'dependencia/' + programa).pipe(
             tap((response: any[]) => {
                 this._dependencias.next(response);
             })
         );
     }
 
-    getDependenciaDetalleByDependencia(dependencia: number): Observable<any>
+    getProgramasByDependencia(dependencia: number): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'dependencias_detalle/' + dependencia).pipe(
+        return this._httpClient.get(environment.baseUrl + 'programas/' + dependencia).pipe(
             tap((response: any[]) => {
-                this._dependencias_detalle.next(response);
+                this._programas.next(response);
             })
         );
     }

@@ -74,7 +74,7 @@ export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterVie
     unidades: Unidad;
     tipoTramiteUnidades: any;
     dependencias: any;
-    dependencias_detalle: any;
+    programas: any;
     cronogramas: any;
     minDate: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
