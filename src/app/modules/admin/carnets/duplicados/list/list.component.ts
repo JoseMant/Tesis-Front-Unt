@@ -114,7 +114,7 @@ export class CarnetsDuplicadosListComponent implements OnInit, AfterViewInit, On
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CarnetPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedCarnet: CarnetInterface | null = null;
     selectedCarnetForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -182,7 +182,19 @@ export class CarnetsDuplicadosListComponent implements OnInit, AfterViewInit, On
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._carnetsService.getCarnetsDuplicados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'created_at',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._carnetsService.getCarnetsDuplicados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._carnetsService.getCarnetsDuplicados(0, 100, 'created_at', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

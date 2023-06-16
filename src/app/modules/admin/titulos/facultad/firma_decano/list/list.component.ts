@@ -1,26 +1,24 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
-import { GradosService } from 'app/modules/admin/grados/grados.service';
+import { TituloPagination, TituloInterface } from 'app/modules/admin/titulos/titulos.types';
+import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector       : 'grados-firma-decano-list',
+    selector       : 'titulos-firma-decano-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .grados-aprobados-grid {
+            .titulos-aprobados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -47,12 +45,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, OnDestroy
+export class TitulosFirmaDecanoListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    grados$: Observable<GradoInterface[]>;
+    titulos$: Observable<TituloInterface[]>;
 
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
@@ -62,12 +60,12 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
 
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: GradoPagination;
-    searchInputControl: FormControl = new FormControl();
-    selectedGrado: GradoInterface | null = null;
-    selectedGradoForm: FormGroup;
+    pagination: TituloPagination;
+    searchInputControl: FormControl = new FormControl('');
+    selectedTitulo: TituloInterface | null = null;
+    selectedTituloForm: FormGroup;
     tagsEditMode: boolean = false;
-    gradosCount: number = 0;
+    titulosCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -77,7 +75,7 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _gradosService: GradosService,
+        private _titulosService: TitulosService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
     )
@@ -93,8 +91,8 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
      */
     ngOnInit(): void
     {
-        // Create the selected grado form
-        this.selectedGradoForm = this._formBuilder.group({
+        // Create the selected titulo form
+        this.selectedTituloForm = this._formBuilder.group({
             id               : [''],
             category         : [''],
             name             : ['', [Validators.required]],
@@ -118,9 +116,9 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
         });
 
         // Get the pagination
-        this._gradosService.pagination$
+        this._titulosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: GradoPagination) => {
+            .subscribe((pagination: TituloPagination) => {
 
                 // Update the pagination
                 this.pagination = pagination;
@@ -129,15 +127,15 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the grados
-        this.grados$ = this._gradosService.grados$;
+        // Get the titulos
+        this.titulos$ = this._titulosService.titulos$;
 
-        this._gradosService.grados$
+        this._titulosService.titulos$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response: GradoInterface[]) => {
+            .subscribe((response: TituloInterface[]) => {
                 console.log(response);
                 // Update the counts
-                this.gradosCount = response.length;
+                this.titulosCount = response.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -150,7 +148,19 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosFirmaDecano(0, 10, 'fecha', 'desc', query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'created_at',
+                                start       : 'desc',
+                                disableClear: true
+                            });
+                        }
+                        return this._titulosService.getTitulosFirmaDecano(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._titulosService.getTitulosFirmaDecano(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -194,11 +204,11 @@ export class GradosFirmaDecanoListComponent implements OnInit, AfterViewInit, On
                     this._paginator.pageIndex = 0;
                 });
 
-            // Get grados if sort or page changes
+            // Get titulos if sort or page changes
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosFirmaDecano(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosFirmaDecano(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;

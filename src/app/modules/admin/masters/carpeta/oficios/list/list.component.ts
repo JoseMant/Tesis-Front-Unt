@@ -23,7 +23,7 @@ export class OficiosListComponent implements OnInit, OnDestroy
     oficiosCount: number = 0;
     oficiosTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     drawerMode: 'side' | 'over';
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedOficio: Oficio;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

@@ -24,7 +24,7 @@ export class AcreditadasListComponent implements OnInit, OnDestroy
     acreditadasTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     // roles: Role[];
     drawerMode: 'side' | 'over';
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedAcreditada: Acreditada;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

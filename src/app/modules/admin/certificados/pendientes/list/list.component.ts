@@ -63,7 +63,7 @@ export class CertificadosPendientesListComponent implements OnInit, AfterViewIni
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CertificadoPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedCertificado: CertificadoInterface | null = null;
     selectedCertificadoForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -150,7 +150,19 @@ export class CertificadosPendientesListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosPendientes(0, 10, 'fecha', 'desc', query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'created_at',
+                                start       : 'desc',
+                                disableClear: true
+                            });
+                        }
+                        return this._certificadosService.getCertificadosPendientes(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._certificadosService.getCertificadosPendientes(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

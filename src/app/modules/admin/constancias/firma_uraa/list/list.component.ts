@@ -63,7 +63,7 @@ export class ConstanciasFirmaURAAListComponent implements OnInit, AfterViewInit,
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: ConstanciaPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedConstancia: ConstanciaInterface | null = null;
     selectedConstanciaForm: FormGroup;
     tagsEditMode: boolean = false;

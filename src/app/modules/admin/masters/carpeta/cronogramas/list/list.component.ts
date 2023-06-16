@@ -24,7 +24,7 @@ export class CronogramasListComponent implements OnInit, OnDestroy
     cronogramasTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     roles: Role[];
     drawerMode: 'side' | 'over';
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedCronograma: Cronograma;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

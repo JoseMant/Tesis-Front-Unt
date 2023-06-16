@@ -62,7 +62,7 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: TituloPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedTitulo: TituloInterface | null = null;
     selectedTituloForm: FormGroup;
     tagsEditMode: boolean = false;

@@ -63,7 +63,7 @@ export class ReportesFacultadValidadosListComponent implements OnInit, AfterView
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: ReportePagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedReporte: ReporteInterface | null = null;
     selectedReporteForm: FormGroup;
     tagsEditMode: boolean = false;

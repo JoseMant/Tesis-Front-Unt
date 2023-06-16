@@ -593,6 +593,10 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+        
+        // const requis3 = this.data.requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
+        console.log(this.data.requisitos);
+        return;
         const formData = new FormData();
         formData.append('entidad', this.tramiteForm.getRawValue().entidad);
         formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);

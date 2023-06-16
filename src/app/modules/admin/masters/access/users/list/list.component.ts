@@ -24,7 +24,7 @@ export class UsersListComponent implements OnInit, OnDestroy
     usersTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
     roles: Role[];
     drawerMode: 'side' | 'over';
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedUser: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

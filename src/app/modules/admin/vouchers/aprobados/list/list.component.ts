@@ -63,7 +63,7 @@ export class VouchersAprobadosListComponent implements OnInit, AfterViewInit, On
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: VoucherPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedVoucher: VoucherInterface | null = null;
     selectedVoucherForm: FormGroup;
     tagsEditMode: boolean = false;

@@ -47,10 +47,6 @@ import { CarpetasURAPendientesComponent } from 'app/modules/admin/carpetas/ura/p
 import { CarpetasURAPendientesListComponent } from 'app/modules/admin/carpetas/ura/pendientes/list/list.component';
 import { CarpetaURAPendienteDialogComponent } from 'app/modules/admin/carpetas/ura/pendientes/dialog/dialog.component';
 
-import { GradosSecretariaObservadosComponent } from 'app/modules/admin/carpetas/secretaria/observados/observados.component';
-import { GradosSecretariaObservadosListComponent } from 'app/modules/admin/carpetas/secretaria/observados/list/list.component';
-import { GradoSecretariaObservadoDetalleComponent } from 'app/modules/admin/carpetas/secretaria/observados/details/details.component';
-
 import { carpetasRoutes } from 'app/modules/admin/carpetas/carpetas.routing';
 
 @NgModule({
@@ -72,11 +68,7 @@ import { carpetasRoutes } from 'app/modules/admin/carpetas/carpetas.routing';
 
         CarpetasURAPendientesComponent,
         CarpetasURAPendientesListComponent,        
-        CarpetaURAPendienteDialogComponent,
-
-        GradosSecretariaObservadosComponent,
-        GradosSecretariaObservadosListComponent,
-        GradoSecretariaObservadoDetalleComponent
+        CarpetaURAPendienteDialogComponent
     ],
     imports     : [
         RouterModule.forChild(carpetasRoutes),

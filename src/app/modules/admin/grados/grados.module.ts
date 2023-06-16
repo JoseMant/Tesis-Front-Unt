@@ -70,10 +70,6 @@ import { GradosURADiplomasComponent } from 'app/modules/admin/grados/ura/diploma
 import { GradosURADiplomasListComponent } from 'app/modules/admin/grados/ura/diplomas/list/list.component';
 import { GradoURADiplomaDetalleComponent } from 'app/modules/admin/grados/ura/diplomas/detalle/details.component';
 
-import { GradosFinalizadosComponent } from 'app/modules/admin/grados/finalizados/finalizados.component';
-import { GradosFinalizadosListComponent } from 'app/modules/admin/grados/finalizados/list/list.component';
-
-
 import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
 
 @NgModule({
@@ -123,9 +119,6 @@ import { gradosRoutes } from 'app/modules/admin/grados/grados.routing';
         GradosURADiplomasComponent,
         GradosURADiplomasListComponent,
         GradoURADiplomaDetalleComponent,
-
-        GradosFinalizadosComponent,
-        GradosFinalizadosListComponent,
     ],
     imports     : [
         RouterModule.forChild(gradosRoutes),

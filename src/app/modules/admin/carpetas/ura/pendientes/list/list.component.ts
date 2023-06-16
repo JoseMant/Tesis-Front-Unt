@@ -67,7 +67,7 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CarpetasPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedCarpeta: CarpetaInterface | null = null;
     selectedCarpetaForm: FormGroup;
     selectedResolucionForm: FormGroup;

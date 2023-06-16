@@ -23,11 +23,6 @@ import { CarpetasFirmasRectorResolver } from 'app/modules/admin/carpetas/firmas/
 import { CarpetasFirmasSecretariaGeneralComponent } from 'app/modules/admin/carpetas/firmas/secretaria_general/secretaria_general.component';
 import { CarpetasFirmasSecretariaGeneralListComponent } from 'app/modules/admin/carpetas/firmas/secretaria_general/list/list.component';
 import { CarpetasFirmasSecretariaGeneralResolver } from 'app/modules/admin/carpetas/firmas/secretaria_general/secretaria_general.resolvers';
-// -------------
-import { GradosSecretariaObservadosComponent } from 'app/modules/admin/carpetas/secretaria/observados/observados.component';
-import { GradosSecretariaObservadosListComponent } from 'app/modules/admin/carpetas/secretaria/observados/list/list.component';
-import { GradoSecretariaObservadoDetalleComponent } from 'app/modules/admin/carpetas/secretaria/observados/details/details.component';
-import { GradosSecretariaObservadosResolver, GradoSecretariaObservadoResolver } from 'app/modules/admin/carpetas/secretaria/observados/observados.resolvers';
 
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
@@ -123,35 +118,6 @@ export const carpetasRoutes: Route[] = [
           component: CarpetasURAPendientesListComponent,
           resolve      : {
             carpetas  : CarpetasURAPendientesResolver,
-          },
-        }
-      ]
-    },
-    {
-      path     : 'secretaria/observados',
-      component: GradosSecretariaObservadosComponent,
-      canActivate: [NgxPermissionsGuard],
-      data: {
-          permissions: {
-              only: ['ADMINISTRADOR', 'SECRETARÍA GENERAL'],
-              redirectTo: 'home'
-          }
-      },
-      resolve      : {
-        carpetas  : GradosSecretariaObservadosResolver,
-      },
-      children : [
-        {
-          path     : '',
-          component: GradosSecretariaObservadosListComponent,
-        },
-        {
-          path         : ':idTramite',
-          component    : GradoSecretariaObservadoDetalleComponent,
-          resolve      : {
-            carpeta  : GradoSecretariaObservadoResolver,
-            modalidades: ModalidadesSustentacionResolver,
-            programas_estudios: ProgramasEstudiosResolver,
           },
         }
       ]

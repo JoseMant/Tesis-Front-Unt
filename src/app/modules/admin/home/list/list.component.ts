@@ -83,7 +83,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: HomePagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedTramite: HomeTramite | null = null;
     selectedTramiteForm: FormGroup;
     data: any;

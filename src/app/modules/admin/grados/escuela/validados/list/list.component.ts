@@ -63,7 +63,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: GradoPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedGrado: GradoInterface | null = null;
     selectedGradoForm: FormGroup;
     tagsEditMode: boolean = false;

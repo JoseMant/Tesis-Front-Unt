@@ -61,7 +61,7 @@ export class TitulosEscuelaDiplomasListComponent implements OnInit, AfterViewIni
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: TituloPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedTitulo: TituloInterface | null = null;
     selectedTituloForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -148,7 +148,19 @@ export class TitulosEscuelaDiplomasListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosDiplomasEscuela(0, 10, 'fecha', 'desc', query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'created_at',
+                                start       : 'desc',
+                                disableClear: true
+                            });
+                        }
+                        return this._titulosService.getTitulosDiplomasEscuela(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._titulosService.getTitulosDiplomasEscuela(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

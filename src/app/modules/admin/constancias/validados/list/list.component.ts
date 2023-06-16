@@ -65,7 +65,7 @@ export class ConstanciasValidadosListComponent implements OnInit, AfterViewInit,
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: ConstanciaPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedTramites = [];
     selectedConstanciasForm: FormGroup;
     tagsEditMode: boolean = false;

@@ -50,10 +50,6 @@ import { TitulosURADiplomasListComponent } from 'app/modules/admin/titulos/ura/d
 import { TitulosURADiplomasResolver, TituloURADiplomaResolver } from 'app/modules/admin/titulos/ura/diplomas/diplomas.resolvers';
 import { TituloURADiplomaDetalleComponent } from 'app/modules/admin/titulos/ura/diplomas/detalle/details.component';
 
-// -------------
-import { TitulosURAPendientesComponent } from 'app/modules/admin/titulos/ura/pendientes/pendientes.component';
-import { TitulosURAPendientesListComponent } from 'app/modules/admin/titulos/ura/pendientes/list/list.component';
-
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 

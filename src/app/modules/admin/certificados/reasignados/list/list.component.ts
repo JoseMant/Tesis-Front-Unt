@@ -65,7 +65,7 @@ export class CertificadosReasignadosListComponent implements OnInit, AfterViewIn
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: CertificadoPagination;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl('');
     selectedTramites = [];
     selectedCertificadosForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -146,7 +146,19 @@ export class CertificadosReasignadosListComponent implements OnInit, AfterViewIn
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosReasignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'created_at',
+                                start       : 'desc',
+                                disableClear: true
+                            });
+                        }
+                        return this._certificadosService.getCertificadosReasignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    }
+                    else
+                        return this._certificadosService.getCertificadosReasignados(0, 100, 'created_at', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
