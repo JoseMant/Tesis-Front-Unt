@@ -31,52 +31,20 @@ import * as moment from 'moment';
 import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/status_tramites.component';
 import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/list/list.component';
 
-// import { ReportesFacultadValidadosComponent } from 'app/modules/admin/reportes/facultad/validados/validados.component';
-// import { ReportesFacultadValidadosListComponent } from 'app/modules/admin/reportes/facultad/validados/list/list.component';
-// import { ReporteFacultadValidadoDetalleComponent } from 'app/modules/admin/reportes/facultad/validados/detalle/details.component';
-
-// import { ReportesURAValidacionesComponent } from 'app/modules/admin/reportes/ura/validaciones/validaciones.component';
-// import { ReportesURAValidacionesListComponent } from 'app/modules/admin/reportes/ura/validaciones/list/list.component';
-// import { ReporteURAValidacionDetalleComponent } from './ura/validaciones/details/details.component';
-
 import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
 import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
-
-
-// import { ReportesSecretariaValidadosComponent } from 'app/modules/admin/reportes/secretaria/validados/validados.component';
-// import { ReportesSecretariaValidadosListComponent } from 'app/modules/admin/reportes/secretaria/validados/list/list.component';
-// import { ReporteSecretariaValidadoDialogComponent } from 'app/modules/admin/reportes/secretaria/validados/dialog/dialog.component';
-// import { ReporteSecretariaValidadoDetalleComponent } from './secretaria/validados/details/details.component';
 
 import { ReporteRoutes } from './reportes.routing';
 
 @NgModule({
     declarations: [
-        // ESCUELA
+        // ELABORACIÓN DE CARPETA
         ReporteCarpetasStatusTramitesComponent,
         ReporteCarpetasStatusTramitesListComponent,
         
-        // FACULTAD
-        // ReportesFacultadValidadosComponent,
-        // ReportesFacultadValidadosListComponent,
-        // ReporteFacultadValidadoDetalleComponent,
-        
-        // // URA
-        // ReportesURAValidacionesComponent,
-        // ReportesURAValidacionesListComponent,
-        // ReporteURAValidacionDetalleComponent,
-        
-        // // TESORERÍA
+        // TESORERÍA
         ReportesTesoreriaAprobadosComponent,
         ReportesTesoreriaAprobadosListComponent,
-
-
-
-        // SECRETARIA GENERAL
-        // ReportesSecretariaValidadosComponent,
-        // ReportesSecretariaValidadosListComponent,
-        // ReporteSecretariaValidadoDialogComponent,
-        // ReporteSecretariaValidadoDetalleComponent
 
     ],
     imports     : [
