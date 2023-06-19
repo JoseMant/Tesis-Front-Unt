@@ -259,13 +259,12 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    fileSizeValidator(file: any) {
+    fileSizeValidator(file: any, min: number, max: number) {
         if (file) {
-            // var path = file.replace(/^.*[\\\/]/, "");
             const fileSize = file.size;
             const fileSizeInKB = Math.round(fileSize / 1024);
-            console.log(fileSizeInKB);
-            if (fileSizeInKB >= 4 && fileSizeInKB <= 50) return true;
+            // console.log(fileSizeInKB);
+            if (fileSizeInKB >= min && fileSizeInKB <= max) return true;
             else return false;
         } else return false;
     }
@@ -573,6 +572,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.tramiteForm.markAllAsTouched();
             return;
         }
+
         const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
         if (requis) {
             this.alert = {
@@ -583,8 +583,9 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+
         const requis2 = this.data.requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
-        if (requis2 && !this.fileSizeValidator(requis2.archivoImagen)) {
+        if (requis2 && !this.fileSizeValidator(requis2.archivoImagen, 4, 50)) {
             this.alert = {
                 type   : 'warn',
                 message: requis2.nombre + ': Cargar archivo entre 4KB y 50KB',
@@ -594,9 +595,31 @@ export class TramiteListComponent implements OnInit, OnDestroy
             return;
         }
         
-        // const requis3 = this.data.requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
-        console.log(this.data.requisitos);
-        return;
+        const requis3 = this.tramiteForm.get('requisitos').value;
+        requis3.forEach((element) => {
+            if (element.archivoPdf) {
+                if (!this.fileSizeValidator(element.archivoPdf, 1, 2048)) {
+                    this.alert = {
+                        type   : 'warn',
+                        message: element.nombre + ': Cargar archivo entre 1KB y 2048KB(2MB)',
+                        title: 'Error'
+                    };
+                    this.openSnack();
+                    return;
+                }
+            } else if (element.archivoImagen) {
+                if (!this.fileSizeValidator(element.archivoImagen, 1, 2048)) {
+                    this.alert = {
+                        type   : 'warn',
+                        message: element.nombre + ': Cargar archivo entre 1KB y 2048KB(2MB)',
+                        title: 'Error'
+                    };
+                    this.openSnack();
+                    return;
+                }
+            }
+        });
+
         const formData = new FormData();
         formData.append('entidad', this.tramiteForm.getRawValue().entidad);
         formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);
