@@ -173,6 +173,7 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
             nro_creditos_carpeta: ['', Validators.required],
+            originalidad: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
@@ -192,6 +193,7 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
 
                 // Get the titulo
                 this.titulo = titulo;
+                console.log(this.titulo);
 
                 // Patch values to the form
                 this.tituloForm.patchValue(titulo);
@@ -202,7 +204,7 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;
-                        
+                        console.log(this.diplomas);
                         // this.tituloForm.patchValue({idDiploma_carpeta: diplomas[0]});
             
                         // Mark for check
@@ -288,13 +290,24 @@ export class TituloFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite retornado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
             // Mark for check
             this._changeDetectorRef.markForCheck();
+        },(response) => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
     

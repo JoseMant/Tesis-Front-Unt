@@ -229,9 +229,9 @@
                                     <mat-select
                                         (selectionChange)="selectedEscuela($event.value)"
                                         [formControlName]="'idSubdependencia'">
-                                        <ng-container *ngFor="let mencion of subdependencias">
-                                            <mat-option [value]="mencion.idPrograma">
-                                                {{mencion.nombre}}
+                                        <ng-container *ngFor="let programa of subdependencias">
+                                            <mat-option [value]="programa.idPrograma">
+                                                {{programa.nombre}}
                                             </mat-option>
                                         </ng-container>
                                     </mat-select>

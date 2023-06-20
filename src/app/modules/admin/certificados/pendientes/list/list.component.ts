@@ -32,7 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                 }
 
                 @screen lg {
-                    grid-template-columns: 28px 100px 100px auto 100px 150px 100px 50px 72px;
+                    grid-template-columns: 28px 100px 250px 250px 100px 200px 200px 50px 300px;
                 }
             }
             .fondo_snackbar {

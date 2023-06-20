@@ -171,6 +171,7 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
             nombre_trabajo_carpeta: [''],
             url_trabajo_carpeta: [''],
             nro_creditos_carpeta: ['', Validators.required],
+            originalidad: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
@@ -308,13 +309,25 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite retornado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
             // Mark for check
             this._changeDetectorRef.markForCheck();
+        },
+        (response) => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
     

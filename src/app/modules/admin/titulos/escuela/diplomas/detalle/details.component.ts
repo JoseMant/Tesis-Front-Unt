@@ -309,7 +309,7 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite retornado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();

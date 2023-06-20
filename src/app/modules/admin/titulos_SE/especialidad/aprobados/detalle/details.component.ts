@@ -343,8 +343,9 @@ export class TituloEspecialidadAprobadoDetalleComponent implements OnInit, OnDes
                 formData.append('files[]', new File([""], "vacio.kj"));
             }
         });
-        // console.log(formData.getAll('files[]'));
         
+        this.tituloForm.disable();
+
         this._tituloService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
             
             // Re-enable the form

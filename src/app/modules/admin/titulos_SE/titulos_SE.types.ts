@@ -5,7 +5,7 @@ export interface TituloInterface
     correo: string;
     costo: number;
     entidad: string;
-    mencion: string;
+    programa: string;
     exonerado_archivo: any;
     especialidad: string;
     fecha: string;

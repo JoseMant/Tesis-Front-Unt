@@ -173,6 +173,7 @@ export class TituloEspecialidadDiplomaDetalleComponent implements OnInit, OnDest
             nombre_trabajo_carpeta: ['', Validators.required],
             url_trabajo_carpeta: ['', Validators.required],
             nro_creditos_carpeta: ['', Validators.required],
+            originalidad: ['', Validators.required],
             idPrograma_estudios_carpeta: ['', Validators.required],
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
@@ -231,6 +232,28 @@ export class TituloEspecialidadDiplomaDetalleComponent implements OnInit, OnDest
             });       
     }
     
+    selectedActo(acto_academico: number): void {
+        this.tituloForm.controls.nombre_trabajo_carpeta.clearValidators();
+        this.tituloForm.controls.url_trabajo_carpeta.clearValidators();
+        this.tituloForm.patchValue({
+            fecha_inicio_acto_academico: '',
+            fecha_sustentacion_carpeta: ''
+        });
+        if (acto_academico != 1) {
+            this.tituloForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
+            this.tituloForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
+        } else {
+            this.tituloForm.patchValue({
+                fecha_inicio_acto_academico: moment(this.tituloForm.get('fecha').value),
+                fecha_sustentacion_carpeta: moment(this.tituloForm.get('fecha').value),
+                nombre_trabajo_carpeta: '',
+                url_trabajo_carpeta: ''
+            });
+        }
+        this.tituloForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
+        this.tituloForm.controls.url_trabajo_carpeta.updateValueAndValidity();
+    }
+
     calcularTiempo(): void {
         let tiempo = moment(this.tituloForm.get('fecha_primera_matricula').value).from(this.tituloForm.get('fecha_ultima_matricula').value);
         // let tiempo_parcial = tiempo.split(" ");
@@ -264,6 +287,7 @@ export class TituloEspecialidadDiplomaDetalleComponent implements OnInit, OnDest
     // -----------------------------------------------------------------------------------------------------
 
     enviarDatos(): void {
+
         if (this.tituloForm.invalid) {
             this.tituloForm.markAllAsTouched();
             return;
@@ -288,13 +312,25 @@ export class TituloEspecialidadDiplomaDetalleComponent implements OnInit, OnDest
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite retornado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
             // Mark for check
             this._changeDetectorRef.markForCheck();
+        },
+        (response) => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
         });
     }
     

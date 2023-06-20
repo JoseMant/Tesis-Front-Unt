@@ -21,7 +21,7 @@
                     </div>
                     <!-- MENCIÓN -->
                     <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>MENCIÓN:</b> {{titulo.mencion}}</div>
+                        <div class="text-secondary"><b>MENCIÓN:</b> {{titulo.programa}}</div>
                     </div>
                     <!-- FECHA DE REGISTRO -->
                     <div class="sm:col-span-2">
@@ -60,11 +60,19 @@
                                 (click)="updateEstado()"
                             >
                                 <mat-icon
+                                    *ngIf="!corregirForm.disabled"
                                     class="h-6 w-6 mr-3"
                                     style="color: white"
                                     [svgIcon]="'heroicons_outline:pencil'">
                                 </mat-icon>
-                                Corregir
+                                <span *ngIf="!corregirForm.disabled">
+                                    Corregir
+                                </span>
+                                <mat-progress-spinner
+                                    *ngIf="corregirForm.disabled"
+                                    [diameter]="24"
+                                    [mode]="'indeterminate'">
+                                </mat-progress-spinner>
                             </button>
                         </form>
                     </div>
