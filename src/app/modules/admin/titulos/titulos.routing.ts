@@ -50,6 +50,7 @@ import { TitulosURADiplomasListComponent } from 'app/modules/admin/titulos/ura/d
 import { TitulosURADiplomasResolver, TituloURADiplomaResolver } from 'app/modules/admin/titulos/ura/diplomas/diplomas.resolvers';
 import { TituloURADiplomaDetalleComponent } from 'app/modules/admin/titulos/ura/diplomas/detalle/details.component';
 
+import { UniversidadesResolver } from 'app/shared/universidades/universidades.resolvers';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 
@@ -132,6 +133,7 @@ export const titulosRoutes: Route[] = [
             titulo  : TituloEscuelaDiplomaResolver,
             modalidades: ModalidadesSustentacionResolver,
             programas_estudios: ProgramasEstudiosResolver,
+            universidades: UniversidadesResolver
           },
         }
       ]
@@ -214,6 +216,7 @@ export const titulosRoutes: Route[] = [
             titulo  : TituloFacultadDiplomaResolver,
             modalidades: ModalidadesSustentacionResolver,
             programas_estudios: ProgramasEstudiosResolver,
+            universidades: UniversidadesResolver
           },
         }
       ]
