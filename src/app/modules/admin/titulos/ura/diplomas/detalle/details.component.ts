@@ -310,14 +310,43 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite retornado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
             // Mark for check
             this._changeDetectorRef.markForCheck();
+        },
+        (response) => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
-    
+    validateFormatNumber(event) {
+        let key;
+        if (event.type === 'paste') {
+          key = event.clipboardData.getData('text/plain');
+        } else {
+          key = event.keyCode;
+          key = String.fromCharCode(key);
+        }
+        const regex = /[0-9]|\./;
+         if (!regex.test(key)) {
+          event.returnValue = false;
+           if (event.preventDefault) {
+            event.preventDefault();
+           }
+         }
+    }
 }

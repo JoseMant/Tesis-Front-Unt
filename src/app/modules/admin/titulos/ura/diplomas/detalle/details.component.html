@@ -132,7 +132,8 @@
                                         matInput
                                         [max]="maxDate"
                                         [matDatepicker]="fecha_inicio_acto_academico"
-                                        [formControlName]="'fecha_inicio_acto_academico'">
+                                        [formControlName]="'fecha_inicio_acto_academico'"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="fecha_inicio_acto_academico">
@@ -148,7 +149,8 @@
                                         matInput
                                         [max]="maxDate"
                                         [matDatepicker]="fecha_sustentacion_carpeta"
-                                        [formControlName]="'fecha_sustentacion_carpeta'">
+                                        [formControlName]="'fecha_sustentacion_carpeta'"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="fecha_sustentacion_carpeta">
@@ -192,6 +194,7 @@
                                         type="text"
                                         matInput
                                         [formControlName]="'nro_creditos_carpeta'"
+                                        (keypress)="validateFormatNumber($event)"
                                     />
                                 </mat-form-field>
                                 <mat-form-field
@@ -226,6 +229,7 @@
                                         type="text"
                                         matInput
                                         [formControlName]="'originalidad'"
+                                        (keypress)="validateFormatNumber($event)"
                                     />
                                 </mat-form-field>
                             </div>
@@ -250,7 +254,8 @@
                                     <input
                                         matInput
                                         [matDatepicker]="fecha_inicio"
-                                        [formControlName]="'fecha_inicio'">
+                                        [formControlName]="'fecha_inicio'"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="fecha_inicio">
@@ -266,7 +271,8 @@
                                     <input
                                         matInput
                                         [matDatepicker]="fecha_fin"
-                                        [formControlName]="'fecha_fin'">
+                                        [formControlName]="'fecha_fin'"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="fecha_fin">
@@ -285,7 +291,8 @@
                                         [max]="maxDate"
                                         [matDatepicker]="fecha_primera_matricula"
                                         [formControlName]="'fecha_primera_matricula'"
-                                        (dateChange)="calcularTiempo()">
+                                        (dateChange)="calcularTiempo()"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="fecha_primera_matricula">
@@ -302,7 +309,8 @@
                                         [max]="maxDate"
                                         [matDatepicker]="fecha_ultima_matricula"
                                         [formControlName]="'fecha_ultima_matricula'"
-                                        (dateChange)="calcularTiempo()">
+                                        (dateChange)="calcularTiempo()"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="fecha_ultima_matricula">
