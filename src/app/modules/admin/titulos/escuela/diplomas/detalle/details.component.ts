@@ -7,11 +7,13 @@ import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
 import { TitulosService } from 'app/modules/admin/titulos/titulos.service';
+import { UniversidadesService } from 'app/shared/universidades/universidades.service';
 import { TituloInterface } from 'app/modules/admin/titulos/titulos.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
 import moment from 'moment';
+import { UniversidadInterface } from 'app/shared/universidades/universidades.types';
 
 @Component({
     selector       : 'titulo-escuela-diplomas-details',
@@ -94,6 +96,7 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
     modalidades_sustentacion: any;
     programas_estudios: any;
     diplomas: any;
+    universidades: UniversidadInterface[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -102,6 +105,7 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _tituloService: TitulosService,
+        private _universidadesService: UniversidadesService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -162,8 +166,6 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
             sexoNombre: [''],
             idUnidad: [''],
             idTipo_tramite_unidad: [''],
-            archivo_firma: [''],
-            archivoImagen: [''],
             requisitos: [''],
             fecha: ['', Validators.required],
 
@@ -178,7 +180,8 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
             fecha_primera_matricula: ['', Validators.required],
             fecha_ultima_matricula: ['', Validators.required],
             idDiploma_carpeta: ['', Validators.required],
-            anios_estudios: [{value: '', disabled: true}],
+            idUniversidad: [null, Validators.required],
+            requisito_idioma: [null, Validators.required],
 
             idAcreditacion: [{value: '', disabled: true}],
             dependencia_acreditado: [{value: '', disabled: true}],
@@ -221,6 +224,15 @@ export class TituloEscuelaDiplomaDetalleComponent implements OnInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });
 
+        this._universidadesService.universidades$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((universidades: UniversidadInterface[]) => {
+                this.universidades = universidades;
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+        
         this._tituloService.programas_estudios$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((programas_estudios: any) => {

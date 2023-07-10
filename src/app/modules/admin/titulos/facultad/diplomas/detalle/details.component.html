@@ -261,6 +261,18 @@
                                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
+                                    <mat-label>Requisito de idioma</mat-label>
+                                    <mat-select
+                                        [formControlName]="'requisito_idioma'">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <mat-option [value]="'Si'">SÍ</mat-option>
+                                        <mat-option [value]="'No'">NO</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
                                     <mat-label>Fecha de matrícula (I Ciclo)</mat-label>
                                     <input
                                         matInput
@@ -293,21 +305,25 @@
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #fecha_ultima_matricula></mat-datepicker>
                                 </mat-form-field>
-                                <mat-form-field
-                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
-                                    appearance="outline"
-                                >
-                                    <mat-label>Años de estudios</mat-label>
-                                    <input
-                                        type="text"
-                                        matInput
-                                        [formControlName]="'anios_estudios'"
-                                    />
-                                </mat-form-field>
                             </div>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
-                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Procedencia de bachiller</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idUniversidad'">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <ng-container *ngFor="let universidad of universidades">
+                                            <mat-option [value]="universidad.idUniversidad">
+                                                {{universidad.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
                                     <mat-label>Diploma</mat-label>
