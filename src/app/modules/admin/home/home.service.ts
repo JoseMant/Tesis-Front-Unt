@@ -63,7 +63,7 @@ export class HomeService
      * @param order
      * @param search
      */
-    getTramites(page: number = 0, size: number = 10, sort: string = 'created_at', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getTramites(page: number = 0, size: number = 100, sort: string = 'created_at', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
         Observable<{ pagination: HomePagination; data: HomeTramite[] }>
     {
         return this._httpClient.get<{ pagination: HomePagination; data: HomeTramite[] }>(environment.baseUrl + 'tramite/usuario', {
