@@ -289,6 +289,24 @@ export class CarnetsService
         );
     }
 
+    updateCarnetsSolicitados(fileCarnets: any): Observable<CarnetInterface[]>
+    {
+        return this.carnets$.pipe(
+            take(1),
+            switchMap(carnets => this._httpClient.post<CarnetInterface[]>(environment.baseUrl + 'carnets/import/solicitados', fileCarnets).pipe(
+                map((updatedCarnets) => {
+                    console.log(updatedCarnets);
+                    
+                    // Update the carnets
+                    this._carnets.next(updatedCarnets);
+
+                    // Return the updated carnet
+                    return updatedCarnets;
+                })
+            ))
+        );
+    }
+
     setCarnetsValidados(): Observable<any>
     {
       return this._httpClient.get<any>(environment.baseUrl + 'carnets/validacion/sunedu').pipe(

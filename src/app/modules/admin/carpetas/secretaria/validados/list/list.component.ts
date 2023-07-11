@@ -310,12 +310,15 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
             this.asignando = false;
         },
         (response) => {
+            this.asignando = false;
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
                 title: 'Error'
             };
             this.openSnack();
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
 
