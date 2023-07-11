@@ -21,10 +21,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TramiteAnuladoDialogComponent } from 'app/modules/admin/home/dialog/dialog.component';
+import { QuillModule } from 'ngx-quill';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 @NgModule({
     declarations: [
         HomeComponent,
-        HomeListComponent
+        HomeListComponent,
+        TramiteAnuladoDialogComponent
     ],
     imports     : [
         RouterModule.forChild(homeRoutes),
@@ -37,6 +43,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         MatPaginatorModule,
         MatProgressBarModule,
         MatRippleModule,
+        MatDialogModule,
         MatSortModule,
         MatSelectModule,
         MatSlideToggleModule,
@@ -46,6 +53,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         // ------
         MatDividerModule,
         MatTableModule,
+        QuillModule.forRoot(),
         NgApexchartsModule
     ]
 })

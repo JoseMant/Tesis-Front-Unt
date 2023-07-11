@@ -204,5 +204,25 @@ export class HomeService
         );
     }
 
-    
+    sendNotification(id: number, data: any): Observable<any>
+    {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(certificados => this._httpClient.post<any>(environment.baseUrl + 'tramites/anular', data).pipe(
+                map((isSent: boolean) => {
+                    // Find the index of the updated certificado
+                    const index = certificados.findIndex(item => item.idTramite === id);
+                    
+                    // Update the certificado
+                    // certificados[index] = updatedCertificado;
+
+                    // Update the certificados
+                    // this._certificados.next(certificados);
+
+                    // Return the updated certificado
+                    return isSent;
+                }),
+            ))
+        );
+    }
 }

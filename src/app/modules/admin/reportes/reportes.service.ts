@@ -4,6 +4,7 @@ import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, thr
 import { UserInterface, ReportePagination, ReporteInterface, Unidad } from 'app/modules/admin/reportes/reportes.types';
 import { environment } from 'environments/environment';
 import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import { Carpeta } from 'app/modules/carpeta/carpeta.types';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,8 @@ export class ReportesService
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _programas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _cronogramas: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _anios: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -103,7 +106,17 @@ export class ReportesService
     {
         return this._cronogramas.asObservable();
     }
-
+    /**
+     * Getter for anios
+     */
+    get anios$(): Observable<Unidad[]>
+    {
+        return this._anios.asObservable();
+    }
+    get diplomas$(): Observable<ReporteInterface[]>
+    {
+        return this._diplomas.asObservable();
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -132,6 +145,34 @@ export class ReportesService
         })
       );
     }
+
+    getReporteExpedientes(idUnidad: number = 0, idDependencia: number = 0, idPrograma: number = 0, idTipo_tramite_unidad: number = 0,anio: number =0,
+        page: number = 0, size: number = 100, sort: string = 'solicitante', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+    Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'reporte/elaboracion_carpeta/expedientes', {
+        params: {
+            idUnidad,
+            idDependencia,
+            idPrograma,
+            idTipo_tramite_unidad,
+            anio,
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._reportes.next(response.data);
+        })
+      );
+    }
+
+    
+    
 
     getReportesFacultad(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
@@ -251,4 +292,47 @@ export class ReportesService
             })
         );
     }
+
+    getAnio(): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'año').pipe(
+            tap((response: any[]) => {
+                this._anios.next(response);
+            })
+        );
+    }
+
+    // getCodigoDiploma(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    // Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
+    // {
+    //   return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'diploma', {
+    //     params: {
+    //         page: '' + page,
+    //         size: '' + size,
+    //         sort,
+    //         order,
+    //         search
+    //     }
+    // }).pipe(
+    //     tap((response) => {
+    //       console.log(response);
+    //       this._pagination.next(response.pagination);
+    //       this._diplomas.next(response.data);
+    //     })
+    //   );
+    // }
+
+    /**
+     * Get carpeta by codigo_diploma
+     */
+    getCarpetaByCodigoDiploma(codigo_diploma: string): Observable<ReporteInterface>
+    {
+        return this._httpClient.get<ReporteInterface>(environment.baseUrl + 'carpeta/codigo_diploma/' + codigo_diploma).pipe(
+            tap((response) => {
+                console.log(response)
+                this._reporte.next(response);
+            })
+        );
+    }
+
 }

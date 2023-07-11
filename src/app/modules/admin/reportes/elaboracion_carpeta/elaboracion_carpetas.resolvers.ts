@@ -35,6 +35,34 @@ export class ReporteCarpetasStatusTramitesResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
+export class ReporteCarpetasExpedientesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _reportesService: ReportesService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
+    {
+        return this._reportesService.getReporteExpedientes();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class UnidadesResolver implements Resolve<any>
 {
     /**

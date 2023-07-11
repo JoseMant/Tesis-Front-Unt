@@ -549,9 +549,31 @@ export const defaultNavigation: FuseNavigationItem[] = [
             {
                 id   : 'reportes.elaboracion_carpeta',
                 title: 'Elaboración de carpeta',
-                type : 'basic',
-                link : '/reportes/elaboracion_carpeta',
-                permissions: ['SECRETARIA(O) DE FACULTAD', 'SECRETARIA(O) DE ESCUELA', 'SUBUNIDAD DE GRADOS Y TÍTULOS']
+                type : 'collapsable',
+                permissions: ['ADMINISTRADOR'],
+                children: [
+                    {
+                        id   : 'reportes.elaboracion_carpeta.status_tramites',
+                        title: 'Estado de trámites',
+                        type : 'basic',
+                        link : '/reportes/elaboracion_carpeta/status_tramites',
+                        permissions: ['ADMINISTRADOR']
+                    },
+                    {
+                        id   : 'reportes.expedientes.finalizados',
+                        title: 'Expedientes',
+                        type : 'basic',
+                        link : '/reportes/elaboracion_carpeta/expedientes',
+                        permissions: ['ADMINISTRADOR']
+                    },
+                    {
+                        id   : 'reportes.diplomas',
+                        title: 'Diplomas',
+                        type : 'basic',
+                        link : '/reportes/elaboracion_carpeta/diplomas',
+                        permissions: ['ADMINISTRADOR']
+                    }
+                ]
 
             },
             {

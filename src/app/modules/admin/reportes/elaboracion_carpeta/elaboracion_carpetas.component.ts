@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 
 @Component({
     selector       : 'reportes-validados',
-    templateUrl    : './status_tramites.component.html',
+    templateUrl    : './elaboracion_carpetas.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

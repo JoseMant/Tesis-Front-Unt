@@ -27,6 +27,15 @@ export interface ReporteInterface
     fecha_primera_matricula?: number;
     fecha_ultima_matricula?: number;
     certificado_final?: string;
+    codigo_diploma?:string;
+    denominacion?: string;
+    fecha_colacion?: string;
+    diploma_obtenido?:string;
+    modalidadSustentancion?:string;
+    nro_libro?:string;
+    folio?:string;
+    nro_registro?:string;
+    nro_resolucion?:string;
 }
 export interface ReportePagination
 {

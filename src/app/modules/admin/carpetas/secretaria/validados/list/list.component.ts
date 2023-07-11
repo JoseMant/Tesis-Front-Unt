@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, O
 import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil,finalize } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CarpetasPagination, CarpetaInterface } from 'app/modules/admin/carpetas/carpetas.types';
@@ -12,7 +12,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
-import { ActivatedRoute, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, RouterStateSnapshot, Router, Data } from '@angular/router';
 import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 
 @Component({
@@ -53,6 +53,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     @ViewChild('selectedResolucionNgForm') selectedResolucionNgForm: NgForm;
+    @ViewChild('selectedPadronNgForm') selectedPadronNgForm: NgForm;
 
     carpetas$: Observable<CarpetaInterface[]>;
     resolucion$: Observable<Resolucion>;
@@ -70,6 +71,8 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
     selectedCarpeta: CarpetaInterface | null = null;
     selectedCarpetaForm: FormGroup;
     selectedResolucionForm: FormGroup;
+    
+    selectedPadronForm: FormGroup;
     tagsEditMode: boolean = false;
     carpetasCount: number = 0;
     asignando: boolean = false;
@@ -99,7 +102,13 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
      * On init
      */
     ngOnInit(): void
-    {        
+    {    
+        
+        // Create the selected carnet form
+        this.selectedPadronForm = this._formBuilder.group({
+            file             : ['', [Validators.required]],
+        });
+
         // Create the selected resolucion form
         this.selectedResolucionForm = this._formBuilder.group({
             idResolucion     : [''],
@@ -254,7 +263,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
     {
         // Get the product object
         const data = this.selectedResolucionForm.get('nro_resolucion').value;
-        
+        console.log(data);
         this._carpetasService.getResolucion(data).subscribe((response) => {
             if (response.resolucion) {
                 this.selectedResolucionForm.patchValue(response.resolucion);
@@ -328,6 +337,77 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
         document.body.appendChild(link);
         link.click();
         link.remove();
+    }
+
+    verExcel(event): void {
+        const files = event.target.files[0];
+        console.log(files);
+        /* const data = this.selectedResolucionForm.get('idResolucion').value;
+        console.log(data); */
+        /* console.log('PADRON_SUNEDU_'+this.selectedResolucionForm.get('idResolucion').value+'.xlsx'); */
+        let resolucion=this.selectedResolucionForm.get('nro_resolucion').value.split('/', 2);
+        console.log(resolucion[0]);
+        if(files.name.includes('PADRON_SUNEDU_'+resolucion[0]+'.xlsx')){
+            this.selectedPadronForm.patchValue({file: files});
+            this.uploadAprobados();
+           
+        }else{
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Nombre del archivo incorrecto',
+                    title: 'Error'
+                };
+                this.openSnack();
+        }
+        
+    }
+
+    uploadAprobados(): void{
+        const formData = new FormData();
+        formData.append('file', this.selectedPadronForm.get('file').value);
+        formData.append('idResolucion', this.selectedResolucionForm.get('idResolucion').value);
+        console.log(formData);
+        // Disable the form
+        this.selectedPadronForm.disable();
+
+        this._carpetasService.updatePadronAprobados(formData)
+        .pipe(
+            finalize(() => {
+
+                // Re-enable the form
+                this.selectedPadronForm.enable();
+
+                // Reset the form
+                /* this.selectedPadronNgForm.resetForm(); */
+
+                // Show the alert
+                this.openSnack();
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            })
+        )
+        .subscribe(
+            (newCarpeta) => {
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'success',
+                    message: 'Datos cargados correctamente',
+                    title: 'Guardado'
+                };
+                
+                
+            },
+            (error) => {
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Error al cargar los datos',
+                    title: 'Error'
+                };
+            });
     }
 
     /**
