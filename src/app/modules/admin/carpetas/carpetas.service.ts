@@ -217,6 +217,25 @@ export class CarpetasService
       );
     }
 
+    getCarpetasFinalizadas(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
+    {
+        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'carpetas/finalizadas/' + resolucion, {
+            params: {
+                page: '' + page,
+                size: '' + size,
+                sort,
+                order,
+                search
+            }
+        }).pipe(
+            tap((response) => {
+                this._pagination.next(response.pagination);
+                this._carpetas.next(response.data);
+                this._resolucion.next(response.resolucion);
+            })
+        );
+    }
     /**
      * Get carpeta by id
      */
@@ -386,6 +405,34 @@ export class CarpetasService
 
                     // Return the updated carnet
                     return updatedCarpetas;
+                })
+            ))
+        );
+    }
+
+    finalizarTramites(resolucion: Resolucion): Observable<any>
+    {
+        return this.carpetas$.pipe(
+            take(1),
+            switchMap(carpetas => this._httpClient.post<any[]>(environment.baseUrl + 'carpetas/finalizar', {"idResolucion":resolucion}).pipe(
+                map((updatedGrados) => {
+                    console.log(updatedGrados);
+                    // debugger;
+                    // Update the messages with the new message
+                    // this._carpetasService.getGradosValidados(0, 10, 'fecha', 'desc', query);
+                    updatedGrados.forEach(element => {
+                        // Find the index of the deleted product
+                        const index = carpetas.findIndex(item => item.idTramite === element.idTramite);
+        
+                        // Delete the product
+                        carpetas.splice(index, 1);
+                    });
+        
+                    // Update the carpetas
+                    this._carpetas.next(carpetas);
+        
+                    // Return the new message from observable
+                    return carpetas;
                 })
             ))
         );
