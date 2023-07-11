@@ -13,6 +13,8 @@ import { HomeService } from 'app/modules/admin/home/home.service';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TramiteAnuladoDialogComponent } from 'app/modules/admin/home/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector       : 'home-list',
@@ -100,6 +102,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _homeService: HomeService,
+        public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
     {
@@ -387,6 +390,19 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                 });
             }
         });
+    }
+
+    modalNotification(): void {
+        console.log(this.selectedTramite);
+        const respDial = this.visordialog.open(
+            TramiteAnuladoDialogComponent,
+            {
+                data: this.selectedTramite,
+                disableClose: true,
+                minWidth: '50%',
+                maxWidth: '60%'
+            }
+        );
     }
 
     /**

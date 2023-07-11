@@ -42,7 +42,6 @@ export class CarpetaComponent
             .subscribe((response) => {
                 // Update the counts
                 this.carpeta = response;
-                console.log(response);
                 this.rows = [
                     {
                         id: 1,
@@ -58,9 +57,44 @@ export class CarpetaComponent
                         id: 3,
                         title: 'Fecha Emitido',
                         detail: response.fecha_colacion
+                    },
+                    {
+                        id: 4,
+                        title: 'Abreviatura grado/tÍtulo',
+                        detail: response.diploma_obtenido,
+                    },
+                    {
+                        id: 5,
+                        title: 'Modalidad de Obtención',
+                        detail: response.modalidadSustentancion
+                    },
+                    {
+                        id: 6,
+                        title: 'Registrado en el libro de títulos Nro.',
+                        detail: response.nro_libro
+                    },
+                    {
+                        id: 7,
+                        title: 'Folio',
+                        detail: response.folio
+                    },
+                    {
+                        id: 8,
+                        title: 'Registro de secretaria general Nro.',
+                        detail: response.nro_registro
+                    },
+                    {
+                        id: 9,
+                        title: 'Resolución de otorgamiento',
+                        detail: 'RCU N° '+response.nro_resolucion
+                    },
+                    {
+                        id: 10,
+                        title: 'Resolución de otorgamiento',
+                        detail: 'O-ORIGINAL'
                     }
+                
                 ]
-                console.log(this.rows);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

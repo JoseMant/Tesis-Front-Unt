@@ -19,7 +19,8 @@ export class CarpetasService
     private _programas_estudios: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _resolucion: BehaviorSubject<any | null> = new BehaviorSubject(null);
-
+    private _padron: BehaviorSubject<CarpetaInterface[] | null> = new BehaviorSubject(null);
+    
     /**
      * Constructor
      */
@@ -75,7 +76,10 @@ export class CarpetasService
     get resolucion$(): Observable<any> {
         return this._resolucion.asObservable();
     }
-
+    get padron$(): Observable<CarpetaInterface[]>
+    {
+        return this._padron.asObservable();
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -307,7 +311,23 @@ export class CarpetasService
             ))
         );
     }
+    updatePadronAprobados(filePadron: any): Observable<CarpetasService[]>
+    {
+        return this.padron$.pipe(
+            take(1),
+            switchMap(carnets => this._httpClient.post<CarpetasService[]>(environment.baseUrl + 'correccion/padron_sunedu', filePadron).pipe(
+                map((updatedPadron) => {
+                    console.log(updatedPadron);
+                    
+                    // Update the carnets
+                    // this._padron.next(updatedPadron);
 
+                    // Return the updated carnet
+                    return updatedPadron;
+                })
+            ))
+        );
+    }
     firmaDecano(resolucion: Resolucion): Observable<any>
     {
         return this.carpetas$.pipe(

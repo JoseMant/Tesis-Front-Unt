@@ -69,9 +69,11 @@
                     (click)="verLibro()">
                     <span class="ml-2">Descargar padron</span>
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item
+                (click)="fileInput.click()" >
                     <span class="ml-2">Cargar modificaciones</span>
                 </button>
+                <input #fileInput type="file" accept=".xlsx" hidden (change)="verExcel($event)"/>
                 <button
                     mat-menu-item
                     (click)="registrarEnLibro()">

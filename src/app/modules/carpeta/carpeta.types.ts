@@ -11,4 +11,11 @@ export interface Carpeta
     denominacion: string;
     codigo_diploma: string;
     fecha_colacion: string;
+    
+    diploma_obtenido?:string;
+    modalidadSustentancion?:string;
+    nro_libro?:string;
+    folio?:string;
+    nro_registro?:string;
+    nro_resolucion?:string;
 }

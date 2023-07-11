@@ -28,8 +28,11 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { QuillModule } from 'ngx-quill';
 import * as moment from 'moment';
 
-import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/status_tramites.component';
+import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.component';
 import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/list/list.component';
+import { ReporteCarpetasExpedientesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/expedientes/list/list.component';
+
+import { ReporteCarpetasDiplomasListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/diplomas/list.component';
 
 import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
 import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
@@ -41,6 +44,8 @@ import { ReporteRoutes } from './reportes.routing';
         // ELABORACIÓN DE CARPETA
         ReporteCarpetasStatusTramitesComponent,
         ReporteCarpetasStatusTramitesListComponent,
+        ReporteCarpetasExpedientesListComponent,
+        ReporteCarpetasDiplomasListComponent,
         
         // TESORERÍA
         ReportesTesoreriaAprobadosComponent,

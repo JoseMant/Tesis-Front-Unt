@@ -1,6 +1,7 @@
 export interface HomeTramite
 {
     idTramite: number;
+    correo?: string;
     category?: string;
     name: string;
     description?: string;
