@@ -304,6 +304,8 @@ export class CertificadoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
             this._changeDetectorRef.markForCheck();
         },
         (response) => {
+            
+            console.log(response);
             // Re-enable the form
             this.certificadoForm.enable();
             this.alert = {
@@ -312,6 +314,11 @@ export class CertificadoFirmaDecanoDetalleComponent implements OnInit, OnDestroy
                 title: 'Error'
             };
             this.openSnack();
+            this.newCertificado = false;
+            
+            console.log(response);
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
     

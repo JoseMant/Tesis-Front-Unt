@@ -60,7 +60,7 @@
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
 
-                    <!-- Fecha Resolución -->
+                    <!-- Fecha Oficio -->
                     <ng-container *ngIf="oficio.fecha">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
@@ -117,13 +117,13 @@
                                         </td>
                                     </ng-container>
 
-                                    <!-- Nro. Resolución -->
+                                    <!-- Nro. Oficio -->
                                     <ng-container matColumnDef="nro_resolucion">
                                         <th
                                             mat-header-cell
                                             mat-sort-header
                                             *matHeaderCellDef>
-                                            Nro. Resolución
+                                            Nro. Oficio
                                         </th>
                                         <td
                                             mat-cell
@@ -134,13 +134,13 @@
                                         </td>
                                     </ng-container>
 
-                                    <!-- Fecha de Resolución -->
+                                    <!-- Fecha de Oficio -->
                                     <ng-container matColumnDef="fecha">
                                         <th
                                             mat-header-cell
                                             mat-sort-header
                                             *matHeaderCellDef>
-                                            Fecha de Resolución
+                                            Fecha de Oficio
                                         </th>
                                         <td
                                             mat-cell
@@ -224,10 +224,10 @@
                         </div>
                     </div>
 
-                    <!-- Resolución -->
+                    <!-- Oficio -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Resolución</mat-label>
+                            <mat-label>Oficio</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -235,15 +235,15 @@
                             <input
                                 matInput
                                 [formControlName]="'nro_oficio'"
-                                [placeholder]="'Resolución'"
+                                [placeholder]="'Oficio'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
 
-                    <!-- Fecha de resolución -->
+                    <!-- Fecha de oficio -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Fecha de resolución</mat-label>
+                            <mat-label>Fecha de Oficio</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -253,7 +253,8 @@
                                 [max]="maxDate"
                                 [matDatepicker]="fecha_oficioDatepicker"
                                 [formControlName]="'fecha'"
-                                [placeholder]="'Seleccionar fecha de Resolución'">
+                                [placeholder]="'Seleccionar fecha de Oficio'"
+                                readonly>
                             <mat-datepicker-toggle
                                 matSuffix
                                 [for]="fecha_oficioDatepicker">
@@ -296,13 +297,13 @@
                                         </td>
                                     </ng-container>
 
-                                    <!-- Nro. Resolución -->
+                                    <!-- Nro. Oficio -->
                                     <ng-container matColumnDef="nro_resolucion">
                                         <th
                                             mat-header-cell
                                             mat-sort-header
                                             *matHeaderCellDef>
-                                            Nro. Resolución
+                                            Nro. Oficio
                                         </th>
                                         <td
                                             mat-cell
@@ -313,13 +314,13 @@
                                         </td>
                                     </ng-container>
 
-                                    <!-- Fecha de Resolución -->
+                                    <!-- Fecha de Oficio -->
                                     <ng-container matColumnDef="fecha">
                                         <th
                                             mat-header-cell
                                             mat-sort-header
                                             *matHeaderCellDef>
-                                            Fecha de Resolución
+                                            Fecha de Oficio
                                         </th>
                                         <td
                                             mat-cell

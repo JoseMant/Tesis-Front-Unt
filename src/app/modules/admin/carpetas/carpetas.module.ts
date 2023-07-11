@@ -47,6 +47,11 @@ import { CarpetasURAPendientesComponent } from 'app/modules/admin/carpetas/ura/p
 import { CarpetasURAPendientesListComponent } from 'app/modules/admin/carpetas/ura/pendientes/list/list.component';
 import { CarpetaURAPendienteDialogComponent } from 'app/modules/admin/carpetas/ura/pendientes/dialog/dialog.component';
 
+import { CarpetasFinalizadasComponent } from 'app/modules/admin/carpetas/finalizados/finalizados.component';
+import { CarpetasFinalizadasListComponent } from 'app/modules/admin/carpetas/finalizados/list/list.component';
+import { CarpetasFinalizadasDetalleComponent } from 'app/modules/admin/carpetas/finalizados/details/details.component';
+// import { CarpetaSecretariaFinalizadasDialogComponent } from 'app/modules/admin/carpetas/secretaria/validados/dialog/dialog.component';
+
 import { carpetasRoutes } from 'app/modules/admin/carpetas/carpetas.routing';
 
 @NgModule({
@@ -65,6 +70,10 @@ import { carpetasRoutes } from 'app/modules/admin/carpetas/carpetas.routing';
 
         CarpetasFirmasSecretariaGeneralComponent,
         CarpetasFirmasSecretariaGeneralListComponent,
+
+        CarpetasFinalizadasComponent,
+        CarpetasFinalizadasListComponent,
+        CarpetasFinalizadasDetalleComponent,
 
         CarpetasURAPendientesComponent,
         CarpetasURAPendientesListComponent,        

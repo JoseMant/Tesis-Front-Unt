@@ -4,17 +4,17 @@ import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angula
 import { MatDialog } from '@angular/material/dialog';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
-import { GradosService } from 'app/modules/admin/grados/grados.service';
-import { GradoInterface } from 'app/modules/admin/grados/grados.types';
+import { CarpetasService } from 'app/modules/admin/carpetas/carpetas.service';
+import { CarpetaInterface } from 'app/modules/admin/carpetas/carpetas.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
+// import { CarpetaSecretariaValidadosDialogComponent } from 'app/modules/admin/carpetas/secretaria/validados/dialog/dialog.component';
 import moment from 'moment';
 
 @Component({
-    selector       : 'grado-facultad-diplomas-details',
+    selector       : 'carpeta-finalizadas-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -77,17 +77,17 @@ import moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
+export class CarpetasFinalizadasDetalleComponent implements OnInit, OnDestroy
 {
-    @ViewChild('gradoNgForm') gradoNgForm: NgForm;
+    @ViewChild('carpetaNgForm') carpetaNgForm: NgForm;
     @ViewChild('corregirNgForm') corregirNgForm: NgForm;
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
         message: '',
         title: '',
     };
-    grado: GradoInterface | null = null;
-    gradoForm: FormGroup;
+    carpeta: CarpetaInterface | null = null;
+    carpetaForm: FormGroup;
     corregirForm: FormGroup;
     contador: number = 4;
     maxDate: any;
@@ -101,7 +101,7 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _gradoService: GradosService,
+        private _carpetaService: CarpetasService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -134,8 +134,8 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
     {
         this.limiteFecha();
 
-        // Create the selected grado form
-        this.gradoForm = this._formBuilder.group({
+        // Create the selected carpeta form
+        this.carpetaForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
             nro_documento: [''],
@@ -165,45 +165,51 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
-            fecha: ['', Validators.required],
 
-            idModalidad_carpeta: ['', Validators.required],
-            fecha_inicio_acto_academico: ['', Validators.required],
-            fecha_sustentacion_carpeta: [''],
-            nombre_trabajo_carpeta: [''],
-            url_trabajo_carpeta: [''],
-            nro_creditos_carpeta: ['', Validators.required],
-            idPrograma_estudios_carpeta: ['', Validators.required],
-            fecha_primera_matricula: ['', Validators.required],
-            fecha_ultima_matricula: ['', Validators.required],
-            idDiploma_carpeta: ['', Validators.required],
+            idModalidad_carpeta: [{value: '', disabled: true}, Validators.required],
+            fecha_inicio_acto_academico: [{value: '', disabled: true}, Validators.required],
+            fecha_sustentacion_carpeta: [{value: '', disabled: true}, Validators.required],
+            nombre_trabajo_carpeta: [{value: '', disabled: true}],
+            url_trabajo_carpeta: [{value: '', disabled: true}],
+            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
+            idPrograma_estudios_carpeta: [{value: '', disabled: true}, Validators.required],
+            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
+            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
+            idDiploma_carpeta: [{value: '', disabled: true}, Validators.required],
             anios_estudios: [{value: '', disabled: true}],
 
             idAcreditacion: [{value: '', disabled: true}],
             dependencia_acreditado: [{value: '', disabled: true}],
             fecha_inicio: [{value: '', disabled: true}],
-            fecha_fin: [{value: '', disabled: true}]
+            fecha_fin: [{value: '', disabled: true}],
         });
 
-        // Get the grado
-        this._gradoService.grado$
+        // Get the carpeta
+        this._carpetaService.carpeta$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((grado: GradoInterface) => {
+            .subscribe((carpeta: CarpetaInterface) => {
 
-                // Get the grado
-                this.grado = grado;
+                // Get the carpeta
+                this.carpeta = carpeta;
 
                 // Patch values to the form
-                this.gradoForm.patchValue(grado);
-                console.log(this.gradoForm.getRawValue());
+                this.carpetaForm.patchValue(carpeta);
+                console.log(this.carpeta);
                 this.calcularTiempo();
 
-                this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idPrograma)
+                this._carpetaService.getModalidadesSustentacion(carpeta.idTipo_tramite_unidad)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((modalidades: any) => {
+                        this.modalidades_sustentacion = modalidades;
+            
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
+
+                this._carpetaService.getDiplomasByTipoTramiteUnidad(carpeta.idUnidad, carpeta.idTipo_tramite_unidad, carpeta.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((diplomas: any) => {
                         this.diplomas = diplomas;
-                        
-                        // this.gradoForm.patchValue({idDiploma_carpeta: diplomas[0]});
             
                         // Mark for check
                         this._changeDetectorRef.markForCheck();
@@ -213,16 +219,7 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });
 
-        this._gradoService.modalidades_sustentacion$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((modalidades_sustentacion: any) => {
-                this.modalidades_sustentacion = modalidades_sustentacion;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        this._gradoService.programas_estudios$
+        this._carpetaService.programas_estudios$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((programas_estudios: any) => {
                 this.programas_estudios = programas_estudios;
@@ -231,35 +228,24 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });       
     }
-
-    selectedActo(acto_academico: number): void {
-        this.gradoForm.controls.fecha_sustentacion_carpeta.clearValidators();
-        this.gradoForm.controls.nombre_trabajo_carpeta.clearValidators();
-        this.gradoForm.controls.url_trabajo_carpeta.clearValidators();
-        this.gradoForm.patchValue({
-            fecha_inicio_acto_academico: ''
-        });
-        if (acto_academico != 1) {
-            this.gradoForm.controls.fecha_sustentacion_carpeta.setValidators([Validators.required]);
-            this.gradoForm.controls.nombre_trabajo_carpeta.setValidators([Validators.required]);
-            this.gradoForm.controls.url_trabajo_carpeta.setValidators([Validators.required]);
-        } else {
-            this.gradoForm.patchValue({
-                fecha_inicio_acto_academico: moment(this.gradoForm.get('fecha').value),
-                fecha_sustentacion_carpeta: '',
-                nombre_trabajo_carpeta: '',
-                url_trabajo_carpeta: ''
-            });
-        }
-        this.gradoForm.controls.fecha_sustentacion_carpeta.updateValueAndValidity();
-        this.gradoForm.controls.nombre_trabajo_carpeta.updateValueAndValidity();
-        this.gradoForm.controls.url_trabajo_carpeta.updateValueAndValidity();
-    }
     
     calcularTiempo(): void {
-        let tiempo = moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value);
+        let tiempo = moment(this.carpetaForm.get('fecha_primera_matricula').value).from(this.carpetaForm.get('fecha_ultima_matricula').value);
         let tiempo_parcial = tiempo.split(" ");
-        this.gradoForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
+        this.carpetaForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
+    }
+
+    modalNotification(): void {
+        // console.log(this.carpetaForm.getRawValue());
+        // const respDial = this.visordialog.open(
+        //     CarpetaSecretariaValidadosDialogComponent,
+        //     {
+        //         data: this.carpetaForm.getRawValue(),
+        //         disableClose: true,
+        //         minWidth: '50%',
+        //         maxWidth: '60%'
+        //     }
+        // );
     }
 
     /**
@@ -286,55 +272,7 @@ export class GradoFacultadDiplomaDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
     
-    enviarDatos(): void {
-        if (this.gradoForm.invalid) {
-            this.gradoForm.markAllAsTouched();
-            return;
-        }
-
-        // Get the contact object
-        const grado = this.gradoForm.getRawValue();
-        grado.fecha_inicio_acto_academico = new Date(grado.fecha_inicio_acto_academico).toISOString().substring(0,10);
-        if (grado.fecha_sustentacion_carpeta) grado.fecha_sustentacion_carpeta = new Date(grado.fecha_sustentacion_carpeta).toISOString().substring(0,10);
-        else grado.fecha_sustentacion_carpeta = null;
-        grado.fecha_primera_matricula = new Date(grado.fecha_primera_matricula).toISOString().substring(0,10);
-        grado.fecha_ultima_matricula = new Date(grado.fecha_ultima_matricula).toISOString().substring(0,10);
-        // Disable the form
-        this.gradoForm.disable();
-        
-        // Update the contact on the server
-        this._gradoService.sendDatos(grado.idTramite, grado).subscribe(() => {
-
-            // Re-enable the form
-            // this.gradoForm.enable();
-
-            // Show a success message
-            this.alert = {
-                type   : 'success',
-                message: 'Trámite enviado correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
-            
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
-    }
-    validateFormatNumber(event) {
-        let key;
-        if (event.type === 'paste') {
-          key = event.clipboardData.getData('text/plain');
-        } else {
-          key = event.keyCode;
-          key = String.fromCharCode(key);
-        }
-        const regex = /[0-9]|\./;
-         if (!regex.test(key)) {
-          event.returnValue = false;
-           if (event.preventDefault) {
-            event.preventDefault();
-           }
-         }
-    }
+    
 }

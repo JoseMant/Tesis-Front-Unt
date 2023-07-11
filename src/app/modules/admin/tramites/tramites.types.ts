@@ -32,6 +32,7 @@ export interface TramiteInterface
     unidad?: string;
     idTipo_tramite_unidad: number;
     tipo_tramite_unidad?: string;
+    tramite?: string;
     requisitos: any;
     archivoImagen: any;
     comentario_tramite: string;

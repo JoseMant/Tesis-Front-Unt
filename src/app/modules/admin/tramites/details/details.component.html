@@ -18,7 +18,7 @@
 
                         <!-- Tipo de trámite -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary"><b>Tipo de trámite:</b> {{tramite.tipo_tramite_unidad}}</div>
+                            <div class="text-secondary"><b>Tipo de trámite:</b> {{tramite.tramite}}</div>
                         </div>
 
                         <!-- Unidad -->
@@ -134,7 +134,8 @@
                                         matInput
                                         [max]="maxDate"
                                         [matDatepicker]="birthday"
-                                        [formControlName]="'fecha_operacion'">
+                                        [formControlName]="'fecha_operacion'"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="birthday">

@@ -313,7 +313,7 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite retornado correctamente',
+                message: 'Trámite actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
@@ -321,6 +321,22 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
+    }
+    validateFormatNumber(event) {
+        let key;
+        if (event.type === 'paste') {
+          key = event.clipboardData.getData('text/plain');
+        } else {
+          key = event.keyCode;
+          key = String.fromCharCode(key);
+        }
+        const regex = /[0-9]|\./;
+         if (!regex.test(key)) {
+          event.returnValue = false;
+           if (event.preventDefault) {
+            event.preventDefault();
+           }
+         }
     }
     
 }

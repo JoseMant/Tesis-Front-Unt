@@ -16,12 +16,12 @@ import { ActivatedRoute, RouterStateSnapshot, Router } from '@angular/router';
 import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 
 @Component({
-    selector       : 'carpetas-firmas-rector-list',
+    selector       : 'carpetas-finalizadas-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .carpetas-firmas-rector-grid {
+            .carpetas-finalizadas-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -33,7 +33,7 @@ import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronog
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px auto 250px 96px 250px 112px 200px;
+                    grid-template-columns: 48px 112px auto 190px 96px 190px 112px 72px;
                 }
             }
             .fondo_snackbar {
@@ -48,7 +48,7 @@ import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronog
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CarpetasFinalizadasListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -67,8 +67,8 @@ export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit,
     isLoading: boolean = false;
     pagination: CarpetasPagination;
     searchInputControl: FormControl = new FormControl('');
-    selectedGrado: CarpetaInterface | null = null;
-    selectedGradoForm: FormGroup;
+    selectedCarpeta: CarpetaInterface | null = null;
+    selectedCarpetaForm: FormGroup;
     selectedResolucionForm: FormGroup;
     tagsEditMode: boolean = false;
     carpetasCount: number = 0;
@@ -99,15 +99,15 @@ export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit,
      * On init
      */
     ngOnInit(): void
-    {
+    {        
         // Create the selected resolucion form
         this.selectedResolucionForm = this._formBuilder.group({
             idResolucion     : [''],
             nro_resolucion   : ['', [Validators.required]]
         });
 
-        // Create the selected grado form
-        this.selectedGradoForm = this._formBuilder.group({
+        // Create the selected carpeta form
+        this.selectedCarpetaForm = this._formBuilder.group({
             id               : [''],
             category         : [''],
             name             : ['', [Validators.required]],
@@ -191,7 +191,7 @@ export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit,
                 switchMap((query) => {
                     this.isLoading = true;
                     var data = this.selectedResolucionForm.get('idResolucion').value;
-                    return this._carpetasService.getCarpetasFirmasRector(data, 0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    return this._carpetasService.getCarpetasFinalizadas(data, 0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -241,7 +241,7 @@ export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit,
                     this.isLoading = true;
                     // Get the product object
                     const data = this.selectedResolucionForm.get('idResolucion').value;
-                    return this._carpetasService.getCarpetasFirmasRector(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    return this._carpetasService.getCarpetasFinalizadas(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -273,7 +273,7 @@ export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit,
 
                 // Get the parent url
                 const parentUrl = this._router.url + '/' + response.resolucion.idResolucion;
-                
+                console.log(parentUrl);
                 // Navigate to there
                 this._router.navigateByUrl(parentUrl);
             }
@@ -294,45 +294,6 @@ export class CarpetasFirmasRectorListComponent implements OnInit, AfterViewInit,
         
         // Navigate to there
         this._router.navigateByUrl(parentUrl);
-    }
-
-    firmaRector() {
-        this.asignando = true;
-        const data = this.selectedResolucionForm.getRawValue();
-        // Create the cronograma on the server
-        this._carpetasService.firmaRector(data.idResolucion).subscribe((response) => {
-            this.alert = {
-                type   : 'success',
-                message: 'Firmados correctamente',
-                title: 'Guardado'
-            };
-            this.openSnack();
-            this.asignando = false;
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        },
-        (response) => {
-            this.asignando = false;
-            this.alert = {
-                type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
-            };
-            this.openSnack();
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
-    }
-
-    verLibro() {
-        const data = this.selectedResolucionForm.getRawValue();
-        
-        const link = document.createElement('a');
-        link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'enviados/impresion/' + data.idResolucion);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
     }
 
     /**

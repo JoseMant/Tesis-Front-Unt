@@ -392,7 +392,8 @@
                                         matInput
                                         [max]="maxDate"
                                         [matDatepicker]="birthday"
-                                        [formControlName]="'fecha_operacion'">
+                                        [formControlName]="'fecha_operacion'"
+                                        readonly>
                                     <mat-datepicker-toggle
                                         matSuffix
                                         [for]="birthday">
@@ -412,7 +413,7 @@
                                         />
                                 </mat-form-field>
                             </div>                            
-                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                            <div *ngIf="exoneracion" class="grid grid-cols-6 gap-y-6 mb-6">
                                 <div
                                     class="flex items-center h-10 min-h-10 px-4 cursor-pointer hover:bg-hover"
                                     (click)="toggleExonerado($event)"

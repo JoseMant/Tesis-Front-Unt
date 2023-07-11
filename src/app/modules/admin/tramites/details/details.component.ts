@@ -521,6 +521,16 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+        const requis2 = this.tramiteForm.getRawValue().requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
+        if (requis2 && !this.fileSizeValidator(requis2.archivoImagen)) {
+            this.alert = {
+                type   : 'warn',
+                message: requis2.nombre + ': Cargar archivo entre 4KB y 50KB',
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
         data.requisitos.forEach((element) => {
@@ -573,5 +583,14 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             };
             this.openSnack();
         });
+    }
+
+    fileSizeValidator(file: any) {
+        if (file) {
+            const fileSize = file.size;
+            const fileSizeInKB = Math.round(fileSize / 1024);
+            if (fileSizeInKB >= 4 && fileSizeInKB <= 50) return true;
+            else return false;
+        } else return false;
     }
 }

@@ -251,11 +251,25 @@ export class GradoURAValidacionDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite registrado correctamente',
+                message: 'Trámite actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (response) => {
+
+            // Re-enable the form
+            this.gradoForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });

@@ -23,7 +23,13 @@ import { CarpetasFirmasRectorResolver } from 'app/modules/admin/carpetas/firmas/
 import { CarpetasFirmasSecretariaGeneralComponent } from 'app/modules/admin/carpetas/firmas/secretaria_general/secretaria_general.component';
 import { CarpetasFirmasSecretariaGeneralListComponent } from 'app/modules/admin/carpetas/firmas/secretaria_general/list/list.component';
 import { CarpetasFirmasSecretariaGeneralResolver } from 'app/modules/admin/carpetas/firmas/secretaria_general/secretaria_general.resolvers';
+// -------------
+import { CarpetasFinalizadasComponent } from 'app/modules/admin/carpetas/finalizados/finalizados.component';
+import { CarpetasFinalizadasListComponent } from 'app/modules/admin/carpetas/finalizados/list/list.component';
+import { CarpetasFinalizadasResolver, CarpetaFinalizadaResolver} from 'app/modules/admin/carpetas/finalizados/finalizados.resolvers';
+import { CarpetasFinalizadasDetalleComponent } from 'app/modules/admin/carpetas/finalizados/details/details.component';
 
+// -------------
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 
@@ -118,6 +124,32 @@ export const carpetasRoutes: Route[] = [
           component: CarpetasURAPendientesListComponent,
           resolve      : {
             carpetas  : CarpetasURAPendientesResolver,
+          },
+        }
+      ]
+    },
+    {
+      path     : 'finalizadas',
+      component: CarpetasFinalizadasComponent,
+      children : [
+        {
+          path     : '',
+          component: CarpetasFinalizadasListComponent,
+        },
+        {
+          path     : ':idResolucion',
+          component: CarpetasFinalizadasListComponent,
+          resolve      : {
+            carpetas  : CarpetasFinalizadasResolver,
+          },
+        },
+        {
+          path         : ':idResolucion/:idTramite',
+          component    : CarpetasFinalizadasDetalleComponent,
+          resolve      : {
+            carpetas  : CarpetaFinalizadaResolver,
+            modalidades: ModalidadesSustentacionResolver,
+            programas_estudios: ProgramasEstudiosResolver,
           },
         }
       ]

@@ -108,6 +108,7 @@ export class CronogramasDetailsComponent implements OnInit, OnDestroy
             fecha_cierre_secretaria : ['', [Validators.required]],
             fecha_cierre_decanato   : ['', [Validators.required]],
             estado                  : [true, [Validators.required]],
+            visible                  : [true, [Validators.required]],
             avatar                  : [null]
         });
 

@@ -244,6 +244,20 @@ export class CertificadoAsignadoDetalleComponent implements OnInit, OnDestroy
             
             // Mark for check
             this._changeDetectorRef.markForCheck();
+        },(response) => {
+
+            // Re-enable the form
+            this.certificadoForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
+            
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
         });
     }
 

@@ -117,14 +117,14 @@
                     </ng-container>
 
                     <!-- Estado -->
-                    <ng-container *ngIf="cronograma.estado">
+                    <ng-container *ngIf="cronograma.visible">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
                             <div class="ml-6 leading-6">Activo</div>
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="!cronograma.estado">
+                    <ng-container *ngIf="!cronograma.visible">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:ban'"></mat-icon>
                             <div class="ml-6 leading-6">Inactivo</div>
@@ -352,12 +352,12 @@
                     </ng-container>
 
                     <!-- Estado -->
-                    <div *ngIf="cronograma.estado" class="flex flex-col mt-8">
+                    <div class="flex flex-col mt-8">
                         <mat-label>Estado</mat-label>
                         <mat-slide-toggle
-                            [formControlName]="'estado'"
+                            [formControlName]="'visible'"
                             [color]="'primary'">
-                            {{cronogramaForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
+                            {{cronogramaForm.get('visible').value == true? 'Activo' : 'Inactivo'}}
                         </mat-slide-toggle>
                     </div>
 
@@ -384,7 +384,6 @@
                             class="ml-2"
                             mat-flat-button
                             [color]="'primary'"
-                            [disabled]="cronogramaForm.invalid"
                             [matTooltip]="'Guardar'"
                             (click)="saveCronograma()">
                             Guardar

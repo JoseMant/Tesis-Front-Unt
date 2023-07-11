@@ -11,49 +11,17 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Grados pendientes de impresión</div>
+            <div class="text-4xl font-extrabold tracking-tight">Carpetas Finalizadas</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="carpetasCount > 0">
                     {{carpetasCount}}
                 </ng-container>
                 {{carpetasCount | i18nPlural: {
-                    '=0'   : 'No hay carpetas pendientes de impresión',
-                    '=1'   : 'Grado pendiente de impresión',
-                    'other': 'Grados pendientes de impresión'
+                    '=0'   : 'No hay carpetas Finalizadas',
+                    '=1'   : 'Carpeta Finalizada',
+                    'other': 'Carpetas Finalizadas'
                 } }}
             </div>
-        </div>
-        <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <ng-container *ngIf="(carpetas$ | async)  as carpetas">
-                <ng-container *ngIf="carpetas.length">
-                    <button
-                        class="ml-4"
-                        mat-flat-button
-                        [color]="'primary'"
-                        (click)="finalizarTramites()">
-                        <span class="ml-2 mr-1" *ngIf="!asignando">
-                            Finalizar trámites
-                        </span>
-                        <mat-progress-spinner
-                            *ngIf="asignando"
-                            [diameter]="24"
-                            [mode]="'indeterminate'"></mat-progress-spinner>
-                    </button>
-                </ng-container>
-            </ng-container>
-            <!-- Search -->
-            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
-                <mat-icon
-                    class="icon-size-5"
-                    matPrefix
-                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                <input
-                    matInput
-                    [formControl]="searchInputControl"
-                    [autocomplete]="'off'"
-                    [placeholder]="'Buscar carpetas'">
-            </mat-form-field>
         </div>
     </div>
     <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 pt-2">
@@ -97,7 +65,7 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="carpetas-pendientes-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="carpetas-finalizadas-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -145,20 +113,13 @@
                                 N° Matrícula
                             </div>
 
-                            <!-- Cod. Diploma-->
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'codigo_diploma'">
-                                Cod. Diploma
-                            </div>
-
                             <!-- Opciones -->
                             <div class="hidden sm:block">Opciones</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(carpetas$ | async) as carpetas">
                             <ng-container *ngFor="let carpeta of carpetas; trackBy: trackByFn let id=index">
-                                <div class="carpetas-pendientes-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="carpetas-finalizadas-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
@@ -195,38 +156,16 @@
                                         {{carpeta.nro_matricula}}
                                     </div>
 
-                                    <!-- Stock -->
-                                    <div class="hidden lg:block">
-                                        {{carpeta.codigo_diploma}}
-                                    </div>
-
                                     <!-- Details button -->
                                     <div>
-                                        <!-- <button
+                                        <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
-                                            [routerLink]="['./',carpeta.idTramite]">
+                                            [routerLink]="['./', carpeta.idTramite]">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                        </button> -->
-                                        <!-- <button
-                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                            mat-stroked-button
-                                            (click)="verCodigoDiploma(carpeta)">
-                                            <mat-icon
-                                                class="icon-size-5"
-                                                [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                        </button> -->
-                                        <a
-                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                            mat-stroked-button
-                                            target="_blank"
-                                            [href]="getFileDiploma(carpeta.diploma_final)">
-                                            <mat-icon
-                                                class="icon-size-5"
-                                                [svgIcon]="'heroicons_solid:download'"></mat-icon>
-                                    </a>
+                                        </button>
                                     </div>
                                 </div>
                             </ng-container>
@@ -246,7 +185,7 @@
             </ng-container>
 
             <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carpetas pendientes de impresión!</div>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay carpetas finalizadas!</div>
             </ng-template>
 
         </div>

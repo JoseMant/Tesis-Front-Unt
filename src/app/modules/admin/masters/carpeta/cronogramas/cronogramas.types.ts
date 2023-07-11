@@ -13,7 +13,7 @@ export interface Cronograma
     fecha_cierre_secretaria:string;
     fecha_cierre_decanato: string;
     estado?: boolean;
-
+    visible?: boolean;
 }
 
 export interface Role

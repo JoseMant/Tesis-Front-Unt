@@ -283,9 +283,25 @@ export class CertificadosReasignadosListComponent implements OnInit, AfterViewIn
     {
         // Get the product object
         const data = this.selectedCertificadosForm.getRawValue();
-        // console.log(data);
-        // debugger;
         // Update the product on the server
+        if(data.tramites.length == 0){
+            this.alert = {
+                type   : 'warn',
+                message: 'Seleccione los trámites para asignar',
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
+        if(data.idUsuario == 'all'){
+            this.alert = {
+                type   : 'warn',
+                message: 'Seleccione el usuario para asignar',
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
         this._certificadosService.asignarUsuarioCertificados(data).subscribe(() => {
             this.selectedTramites = [];
             // Show a success message

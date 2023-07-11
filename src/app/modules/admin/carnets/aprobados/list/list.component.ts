@@ -294,55 +294,55 @@ export class CarnetsAprobadosListComponent implements OnInit, AfterViewInit, OnD
         this.ngAfterViewInit()
     }
 
-    // selectObservados(event): void {
-    //     const files = event.target.files[0];
-    //     console.log(files);
-    //     this.selectedCarnetForm.patchValue({file: files});
-    //     this.uploadObservados();
-    // }
+    selectSolicitados(event): void {
+        const files = event.target.files[0];
+        console.log(files);
+        this.selectedCarnetForm.patchValue({file: files});
+        this.uploadSolicitados();
+    }
 
-    // uploadObservados(): void{
-    //     const formData = new FormData();
-    //     formData.append('file', this.selectedCarnetForm.getRawValue().file);
+    uploadSolicitados(): void{
+        const formData = new FormData();
+        formData.append('file', this.selectedCarnetForm.getRawValue().file);
         
-    //     // Disable the form
-    //     this.selectedCarnetForm.disable();
+        // Disable the form
+        this.selectedCarnetForm.disable();
 
-    //     this._carnetsService.updateCarnets(formData)
-    //     .pipe(
-    //         finalize(() => {
+        this._carnetsService.updateCarnetsSolicitados(formData)
+        .pipe(
+            finalize(() => {
 
-    //             // Re-enable the form
-    //             this.selectedCarnetForm.enable();
+                // Re-enable the form
+                this.selectedCarnetForm.enable();
 
-    //             // Reset the form
-    //             this.selectedCarnetNgForm.resetForm();
+                // Reset the form
+                this.selectedCarnetNgForm.resetForm();
 
-    //             // Show the alert
-    //             this.openSnack();
+                // Show the alert
+                this.openSnack();
                 
-    //             // Mark for check
-    //             this._changeDetectorRef.markForCheck();
-    //         })
-    //     )
-    //     .subscribe(
-    //         (newCarnet) => {
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            })
+        )
+        .subscribe(
+            (newCarnet) => {
                 
-    //             // Config the alert
-    //             this.alert = {
-    //                 type   : 'success',
-    //                 message: 'Datos cargados correctamente',
-    //                 title: 'Guardado'
-    //             };
-    //         },
-    //         (error) => {
+                // Config the alert
+                this.alert = {
+                    type   : 'success',
+                    message: 'Datos cargados correctamente',
+                    title: 'Guardado'
+                };
+            },
+            (error) => {
                 
-    //             // Config the alert
-    //             this.alert = {
-    //                 type   : 'warn',
-    //                 message: 'Error al cargar los datos',
-    //                 title: 'Error'
-    //             };
-    //         });
-    // }
+                // Config the alert
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Error al cargar los datos',
+                    title: 'Error'
+                };
+            });
+    }
 }

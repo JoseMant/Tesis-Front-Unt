@@ -47,6 +47,25 @@
                 <mat-icon [svgIcon]="'heroicons_outline:download'"></mat-icon>
                 <span class="ml-2 mr-1">Exportar</span>
             </button>
+            <!-- Add product button -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="selectedCarnetForm.disabled"
+                (click)="fileInput2.click()">
+                <mat-icon *ngIf="!selectedCarnetForm.disabled"
+                    [svgIcon]="'heroicons_outline:upload'">
+                </mat-icon>
+                <span class="ml-2 mr-1" *ngIf="!selectedCarnetForm.disabled">
+                    Solicitados
+                </span>
+                <mat-progress-spinner
+                    *ngIf="selectedCarnetForm.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'"></mat-progress-spinner>
+            </button>
+            <input #fileInput2 type="file" accept=".xlsx" hidden (change)="selectSolicitados($event)"/>
         </div>
     </div>
 

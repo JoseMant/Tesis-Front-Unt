@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, O
 import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil , finalize} from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CarpetasPagination, CarpetaInterface } from 'app/modules/admin/carpetas/carpetas.types';
@@ -73,7 +73,6 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     selectedResolucionForm: FormGroup;
     tagsEditMode: boolean = false;
     carpetasCount: number = 0;
-    asignando: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     
     /**
@@ -333,6 +332,69 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
         });
     }
 
+    finalizarTramites(): void
+    {
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title  : 'Finalizar trámites de la resolución ' +  this.selectedResolucionForm.get('nro_resolucion').value,
+            message: '¿Estás seguro de que quieres finalizar estos trámites? ¡Esta acción no se puede deshacer!',
+            actions: {
+                confirm: {
+                    label: 'Aceptar'
+                },
+                cancel: {
+                    label: 'Cancelar'
+                }
+
+            }
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+
+            // If the confirm button pressed...
+            if ( result === 'confirmed' )
+            {
+                // Get the tramite object
+                // const tramite = this.selectedTramite;
+                
+                // // Config the alert
+                // this.alert = {
+                //     type   : 'warning',
+                //     message: 'El sistema está cargando...',
+                //     title: 'Advertencia'
+                // };
+                
+                // Delete the tramite on the server
+                const idResolucion=this.selectedResolucionForm.get('idResolucion').value
+                this._carpetasService.finalizarTramites(idResolucion)
+                .pipe(
+                    finalize(() => {
+                        // Config the alert
+                        this.alert = {
+                            type   : 'success',
+                            message: 'Trámites finalizados correctamente',
+                            title: 'Finalizado'
+                        };
+
+                        // Show the alert
+                        this.openSnack();
+                        
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    })
+                )
+                .subscribe(
+                    (response) => {
+                        console.log(response);
+                
+                        this.openSnack();
+                    }
+                );
+            }
+        });
+    }
+
     /**
      * Track by function for ngFor loops
      *
@@ -343,4 +405,6 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     {
         return item.id || index;
     }
+
+    
 }
