@@ -1,7 +1,10 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+<!-- <div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden"> -->
 
     <!-- Header -->
-    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+    <!-- <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b"> -->
+    <!-- <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b"> -->
+    <div class="flex flex-col sm:flex-row md:flex-col flex-0 sm:justify-between py-8 px-6 md:px-8 border-b">
         <!-- Loader -->
         <div
             class="absolute inset-x-0 bottom-0"
@@ -24,22 +27,21 @@
             </div>
         </div>
         <!-- Actions -->
-        <form 
-            [formGroup]="selectedReporteForm"
-            class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <mat-form-field 
-                *ngxPermissionsExcept="['SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']"
-                class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-48">
-                <mat-select
-                    [formControlName]="'idUnidad'"
-                    (selectionChange)="changedUnidad($event.value)">
-                    <ng-container>
-                        <mat-option [value]="0">Todas las unidades</mat-option>
-                        <mat-option *ngFor="let unidad of unidades" [value]="unidad.idUnidad">{{unidad.descripcion}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            <ng-container *ngxPermissionsExcept="['SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']">
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0">
+            <form 
+                [formGroup]="selectedReporteForm"
+                class="flex-auto">
+                <mat-form-field 
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-48">
+                    <mat-select
+                        [formControlName]="'idUnidad'"
+                        (selectionChange)="changedUnidad($event.value)">
+                        <ng-container>
+                            <mat-option [value]="0">Todas las unidades</mat-option>
+                            <mat-option *ngFor="let unidad of unidades" [value]="unidad.idUnidad">{{unidad.descripcion}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
                 <mat-form-field 
                     *ngIf="selectedReporteForm.get('idUnidad').value"
                     class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-56">
@@ -52,8 +54,6 @@
                         </ng-container>
                     </mat-select>
                 </mat-form-field>
-            </ng-container>
-            <ng-container *ngxPermissionsExcept="['SECRETARIA(O) DE ESCUELA']">
                 <mat-form-field 
                     *ngIf="selectedReporteForm.get('idDependencia').value"
                     class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
@@ -63,88 +63,38 @@
                             <mat-option *ngFor="let programa of programas" [value]="programa.idPrograma">{{programa.nombre}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-            </ng-container>
-            <mat-form-field 
-                *ngIf="selectedReporteForm.get('idUnidad').value"
-                class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
-                <mat-select
-                    [formControlName]="'idTipo_tramite_unidad'"
-                    (selectionChange)="changedTipo_tramite_unidad($event.value)">
-                    <ng-container>
-                        <mat-option [value]="0">Todos los tipos de tramites</mat-option>
-                        <mat-option *ngFor="let tipo_tramite_unidad of tipoTramiteUnidades" [value]="tipo_tramite_unidad.idTipo_tramite_unidad">{{tipo_tramite_unidad.descripcion}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field 
-                *ngIf="selectedReporteForm.get('idUnidad').value"
-                class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
-                <mat-select
-                    [formControlName]="'anio'">
-                    <ng-container>
-                        <mat-option [value]="0">Todos los años</mat-option>
-                        <mat-option *ngFor="let anio of anios" [value]="anio.anio">{{anio.anio}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            <!-- Search -->
-            <!-- <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
-                <mat-icon
-                    class="icon-size-5"
-                    matPrefix
-                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                <input
-                    matInput
-                    [formControl]="searchInputControl"
-                    [autocomplete]="'off'"
-                    [placeholder]="'Buscar reportes'">
-            </mat-form-field> -->
-        </form>
-
-        <button
-        
-        class="ml-4"
-        mat-flat-button
-        [color]="'primary'"
-        
-        [matMenuTriggerFor]="libro">
-        <mat-icon 
-            [svgIcon]="'heroicons_outline:document-text'">
-        </mat-icon>
-        <span class="ml-2 mr-1" >
-            Libro digital
-        </span>
-        <mat-icon 
-            [svgIcon]="'heroicons_outline:chevron-down'">
-        </mat-icon>
-        <!-- <mat-progress-spinner
-            
-            [diameter]="24"
-            [mode]="'indeterminate'"></mat-progress-spinner> -->
-        </button>
-    
-    <!-- Libro menu -->
-    <mat-menu
-        [xPosition]="'before'"
-        #libro="matMenu">
-        <button
-            mat-menu-item
-            >
-            <span class="ml-2">Descargar padron</span>
-        </button>
-        <button mat-menu-item
-        (click)="fileInput.click()" >
-            <span class="ml-2">Cargar modificaciones</span>
-        </button>
-        <input #fileInput type="file" accept=".xlsx" hidden />
-        <button
-            mat-menu-item
-            >
-            <span class="ml-2">Registrar carpetas</span>
-        </button>
-    </mat-menu>
-
-
+                <mat-form-field 
+                    *ngIf="selectedReporteForm.get('idUnidad').value"
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
+                    <mat-select
+                        [formControlName]="'idTipo_tramite_unidad'"
+                        (selectionChange)="changedTipo_tramite_unidad($event.value)">
+                        <ng-container>
+                            <mat-option [value]="0">Todos los tipos de tramites</mat-option>
+                            <mat-option *ngFor="let tipo_tramite_unidad of tipoTramiteUnidades" [value]="tipo_tramite_unidad.idTipo_tramite_unidad">{{tipo_tramite_unidad.descripcion}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field 
+                    *ngIf="selectedReporteForm.get('idUnidad').value"
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
+                    <mat-select
+                        [formControlName]="'anio'">
+                        <ng-container>
+                            <mat-option [value]="0">Todos los años</mat-option>
+                            <mat-option *ngFor="let anio of anios" [value]="anio.anio">{{anio.anio}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'">
+                <mat-icon [svgIcon]="'heroicons_outline:document-text'"></mat-icon>
+                <span class="ml-2 mr-1" > Exportar</span>
+            </button>
+        </div>
     </div>
 
     <!-- Main -->

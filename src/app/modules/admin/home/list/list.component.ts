@@ -7,7 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { ApexOptions } from 'ng-apexcharts';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
 import { HomeService } from 'app/modules/admin/home/home.service';
 import { FuseAlertType } from '@fuse/components/alert';
@@ -99,7 +98,6 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         private _homeService: HomeService,
         public visordialog: MatDialog,
@@ -329,66 +327,6 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
 
             // Show a success message
             this.showFlashMessage('success');
-        });
-    }
-
-    /**
-     * Delete the selected tramite using the form data
-     */
-    deleteSelectedTramite(): void
-    {
-        // Open the confirmation dialog
-        const confirmation = this._fuseConfirmationService.open({
-            title  : 'Anular trámite',
-            message: '¿Estás seguro de que quieres eliminar este trámite? ¡Esta acción no se puede deshacer!',
-            actions: {
-                confirm: {
-                    label: 'Anular'
-                },
-                cancel: {
-                    label: 'Cancelar'
-                }
-
-            }
-        });
-
-        // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-
-            // If the confirm button pressed...
-            if ( result === 'confirmed' )
-            {
-
-                // Get the tramite object
-                const tramite = this.selectedTramite;
-                
-                // Delete the tramite on the server
-                this._homeService.deleteTramite(tramite.idTramite).subscribe((response) => {
-            
-                    this.alert = {
-                        type   : 'success',
-                        message: 'Trámite anulado correctamente',
-                        title: 'Anulado'
-                    };
-                    this.openSnack();
-
-                    // Close the details
-                    this.closeDetails();
-        
-                    // Mark for check
-                    this._changeDetectorRef.markForCheck();
-                },
-                (response) => {
-
-                    this.alert = {
-                        type   : 'warn',
-                        message: response.error.message,
-                        title: 'Error'
-                    };
-                    this.openSnack();
-
-                });
-            }
         });
     }
 

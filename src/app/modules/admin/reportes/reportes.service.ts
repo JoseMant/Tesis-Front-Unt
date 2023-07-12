@@ -295,7 +295,7 @@ export class ReportesService
 
     getAnio(): Observable<any>
     {
-        return this._httpClient.get(environment.baseUrl + 'año').pipe(
+        return this._httpClient.get(environment.baseUrl + 'anios').pipe(
             tap((response: any[]) => {
                 this._anios.next(response);
             })

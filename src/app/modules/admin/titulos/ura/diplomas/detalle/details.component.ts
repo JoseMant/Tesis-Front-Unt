@@ -182,7 +182,7 @@ export class TituloURADiplomaDetalleComponent implements OnInit, OnDestroy
             fecha_ultima_matricula: ['', Validators.required],
             idDiploma_carpeta: ['', Validators.required],
             idUniversidad: [null, Validators.required],
-            requisito_idioma: [null, Validators.required],
+            // requisito_idioma: [null, Validators.required],
 
             idAcreditacion: [{value: '', disabled: true}],
             dependencia_acreditado: [{value: '', disabled: true}],

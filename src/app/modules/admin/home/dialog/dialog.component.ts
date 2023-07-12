@@ -2,9 +2,9 @@ import { Component, OnInit, ViewEncapsulation, Inject, ChangeDetectorRef, ViewCh
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
-import { CertificadosService } from 'app/modules/admin/certificados/certificados.service';
 import { HomeService } from 'app/modules/admin/home/home.service';
 
 @Component({
@@ -38,9 +38,9 @@ export class TramiteAnuladoDialogComponent implements OnInit
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public matDialogRef: MatDialogRef<TramiteAnuladoDialogComponent>,
+        private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _certificadoService: CertificadosService,
         private snackBar: MatSnackBar,
         private _homeService: HomeService,
     )
@@ -72,7 +72,7 @@ export class TramiteAnuladoDialogComponent implements OnInit
             to     : [this.data.correo, [Validators.required, Validators.email]],
             cc     : ['', [Validators.email]],
             bcc    : ['', [Validators.email]],
-            subject: ['NOTIFICACIÓN DE ANULACION DEL TRÁMITE N° ' + this.data.nro_tramite, [Validators.required]],
+            subject: ['NOTIFICACIÓN DE ANULACIÓN DEL TRÁMITE N° ' + this.data.nro_tramite, [Validators.required]],
             body   : ['', [Validators.required]]
         });
     }
@@ -132,46 +132,69 @@ export class TramiteAnuladoDialogComponent implements OnInit
     }
 
     /**
-     * Send the message
+     * Send the message and Delete the selected tramite
      */
     send(): void
     {
-        const data = this.composeForm.getRawValue();
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title  : 'Anular trámite',
+            message: '¿Estás seguro de que quieres anular este trámite? ¡Esta acción no se puede deshacer!',
+            actions: {
+                confirm: {
+                    label: 'Anular'
+                },
+                cancel: {
+                    label: 'Cancelar'
+                }
 
-        // Disable the form
-        this.composeForm.disable();
+            }
+        });
 
-        this._homeService.sendNotification(data.idTramite, data).subscribe((updatedCertificado) => {
-            console.log(updatedCertificado)
-            // Re-enable the form
-            this.composeForm.enable();
-            
-            // Reset the form
-            this.composeNgForm.resetForm();
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
 
-            // Close the dialog
-            this.matDialogRef.close();
-            
-            this.alert = {
-                type   : 'success',
-                message: 'Notificación enviada correctamente',
-                title: 'Enviado'
-            };
-            this.openSnack();
-            
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        },
-        (response) => {
-            // Re-enable the form
-            this.composeForm.enable();
-
-            this.alert = {
-                type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
-            };
-            this.openSnack();
+            // If the confirm button pressed...
+            if ( result === 'confirmed' )
+            {
+                const data = this.composeForm.getRawValue();
+        
+                // Disable the form
+                this.composeForm.disable();
+        
+                this._homeService.sendNotification(data.idTramite, data).subscribe((updateTramite) => {
+                    
+                    // Re-enable the form
+                    this.composeForm.enable();
+                    
+                    // Reset the form
+                    this.composeNgForm.resetForm();
+        
+                    // Close the dialog
+                    this.matDialogRef.close();
+                    
+                    this.alert = {
+                        type   : 'success',
+                        message: 'Trámite anulado y notificación enviada correctamente',
+                        title: 'Anulado'
+                    };
+                    this.openSnack();
+                    
+                    // Mark for check
+                    this._changeDetectorRef.markForCheck();
+                },
+                (response) => {
+                    // Re-enable the form
+                    this.composeForm.enable();
+        
+                    this.alert = {
+                        type   : 'warn',
+                        message: response.error.message,
+                        title: 'Error'
+                    };
+                    this.openSnack();
+                });
+            }
         });
     }
 }
