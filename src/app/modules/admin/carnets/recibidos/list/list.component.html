@@ -35,9 +35,18 @@
                     matInput
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
-                    [placeholder]="'Buscar carnets'">
+                    [placeholder]="'Buscar carnets'">   
             </mat-form-field>
+            
+            <button
+                mat-flat-button
+                [color]="'primary'"
+                (click)="verCarnetsRecibidosSecretaria()">
+                <mat-icon [svgIcon]="'heroicons_outline:eye'"></mat-icon>
+                <span class="ml-2">Reporte</span>
+            </button>
         </div>
+            
     </div>
 
     <!-- Main -->

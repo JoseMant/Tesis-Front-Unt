@@ -12,7 +12,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
-
+import { AuthService } from 'app/core/auth/auth.service';
 @Component({
     selector       : 'carnets-recibidos-list',
     templateUrl    : './list.component.html',
@@ -132,6 +132,7 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
         private _carnetsService: CarnetsService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
+        private _authService: AuthService
     )
     {
     }
@@ -202,6 +203,17 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
                 })
             )
             .subscribe();
+    }
+
+    verCarnetsRecibidosSecretaria() {
+        /* const data = this.selectedResolucionForm.getRawValue(); */
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'carnets/recibidos?access='+ this._authService.accessToken);
+        /* link.setAttribute('href', environment.baseUrl + 'padron_sunedu/' + data.idResolucion); */
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 
     openSnack(): void {
