@@ -1,26 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil,finalize } from 'rxjs';
+import { FormControl, NgForm } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { ReportePagination, ReporteInterface } from 'app/modules/admin/reportes/reportes.types';
+import { ReporteInterface } from 'app/modules/admin/reportes/reportes.types';
 import { ReportesService } from 'app/modules/admin/reportes/reportes.service';
-import { CronogramasService } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.service';
 import { MatDialog } from '@angular/material/dialog';
-import { UserService } from 'app/core/user/user.service';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'environments/environment';
-import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
-import { User } from 'app/core/user/user.types';
-import { ActivatedRoute, RouterStateSnapshot, Router, Data } from '@angular/router';
-import { Carpeta } from 'app/modules/carpeta/carpeta.types';
-
-
 
 @Component({
     selector       : 'reportes-validados-list',
@@ -28,7 +15,7 @@ import { Carpeta } from 'app/modules/carpeta/carpeta.types';
     styles         : [
         /* language=SCSS */
         `
-            .reportes-elaboracion_carpeta-grid {
+            .reporte-diplomas-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -40,7 +27,7 @@ import { Carpeta } from 'app/modules/carpeta/carpeta.types';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px auto 190px 96px 190px 112px 72px;
+                    grid-template-columns: 48px auto 120px 190px 300px 72px;
                 }
             }
             .fondo_snackbar {
@@ -57,8 +44,6 @@ import { Carpeta } from 'app/modules/carpeta/carpeta.types';
 })
 export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewInit, OnDestroy
 {
-    @ViewChild(MatPaginator) private _paginator: MatPaginator;
-    @ViewChild(MatSort) private _sort: MatSort;
     @ViewChild('selectedDiplomaNgForm') selectedDiplomaNgForm: NgForm;
     diplomas$: Observable<ReporteInterface[]>;
 
@@ -68,23 +53,19 @@ export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewIn
         title: '',
     };
 
-    flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     searchInputControl: FormControl = new FormControl('');
+    searchOptionControl: FormControl = new FormControl('');
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    selectedDiplomaForm: FormGroup;
-    carpeta: ReporteInterface;
     columns = ['title', 'detail'];
     rows: any;
+    selectedDiploma: ReporteInterface | null = null;
     
-
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseConfirmationService: FuseConfirmationService,
-        private _formBuilder: FormBuilder,
         private _reportesService: ReportesService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
@@ -104,104 +85,64 @@ export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewIn
 
     ngOnInit(): void
     {
-        
-        
+        this.diplomas$ = this._reportesService.cleanReportes$;
+
+        // Get the diplomas
+        // this.diplomas$ = this._reportesService.diplomas$;
+    }
+    
+    buscarDiploma(){
+        this._reportesService.getCarpetaBySearch(this.searchOptionControl.value, this.searchInputControl.value).subscribe(
+            (response) => {
+                // this.diplomas = response;
+                // console.log(response.length);
+                                
+                this.searchOptionControl.disable()
+                this.searchInputControl.disable()
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+                
+    
+                // Config the alert
+                this.alert = {
+                    type   : 'success',
+                    message: response.length + "diploma(s) encontrada(s)",
+                    title: 'Encontrado'
+                };
+
+                this.openSnack();
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+                
+            },
+            (response) => {
+                // this.diploma = null;
+                // this.rows = [];
+                
+                // Config the alert
+                this.alert = {
+                    type   : 'warn',
+                    message: response.error.message,
+                    title: 'Error'
+                };
+                this.openSnack();
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 
-    buscarDiploma(){
-    
-        this._reportesService.getCarpetaByCodigoDiploma(this.searchInputControl.value).subscribe(
-                               (response) => {
-                                   this.carpeta = response;
-                                   this.rows = [
-                                       {
-                                           id: 1,
-                                           title: 'Denominación Diploma',
-                                           detail: response.denominacion
-                                       },
-                                       {
-                                           id: 2,
-                                           title: 'Código Diploma',
-                                           detail: response.codigo_diploma
-                                       },
-                                        {
-                                            id: 3,
-                                            title: 'Fecha Emitido',
-                                            detail: response.fecha_colacion
-                                        },
-                                       {
-                                           id: 4,
-                                           title: 'Abreviatura grado/tÍtulo',
-                                           detail: response.diploma_obtenido,
-                                       },
-                                       {
-                                           id: 5,
-                                           title: 'Modalidad de Obtención',
-                                           detail: response.modalidadSustentancion
-                                       },
-                                       {
-                                           id: 6,
-                                           title: 'Registrado en el libro de títulos Nro.',
-                                           detail: response.nro_libro
-                                       },
-                                       {
-                                           id: 7,
-                                           title: 'Folio',
-                                           detail: response.folio
-                                       },
-                                       {
-                                           id: 8,
-                                           title: 'Registro de secretaria general Nro.',
-                                           detail: response.nro_registro
-                                       },
-                                       {
-                                           id: 9,
-                                           title: 'Resolución de otorgamiento',
-                                           detail: 'RCU N° '+response.nro_resolucion
-                                       },
-                                       {
-                                           id: 10,
-                                           title: 'Resolución de otorgamiento',
-                                           detail: 'O-ORIGINAL'
-                                       }
-                                       
-                                   ]
-                                   
-                                   this.searchInputControl.disable()
-           
-                                   // Mark for check
-                                   this._changeDetectorRef.markForCheck();
-                                   
-       
-                                   // Config the alert
-                                   this.alert = {
-                                       type   : 'success',
-                                       message: "Carpeta encontrada",
-                                       title: 'Encontrado'
-                                   };
-                                   this.openSnack();
-                               },
-                               (response) => {
-                                   this.carpeta = null;
-                                   this.rows = [];
-                                   
-                                   // Config the alert
-                                   this.alert = {
-                                       type   : 'warn',
-                                       message: response.error.message,
-                                       title: 'Error'
-                                   };
-                                   this.openSnack();
-                                   
-                                   // Mark for check
-                                   this._changeDetectorRef.markForCheck();
-                               }
-                           );
-    }
+
     limpiarDiploma(){
-        this.searchInputControl.setValue("")
-        this.searchInputControl.enable()
+        this.searchOptionControl.setValue("");
+        this.searchInputControl.setValue("");
+        this.searchOptionControl.enable();
+        this.searchInputControl.enable();
     }
+
     openSnack(): void {
         this.snackBar.openFromComponent(AlertaComponent, {
             horizontalPosition: 'right',
@@ -233,6 +174,97 @@ export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewIn
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Toggle tramite details
+     *
+     * @param tramiteId
+     */
+    toggleDetails(tramiteId: number): void
+    {
+        // If the tramite is already selected...
+        if ( this.selectedDiploma && this.selectedDiploma.idTramite === tramiteId )
+        {
+            // Close the details
+            this.closeDetails();
+            return;
+        }
+
+        // Get the diploma by id
+        this._reportesService.getReporteById(tramiteId)
+            .subscribe((diploma) => {
+                
+                // Set the selected diploma
+                this.selectedDiploma = diploma;
+                this.rows = [
+                    {
+                        id: 1,
+                        title: 'Denominación Diploma',
+                        detail: diploma.denominacion
+                    },
+                    {
+                        id: 2,
+                        title: 'Código Diploma',
+                        detail: diploma.codigo_diploma
+                    },
+                    {
+                        id: 3,
+                        title: 'Fecha Emitido',
+                        detail: diploma.fecha_colacion
+                    },
+                    {
+                        id: 4,
+                        title: 'Grado/Título',
+                        detail: diploma.tipo_tramite,
+                    },
+                    {
+                        id: 5,
+                        title: 'Modalidad de Obtención',
+                        detail: diploma.modalidadSustentancion
+                    },
+                    {
+                        id: 6,
+                        title: 'Registrado en el libro de títulos Nro.',
+                        detail: diploma.nro_libro
+                    },
+                    {
+                        id: 7,
+                        title: 'Folio',
+                        detail: diploma.folio
+                    },
+                    {
+                        id: 8,
+                        title: 'Registro de secretaria general Nro.',
+                        detail: diploma.nro_registro
+                    },
+                    {
+                        id: 9,
+                        title: 'Resolución de otorgamiento',
+                        detail: 'RCU N° ' + diploma.nro_resolucion
+                    },
+                    {
+                        id: 10,
+                        title: 'Resolución de otorgamiento',
+                        detail: 'O-ORIGINAL'
+                    }
+                    
+                ]
+
+                // Fill the form
+                // console.log(this.rows);
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    /**
+     * Close the details
+     */
+    closeDetails(): void
+    {
+        this.selectedDiploma = null;
+    }
 
     /**
      * Track by function for ngFor loops

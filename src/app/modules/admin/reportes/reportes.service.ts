@@ -40,7 +40,7 @@ export class ReportesService
      */
      get users$(): Observable<UserInterface[]>
      {
-         return this._users.asObservable();
+        return this._users.asObservable();
      }
      
      /**
@@ -115,7 +115,7 @@ export class ReportesService
     }
     get diplomas$(): Observable<ReporteInterface[]>
     {
-        return this._diplomas.asObservable();
+        return this._reportes.asObservable();
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -302,35 +302,50 @@ export class ReportesService
         );
     }
 
-    // getCodigoDiploma(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-    // Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
-    // {
-    //   return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'diploma', {
-    //     params: {
-    //         page: '' + page,
-    //         size: '' + size,
-    //         sort,
-    //         order,
-    //         search
-    //     }
-    // }).pipe(
-    //     tap((response) => {
-    //       console.log(response);
-    //       this._pagination.next(response.pagination);
-    //       this._diplomas.next(response.data);
-    //     })
-    //   );
-    // }
-
     /**
-     * Get carpeta by codigo_diploma
+     * Get carpeta by search
      */
-    getCarpetaByCodigoDiploma(codigo_diploma: string): Observable<ReporteInterface>
+    getCarpetaBySearch(tipo: string, search: string,): Observable<ReporteInterface[]>
     {
-        return this._httpClient.get<ReporteInterface>(environment.baseUrl + 'carpeta/codigo_diploma/' + codigo_diploma).pipe(
+        return this._httpClient.get<ReporteInterface[]>(environment.baseUrl + 'carpetas/search', {
+            params: {
+                tipo,
+                search
+            }
+        }).pipe(
             tap((response) => {
                 console.log(response)
-                this._reporte.next(response);
+                this._reportes.next(response);
+            })
+        );
+    }
+
+    /**
+     * Get reporte by id
+     */
+    getReporteById(id: number): Observable<ReporteInterface>
+    {
+        return this._reportes.pipe(
+            take(1),
+            map((reportes) => {
+
+                // Find the carpeta
+                const carpeta = reportes.find(item => item.idTramite === id) || null;
+
+                // Update the carpeta
+                this._reporte.next(carpeta);
+
+                // Return the carpeta
+                return carpeta;
+            }),
+            switchMap((carpeta) => {
+
+                if ( !carpeta )
+                {
+                    return throwError('Could not found carpeta with id of ' + id + '!');
+                }
+
+                return of(carpeta);
             })
         );
     }

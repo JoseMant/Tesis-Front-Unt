@@ -36,6 +36,7 @@ export interface ReporteInterface
     folio?:string;
     nro_registro?:string;
     nro_resolucion?:string;
+    tipo_tramite?:string;
 }
 export interface ReportePagination
 {
