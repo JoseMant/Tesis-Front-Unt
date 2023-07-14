@@ -313,7 +313,7 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite actualizado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();

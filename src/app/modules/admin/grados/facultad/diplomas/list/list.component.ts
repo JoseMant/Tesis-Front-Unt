@@ -160,7 +160,7 @@ export class GradosFacultadDiplomasListComponent implements OnInit, AfterViewIni
                         return this._gradosService.getGradosDiplomasFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                     }
                     else
-                        return this._gradosService.getGradosDiplomasFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                        return this._gradosService.getGradosDiplomasFacultad(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

@@ -57,11 +57,19 @@
                                 (click)="updateEstado()"
                             >
                                 <mat-icon
+                                    *ngIf="!corregirForm.disabled"
                                     class="h-6 w-6 mr-3"
                                     style="color: white"
                                     [svgIcon]="'heroicons_outline:pencil'">
                                 </mat-icon>
-                                Corregir
+                                <span *ngIf="!corregirForm.disabled">
+                                    Corregir
+                                </span>
+                                <mat-progress-spinner
+                                    *ngIf="corregirForm.disabled"
+                                    [diameter]="24"
+                                    [mode]="'indeterminate'">
+                                </mat-progress-spinner>
                             </button>
                         </form>
                     </div>

@@ -162,7 +162,7 @@ export class GradosFacultadAprobadosListComponent implements OnInit, AfterViewIn
                         return this._gradosService.getGradosAprobadosFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                     }
                     else
-                        return this._gradosService.getGradosAprobadosFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                        return this._gradosService.getGradosAprobadosFacultad(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

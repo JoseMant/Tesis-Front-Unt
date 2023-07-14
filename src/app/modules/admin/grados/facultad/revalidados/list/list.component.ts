@@ -162,7 +162,7 @@ export class GradosFacultadRevalidadosListComponent implements OnInit, AfterView
                         return this._gradosService.getGradosRevalidadosFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                     }
                     else
-                        return this._gradosService.getGradosRevalidadosFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                        return this._gradosService.getGradosRevalidadosFacultad(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

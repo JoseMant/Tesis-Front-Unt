@@ -154,15 +154,15 @@ export class GradosURAValidacionesListComponent implements OnInit, AfterViewInit
                         if (!this._sort.direction) {
                             // Set the initial sort
                             this._sort.sort({
-                                id          : 'dependencia',
-                                start       : 'asc',
+                                id          : 'created_at',
+                                start       : 'desc',
                                 disableClear: true
                             });
                         }
                         return this._gradosService.getGradosValidacionURA(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                     }
                     else
-                        return this._gradosService.getGradosValidacionURA(0, 100, 'dependencia', 'asc', query);
+                        return this._gradosService.getGradosValidacionURA(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
