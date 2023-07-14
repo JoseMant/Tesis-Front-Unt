@@ -529,21 +529,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/vouchers/pendientes',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/vouchers/aprobados',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
                 link : '/vouchers/rechazados',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA']
             }
         ]
     },
