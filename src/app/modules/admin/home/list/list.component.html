@@ -124,9 +124,6 @@
                 </ng-container>
             </ng-container>
 
-
-
-            
             <ng-template
                 #rowDetailsTemplate
                 let-tramite>
@@ -258,7 +255,7 @@
                             </div>
 
                             <div class="flex items-center justify-between w-full border-t px-8 py-4">
-                                <ng-container *ngxPermissionsOnly="['ADMINISTRADOR','JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']">
+                                <ng-container *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']">
                                     <button
                                         class="ml-4"
                                         mat-button
@@ -268,12 +265,12 @@
                                     </button>
                                 </ng-container>
                                 <div class="flex items-center">
-                                    <button
+                                    <a
                                         mat-flat-button
                                         [color]="'primary'"
                                         [routerLink]="['/tramites/'+tramite.idTramite]">
                                         Ingresar al trámite
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

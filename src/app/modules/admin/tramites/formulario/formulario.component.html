@@ -648,7 +648,7 @@
                     </mat-card>
                 </form>
             </mat-card-content>
-            <mat-card-actions class="flex justify-end">
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO']" class="flex justify-end">
                 <button
                     class="ml-4"
                     mat-flat-button

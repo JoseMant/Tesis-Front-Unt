@@ -47,7 +47,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
                 redirectTo: 'home'
             }
         },
@@ -77,7 +77,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
                 redirectTo: 'home'
             }
         },
@@ -105,7 +105,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
                 redirectTo: 'home'
             }
         },
@@ -132,7 +132,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS'],
                 redirectTo: 'home'
             }
         },
@@ -159,7 +159,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'DECANO(A)'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'DECANO(A)'],
                 redirectTo: 'home'
             }
         },
@@ -186,7 +186,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
                 redirectTo: 'home'
             }
         },
@@ -209,7 +209,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
                 redirectTo: 'home'
             }
         },
@@ -236,7 +236,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE UNIDAD DE REGISTROS ACADÉMICOS', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
                 redirectTo: 'home'
             }
         },
