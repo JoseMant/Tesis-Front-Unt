@@ -22,7 +22,7 @@ export class ReportesService
     private _programas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _cronogramas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _anios: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _libros: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -116,6 +116,14 @@ export class ReportesService
     get diplomas$(): Observable<ReporteInterface[]>
     {
         return this._reportes.asObservable();
+    }
+
+    /**
+     * Getter for libros
+     */
+    get libros$(): Observable<number[]>
+    {
+        return this._libros.asObservable();
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -251,7 +259,6 @@ export class ReportesService
     {
         return this._httpClient.get(environment.baseUrl + 'tipo_tramites_unidades/2/' + idUnidad).pipe(
             tap((response: any) => {
-                console.log(response);
                 this._tipoTramiteUnidades.next(response.tipo_tramite_unidad);
             })
         );
@@ -302,6 +309,16 @@ export class ReportesService
         );
     }
 
+    getLibrosByTipoTramite(tipo_tramite_unidad): Observable<number[]>
+    {
+        return this._httpClient.get(environment.baseUrl + 'libros/tipo_tramite_unidad/' + tipo_tramite_unidad).pipe(
+            tap((response: number[]) => {
+                console.log(response);
+                this._libros.next(response);
+            })
+        );
+    }
+
     /**
      * Get carpeta by search
      */
@@ -314,7 +331,6 @@ export class ReportesService
             }
         }).pipe(
             tap((response) => {
-                console.log(response)
                 this._reportes.next(response);
             })
         );

@@ -1,12 +1,15 @@
 import { Route } from '@angular/router';
+
 // -------------
-import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.component';
+
+import { ReporteCarpetasComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.component';
 import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/list/list.component';
 import { ReporteCarpetasExpedientesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/expedientes/list/list.component';
 import { ReporteCarpetasDiplomasListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/diplomas/list.component';
+import { ReporteCarpetasLibrosListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/libros/list/list.component';
 import { ReporteCarpetasStatusTramitesResolver, ReporteCarpetasExpedientesResolver, UnidadesResolver} from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.resolvers';
 
-// // // -------------
+// -------------
 
 import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
 import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
@@ -15,17 +18,14 @@ import { ReportesTesoreriaAprobadosResolver } from 'app/modules/admin/reportes/t
 export const ReporteRoutes: Route[] =[
     {
       path     : 'elaboracion_carpeta',
-      component: ReporteCarpetasStatusTramitesComponent,
+      component: ReporteCarpetasComponent,
       resolve  : {
         unidades  : UnidadesResolver,
       },
       children : [
         {
-          path     : 'status_tramites',
-          component: ReporteCarpetasStatusTramitesListComponent,
-          resolve  : {
-            carpetas  : ReporteCarpetasStatusTramitesResolver,
-          },
+          path     : 'diplomas',
+          component: ReporteCarpetasDiplomasListComponent,
         },
         {
           path     : 'expedientes',
@@ -35,9 +35,16 @@ export const ReporteRoutes: Route[] =[
           },
         },
         {
-          path     : 'diplomas',
-          component: ReporteCarpetasDiplomasListComponent,
-        }
+          path     : 'libros',
+          component: ReporteCarpetasLibrosListComponent,
+        },
+        {
+          path     : 'status_tramites',
+          component: ReporteCarpetasStatusTramitesListComponent,
+          resolve  : {
+            carpetas  : ReporteCarpetasStatusTramitesResolver,
+          },
+        },
       ]
     },
     {

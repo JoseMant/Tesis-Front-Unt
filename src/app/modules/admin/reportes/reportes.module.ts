@@ -28,11 +28,12 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { QuillModule } from 'ngx-quill';
 import * as moment from 'moment';
 
-import { ReporteCarpetasStatusTramitesComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.component';
+import { ReporteCarpetasComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.component';
 import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/status_tramites/list/list.component';
 import { ReporteCarpetasExpedientesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/expedientes/list/list.component';
-
 import { ReporteCarpetasDiplomasListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/diplomas/list.component';
+import { ReporteCarpetasLibrosListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/libros/list/list.component';
+
 
 import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
 import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
@@ -42,10 +43,11 @@ import { ReporteRoutes } from './reportes.routing';
 @NgModule({
     declarations: [
         // ELABORACIÓN DE CARPETA
-        ReporteCarpetasStatusTramitesComponent,
+        ReporteCarpetasComponent,
         ReporteCarpetasStatusTramitesListComponent,
         ReporteCarpetasExpedientesListComponent,
         ReporteCarpetasDiplomasListComponent,
+        ReporteCarpetasLibrosListComponent,
         
         // TESORERÍA
         ReportesTesoreriaAprobadosComponent,

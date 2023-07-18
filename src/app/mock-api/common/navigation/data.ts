@@ -438,38 +438,38 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     },
-    {
-        id   : 'constancias',
-        title: 'Constancias',
-        type : 'collapsable',
-        icon : 'heroicons_outline:document-text',
-        children: [
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'constancias.validadas',
-                title: 'Validadas',
-                type : 'basic',
-                link : '/constancias/validadas',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                // Se muestran al usuario para validar requisitos
-                id   : 'constancias.asignadas',
-                title: 'Asignadas',
-                type : 'basic',
-                link : '/constancias/asignadas',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                // Se muestran para la firma del jefe de RT
-                id   : 'constancias.firma_uraa',
-                title: 'Firma URA-a',
-                type : 'basic',
-                link : '/constancias/firma_uraa',
-                permissions: ['ADMINISTRADOR']
-            },
-        ]
-    },
+    // {
+    //     id   : 'constancias',
+    //     title: 'Constancias',
+    //     type : 'collapsable',
+    //     icon : 'heroicons_outline:document-text',
+    //     children: [
+    //         {
+    //             // Se muestran al usuario para ser asignados después de validación en tesorería
+    //             id   : 'constancias.validadas',
+    //             title: 'Validadas',
+    //             type : 'basic',
+    //             link : '/constancias/validadas',
+    //             permissions: ['ADMINISTRADOR']
+    //         },
+    //         {
+    //             // Se muestran al usuario para validar requisitos
+    //             id   : 'constancias.asignadas',
+    //             title: 'Asignadas',
+    //             type : 'basic',
+    //             link : '/constancias/asignadas',
+    //             permissions: ['ADMINISTRADOR']
+    //         },
+    //         {
+    //             // Se muestran para la firma del jefe de RT
+    //             id   : 'constancias.firma_uraa',
+    //             title: 'Firma URA-a',
+    //             type : 'basic',
+    //             link : '/constancias/firma_uraa',
+    //             permissions: ['ADMINISTRADOR']
+    //         },
+    //     ]
+    // },
     {
         id   : 'carnets',
         title: 'Carnets',
@@ -547,7 +547,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     },
-
     {
         id   : 'reportes',
         title: 'Reportes',
@@ -561,6 +560,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['ADMINISTRADOR'],
                 children: [
                     {
+                        id   : 'reportes.diplomas',
+                        title: 'Diplomas',
+                        type : 'basic',
+                        link : '/reportes/elaboracion_carpeta/diplomas',
+                        permissions: ['ADMINISTRADOR']
+                    },
+                    {
                         id   : 'reportes.elaboracion_carpeta.status_tramites',
                         title: 'Estado de trámites',
                         type : 'basic',
@@ -568,17 +574,17 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         permissions: ['ADMINISTRADOR']
                     },
                     {
-                        id   : 'reportes.expedientes.finalizados',
+                        id   : 'reportes.elaboracion_carpeta.expedientes',
                         title: 'Expedientes',
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/expedientes',
                         permissions: ['ADMINISTRADOR']
                     },
                     {
-                        id   : 'reportes.diplomas',
-                        title: 'Diplomas',
+                        id   : 'reportes.elaboracion_carpeta.libros',
+                        title: 'Libros digitales',
                         type : 'basic',
-                        link : '/reportes/elaboracion_carpeta/diplomas',
+                        link : '/reportes/elaboracion_carpeta/libros',
                         permissions: ['ADMINISTRADOR']
                     }
                 ]
