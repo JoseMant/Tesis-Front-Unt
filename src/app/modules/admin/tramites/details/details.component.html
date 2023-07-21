@@ -345,7 +345,7 @@
                         </mat-card-content>
                     </mat-card>
             </mat-card-content>
-            <mat-card-actions class="flex justify-end">
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO']" class="flex justify-end">
                 <button
                     *ngIf="tramite.idEstado_tramite === 4"
                     class="ml-4"

@@ -276,7 +276,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
         });
       });
       let value = false;
-      if (this._rolesService.getRole('ADMINISTRADOR')) {
+      if (this._rolesService.getRole('ADMINISTRADOR') || this._rolesService.getRole('SECRETARIA DE URA')) {
         value = true;
       } else {
         req.forEach((requerimiento) => {

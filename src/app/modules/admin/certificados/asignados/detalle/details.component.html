@@ -180,7 +180,7 @@
                 </mat-card>
                 
             </mat-card-content>
-            <mat-card-actions class="flex justify-end">
+            <mat-card-actions *ngxPermissionsExcept="['SECRETARIA DE URA']" class="flex justify-end">
                 <button
                 mat-button
                 class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"

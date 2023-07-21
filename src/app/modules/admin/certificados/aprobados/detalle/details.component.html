@@ -44,7 +44,7 @@
 
 
         <div class="grid grid-cols-12 gap-y-6">
-            <div class="sm:col-span-12 col-span-12 flex justify-center">
+            <div *ngxPermissionsExcept="['SECRETARIA DE URA']" class="sm:col-span-12 col-span-12 flex justify-center">
                 <button
                     mat-button
                     class="rounded-full bg-red-600 ml-1 mr-1 hover:bg-red-500 text-white"
