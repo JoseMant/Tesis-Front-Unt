@@ -422,14 +422,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'secretaria.observados',
-                title: 'Secretaría Observados',
-                type : 'basic',
-                link : '/carpetas/secretaria/observados',
-                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
-            },
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'carpetas.finalizadas',
                 title: 'Finalizadas',
                 type : 'basic',

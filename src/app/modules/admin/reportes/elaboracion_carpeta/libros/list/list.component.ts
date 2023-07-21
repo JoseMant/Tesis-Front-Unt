@@ -86,6 +86,8 @@ export class ReporteCarpetasLibrosListComponent implements OnInit, AfterViewInit
         });
     }
 
+    
+
     changedUnidad(idUnidad: number) : void {
         this.selectedReporteForm.patchValue({
             idTipo_tramite_unidad   : '',
@@ -115,15 +117,25 @@ export class ReporteCarpetasLibrosListComponent implements OnInit, AfterViewInit
 
     verLibroPdf() : void
     {
-        const link = document.createElement('a');
-        link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'libro?' +
-        '&idTipo_tramite_unidad=' + this.selectedReporteForm.get('idTipo_tramite_unidad').value +
-        '&nro_libro=' + this.selectedReporteForm.get('nro_libro').value + 
-        '&accessToken='+ this._authService.accessToken);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        if (this.selectedReporteForm.get('idTipo_tramite_unidad').value){
+            const link = document.createElement('a');
+            link.setAttribute('target', '_blank');
+            link.setAttribute('href', environment.baseUrl + 'libro?' +
+            '&idTipo_tramite_unidad=' + this.selectedReporteForm.get('idTipo_tramite_unidad').value +
+            '&nro_libro=' + this.selectedReporteForm.get('nro_libro').value + 
+            '&accessToken='+ this._authService.accessToken);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }else{
+            this.alert = {
+                type   : 'warning',
+                message: 'Seleccione tipo de tramite',
+                title: 'Advertencia'
+                };
+                this.openSnack();
+        }
+        
     }
 
     /**

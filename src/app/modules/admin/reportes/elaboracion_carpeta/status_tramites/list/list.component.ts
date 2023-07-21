@@ -16,7 +16,7 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 import { User } from 'app/core/user/user.types';
-
+import { environment } from 'environments/environment';
 @Component({
     selector       : 'reportes-validados-list',
     templateUrl    : './list.component.html',
@@ -77,7 +77,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
     programas: any;
     cronogramas: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    respuesta: String;
     /**
      * Constructor
      */
@@ -110,7 +110,8 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idDependencia    : [0],
             idPrograma : [0],
             idTipo_tramite_unidad : [0],
-            cronograma       : [0]
+            cronograma       : [0],
+             
         });
 
         // Get the user
@@ -294,6 +295,19 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             
             this._changeDetectorRef.markForCheck();
         });
+    }
+
+    verExcel(){
+        const form = this.selectedReporteForm.getRawValue();
+        console.log(form.idDependencia,form.cronograma);
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/excel/' + form.idDependencia+'/'+form.cronograma);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        
+
     }
 
     /**

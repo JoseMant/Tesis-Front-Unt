@@ -16,7 +16,8 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 import { User } from 'app/core/user/user.types';
-
+import { environment } from 'environments/environment';
+import { AuthService } from 'app/core/auth/auth.service';
 @Component({
     selector       : 'reportes-validados-list',
     templateUrl    : './list.component.html',
@@ -91,6 +92,7 @@ export class ReporteCarpetasExpedientesListComponent implements OnInit, AfterVie
         private _cronogramasService: CronogramasService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
+        private _authService: AuthService
     )
     {
     }
@@ -307,6 +309,8 @@ export class ReporteCarpetasExpedientesListComponent implements OnInit, AfterVie
         }); */
     }
 
+    
+
     /**
      * After view init
      */
@@ -346,6 +350,51 @@ export class ReporteCarpetasExpedientesListComponent implements OnInit, AfterVie
         }
     }
 
+    exportarPDF() {
+        /* const data = this.selectedResolucionForm.getRawValue(); */
+
+        if( this.reportes$){
+            const link = document.createElement('a');
+            link.setAttribute('target', '_blank');
+            const form = this.selectedReporteForm.getRawValue();
+            if(form.idDependencia){
+                        if(form.idTipo_tramite_unidad){
+                            if(form.anio){
+                                link.setAttribute('href', environment.baseUrl + 'reporte/expedientesPDF?idUnidad='+form.idUnidad+'&&idDependencia='+form.idDependencia+'&&idPrograma='+form.idPrograma+'&&idTipo_tramite_unidad='+form.idTipo_tramite_unidad+'&&anio='+form.anio)                                                                        
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                            }else{
+                                this.alert = {
+                                type   : 'warning',
+                                message: 'Seleccione año',
+                                title: 'Advertencia'
+                                };
+                                this.openSnack();
+                            }
+                            
+                        }else{
+                            this.alert = {
+                            type   : 'warning',
+                            message: 'Seleccione grado',
+                            title: 'Advertencia'
+                            };
+                            this.openSnack();
+                        }
+                   
+            }else{
+                this.alert = {
+                type   : 'warning',
+                message: 'Seleccione dependencia',
+                title: 'Advertencia'
+                };
+                this.openSnack();
+            }
+            
+        }
+        
+    }
+    
     /**
      * On destroy
      */
