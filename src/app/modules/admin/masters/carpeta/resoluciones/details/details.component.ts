@@ -19,11 +19,57 @@ import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/
     styles         : [
         /* language=SCSS */
         `
+            fuse-alert {
+                margin: 16px 0;
+            }
             .fondo_snackbar {
                 background-color:transparent !important;
                 padding: 0px !important;
                 height: 0px;
                 min-height: 0px !important;
+            }
+            .spinner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 40px;
+                width: 56px;
+            }
+            .spinner > div {
+                width: 12px;
+                height: 12px;
+                background-color: #1E96F7;
+                border-radius: 100%;
+                display: inline-block;
+                -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
+                animation: fuse-bouncedelay 1s infinite ease-in-out both;
+            }
+            .spinner .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+            .spinner .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+            @-webkit-keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0)
+                }
+                40% {
+                    -webkit-transform: scale(1.0)
+                }
+            }
+
+            @keyframes fuse-bouncedelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+                40% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                }
             }
         `
     ],
@@ -262,10 +308,15 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     createResolucion(): void
     {
         // Get the resolucion object
-        const resolucion = this.resolucionForm.getRawValue();      
+        const resolucion = this.resolucionForm.getRawValue();     
+
+        this.resolucionForm.disable();
 
         // Create the resolucion on the server
         this._resolucionesService.createResolucion(resolucion).subscribe((newResolucion) => {
+
+            this.resolucionForm.enable();
+
             // Toggle the edit mode off
             this.toggleEditMode(false);
 
@@ -279,6 +330,7 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             this.openSnack();
         },
         (response) => {
+            this.resolucionForm.enable();
             this.alert = {
                 type   : 'warn',
                 message: response.error.message,
@@ -295,9 +347,13 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     {
         // Get the resolucion object
         const resolucion = this.resolucionForm.getRawValue();
+        this.resolucionForm.disable();
 
         // Update the resolucion on the server
         this._resolucionesService.updateResolucion(resolucion.idResolucion, resolucion).subscribe(() => {
+
+            this.resolucionForm.enable();
+
             // Toggle the edit mode off
             this.toggleEditMode(false);
 

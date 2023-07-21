@@ -263,11 +263,25 @@ export class TituloEspecialidadValidadoDetalleComponent implements OnInit, OnDes
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite registrado correctamente',
+                message: 'Trámite actualizado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        },
+        (response) => {
+
+            // Re-enable the form
+            this.tituloForm.enable();
+
+            this.alert = {
+                type   : 'warn',
+                message: response.error.message,
+                title: 'Error'
+            };
+            this.openSnack();
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });

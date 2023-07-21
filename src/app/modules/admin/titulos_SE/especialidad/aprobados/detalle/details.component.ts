@@ -317,7 +317,7 @@ export class TituloEspecialidadAprobadoDetalleComponent implements OnInit, OnDes
         };
 
         //Validar que subí todos los requisitos rechazados
-        const requis = this.tituloForm.getRawValue().requisitos.find(element => element.responsable == 5 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
+        const requis = this.tituloForm.getRawValue().requisitos.find(element => element.responsable == 17 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
         if (requis) {
             this.alert = {
                 type   : 'warn',

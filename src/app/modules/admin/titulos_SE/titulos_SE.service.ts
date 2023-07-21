@@ -525,6 +525,7 @@ export class TitulosService
                         titulos.splice(index, 1);
                     } else {
                         // Update the titulo
+                        if (updatedTitulo.certificado_final) updatedTitulo.certificado_final = environment.baseUrlStorage +  updatedTitulo.certificado_final
                         titulos[index] = updatedTitulo;
                     }
 

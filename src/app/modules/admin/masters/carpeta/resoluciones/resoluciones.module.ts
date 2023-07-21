@@ -19,6 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import * as moment from 'moment';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 // import { usersRoutes } from 'app/modules/admin/apps/resoluciones/resoluciones.routing';
 // import { UsersComponent } from 'app/modules/admin/apps/resoluciones/resoluciones.component';
 // import { UsersDetailsComponent } from 'app/modules/admin/apps/resoluciones/details/details.component';
@@ -49,7 +51,8 @@ import { SharedModule } from 'app/shared/shared.module';
         MatTableModule,
         MatTooltipModule,
         FuseFindByKeyPipeModule,
-        SharedModule
+        SharedModule,
+        MatProgressSpinnerModule
     ],
     providers   : [
         {

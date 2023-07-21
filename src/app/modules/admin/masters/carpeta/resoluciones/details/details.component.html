@@ -407,7 +407,7 @@
                             Cancelar
                         </button>
                         <!-- Guardar -->
-                        <button
+                        <!-- <button
                             class="ml-2"
                             mat-flat-button
                             [color]="'primary'"
@@ -415,7 +415,38 @@
                             [matTooltip]="'Guardar'"
                             (click)="saveResolucion()">
                             Guardar
+                        </button> -->
+                        <button 
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="resolucionForm.disabled"
+                            [matTooltip]="'Guardar'"
+                            (click)="saveResolucion()">
+                            <span *ngIf="!resolucionForm.disabled">
+                                Guardar
+                            </span>
+                            <mat-progress-spinner
+                                *ngIf="resolucionForm.disabled"
+                                [diameter]="24"
+                                [mode]="'indeterminate'">
+                            </mat-progress-spinner>
                         </button>
+
+                        <!-- <button *ngIf="grado.idEstado_tramite == 30"
+                            class="ml-4"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="gradoForm.disabled"                    
+                            (click)="UpdateRequisitosEscuela()">
+                            <span *ngIf="!gradoForm.disabled">
+                                Guardar
+                            </span>
+                            <mat-progress-spinner
+                                *ngIf="gradoForm.disabled"
+                                [diameter]="24"
+                                [mode]="'indeterminate'"></mat-progress-spinner>
+                        </button> -->
                     </div>
 
                 </form>
