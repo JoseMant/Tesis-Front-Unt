@@ -111,7 +111,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idPrograma : [0],
             idTipo_tramite_unidad : [0],
             cronograma       : [0],
-             
+
         });
 
         // Get the user
@@ -120,16 +120,16 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             .subscribe((user: User) => {
                 if (user.idTipoUsuario == 5) {
                     this._reportesService.getDependenciaByDependenciaDetalle(user.idDependencia).subscribe((dependencia)=>{
-                        
+
                         this.changedUnidad(1);
                         this.changedDependencia(dependencia.idDependencia);
-                        
+
                         this.selectedReporteForm.patchValue({
                             idUnidad: 1,
                             idDependencia: dependencia.idDependencia,
                             idPrograma: user.idDependencia
                         });
-                        
+
                         this._changeDetectorRef.markForCheck();
                     });
                 }
@@ -163,7 +163,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         this._reportesService.reportes$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: ReporteInterface[]) => {
-                
+
                 // Update the counts
                 if (response) {
                     this.reportesCount = response.length;
@@ -249,16 +249,16 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idTipo_tramite_unidad: 0,
             cronograma: 0
         });
-        
+
         this._reportesService.getTipoTramiteUnidades(idUnidad).subscribe((resp)=>{
             this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
-            
+
             this._changeDetectorRef.markForCheck();
         });
 
         this._reportesService.getDependenciasByUnidad(idUnidad).subscribe((response)=>{
             this.dependencias = response;
-            
+
             this._changeDetectorRef.markForCheck();
         });
 
@@ -269,17 +269,17 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
             idPrograma: 0,
             cronograma: 0
         });
-        
+
         this._reportesService.getProgramasByDependencia(idDependencia).subscribe((response)=>{
             console.log(response);
             this.programas = response;
-            
+
             this._changeDetectorRef.markForCheck();
         });
 
         this._reportesService.getCronogramasByDependencia(idDependencia, this.selectedReporteForm.get('idTipo_tramite_unidad').value).subscribe((response)=>{
             this.cronogramas = response;
-            
+
             this._changeDetectorRef.markForCheck();
         });
 
@@ -292,7 +292,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
 
         this._reportesService.getCronogramasByDependencia(this.selectedReporteForm.get('idDependencia').value, idTipo_tramite_unidad).subscribe((response)=>{
             this.cronogramas = response;
-            
+
             this._changeDetectorRef.markForCheck();
         });
     }
@@ -306,7 +306,20 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         document.body.appendChild(link);
         link.click();
         link.remove();
-        
+
+
+    }
+
+    verPDF(){
+        const form = this.selectedReporteForm.getRawValue();
+        console.log(form.idDependencia,form.cronograma);
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/pdf/' + form.idDependencia+'/'+form.cronograma);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
 
     }
 
