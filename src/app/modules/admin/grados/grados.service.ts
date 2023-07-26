@@ -39,7 +39,7 @@ export class GradosService
      {
          return this._users.asObservable();
      }
-     
+
      /**
      * Getter for pagination
      */
@@ -91,10 +91,20 @@ export class GradosService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    getGradosValidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    /**
+     * Get GradosValidados
+     *
+     *
+     * @param page
+     * @param size
+     * @param sort
+     * @param order
+     * @param search
+     */
+    getGradosValidados(page: number = 0, size: number = 10, sort: string = 'nro_tramite', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[] }>
     {
+        console.log(page,size,sort,order,search)
       return this._httpClient.get<{ pagination: GradoPagination; data: GradoInterface[] }>(environment.baseUrl + 'grados/validados/escuela', {
         params: {
             page: '' + page,
@@ -295,7 +305,7 @@ export class GradosService
     // {
     //     console.log(search);
     //     return this._httpClient.get(environment.baseUrl + 'facultades/' + search).pipe(
-    //         tap((response: any[]) => { 
+    //         tap((response: any[]) => {
     //             this._facultadesEscuelas.next(response);
     //         })
     //     );
@@ -308,8 +318,8 @@ export class GradosService
                 console.log(response);
             })
         );
-    } 
-    
+    }
+
     getGradosValidadosSecretaria(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: GradoPagination; data: GradoInterface[]; resolucion: Resolucion }>
     {
@@ -446,7 +456,7 @@ export class GradosService
         })
       );
     }
-    
+
     /**
      * Get grado by id
      */
@@ -472,10 +482,10 @@ export class GradosService
                         });
                     }
                 }
-                
+
                 // Update the grado
                 this._grado.next(grado);
-                
+
                 // Return the grado
                 return grado;
             }),
@@ -541,20 +551,20 @@ export class GradosService
             ))
         );
     }
-    
+
     updateGradoRequisito(id: number, grado: GradoInterface): Observable<GradoInterface>
     {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.put<GradoInterface>(environment.baseUrl + 'tramite/update/requisito', grado).pipe(
                 map((updatedGrado) => {
-                    
+
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
-                    
+
                     // Update the grado
                     grados[index] = updatedGrado;
-                    
+
                     // Update the grados
                     this._grados.next(grados);
 
@@ -634,14 +644,14 @@ export class GradosService
             ))
         );
     }
-    
+
     updateEstado(id: number, data: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.put<any>(environment.baseUrl + 'grados/correccion', data).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
-                    
+
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
@@ -677,14 +687,14 @@ export class GradosService
             ))
         );
     }
-    
+
     sendFacultad(id: number, data: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.put<any>(environment.baseUrl + 'grados/envio/facultad', data).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
-                    
+
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
@@ -720,14 +730,14 @@ export class GradosService
             ))
         );
     }
-    
+
     sendEscuela(id: number, data: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.put<any>(environment.baseUrl + 'grados/envio/escuela', data).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
-                    
+
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
@@ -763,14 +773,14 @@ export class GradosService
             ))
         );
     }
-    
+
     sendDatos(id: number, data: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.put<any>(environment.baseUrl + 'grados/datos', data).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
-                    
+
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
@@ -808,14 +818,14 @@ export class GradosService
             ))
         );
     }
-    
+
     sendUraa(id: number, data: any): Observable<any> {
         return this.grados$.pipe(
             take(1),
             switchMap(grados => this._httpClient.put<any>(environment.baseUrl + 'grados/envio/ura', data).pipe(
                 map((updatedGrado) => {
                     console.log(updatedGrado);
-                    
+
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
 
@@ -851,7 +861,7 @@ export class GradosService
             ))
         );
     }
-    
+
     uploadGrado(id: number, tramite: any): Observable<any>
     {
         return this.grados$.pipe(
@@ -861,7 +871,7 @@ export class GradosService
                     console.log(updatedGrado);
                     // Find the index of the updated grado
                     const index = grados.findIndex(item => item.idTramite === id);
-                    
+
                     // Update the grado
                     grados.splice(index, 1);
 
@@ -932,7 +942,7 @@ export class GradosService
                 map((isSent: boolean) => {
                     // Find the index of the updated grados
                     const index = grados.findIndex(item => item.idTramite === id);
-                    
+
                     // Delete the product
                     grados.splice(index, 1);
 
@@ -959,14 +969,14 @@ export class GradosService
                     updatedGrados.forEach(element => {
                         // Find the index of the deleted product
                         const index = grados.findIndex(item => item.idTramite === element.idTramite);
-        
+
                         // Delete the product
                         grados.splice(index, 1);
                     });
-        
+
                     // Update the grados
                     this._grados.next(grados);
-        
+
                     // Return the new message from observable
                     return grados;
                 })
@@ -984,21 +994,21 @@ export class GradosService
             }).pipe(
                 map((updatedGrados) => {
                     console.log(updatedGrados);
-                    
+
                     // Update the messages with the new message
                     updatedGrados.forEach(element => {
                         // Find the index of the deleted product
                         const index = grados.findIndex(item => item.idTramite === element.idTramite);
-        
+
                         // Delete the product
                         // grados.splice(index, 1);
                         grados[index] = element;
-                        
+
                     });
-        
+
                     // Update the grados
                     this._grados.next(grados);
-        
+
                     // Return the new message from observable
                     return grados;
                 })

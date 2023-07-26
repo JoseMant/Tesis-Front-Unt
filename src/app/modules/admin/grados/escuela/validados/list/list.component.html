@@ -60,7 +60,7 @@
                             <!-- Nro. Trámite -->
                             <div
                                 class="hidden sm:block"
-                                [mat-sort-header]="'codigo'">
+                                [mat-sort-header]="'nro_tramite'">
                                 Nro. Trámite
                             </div>
 
@@ -175,9 +175,9 @@
                         [length]="pagination.length"
                         [pageIndex]="pagination.page"
                         [pageSize]="pagination.size"
+                        (page)="cambioPagina($event)"
                         [pageSizeOptions]="[5, 10, 25, 100]"
                         [showFirstLastButtons]="true"></mat-paginator>
-
                 </ng-container>
             </ng-container>
 

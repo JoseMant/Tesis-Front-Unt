@@ -9,10 +9,10 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+// import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 
 @Component({
     selector       : 'grados-validados-list',
@@ -44,8 +44,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         `
     ],
     encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations     : fuseAnimations
+    animations     : fuseAnimations,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
@@ -121,7 +121,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
         this._gradosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: GradoPagination) => {
-
+                console.log(pagination)
                 // Update the pagination
                 this.pagination = pagination;
 
@@ -150,25 +150,28 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'created_at',
-                                start       : 'desc',
-                                disableClear: true
-                            });
-                        }
-                        return this._gradosService.getGradosValidados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
-                    }
-                    else
-                        return this._gradosService.getGradosValidados(0, 100, 'fecha', 'desc', query);
+                    console.log('hola')
+                    return this._gradosService.getGradosValidados(0, 10, 'fecha', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+                {
+                this._changeDetectorRef.markForCheck();
+            }
+            );
+    }
+
+    cambioPagina(evento): void {
+        console.log(evento, this._sort, this._sort.direction)
+        if(this._sort.active) {
+            console.log('entra')
+            this._gradosService.getGradosValidados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._gradosService.getGradosValidados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -190,7 +193,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'nro_tramite',
+                id          : 'fecha',
                 start       : 'asc',
                 disableClear: true
             });
@@ -207,19 +210,20 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
                 });
 
             // Get grados if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    if(this.searchInputControl.value ){
-                        return this._gradosService.getGradosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._gradosService.getGradosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    console.log(this.pagination)
+                    return this._gradosService.getGradosValidados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+                {
+                this._changeDetectorRef.markForCheck();
+            }
+            );
         }
     }
 
