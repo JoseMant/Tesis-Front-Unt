@@ -121,7 +121,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
         this._gradosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: GradoPagination) => {
-                console.log(pagination)
+                
                 // Update the pagination
                 this.pagination = pagination;
 
@@ -135,7 +135,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
         this._gradosService.grados$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: GradoInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
                 this.gradosCount = response.length;
 
@@ -150,7 +150,6 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    console.log('hola')
                     return this._gradosService.getGradosValidados(0, 10, 'fecha', 'asc', query);
                 }),
                 map(() => {
@@ -164,9 +163,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
     }
 
     cambioPagina(evento): void {
-        console.log(evento, this._sort, this._sort.direction)
         if(this._sort.active) {
-            console.log('entra')
             this._gradosService.getGradosValidados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
         }
         else {

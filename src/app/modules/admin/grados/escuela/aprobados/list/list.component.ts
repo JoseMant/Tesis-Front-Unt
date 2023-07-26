@@ -135,7 +135,7 @@ export class GradosEscuelaAprobadosListComponent implements OnInit, AfterViewIni
         this._gradosService.grados$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: GradoInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
                 this.gradosCount = response.length;
 
@@ -150,25 +150,25 @@ export class GradosEscuelaAprobadosListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'created_at',
-                                start       : 'desc',
-                                disableClear: true
-                            });
-                        }
-                        return this._gradosService.getGradosAprobados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
-                    }
-                    else
-                        return this._gradosService.getGradosAprobados(0, 100, 'fecha', 'desc', query);
+                    return this._gradosService.getGradosAprobados(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+                {
+                this._changeDetectorRef.markForCheck();
+            }
+            );
+    }
+
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._gradosService.getGradosAprobados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._gradosService.getGradosAprobados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
