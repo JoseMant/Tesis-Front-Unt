@@ -210,7 +210,6 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    console.log(this.pagination)
                     return this._gradosService.getGradosValidados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
