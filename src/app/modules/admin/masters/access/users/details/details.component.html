@@ -334,18 +334,35 @@
                     <div class="mt-8" *ngIf="userForm.get('idTipo_usuario').value == 5 && userForm.get('idFacultad').value">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Escuela</mat-label>
+                            <!-- Header -->
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
                                 [svgIcon]="'heroicons_solid:home'"></mat-icon>
-                            <mat-select
-                                [formControlName]="'idDependencia'">
-                                <mat-option [value]="''" disabled>Seleccionar Escuela...</mat-option>
-                                <ng-container *ngFor="let dependencia of dependencias">
-                                    <mat-option [value]="dependencia.idEscuela">{{dependencia.nombre}}</mat-option>
-                                </ng-container>
-                            </mat-select>
+                            <input
+                                matInput
+                                class="min-w-0 ml-2 py-1 border-0"
+                                type="text"
+                                placeholder="Enter tag name"
+                                [formControl]="searchEscuelaControl"
+                                [maxLength]="50"
+                                #newTagInput>
                         </mat-form-field>
+                        <div class="mt-1.5 rounded-md border border-gray-300 dark:border-gray-500 shadow-sm overflow-hidden">
+                            <!-- Available tags -->
+                            <div class="fuse-mat-no-subscript w-full h-40 leading-none overflow-y-auto border-t border-gray-300 dark:border-gray-500">
+                                <!-- Tags -->
+                                <ng-container *ngFor="let programa of filteredProgramas; trackBy: trackByFn">
+                                    <mat-checkbox
+                                        class="flex items-center h-10 min-h-10 px-4"
+                                        [color]="'primary'"
+                                        [checked]="user.programas.includes(programa.idPrograma)"
+                                        (change)="toggleProductTag(programa, $event)">
+                                        {{programa.nombre}}
+                                    </mat-checkbox>
+                                </ng-container>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Emails -->

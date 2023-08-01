@@ -31,6 +31,7 @@ export interface User
     sexo: string;
     estado: boolean;
     idFacultad?: number;
+    programas?: number[];
 }
 
 export interface Role

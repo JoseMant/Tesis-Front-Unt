@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
@@ -46,13 +47,15 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     dependencias: any;
     facultades: any;
     tipos_documentos = [
-        {id: '1', name: 'DNI', description: 'DOCUMENTO NACIONAL DE IDENTIDAD'},
-        {id: '3', name: 'CE', description: 'CARNET DE EXTRANGERÍA' }
+        // {id: '1', name: 'DNI', description: 'DOCUMENTO NACIONAL DE IDENTIDAD'},
+        // {id: '3', name: 'CE', description: 'CARNET DE EXTRANGERÍA' }
     ];
     generos = [
         {id: 'M', name: 'MASCULINO' },
         {id: 'F', name: 'FEMENINO'}
     ];
+    searchEscuelaControl: FormControl = new FormControl('');
+    filteredProgramas: any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -110,7 +113,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
 
             idUnidad: [''],
             idDependencia: [''],
-            idFacultad: ['']
+            idFacultad: [''],
+
+            programa: [[]]
         });
 
         // Get the users
@@ -154,10 +159,11 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
                     });
                     this._usersService.getEscuelasByDependencia(user.idFacultad).subscribe((response)=>{
                         this.dependencias = response;
+                        this.filteredProgramas = response;
                         
                         this._changeDetectorRef.markForCheck();
                     });
-                    console.log(this.userForm.getRawValue().idDependencia)
+                    // console.log(this.userForm.getRawValue().idDependencia)
                 } else if (this.userForm.get('idTipo_usuario').value == 17) {
                     this.userForm.patchValue({idUnidad: 4});
                     this._usersService.getDependenciasByUnidad(4).subscribe((response)=>{
@@ -233,11 +239,15 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     selectedFacultad(id): void{
         this.userForm.patchValue({idDependencia: '', idFacultad: id});
 
-        this._usersService.getEscuelasByDependencia(id).subscribe((response)=>{
-            this.dependencias = response;
-            
-            this._changeDetectorRef.markForCheck();
-        });
+        this._usersService.getEscuelasByDependencia(id)
+            .subscribe((response)=>{
+                // Update the programas
+                this.dependencias = response;
+                this.filteredProgramas = response;
+                
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     /**
@@ -248,6 +258,58 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+    }
+
+    /**
+     * Toggle programa
+     *
+     * @param programa
+     * @param change
+     */
+    togglePrograma(programa: any, change: MatCheckboxChange): void
+    {
+        if ( change.checked )
+        {
+            this.addProgramaToUsuario(programa);
+        }
+        else
+        {
+            this.removeProgramaFromUsuario(programa);
+        }
+    }
+
+    /**
+     * Add programa to the product
+     *
+     * @param programa
+     */
+    addProgramaToUsuario(programa: any): void
+    {
+        // Add the programa
+        this.user.programas.unshift(programa.id);
+
+        // Update the selected product form
+        this.userForm.get('programas').patchValue(this.user.programas);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Remove programa from the product
+     *
+     * @param programa
+     */
+    removeProgramaFromUsuario(programa: any): void
+    {
+        // Remove the programa
+        this.user.programas.splice(this.user.programas.findIndex(item => item === programa.id), 1);
+
+        // Update the selected product form
+        this.userForm.get('programas').patchValue(this.user.programas);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
     }
 
     // -----------------------------------------------------------------------------------------------------
