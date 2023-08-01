@@ -133,7 +133,7 @@ export class GradosFacultadDiplomasListComponent implements OnInit, AfterViewIni
         this._gradosService.grados$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: GradoInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
                 this.gradosCount = response.length;
 

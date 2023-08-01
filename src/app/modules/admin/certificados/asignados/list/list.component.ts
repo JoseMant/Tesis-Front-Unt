@@ -185,25 +185,25 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'dependencia',
-                                start       : 'asc',
-                                disableClear: true
-                            });
-                        }
-                        return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, this.dependenciaSelectControl.value, query);
-                    }
-                    else
-                        return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', this.dependenciaSelectControl.value, query);
+                    return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
             )
-            .subscribe();
+            .subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -242,15 +242,19 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 });
 
             // Get certificados if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.dependenciaSelectControl.value, this.searchInputControl.value);
+                    return this._certificadosService.getCertificadosAsignados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+            {
+            this._changeDetectorRef.markForCheck();
+        }
+        );
         }
     }
 

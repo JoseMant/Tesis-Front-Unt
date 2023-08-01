@@ -150,7 +150,7 @@ export class GradosEscuelaValidadosListComponent implements OnInit, AfterViewIni
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._gradosService.getGradosValidados(0, 10, 'fecha', 'asc', query);
+                    return this._gradosService.getGradosValidados(0, 100, 'fecha', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;

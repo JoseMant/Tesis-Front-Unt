@@ -363,7 +363,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     {
         // Get the user object
         const user = this.userForm.getRawValue();
-
+      //  console.log(user);
+      //  return;
         // Create the user on the server
         this._usersService.createUser(user).subscribe((newUser) => {
             // Toggle the edit mode off
@@ -395,7 +396,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     {
         // Get the user object
         const user = this.userForm.getRawValue();
-
+       // console.log(user);
+       // return;
         // Update the user on the server
         this._usersService.updateUser(user.idUsuario, user).subscribe(() => {
 

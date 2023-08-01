@@ -135,7 +135,7 @@ export class CertificadosFinalizadosListComponent implements OnInit, AfterViewIn
         this._certificadosService.certificados$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: CertificadoInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
                 this.certificadosCount = response.length;
 
@@ -150,25 +150,25 @@ export class CertificadosFinalizadosListComponent implements OnInit, AfterViewIn
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'created_at',
-                                start       : 'desc',
-                                disableClear: true
-                            });
-                        }
-                        return this._certificadosService.getCertificadosFinalizados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
-                    }
-                    else
-                        return this._certificadosService.getCertificadosFinalizados(0, 100, 'created_at', 'desc', query);
+                    return this._certificadosService.getCertificadosFinalizados(0, 100, 'fecha', 'desc', query);
+
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+                {
+                    this._changeDetectorRef.markForCheck();
+                });
+    }
+
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._certificadosService.getCertificadosFinalizados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._certificadosService.getCertificadosFinalizados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -207,20 +207,20 @@ export class CertificadosFinalizadosListComponent implements OnInit, AfterViewIn
                 });
 
             // Get certificados if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
                     // return this._certificadosService.getCertificadosFinalizados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    if(this.searchInputControl.value ){
-                        return this._certificadosService.getCertificadosFinalizados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._certificadosService.getCertificadosFinalizados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._certificadosService.getCertificadosFinalizados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+                ).subscribe(()=>
+                {
+                this._changeDetectorRef.markForCheck();
+            }
+            );
         }
     }
 
