@@ -347,7 +347,8 @@ export class ReportesService
 
                 // Find the carpeta
                 const carpeta = reportes.find(item => item.idTramite === id) || null;
-
+                if (carpeta) carpeta.foto = environment.baseUrlStorage + carpeta.foto;
+                
                 // Update the carpeta
                 this._reporte.next(carpeta);
 
