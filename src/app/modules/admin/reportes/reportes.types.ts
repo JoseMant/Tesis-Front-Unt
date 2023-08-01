@@ -37,6 +37,7 @@ export interface ReporteInterface
     nro_registro?:string;
     nro_resolucion?:string;
     tipo_tramite?:string;
+    foto?:string;
 }
 export interface ReportePagination
 {

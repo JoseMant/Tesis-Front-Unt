@@ -107,7 +107,7 @@ export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewIn
                 // Config the alert
                 this.alert = {
                     type   : 'success',
-                    message: response.length + "diploma(s) encontrada(s)",
+                    message: response.length + " diploma(s) encontrada(s)",
                     title: 'Encontrado'
                 };
 
