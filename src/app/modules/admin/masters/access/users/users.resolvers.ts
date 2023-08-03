@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { UsersService } from 'app/modules/admin/masters/access/users/users.service';
-import { User, Role, Unidad } from 'app/modules/admin/masters/access/users/users.types';
+import { User, Role, Unidad, Tipo_documento } from 'app/modules/admin/masters/access/users/users.types';
 
 @Injectable({
     providedIn: 'root'
@@ -133,5 +133,34 @@ export class UsersUnidadesResolver implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Unidad[]>
     {
         return this._usersService.getUnidades();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class UsersTiposDocumentosResolver implements Resolve<any>
+{
+    /**
+    * Constructor
+    */
+    constructor(private _usersService: UsersService)
+    {
+    }
+    
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+    
+    /**
+    * Resolver
+    *
+    * @param route
+    * @param state
+    */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tipo_documento[]>
+    {
+        return this._usersService.getTipos_documentos();
     }
 }

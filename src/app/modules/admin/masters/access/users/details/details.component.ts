@@ -6,7 +6,7 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { User, Role, Unidad } from 'app/modules/admin/masters/access/users/users.types';
+import { User, Role, Unidad, Tipo_documento } from 'app/modules/admin/masters/access/users/users.types';
 import { UsersListComponent } from 'app/modules/admin/masters/access/users/list/list.component';
 import { UsersService } from 'app/modules/admin/masters/access/users/users.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
@@ -46,10 +46,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     unidades: Unidad[];
     dependencias: any;
     facultades: any;
-    tipos_documentos = [
-        // {id: '1', name: 'DNI', description: 'DOCUMENTO NACIONAL DE IDENTIDAD'},
-        // {id: '3', name: 'CE', description: 'CARNET DE EXTRANGERÍA' }
-    ];
+    tipos_documentos: Tipo_documento[];
     generos = [
         {id: 'M', name: 'MASCULINO' },
         {id: 'F', name: 'FEMENINO'}
@@ -103,7 +100,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
             username       : ['', [Validators.required]],
             nombres        : ['', [Validators.required]],
             apellidos        : ['', [Validators.required]],
-            tipo_documento     : ['', [Validators.required]],
+            tipo_documento     : [null, [Validators.required]],
             nro_documento     : ['', [Validators.required]],
             correo        : ['', [Validators.required]],
             celular        : [''],
@@ -115,7 +112,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
             idDependencia: [''],
             idFacultad: [''],
 
-            programa: [[]]
+            programas: [[]]
         });
 
         // Get the users
@@ -205,6 +202,15 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        this._usersService.tipos_documentos$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((tipos_documentos: Tipo_documento[]) => {
+                this.tipos_documentos = tipos_documentos;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
     }
 
     selectedRole(id): void{
@@ -244,7 +250,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
                 // Update the programas
                 this.dependencias = response;
                 this.filteredProgramas = response;
-                
+                // console.log(response);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -286,7 +292,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     addProgramaToUsuario(programa: any): void
     {
         // Add the programa
-        this.user.programas.unshift(programa.id);
+        this.user.programas.unshift(programa.idPrograma);
 
         // Update the selected product form
         this.userForm.get('programas').patchValue(this.user.programas);
@@ -303,7 +309,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     removeProgramaFromUsuario(programa: any): void
     {
         // Remove the programa
-        this.user.programas.splice(this.user.programas.findIndex(item => item === programa.id), 1);
+        this.user.programas.splice(this.user.programas.findIndex(item => item === programa.idPrograma), 1);
 
         // Update the selected product form
         this.userForm.get('programas').patchValue(this.user.programas);
@@ -396,8 +402,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     {
         // Get the user object
         const user = this.userForm.getRawValue();
-       // console.log(user);
-       // return;
+        console.log(user);
+        //return;
         // Update the user on the server
         this._usersService.updateUser(user.idUsuario, user).subscribe(() => {
 

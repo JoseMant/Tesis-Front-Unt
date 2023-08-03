@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { User, Role, Unidad } from 'app/modules/admin/masters/access/users/users.types';
+import { User, Role, Unidad, Tipo_documento } from 'app/modules/admin/masters/access/users/users.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class UsersService
     private _roles: BehaviorSubject<Role[] | null> = new BehaviorSubject(null);
     private _unidades: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _tipos_documentos: BehaviorSubject<Tipo_documento[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -41,6 +42,14 @@ export class UsersService
     get users$(): Observable<User[]>
     {
         return this._users.asObservable();
+    }
+
+    /**
+     * Getter for tipos_documentos
+     */
+    get tipos_documentos$(): Observable<Tipo_documento[]>
+    {
+        return this._tipos_documentos.asObservable();
     }
 
     /**
@@ -117,14 +126,15 @@ export class UsersService
                     user = {
                         idUsuario: 0,
                         idTipo_usuario: 0,
+                        tipo_documento: 0,
                         username: '',
                         nombres: '',
                         apellidos: 'Nuevo Usuario',
-                        tipo_documento: 'none',
                         nro_documento: '',
                         correo: '',
                         celular:'',
                         sexo: 'none',
+                        programas: [],
                         estado: true
                     };
                 }
@@ -259,6 +269,19 @@ export class UsersService
             })
         );
     }
+
+     /**
+     * Get tipos_documentos
+     */
+    getTipos_documentos(): Observable<Tipo_documento[]>
+    {
+        return this._httpClient.get<Tipo_documento[]>(environment.baseUrl + 'tipos_documentos').pipe(
+            tap((response) => {
+                this._tipos_documentos.next(response);
+            })
+        );
+    }
+
 
     getDependenciasByUnidad(unidad: number): Observable<any>
     {
