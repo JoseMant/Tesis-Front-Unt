@@ -135,7 +135,7 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
         this._titulosService.titulos$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: TituloInterface[]) => {
-                console.log(response);
+                
                 // Update the counts
                 this.titulosCount = response.length;
 
@@ -150,25 +150,25 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'created_at',
-                                start       : 'desc',
-                                disableClear: true
-                            });
-                        }
-                        return this._titulosService.getTitulosAprobadosFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
-                    }
-                    else
-                        return this._titulosService.getTitulosAprobadosFacultad(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    return this._titulosService.getTitulosAprobadosFacultad(0, 100, 'fecha', 'desc', query);
+
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._titulosService.getTitulosAprobadosFacultad(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._titulosService.getTitulosAprobadosFacultad(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -190,8 +190,8 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'nro_tramite',
-                start       : 'asc',
+                id          : 'fecha',
+                start       : 'desc',
                 disableClear: true
             });
 
@@ -207,19 +207,20 @@ export class TitulosFacultadAprobadosListComponent implements OnInit, AfterViewI
                 });
 
             // Get titulos if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    if(this.searchInputControl.value ){
-                        return this._titulosService.getTitulosAprobadosFacultad(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    }else{
-                        return this._titulosService.getTitulosAprobadosFacultad(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._titulosService.getTitulosAprobadosFacultad(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+            {
+            this._changeDetectorRef.markForCheck();
+        }
+        );
         }
     }
 

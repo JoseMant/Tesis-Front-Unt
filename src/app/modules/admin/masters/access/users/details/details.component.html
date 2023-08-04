@@ -357,7 +357,7 @@
                                         class="flex items-center h-10 min-h-10 px-4"
                                         [color]="'primary'"
                                         [checked]="user.programas.includes(programa.idPrograma)"
-                                        (change)="toggleProductTag(programa, $event)">
+                                        (change)="togglePrograma(programa, $event)">
                                         {{programa.nombre}}
                                     </mat-checkbox>
                                 </ng-container>
@@ -404,10 +404,11 @@
                                 class="hidden sm:flex icon-size-5"
                                 [svgIcon]="'heroicons_solid:credit-card'"></mat-icon>
                             <mat-select [formControlName]="'tipo_documento'">
-                                <mat-option [value]="'none'" disabled>Seleccionar tipo de documento...</mat-option>
+                            
+                                <mat-option [value]="0" disabled>Seleccionar tipo de documento...</mat-option>
                                 <ng-container *ngFor="let tipo_documento of tipos_documentos">
-                                    <mat-option [value]="tipo_documento.id">
-                                        {{tipo_documento.name}}
+                                    <mat-option [value]="tipo_documento.idTipo_documento">
+                                        {{tipo_documento.nombre}}
                                     </mat-option>
                                 </ng-container>
                             </mat-select>

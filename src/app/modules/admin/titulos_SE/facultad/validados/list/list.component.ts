@@ -135,7 +135,7 @@ export class TitulosFacultadValidadosListComponent implements OnInit, AfterViewI
         this._titulosService.titulos$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: TituloInterface[]) => {
-                console.log(response);
+            
                 // Update the counts
                 this.titulosCount = response.length;
 
@@ -150,13 +150,24 @@ export class TitulosFacultadValidadosListComponent implements OnInit, AfterViewI
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosValidados(0, 10, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosValidados(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._titulosService.getTitulosValidados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._titulosService.getTitulosValidados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -211,8 +222,8 @@ export class TitulosFacultadValidadosListComponent implements OnInit, AfterViewI
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'nro_tramite',
-                start       : 'asc',
+                id          : 'fecha',
+                start       : 'desc',
                 disableClear: true
             });
 
@@ -228,15 +239,20 @@ export class TitulosFacultadValidadosListComponent implements OnInit, AfterViewI
                 });
 
             // Get titulos if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosValidados(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._titulosService.getTitulosValidados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+            {
+            this._changeDetectorRef.markForCheck();
+        }
+        );
         }
     }
 
