@@ -173,7 +173,7 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
         this._carpetasService.carpetas$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: CarpetaInterface[]) => {
-                console.log(response);
+                // console.log(response);
                 // Update the counts
                 if (response) {
                     this.carpetasCount = response.length;
