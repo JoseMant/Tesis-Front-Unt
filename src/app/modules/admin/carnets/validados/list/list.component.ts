@@ -168,7 +168,7 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         this._carnetsService.carnets$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response: CarnetInterface[]) => {
-                console.log(response);
+        
                 // Update the counts
                 this.carnetsCount = response.length;
 
@@ -183,26 +183,26 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'created_at',
-                                start       : 'desc',
-                                disableClear: true
-                            });
-                        }
-                        return this._carnetsService.getCarnetsRegulares(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
-                    }
-                    else
-                        return this._carnetsService.getCarnetsRegulares(0, 10, 'fecha', 'desc', query);
+                    return this._carnetsService.getCarnetsRegulares(0, 10, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
     }
+
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._carnetsService.getCarnetsRegulares(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._carnetsService.getCarnetsRegulares(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
+    }
+
 
     openSnack(): void {
         this.snackBar.openFromComponent(AlertaComponent, {
@@ -223,8 +223,8 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'nro_tramite',
-                start       : 'asc',
+                id          : 'fecha',
+                start       : 'desc',
                 disableClear: true
             });
 
@@ -240,15 +240,21 @@ export class CarnetsValidadosListComponent implements OnInit, AfterViewInit, OnD
                 });
 
             // Get carnets if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._carnetsService.getCarnetsRegulares(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._carnetsService.getCarnetsRegulares(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+
+                  
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+            {
+            this._changeDetectorRef.markForCheck();
+        }
+        );
         }
     }
 

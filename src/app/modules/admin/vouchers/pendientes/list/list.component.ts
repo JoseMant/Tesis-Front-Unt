@@ -151,13 +151,27 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._vouchersService.getVouchersPendientes(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    return this._vouchersService.getVouchersPendientes(0, 100, 'nro_tramite', 'asc', query);
+
+                   // return this._vouchersService.getVouchersPendientes(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    
+    cambioPagina(evento): void {
+        if(this._sort.active) {
+            this._vouchersService.getVouchersPendientes(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._vouchersService.getVouchersPendientes(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -236,18 +250,20 @@ export class VouchersPendientesListComponent implements OnInit, AfterViewInit, O
                 });
 
             // Get vouchers if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    if (this.searchInputControl.value)
-                        return this._vouchersService.getVouchersPendientes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    else
-                        return this._vouchersService.getVouchersPendientes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._vouchersService.getVouchersPendientes(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+            {
+            this._changeDetectorRef.markForCheck();
+        }
+        );
         }
     }
 
