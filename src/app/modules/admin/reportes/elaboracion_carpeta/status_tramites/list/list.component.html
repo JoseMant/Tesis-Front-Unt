@@ -44,7 +44,7 @@
                 <ng-container *ngxPermissionsExcept="['SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']">
                     <mat-form-field
                         *ngIf="selectedReporteForm.get('idUnidad').value"
-                        class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-56">
+                        class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-120">
                         <mat-select
                             [formControlName]="'idDependencia'"
                             (selectionChange)="changedDependencia($event.value)">
@@ -58,7 +58,7 @@
                 <ng-container *ngxPermissionsExcept="['SECRETARIA(O) DE ESCUELA']">
                     <mat-form-field
                         *ngIf="selectedReporteForm.get('idDependencia').value"
-                        class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                        class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-72">
                         <mat-select
                             [formControlName]="'idPrograma'">
                                 <mat-option [value]="0">Todas los programas</mat-option>
@@ -80,7 +80,7 @@
                 </mat-form-field>
                 <mat-form-field
                     *ngIf="selectedReporteForm.get('idDependencia').value"
-                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-44">
                     <mat-select
                         [formControlName]="'cronograma'">
                         <ng-container>
