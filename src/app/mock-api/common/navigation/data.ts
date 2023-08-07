@@ -92,7 +92,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Finalizados',
                 type : 'basic',
                 link : '/certificados/finalizados',
-                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS']
+                permissions: ['JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS', 'SECRETARIA DE SECRETARÍA GENERAL']
             },
             {
                 // Se muestran para la firma del jefe de RT
