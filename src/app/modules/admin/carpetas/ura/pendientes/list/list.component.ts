@@ -263,7 +263,7 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     }
 
     getFileDiploma(fileName: number) {
-        return environment.baseUrlStorage + fileName;
+        return environment.baseUrl+'diploma/' + fileName;
     }
 
     verCodigoDiploma(carpeta): void {
