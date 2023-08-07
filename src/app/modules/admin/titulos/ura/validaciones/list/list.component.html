@@ -112,7 +112,7 @@
                         <ng-container *ngIf="(titulos$ | async) as titulos">
                             <ng-container *ngFor="let titulo of titulos; trackBy: trackByFn let id=index">
                                 <div class="titulos-validados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b" 
-                                    [ngClass]="!titulo.certificado_final && (titulo.idPrograma == 11 || titulo.idPrograma == 47) ? 'text-red-500' : ''">
+                                    [ngClass]="{'text-red-500' : !titulo.certificado_final && (titulo.idPrograma == 11 || titulo.idPrograma == 47)}">
                                     <!-- Nro. Trámite -->
                                     <div >
                                         {{id+1}}
