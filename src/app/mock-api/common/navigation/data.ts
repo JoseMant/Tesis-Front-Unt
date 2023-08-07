@@ -391,27 +391,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carpetas/secretaria/validados',
                 permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
             },
-            {
-                id   : 'carpetas.firmas.decano',
-                title: 'Firma Decano',
-                type : 'basic',
-                link : '/carpetas/firmas/decano',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                id   : 'carpetas.firmas.rector',
-                title: 'Firma Rector',
-                type : 'basic',
-                link : '/carpetas/firmas/rector',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                id   : 'carpetas.firmas.secretaria_general',
-                title: 'Firma Secretaria General',
-                type : 'basic',
-                link : '/carpetas/firmas/secretaria_general',
-                permissions: ['ADMINISTRADOR']
-            },
+            // {
+            //     id   : 'carpetas.firmas.decano',
+            //     title: 'Firma Decano',
+            //     type : 'basic',
+            //     link : '/carpetas/firmas/decano',
+            //     permissions: ['ADMINISTRADOR']
+            // },
+            // {
+            //     id   : 'carpetas.firmas.rector',
+            //     title: 'Firma Rector',
+            //     type : 'basic',
+            //     link : '/carpetas/firmas/rector',
+            //     permissions: ['ADMINISTRADOR']
+            // },
+            // {
+            //     id   : 'carpetas.firmas.secretaria_general',
+            //     title: 'Firma Secretaria General',
+            //     type : 'basic',
+            //     link : '/carpetas/firmas/secretaria_general',
+            //     permissions: ['ADMINISTRADOR']
+            // },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'carpetas.ura.pendientes',
@@ -521,21 +521,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/vouchers/pendientes',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/vouchers/aprobados',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
                 link : '/vouchers/rechazados',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
             }
         ]
     },
@@ -549,35 +549,35 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'reportes.elaboracion_carpeta',
                 title: 'Elaboración de carpeta',
                 type : 'collapsable',
-                permissions: ['ADMINISTRADOR'],
+                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL', 'SUBUNIDAD DE GRADOS Y TÍTULOS', 'SECRETARIA(O) DE FACULTAD','SECRETARIA(O) DE ESCUELA'],
                 children: [
                     {
                         id   : 'reportes.diplomas',
                         title: 'Diplomas',
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/diplomas',
-                        permissions: ['ADMINISTRADOR']
+                        permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL', 'SUBUNIDAD DE GRADOS Y TÍTULOS']
                     },
                     {
                         id   : 'reportes.elaboracion_carpeta.status_tramites',
                         title: 'Estado de trámites',
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/status_tramites',
-                        permissions: ['ADMINISTRADOR']
+                        permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS', 'SECRETARIA(O) DE FACULTAD','SECRETARIA(O) DE ESCUELA']
                     },
                     {
                         id   : 'reportes.elaboracion_carpeta.expedientes',
                         title: 'Expedientes',
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/expedientes',
-                        permissions: ['ADMINISTRADOR']
+                        permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS']
                     },
                     {
                         id   : 'reportes.elaboracion_carpeta.libros',
                         title: 'Libros digitales',
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/libros',
-                        permissions: ['ADMINISTRADOR']
+                        permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
                     }
                 ]
 

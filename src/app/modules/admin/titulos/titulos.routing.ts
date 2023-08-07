@@ -259,6 +259,7 @@ export const titulosRoutes: Route[] = [
             titulo  : TituloURADiplomaResolver,
             modalidades: ModalidadesSustentacionResolver,
             programas_estudios: ProgramasEstudiosResolver,
+            universidades: UniversidadesResolver
           },
         }
       ]
