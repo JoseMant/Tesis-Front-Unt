@@ -209,7 +209,7 @@ export const certificadosRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS','SECRETARIA DE SECRETARÍA GENERAL'],
                 redirectTo: 'home'
             }
         },
