@@ -549,7 +549,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'reportes.elaboracion_carpeta',
                 title: 'Elaboración de carpeta',
                 type : 'collapsable',
-                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL', 'SUBUNIDAD DE GRADOS Y TÍTULOS', 'SECRETARIA(O) DE FACULTAD','SECRETARIA(O) DE ESCUELA'],
+                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL', 'SUBUNIDAD DE GRADOS Y TÍTULOS', 'SECRETARIA(O) DE FACULTAD','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD'],
                 children: [
                     {
                         id   : 'reportes.diplomas',
@@ -563,7 +563,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Estado de trámites',
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/status_tramites',
-                        permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS', 'SECRETARIA(O) DE FACULTAD','SECRETARIA(O) DE ESCUELA']
+                        permissions: ['SUBUNIDAD DE GRADOS Y TÍTULOS', 'SECRETARIA(O) DE FACULTAD','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
                     },
                     {
                         id   : 'reportes.elaboracion_carpeta.expedientes',
