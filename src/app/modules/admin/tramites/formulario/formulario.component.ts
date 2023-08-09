@@ -92,8 +92,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
     @ViewChild(MatSort) private _sort: MatSort;
 
     alert: { type: FuseAlertType; message: string; title: string} = {
-        type   : 'success',
-        message: '',
+        type   : 'warn',
+        message: 'Recuerda que al pagar en Tesorería UNT debes entregar tu voucher en físico a tu Secretaría de Escuela o Secretaría de Especialidad para validarlo',
         title: '',
     };
     tramite: any | null = null;
