@@ -192,7 +192,7 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
     verReporteSUNEDU() {
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'padron_sunedu/' + this.oficio.idOficio);
+        link.setAttribute('href', environment.baseUrl + 'padron_oficio_sunedu/' + this.oficio.idOficio);
         document.body.appendChild(link);
         link.click();
         link.remove();
