@@ -44,7 +44,7 @@
                 </mat-form-field>
                 <mat-form-field 
                     *ngIf="selectedReporteForm.get('idUnidad').value"
-                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-56">
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-120">
                     <mat-select
                         [formControlName]="'idDependencia'"
                         (selectionChange)="changedDependencia($event.value)">
@@ -56,7 +56,7 @@
                 </mat-form-field>
                 <mat-form-field 
                     *ngIf="selectedReporteForm.get('idDependencia').value"
-                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-72">
                     <mat-select
                         [formControlName]="'idPrograma'">
                             <mat-option [value]="0">Todas los programas</mat-option>

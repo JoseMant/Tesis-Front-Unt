@@ -92,8 +92,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
     @ViewChild(MatSort) private _sort: MatSort;
 
     alert: { type: FuseAlertType; message: string; title: string} = {
-        type   : 'success',
-        message: '',
+        type   : 'warn',
+        message: 'Recuerda que al pagar en Tesorería UNT debes entregar tu voucher en físico a tu Secretaría de Escuela o Secretaría de Especialidad para validarlo',
         title: '',
     };
     tramite: any | null = null;
@@ -260,13 +260,13 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
     }
 
-    fileSizeValidator(file: any) {
+    fileSizeValidator(file: any, min: number, max: number) {
         if (file) {
             // var path = file.replace(/^.*[\\\/]/, "");
             const fileSize = file.size;
             const fileSizeInKB = Math.round(fileSize / 1024);
-            console.log(fileSizeInKB);
-            if (fileSizeInKB >= 4 && fileSizeInKB <= 50) return true;
+            // console.log(fileSizeInKB);
+            if (fileSizeInKB >= min && fileSizeInKB <= max) return true;
             else return false;
         } else return false;
     }
@@ -590,7 +590,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             return;
         }
         const requis2 = this.data.requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
-        if (requis2 && !this.fileSizeValidator(requis2.archivoImagen)) {
+        if (requis2 && !this.fileSizeValidator(requis2.archivoImagen, 4, 50)) {
             this.alert = {
                 type   : 'warn',
                 message: requis2.nombre + ': Cargar archivo entre 4KB y 50KB',
@@ -599,6 +599,31 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+        this.data.requisitos.forEach((item) => {
+            if (item.archivoImagen && item.responsable == 4) {
+                if (!this.fileSizeValidator(item.archivoImagen, 1, 2048)) {
+                    this.alert = {
+                        type   : 'warn',
+                        message: item.nombre + ': Cargar archivo entre 1KB y 2048KB (2MB)',
+                        title: 'Error'
+                    };
+                    this.openSnack();
+                    return;
+                }
+            }
+            else if (item.archivoPdf && item.responsable == 4) {
+                if (!this.fileSizeValidator(item.archivoPdf, 1, 2048)) {
+                    this.alert = {
+                        type   : 'warn',
+                        message: item.nombre + ': Cargar archivo entre 1KB y 2048KB (2MB)',
+                        title: 'Error'
+                    };
+                    this.openSnack();
+                    return;
+                }
+            }
+        });
+        
         const formData = new FormData();
         formData.append('entidad', this.tramiteForm.getRawValue().entidad);
         formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);

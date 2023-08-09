@@ -11,27 +11,28 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Grados pendientes de impresión</div>
+            <div class="text-4xl font-extrabold tracking-tight">Carpetas pendientes de impresión</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="carpetasCount > 0">
                     {{carpetasCount}}
                 </ng-container>
                 {{carpetasCount | i18nPlural: {
                     '=0'   : 'No hay carpetas pendientes de impresión',
-                    '=1'   : 'Grado pendiente de impresión',
-                    'other': 'Grados pendientes de impresión'
+                    '=1'   : 'Carpeta pendiente de impresión',
+                    'other': 'Carpetas pendientes de impresión'
                 } }}
             </div>
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <ng-container *ngIf="(carpetas$ | async)  as carpetas">
-                <ng-container *ngIf="carpetas.length">
+                <!-- <ng-container *ngIf="carpetas.length">
                     <button
-                        class="ml-4"
+                        class="ml-4 mr-2"
                         mat-flat-button
                         [color]="'primary'"
                         (click)="finalizarTramites()">
+                        <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
                         <span class="ml-2 mr-1" *ngIf="!asignando">
                             Finalizar trámites
                         </span>
@@ -40,7 +41,7 @@
                             [diameter]="24"
                             [mode]="'indeterminate'"></mat-progress-spinner>
                     </button>
-                </ng-container>
+                </ng-container> -->
             </ng-container>
             <!-- Search -->
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
@@ -210,19 +211,19 @@
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                         </button> -->
-                                        <!-- <button
+                                        <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
                                             (click)="verCodigoDiploma(carpeta)">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                        </button> -->
+                                        </button>
                                         <a
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
                                             mat-stroked-button
                                             target="_blank"
-                                            [href]="getFileDiploma(carpeta.diploma_final)">
+                                            [href]="getFileDiploma(carpeta.idTramite)">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:download'"></mat-icon>

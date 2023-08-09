@@ -457,4 +457,35 @@ export class CarpetasService
             ))
         );
     }
+
+    editCodigoDiploma(carpeta: CarpetaInterface, apply: boolean): Observable<any>
+    {
+        return this.carpetas$.pipe(
+            take(1),
+            switchMap(carpetas => this._httpClient.put<any[]>(environment.baseUrl + 'create/codigo', {
+                "grado":carpeta,
+                "flag": apply
+            }).pipe(
+                map((updatedGrados) => {
+                    // console.log(updatedGrados);
+                    // Update the messages with the new message
+                    updatedGrados.forEach(element => {
+                        // Find the index of the deleted product
+                        const index = carpetas.findIndex(item => item.idTramite === element.idTramite);
+
+                        // Delete the product
+                        // carpetas.splice(index, 1);
+                        carpetas[index] = element;
+
+                    });
+
+                    // Update the carpetas
+                    this._carpetas.next(carpetas);
+
+                    // Return the new message from observable
+                    return carpetas;
+                })
+            ))
+        );
+    }
 }

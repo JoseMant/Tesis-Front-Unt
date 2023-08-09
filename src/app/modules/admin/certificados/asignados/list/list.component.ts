@@ -185,7 +185,20 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', query);
+                    // console.log(this._paginator)
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'dependencia',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query, this.searchInputControl.value);
+                    }
+                    else
+                        return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', query, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
