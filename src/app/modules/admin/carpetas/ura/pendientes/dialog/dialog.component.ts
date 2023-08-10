@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inje
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GradosService } from 'app/modules/admin/grados/grados.service';
+import { CarpetasService } from 'app/modules/admin/carpetas/carpetas.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { FuseAlertType } from '@fuse/components/alert';
 
@@ -35,7 +35,7 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
         public matDialogRef: MatDialogRef<CarpetaURAPendienteDialogComponent>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _gradosService: GradosService,
+        private _carpetasService: CarpetasService,
         private snackBar: MatSnackBar
     ) {}
 
@@ -104,8 +104,8 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
         // Disable the form
         this.gradoForm.disable();
 
-        this._gradosService.editCodigoDiploma(data, data.apply).subscribe((updatedCertificado) => {
-            console.log(updatedCertificado)
+        this._carpetasService.editCodigoDiploma(data, data.apply).subscribe((updatedCertificado) => {
+            
             // Re-enable the form
             this.gradoForm.enable();
             
@@ -117,7 +117,7 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
             
             this.alert = {
                 type   : 'success',
-                message: 'Notificación enviada correctamente',
+                message: 'Código de diploma actualizado correctamente',
                 title: 'Enviado'
             };
             this.openSnack();

@@ -214,6 +214,7 @@
                         [length]="pagination.length"
                         [pageIndex]="pagination.page"
                         [pageSize]="pagination.size"
+                        (page)="cambioPagina($event)"
                         [pageSizeOptions]="[5, 10, 25, 100]"
                         [showFirstLastButtons]="true"></mat-paginator>
 

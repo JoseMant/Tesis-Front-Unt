@@ -133,7 +133,7 @@ export class TramiteService
     {
         return this._httpClient.get(environment.baseUrl + 'unidades').pipe(
             tap((response: any) => {
-                console.log(response);
+                // console.log(response);
                 this._unidades.next(response);
             })
         );
@@ -143,7 +143,7 @@ export class TramiteService
     {
         return this._httpClient.get(environment.baseUrl + 'bancos').pipe(
             tap((response: any) => {
-                console.log(response);
+                // console.log(response);
                 this._bancos.next(response);
             })
         );
@@ -153,7 +153,7 @@ export class TramiteService
     {
         return this._httpClient.get(environment.baseUrl + 'tipos_tramites').pipe(
             tap((response: any) => {
-                console.log(response);
+                // console.log(response);
                 this._tipoTramites.next(response);
             })
         );
