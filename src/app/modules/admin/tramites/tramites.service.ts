@@ -194,6 +194,27 @@ export class TramiteService
         );
     }
 
+
+    createTramiteSecretaria(tramite: any): Observable<TramiteInterface>
+    {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(tramites => this._httpClient.post<TramiteInterface>(environment.baseUrl + 'tramites/secretaria', tramite).pipe(
+                map((newTramite) => {
+                    console.log(newTramite);
+
+                    // Return the new tramite
+                    return newTramite;
+                })
+            )),
+            catchError((error) => {
+                console.error(error);
+                return throwError(error);
+            })
+        );
+    }
+
+
     createTramitesFisicos(tramite: any): Observable<any>
     {
         return this.tramites$.pipe(

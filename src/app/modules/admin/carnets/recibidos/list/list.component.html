@@ -25,6 +25,28 @@
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <form
+                [formGroup]="selectedCarnetForm"
+                class="flex-auto">  
+                <mat-form-field
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                        <mat-select 
+                        [formControlName]="'sede'"
+                             placeholder="Seleccionar sede...">
+                            <ng-container>
+                                    <mat-option [value]="" disabled>
+                                        Seleccionar sede...
+                                    </mat-option>                                      
+                            </ng-container>
+                            <ng-container *ngFor="let sede of sedes">
+                                    <mat-option [value]="sede.sede">
+                                            {{sede.sede}}
+                                    </mat-option>
+                            </ng-container>
+                            </mat-select>
+                </mat-form-field>
+               
+            </form>
             <!-- Search -->
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
                 <mat-icon

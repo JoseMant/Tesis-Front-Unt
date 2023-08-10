@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { UserInterface, CarnetPagination, CarnetInterface } from 'app/modules/admin/carnets/carnets.types';
+import { UserInterface, CarnetPagination, CarnetInterface, SedeInterface } from 'app/modules/admin/carnets/carnets.types';
 import { environment } from 'environments/environment';
 
 @Injectable({
@@ -14,6 +14,8 @@ export class CarnetsService
     private _pagination: BehaviorSubject<CarnetPagination | null> = new BehaviorSubject(null);
     private _carnet: BehaviorSubject<CarnetInterface | null> = new BehaviorSubject(null);
     private _carnets: BehaviorSubject<CarnetInterface[] | null> = new BehaviorSubject(null);
+    private _sedes: BehaviorSubject<SedeInterface[] | null> = new BehaviorSubject(null);
+
 
     /**
      * Constructor
@@ -58,6 +60,13 @@ export class CarnetsService
         return this._carnets.asObservable();
     }
 
+    get sedes$(): Observable<SedeInterface[]>
+    {
+        return this._sedes.asObservable();
+    }
+
+  
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -69,11 +78,20 @@ export class CarnetsService
     {
         return this._httpClient.get<UserInterface[]>(environment.baseUrl + 'usuario/uraa').pipe(
             tap((users) => {
-                console.log(users);
                 this._users.next(users);
             })
         );
     }
+
+    getSedes(): Observable<SedeInterface[]>
+    {
+        return this._httpClient.get<SedeInterface[]>(environment.baseUrl + 'sedes/uraa').pipe(
+            tap((sedes) => {
+                this._sedes.next(sedes);
+            })
+        );
+    }
+
     
     getCarnetsAsignados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
@@ -189,7 +207,7 @@ export class CarnetsService
       );
     }
 
-    getCarnetsRecibidos(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCarnetsRecibidos(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = '', sede: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
       return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/recibidos', {
@@ -198,11 +216,11 @@ export class CarnetsService
             size: '' + size,
             sort,
             order,
-            search
+            search,
+            sede
         }
     }).pipe(
         tap((response) => {
-          console.log(response);
           this._pagination.next(response.pagination);
           this._carnets.next(response.data);
         })

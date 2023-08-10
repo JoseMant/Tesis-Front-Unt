@@ -56,6 +56,37 @@ export class CarnetRecibidoResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
+export class SedesCarnetsResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _carnetsService: CarnetsService,
+        private _router: Router)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
+    {
+        return this._carnetsService.getSedes();
+    }
+}
+
+
+
+@Injectable({
+    providedIn: 'root'
+})
 export class CarnetsRecibidosResolver implements Resolve<any>
 {
     /**
@@ -80,3 +111,4 @@ export class CarnetsRecibidosResolver implements Resolve<any>
         return this._carnetsService.getCarnetsRecibidos();
     }
 }
+

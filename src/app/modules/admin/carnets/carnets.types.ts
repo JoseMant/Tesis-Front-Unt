@@ -45,3 +45,8 @@ export interface UserInterface
     idTipoUsuario: number;
     rol: string;
 }
+
+export interface SedeInterface
+{
+    sede: string;
+}

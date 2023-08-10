@@ -93,7 +93,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
 
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'warn',
-        message: 'Recuerda que al pagar en Tesorería UNT debes entregar tu voucher en físico a tu Secretaría de Escuela o Secretaría de Especialidad para validarlo',
+        message: 'Recuerda, al pagar en Tesorería UNT debes entregar tu voucher en físico a tu Secretaría de Escuela o Secretaría de Especialidad para validar cualquier tipo de trámite',
         title: '',
     };
     tramite: any | null = null;

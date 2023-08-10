@@ -109,7 +109,7 @@
                                         </mat-option>
                                     </ng-container>
                                     <ng-container *ngFor="let tipo of tipoTramites">
-                                        <mat-option [value]="tipo.idTipo_tramite">
+                                        <mat-option [value]="tipo.idTipo_tramite"*ngIf="tipo.responsable == 4">
                                             {{tipo.descripcion}}
                                         </mat-option>
                                     </ng-container>
