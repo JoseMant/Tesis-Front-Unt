@@ -151,7 +151,7 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
         // Create the selected carnet form
         this.selectedCarnetForm = this._formBuilder.group({
             file             : ['', [Validators.required]],
-            sede :['TRUJILLO']
+            sede :['']
         });
 
         // Get the pagination
@@ -199,7 +199,8 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._carnetsService.getCarnetsRecibidos(0, 100, 'fecha', 'desc', query);
+                    const form = this.selectedCarnetForm.getRawValue();
+                    return this._carnetsService.getCarnetsRecibidos(0, 100, 'fecha', 'desc', query,form.sede);
 
                 }),
                 map(() => {
@@ -209,14 +210,28 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
             {
                 this._changeDetectorRef.markForCheck();
             });
+
+        // Subscribe to search input field value changes
+        this.selectedCarnetForm.get('sede').valueChanges
+            .pipe(
+                switchMap(() => {
+                    this.isLoading = true;
+                    const form = this.selectedCarnetForm.getRawValue();
+                    return this._carnetsService.getCarnetsRecibidos(0, 100, 'fecha', 'desc','',form.sede)
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
     }
 
     cambioPagina(evento): void {
+        const form = this.selectedCarnetForm.getRawValue();
         if(this._sort.active) {
-            this._carnetsService.getCarnetsRecibidos(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+            this._carnetsService.getCarnetsRecibidos(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value,form.sede).subscribe();
         }
         else {
-            this._carnetsService.getCarnetsRecibidos(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+            this._carnetsService.getCarnetsRecibidos(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value,form.sede).subscribe();
         }
     }
 
@@ -272,7 +287,8 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._carnetsService.getCarnetsRecibidos(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    const form = this.selectedCarnetForm.getRawValue();
+                    return this._carnetsService.getCarnetsRecibidos(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value,form.sede);
 
                 }),
                 map(() => {

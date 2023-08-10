@@ -207,7 +207,7 @@ export class CarnetsService
       );
     }
 
-    getCarnetsRecibidos(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCarnetsRecibidos(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = '', sede: string = ''):
     Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
     {
       return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/recibidos', {
@@ -216,7 +216,8 @@ export class CarnetsService
             size: '' + size,
             sort,
             order,
-            search
+            search,
+            sede
         }
     }).pipe(
         tap((response) => {
