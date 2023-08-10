@@ -25,7 +25,7 @@ import { CarnetSolicitadoDetalleComponent } from './solicitados/detalle/details.
 // -------------
 import { CarnetsRecibidosComponent } from 'app/modules/admin/carnets/recibidos/recibidos.component';
 import { CarnetsRecibidosListComponent } from 'app/modules/admin/carnets/recibidos/list/list.component';
-import { CarnetRecibidoResolver, CarnetsRecibidosResolver } from 'app/modules/admin/carnets/recibidos/recibidos.resolvers';
+import { CarnetRecibidoResolver, CarnetsRecibidosResolver,SedesCarnetsResolver } from 'app/modules/admin/carnets/recibidos/recibidos.resolvers';
 import { CarnetRecibidoDetalleComponent } from './recibidos/detalle/details.component';
 
 // -------------
@@ -153,6 +153,8 @@ export const carnetsRoutes: Route[] = [
         },
         resolve  : {
             carnets  : CarnetsRecibidosResolver,
+            sedes:SedesCarnetsResolver,
+           
         },
         children : [
             {
