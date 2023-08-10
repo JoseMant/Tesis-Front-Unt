@@ -159,7 +159,12 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(carpetas$ | async) as carpetas">
                             <ng-container *ngFor="let carpeta of carpetas; trackBy: trackByFn let id=index">
-                                <div class="carpetas-pendientes-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="carpetas-pendientes-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b bg-lime-200"
+                                [ngClass]="{
+                                    'bg-lime-50' : carpeta.tramite == 'GRADO DE BACHILLER',
+                                    'bg-cyan-50' : carpeta.tramite == 'TÍTULO PROFESIONAL',
+                                    'bg-indigo-50' : carpeta.tramite == 'TÍTULO PROFESIONAL DE SEGUNDA ESPECIALIDAD'
+                                }">
 
                                     <!-- Nro. Trámite -->
                                     <div >
