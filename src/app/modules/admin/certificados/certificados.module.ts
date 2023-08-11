@@ -61,6 +61,9 @@ import { CertificadosReasignadosListComponent } from 'app/modules/admin/certific
 import { CertificadosFinalizadosComponent } from 'app/modules/admin/certificados/finalizados/finalizados.component';
 import { CertificadosFinalizadosListComponent } from 'app/modules/admin/certificados/finalizados/list/list.component';
 import { CertificadoFinalizadoDetalleComponent } from './finalizados/detalle/details.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
 
 @NgModule({
     declarations: [
@@ -114,6 +117,8 @@ import { CertificadoFinalizadoDetalleComponent } from './finalizados/detalle/det
         MatSlideToggleModule,
         MatTooltipModule,
         MatCardModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
         MatProgressSpinnerModule,
         QuillModule.forRoot(),
         SharedModule
