@@ -9,7 +9,7 @@ import { CarpetasSecretariaValidadosDetalleComponent } from 'app/modules/admin/c
 // -------------
 import { CarpetasURAPendientesComponent } from 'app/modules/admin/carpetas/ura/pendientes/pendientes.component';
 import { CarpetasURAPendientesListComponent } from 'app/modules/admin/carpetas/ura/pendientes/list/list.component';
-import { CarpetasURAPendientesResolver } from 'app/modules/admin/carpetas/ura/pendientes/pendientes.resolvers';
+import { CarpetasURAPendientesResolver, TramitesResolver } from 'app/modules/admin/carpetas/ura/pendientes/pendientes.resolvers';
 
 // ----
 import { CarpetasFirmasDecanoComponent } from 'app/modules/admin/carpetas/firmas/decano/decano.component';
@@ -124,6 +124,7 @@ export const carpetasRoutes: Route[] = [
           component: CarpetasURAPendientesListComponent,
           resolve      : {
             carpetas  : CarpetasURAPendientesResolver,
+            tramites  : TramitesResolver
           },
         }
       ]
