@@ -53,6 +53,7 @@ export class CarpetaSecretariaPendienteResolver implements Resolve<any>
     }
 }
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -100,3 +101,35 @@ export class CarpetasURAPendientesResolver implements Resolve<any>
                    );
     }
 }
+
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class TramitesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _carpetasService: CarpetasService,
+        private _router: Router)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
+    {
+        return this._carpetasService.getTramites();
+    }
+}
+

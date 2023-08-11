@@ -43,6 +43,18 @@
                     </button>
                 </ng-container> -->
             </ng-container>
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-72 mr-2">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <mat-select
+                    [formControl]="tramiteSelectControl"
+                    [placeholder]="'Seleccionar Trámite...'">
+                    <mat-option [value]="0">Todos los trámites ...</mat-option>
+                    <mat-option *ngFor="let tramite of tramites" [value]="tramite.idTipo_tramite_unidad">{{tramite.descripcion}}</mat-option>
+                </mat-select>
+            </mat-form-field>
             <!-- Search -->
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
                 <mat-icon
@@ -76,6 +88,7 @@
                 <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <span class="ml-2 mr-1">Buscar resolución</span>
             </button>
+
             <button
                 *ngIf="selectedResolucionForm.disabled"
                 class="ml-4"
@@ -245,6 +258,7 @@
                         [length]="pagination.length"
                         [pageIndex]="pagination.page"
                         [pageSize]="pagination.size"
+                        (page)="cambioPagina($event)"
                         [pageSizeOptions]="[5, 10, 25, 100]"
                         [showFirstLastButtons]="true"></mat-paginator>
 

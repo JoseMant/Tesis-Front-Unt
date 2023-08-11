@@ -68,10 +68,12 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     isLoading: boolean = false;
     pagination: CarpetasPagination;
     searchInputControl: FormControl = new FormControl('');
+    tramiteSelectControl: FormControl = new FormControl(0);
     selectedCarpeta: CarpetaInterface | null = null;
     selectedCarpetaForm: FormGroup;
     selectedResolucionForm: FormGroup;
     tagsEditMode: boolean = false;
+    tramites: any;
     carpetasCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     
@@ -182,6 +184,45 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+            
+
+        // FILTRO POR TRAMITE
+        this._carpetasService.tramites$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: any[]) => {
+                
+                // Update the counts
+                this.tramites = response;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        this.tramiteSelectControl.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                switchMap((query) => {
+                    this.isLoading = true;
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'tramite',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._carpetasService.getCarpetasPendientesImpresion(this.selectedResolucionForm.get('idResolucion').value, 0, this._paginator.pageSize, this._sort.active, this._sort.direction, query, this.searchInputControl.value);
+                    }
+                    else
+                        return this._carpetasService.getCarpetasPendientesImpresion(this.selectedResolucionForm.get('idResolucion').value, 0, 100, 'tramite', 'asc', query, this.searchInputControl.value);
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
+
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -191,13 +232,25 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
                 switchMap((query) => {
                     this.isLoading = true;
                     var data = this.selectedResolucionForm.get('idResolucion').value;
-                    return this._carpetasService.getCarpetasPendientesImpresion(data, 0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                    return this._carpetasService.getCarpetasPendientesImpresion(data, 0, this._paginator.pageSize, this._sort.active, this._sort.direction, this.tramiteSelectControl.value, query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe();
+            ).subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
+    }
+
+    cambioPagina(evento): void {
+        var data = this.selectedResolucionForm.get('idResolucion').value;
+        if(this._sort.active) {
+            this._carpetasService.getCarpetasPendientesImpresion(data, evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction,this.tramiteSelectControl.value.value, this.searchInputControl.value).subscribe();
+        }
+        else {
+            this._carpetasService.getCarpetasPendientesImpresion(data, evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.tramiteSelectControl.value.value, this.searchInputControl.value).subscribe();
+        }
     }
 
     openSnack(): void {
@@ -236,21 +289,20 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
                 });
 
             // Get carpetas if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
                     // Get the product object
                     const data = this.selectedResolucionForm.get('idResolucion').value;
-                    if (this.searchInputControl.value) {
-                        return this._carpetasService.getCarpetasPendientesImpresion(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
-                    } else {
-                        return this._carpetasService.getCarpetasPendientesImpresion(data, this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
-                    }
+                    return this._carpetasService.getCarpetasPendientesImpresion(data, Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.tramiteSelectControl.value, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe(()=>
+            {
+                this._changeDetectorRef.markForCheck();
+            });
         }
     }
 

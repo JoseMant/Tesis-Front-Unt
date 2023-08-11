@@ -93,6 +93,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
      */
     ngOnInit(): void
     {
+       
         // Create the selected certificado form
         this.selectedCertificadoForm = this._formBuilder.group({
             id               : [''],
@@ -112,6 +113,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
             price            : [''],
             weight           : [''],
             thumbnail        : [''],
+            dependencia      : [''],
             images           : [[]],
             currentImageIndex: [0], // Image index that is currently being viewed
             active           : [false]
@@ -186,19 +188,8 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 switchMap((query) => {
                     this.isLoading = true;
                     // console.log(this._paginator)
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'dependencia',
-                                start       : 'asc',
-                                disableClear: true
-                            });
-                        }
-                        return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query, this.searchInputControl.value);
-                    }
-                    else
-                        return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', query, this.searchInputControl.value);
+             
+                    return this._certificadosService.getCertificadosAsignados(0, 100,'dependencia', 'asc', this.dependenciaSelectControl.value, query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -212,10 +203,10 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
 
     cambioPagina(evento): void {
         if(this._sort.active) {
-            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction,this.dependenciaSelectControl.value, this.searchInputControl.value).subscribe();
         }
         else {
-            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.dependenciaSelectControl.value, this.searchInputControl.value).subscribe();
         }
     }
 
@@ -258,7 +249,8 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._certificadosService.getCertificadosAsignados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    
+                    return this._certificadosService.getCertificadosAsignados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.dependenciaSelectControl.value, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;

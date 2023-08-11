@@ -20,6 +20,8 @@ export class CarpetasService
     private _diplomas: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _resolucion: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _padron: BehaviorSubject<CarpetaInterface[] | null> = new BehaviorSubject(null);
+    private _tramites: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+
     
     /**
      * Constructor
@@ -80,6 +82,15 @@ export class CarpetasService
     {
         return this._padron.asObservable();
     }
+
+    /**
+     * Getter for tramites
+     */
+    get tramites$(): Observable<any[]>
+    {
+        return this._tramites.asObservable();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -201,7 +212,7 @@ export class CarpetasService
         );
     }
 
-    getCarpetasPendientesImpresion(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    getCarpetasPendientesImpresion(resolucion: number, page: number = 0, size: number = 100, sort: string = 'tramite', order: 'asc' | 'desc' | '' = 'asc', tramite: number = 0, search: string = ''):
     Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
     {
       return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/pendientes/impresion/' + resolucion, {
@@ -210,7 +221,8 @@ export class CarpetasService
             size: '' + size,
             sort,
             order,
-            search
+            search,
+            tramite 
         }
     }).pipe(
         tap((response) => {
@@ -220,6 +232,9 @@ export class CarpetasService
         })
       );
     }
+
+
+
 
     getCarpetasFinalizadas(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
@@ -488,4 +503,14 @@ export class CarpetasService
             ))
         );
     }
+
+    getTramites(): Observable<any>
+    {
+        return this._httpClient.get<any[]>(environment.baseUrl + 'tipos_unidad_tramite/pendientes_impresion').pipe(
+            tap((response) => {
+                this._tramites.next(response);
+            })
+        );
+    }
+
 }
