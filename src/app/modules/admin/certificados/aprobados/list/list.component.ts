@@ -13,6 +13,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
+import { AuthService } from 'app/core/auth/auth.service';
+import moment from 'moment';
+
+
 
 @Component({
     selector       : 'certificados-aprobados-list',
@@ -70,6 +75,7 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
     certificadosCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+    maxDate: any;
     /**
      * Constructor
      */
@@ -80,6 +86,7 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
         private _certificadosService: CertificadosService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
+        private _authService: AuthService
     )
     {
     }
@@ -87,7 +94,11 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
-
+    
+    limiteFecha(): void {
+        const now = moment();
+        this.maxDate = now;
+    }
     /**
      * On init
      */
@@ -95,6 +106,7 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
     {
         // Create the selected certificado form
         this.selectedCertificadoForm = this._formBuilder.group({
+            fecha            : [''],
             id               : [''],
             category         : [''],
             name             : ['', [Validators.required]],
@@ -161,7 +173,26 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
                 this._changeDetectorRef.markForCheck();
             });
     }
-
+    verCertificadosAprobados() {
+        const form = this.selectedCertificadoForm.getRawValue();
+        if(!form.fecha){
+            this.alert = {
+                type   : 'warn',
+                message: 'Elija una fecha',
+                title: 'Guardado'
+            };
+            this.openSnack();
+        };
+        form.fecha = new Date(form.fecha).toISOString().substring(0,10);
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+    
+        console.log(form.fecha);    
+        link.setAttribute('href', environment.baseUrl + 'tramite/certificados/aprobados/reporte?access='+ this._authService.accessToken+'&fecha='+form.fecha);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }
     cambioPagina(evento): void {
         if(this._sort.active) {
             this._certificadosService.getCertificadosAprobados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
