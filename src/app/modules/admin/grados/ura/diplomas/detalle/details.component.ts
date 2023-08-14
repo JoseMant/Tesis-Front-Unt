@@ -195,8 +195,8 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
 
                 // Patch values to the form
                 this.gradoForm.patchValue(grado);
-                console.log(this.gradoForm.getRawValue());
-                this.calcularTiempo();
+                // console.log(this.gradoForm.getRawValue());
+                // this.calcularTiempo();
 
                 this._gradoService.getDiplomasByTipoTramiteUnidad(grado.idUnidad, grado.idTipo_tramite_unidad, grado.idPrograma)
                     .pipe(takeUntil(this._unsubscribeAll))
@@ -256,11 +256,11 @@ export class GradoURADiplomaDetalleComponent implements OnInit, OnDestroy
         this.gradoForm.controls.url_trabajo_carpeta.updateValueAndValidity();
     }
     
-    calcularTiempo(): void {
-        let tiempo = moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value);
-        let tiempo_parcial = tiempo.split(" ");
-        this.gradoForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
-    }
+    // calcularTiempo(): void {
+    //     let tiempo = moment(this.gradoForm.get('fecha_primera_matricula').value).from(this.gradoForm.get('fecha_ultima_matricula').value);
+    //     let tiempo_parcial = tiempo.split(" ");
+    //     this.gradoForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
+    // }
 
     /**
      * On destroy
