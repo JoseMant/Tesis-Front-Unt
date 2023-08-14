@@ -22,7 +22,7 @@ export const vouchersRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA'],
+                only: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD'],
                 redirectTo: 'home'
             }
         },
@@ -42,7 +42,7 @@ export const vouchersRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA'],
+                only: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD'],
                 redirectTo: 'home'
             }
         },
@@ -62,7 +62,7 @@ export const vouchersRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA'],
+                only: ['ADMINISTRADOR', 'DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD'],
                 redirectTo: 'home'
             }
         },
