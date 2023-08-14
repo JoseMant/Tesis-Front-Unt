@@ -187,7 +187,6 @@ export class CertificadosAprobadosListComponent implements OnInit, AfterViewInit
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
     
-        console.log(form.fecha);    
         link.setAttribute('href', environment.baseUrl + 'tramite/certificados/aprobados/reporte?access='+ this._authService.accessToken+'&fecha='+form.fecha);
         document.body.appendChild(link);
         link.click();
