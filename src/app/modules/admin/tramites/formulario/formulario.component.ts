@@ -599,6 +599,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+        let validation_requisitos = false;
         this.data.requisitos.forEach((item) => {
             if (item.archivoImagen && item.responsable == 4) {
                 if (!this.fileSizeValidator(item.archivoImagen, 1, 2048)) {
@@ -608,6 +609,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
                         title: 'Error'
                     };
                     this.openSnack();
+                    validation_requisitos = true;
                     return;
                 }
             }
@@ -619,10 +621,12 @@ export class TramiteListComponent implements OnInit, OnDestroy
                         title: 'Error'
                     };
                     this.openSnack();
+                    validation_requisitos = true;
                     return;
                 }
             }
         });
+        if(validation_requisitos) {return;}
         
         const formData = new FormData();
         formData.append('entidad', this.tramiteForm.getRawValue().entidad);
