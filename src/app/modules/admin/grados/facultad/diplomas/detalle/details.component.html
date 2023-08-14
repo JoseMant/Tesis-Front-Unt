@@ -12,27 +12,38 @@
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>SOLICITANTE:</b> {{grado.solicitante}}</div>
                     </div>
-                    <!-- NUMERO DE DOCUMENTO -->
-                    <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{grado.nro_documento}}</div>
-                    </div>
-                    <!-- PROGRAMA-->
-                    <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>PROGRAMA:</b> {{grado.programa}}</div>
-                    </div>
+                    
                     <!-- FECHA DE REGISTRO -->
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{grado.fecha | date: 'dd-MM-yyyy'}}</div>
                     </div>
+                    
+                    <!-- PROGRAMA-->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>PROGRAMA:</b> {{grado.programa}}</div>
+                    </div>
+
+                    <!-- NUMERO DE DOCUMENTO -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{grado.nro_documento}}</div>
+                    </div>
+                    
                     <!-- TRÁMITE -->
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>TRÁMITE:</b> {{grado.tramite}}</div>
                     </div>
-                    <!-- CORREO ELECTRÓNICO -->
+
+                    <!-- NRO MATRICULA -->
                     <div class="sm:col-span-2">
                       <div class="text-secondary"><b>NRO DE MATRÍCULA:</b> {{grado.nro_matricula}}</div>
                     </div>
-  
+
+                    <!-- SEDE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>SEDE :</b> {{grado.sede}}</div>
+                    </div>
+
+
                 </div>
                 
                 <!-- Divider -->

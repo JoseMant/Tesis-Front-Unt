@@ -20,6 +20,7 @@ export interface TituloInterface
     requisitos: any;
     solicitante: string;
     tramite: string;
+    sede: string;
     unidad: string;
     voucher: string;
     // titulo_final?: string;

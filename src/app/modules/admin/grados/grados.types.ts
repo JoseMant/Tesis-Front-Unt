@@ -15,6 +15,7 @@ export interface GradoInterface
     idUnidad: number;
     idUsuario: number;
     motivo: string;
+    sede: string;
     nro_documento: string;
     nro_matricula: string;
     requisitos: any;

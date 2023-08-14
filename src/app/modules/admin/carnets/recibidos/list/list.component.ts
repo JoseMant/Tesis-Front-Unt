@@ -31,7 +31,7 @@ import { AuthService } from 'app/core/auth/auth.service';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 190px 112px 190px 72px;
+                    grid-template-columns: 48px 114px 210px auto 132px 118px 204px 114px 96px 96px;
                 }
             }
             .fondo_snackbar {

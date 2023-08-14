@@ -14,7 +14,7 @@
             <div class="text-4xl font-extrabold tracking-tight">Carnets recibidos</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="carnetsCount > 0">
-                    {{carnetsCount}}
+                    {{pagination.length}}
                 </ng-container>
                 {{carnetsCount | i18nPlural: {
                     '=0'   : 'No hay carnets recibidos',
@@ -29,7 +29,7 @@
                 [formGroup]="selectedCarnetForm"
                 class="flex-auto">  
                 <mat-form-field
-                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                    class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded mr-2 min-w-64 text-center">
                         <mat-select 
                         [formControlName]="'sede'"
                              placeholder="Seleccionar sede...">
@@ -48,7 +48,7 @@
                
             </form>
             <!-- Search -->
-            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded mr-2 min-w-64">
                 <mat-icon
                     class="icon-size-5"
                     matPrefix
@@ -103,10 +103,16 @@
 
                             <!-- Trámite-->
                             <div
-                                class="hidden md:block"
                                 [mat-sort-header]="'tramite'">
                                 Trámite
                             </div>
+
+                             <!-- Sede -->
+                             <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'sede'">
+                                Sede
+                             </div>
 
                             <!-- Unidad-->
                             <div
@@ -137,7 +143,7 @@
                             </div>
 
                             <!-- Opciones -->
-                            <div class="hidden sm:block">Opciones</div>
+                            <div class="hidden sm:block" style="text-align: center;">Opciones</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(carnets$ | async) as carnets">
@@ -160,8 +166,12 @@
                                     </div>
 
                                     <!-- Trámite -->
-                                    <div  class="hidden md:block truncate">
+                                    <div  class="truncate">
                                         {{carnet.tramite}}
+                                    </div>
+
+                                    <div  class="hidden lg:block">
+                                        {{carnet.sede}}
                                     </div>
 
                                     <!-- Exonerado -->
