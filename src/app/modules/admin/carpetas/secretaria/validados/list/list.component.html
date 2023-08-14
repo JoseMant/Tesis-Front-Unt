@@ -114,12 +114,23 @@
         <!-- Filters -->
         <form class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none" [formGroup]="selectedResolucionForm" 
         #selectedResolucionNgForm="ngForm">
+        <div class="inline-flex">
             <mat-form-field class="fuse-mat-no-subscript w-full min-w-64 sm:w-36">
                 <input
                     matInput
                     [formControlName]="'nro_resolucion'"
                     [placeholder]="'Ingrese el número de resolución'">
             </mat-form-field>
+            <!-- Alert -->
+            <fuse-alert
+                *ngIf="carpetasCount"
+                class="mx-4"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="'warning'">
+                NO OLVIDAR REGISTRAR EN EL LIBRO
+            </fuse-alert>
+        </div>
             <button
                 *ngIf="!selectedResolucionForm.disabled"
                 class="ml-4"
@@ -139,6 +150,7 @@
                 <span class="ml-2 mr-1">Cambiar resolución</span>
             </button>
         </form>
+        
     </div>
 
     <!-- Main -->
