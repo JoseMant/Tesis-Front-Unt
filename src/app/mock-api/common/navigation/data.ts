@@ -587,7 +587,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Tesorería',
                 type : 'basic',
                 link : '/reportes/tesoreria/aprobados',
-                permissions: ['DIRECCIÓN DE TESORERÍA']
+                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
 
             }
         ]

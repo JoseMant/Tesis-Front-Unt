@@ -430,8 +430,20 @@ export class TramiteListComponent implements OnInit, OnDestroy
         } else {
             this.exoneracion=false;
         }
+        const idDependencia=this.tramiteForm.getRawValue().idDependencia;
         const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
-        this.costo = tipo.costo;
+        if (id==34) {
+            if(idDependencia==17) this.costo=624.20
+            if(idDependencia==18) this.costo=450
+            if(idDependencia==19) this.costo=250
+            if(idDependencia==20) this.costo=200
+            if(idDependencia==21) this.costo=1000
+            if(idDependencia==22) this.costo=250
+            if(idDependencia==23) this.costo=1500
+        }else{
+            this.costo = tipo.costo;
+        }
+        
         this.costo_exonerado = tipo.costo_exonerado;
         this.tramiteForm.patchValue({ idTipo_tramite_unidad: id});
         this.data.idTipo_tramite_unidad = id;
