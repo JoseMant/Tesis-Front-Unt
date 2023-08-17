@@ -5,6 +5,14 @@
             <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
               REGISTRO DE TRÁMITE
             </mat-card-title>
+            <!-- Alert -->
+            <fuse-alert
+                class="mb-4"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="'info'">
+                Todas las solicitudes serán recepecionadas y trabajadas de Lunes a Viernes de 08:00hrs. a 14:00hrs, excepto días declarados como feriado público. Todos los trámites fuera del horario en mención serán considerados el próximo día hábil.
+            </fuse-alert>
             <mat-card-content>
                 <form id="tramiteForm" autocomplete="off" [formGroup]="tramiteForm">
                     <mat-card style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
@@ -368,9 +376,8 @@
                                     class="ml-3 mb-4"
                                     [appearance]="'outline'"
                                     [showIcon]="false"
-                                    [type]="alert.type"
-                                    [@shake]="alert.type === 'error'">
-                                    {{alert.message}}
+                                    [type]="'warn'">
+                                    Recuerda, al pagar en Tesorería UNT debes entregar tu voucher en físico a tu Secretaría de Escuela o Secretaría de Especialidad para validar cualquier tipo de trámite
                                 </fuse-alert>
                             </div>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
@@ -658,6 +665,8 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
+                    <hr>
+                    <mat-label class="text-lg font-bold">(*) Todas las solicitudes serán recepecionadas y trabajadas de Lunes a Viernes de 08:00hrs. a 14:00hrs, excepto días declarados como feriado público. Todos los trámites fuera del horario en mención serán considerados el próximo día hábil.</mat-label>
                 </form>
             </mat-card-content>
             <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO']" class="flex justify-end">
@@ -668,7 +677,7 @@
                     [disabled]="tramiteForm.disabled"
                     (click)="createTramite()">
                     <span *ngIf="!tramiteForm.disabled">
-                        Registrar Trámite
+                        *Registrar Trámite
                     </span>
                     <mat-progress-spinner
                         *ngIf="tramiteForm.disabled"

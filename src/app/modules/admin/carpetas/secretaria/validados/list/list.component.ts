@@ -343,6 +343,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
     }
 
     verExcel(event): void {
+        
         const files = event.target.files[0];
         console.log(files);
         /* const data = this.selectedResolucionForm.get('idResolucion').value;
@@ -351,8 +352,10 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
         let resolucion=this.selectedResolucionForm.get('nro_resolucion').value.split('/', 2);
         console.log(resolucion[0]);
         if(files.name.includes('PADRON_SUNEDU_'+resolucion[0]+'.xlsx')){
+            this.asignando = true;
             this.selectedPadronForm.patchValue({file: files});
             this.uploadAprobados();
+            
            
         }else{
                 this.alert = {
@@ -361,6 +364,8 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
                     title: 'Error'
                 };
                 this.openSnack();
+            
+
         }
         
     }
@@ -376,7 +381,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
         this._carpetasService.updatePadronAprobados(formData)
         .pipe(
             finalize(() => {
-
+                
                 // Re-enable the form
                 this.selectedPadronForm.enable();
 
@@ -388,6 +393,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
                 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
+                this.asignando = false;
             })
         )
         .subscribe(
@@ -410,6 +416,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
                     message: 'Error al cargar los datos',
                     title: 'Error'
                 };
+                
             });
     }
 
