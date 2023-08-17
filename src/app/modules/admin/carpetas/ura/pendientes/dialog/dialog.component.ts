@@ -124,12 +124,12 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
 
         // Disable the form
         
-
         if(data.codigo_diploma_before && data.codigo_diploma_after && data.descripcion)
         {
             if(data.codigo_diploma_before.length<=10 && data.codigo_diploma_after.length<=10)
             {
-                this._carpetasService.agregarCodigo(data).subscribe((response) => {
+                this._carpetasService.agregarCodigo(data).subscribe((response) => 
+                {
                     
                     this.historial.push(response);
                     this.historialesDataSource.data = this.historial;
@@ -151,25 +151,26 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
                     this.openSnack();
                     
                     this._changeDetectorRef.markForCheck();
-        
-                    //
                     
                 },
                 (response) => {
-                    // Re-enable the form
-                    //this.historialForm.enable();
-        
+               
                     this.alert = {
+                        //
                         type   : 'warn',
                         message: response.error.message,
                         title: 'ERROR'
                     };
                     this.openSnack();
+                    this._changeDetectorRef.markForCheck();
                 });
+
+
+
             }
             else{
-                //this.historialForm.enable();
                 this.alert = {
+                    //
                     type   : 'warn',
                     message: 'Código de diploma inválido: Debe ser de 10 caracteres o menor',
                     title: 'Error'
@@ -180,7 +181,7 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
            
         }
         else{
-            //this.historialForm.enable();
+            //
             this.alert = {
                 type   : 'warn',
                 message: 'Ingrese Datos en los campos requeridos',
