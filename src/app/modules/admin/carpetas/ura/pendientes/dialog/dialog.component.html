@@ -4,70 +4,185 @@
 >
     <span class="mx-3">{{this.data.solicitante}}</span>
 </div>
-<div class="flex flex-col w-full">
-    <!-- Section -->
-    <form [formGroup]="gradoForm" #gradoNgForm="ngForm">
-        Ingrese o modifique el código del diploma a imprimir
-        <div class="grid grid-cols-6 gap-y-6 mb-6 mt-3">
-            <mat-form-field
-                class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
-                appearance="outline"
-            >
-                <mat-label>Código del diploma</mat-label>
-                <input
-                    type="text"
-                    matInput
-                    [formControlName]="'codigo_diploma'"
-                />
-            </mat-form-field>
+
+<!-- Service form -->
+<form
+    class="flex-col flex-auto p-4 sm:p-6" 
+    [formGroup]="historialForm">
+    <div class="flex flex-col w-full">
+
+        <div class="overflow-x-auto overflow-y-auto mx-6">
+            <table
+                class="w-full bg-transparent"
+                mat-table
+                matSort
+                [dataSource]="historialesDataSource"
+                [trackBy]="trackByFn"
+                #historialsTable>
+
+                <!------------------------------- Codigo Diploma ANTERIOR ------------------------------------->
+                <ng-container matColumnDef="codigo_diploma_before">
+                    <th
+                        mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef>
+                        Cod. Diploma ANTERIOR 
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let historial">
+                        <span class="pr-6">
+                            {{historial.codigo_diploma_before}}
+                        </span>
+                    </td>
+                    <td
+                        mat-footer-cell
+                        *matFooterCellDef>
+                        <mat-form-field class="fuse-mat-dense min-w-52 mt-4 pr-4" subscriptSizing="dynamic">
+                            <input
+                                matInput
+                                [formControlName]="'codigo_diploma_before'"
+                                [placeholder]="'Código de diploma Anterior'">
+                        </mat-form-field>
+                    </td>
+                    
+                </ng-container>
+
+
+                <!------------------------------------- Codigo Diploma NUEVO ------------------------------------------------>
+                <ng-container matColumnDef="codigo_diploma_after">
+                    <th
+                        mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef>
+                        Cod. Diploma NUEVO
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let historial">
+                        <span class="pr-6">
+                            {{historial.codigo_diploma_after}}
+                        </span>
+                    </td>
+                    <td
+                        mat-footer-cell
+                        *matFooterCellDef>
+                        <!-- <mat-form-field class="sm:col-span-2 col-span-6 form-input" style="margin-bottom: inherit;"> -->
+                        <mat-form-field class="fuse-mat-dense min-w-52 mt-4 pr-4" subscriptSizing="dynamic">
+                            <input
+                                matInput
+                                [formControlName]="'codigo_diploma_after'"
+                                [placeholder]="'Código de diploma Nuevo'">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+
+
+                <!--------------------------------------- Motivo anulación ------------------------------------------------->
+                <ng-container matColumnDef="descripcion">
+                    <th
+                        mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef>
+                        Descripción
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let historial">
+                        <span class="pr-6">
+                            {{historial.descripcion}}
+                        </span>
+                    </td>
+                    <td
+                        mat-footer-cell
+                        *matFooterCellDef>
+                        <!-- <mat-form-field class="sm:col-span-2 col-span-6 form-input" style="margin-bottom: inherit;"> -->
+                        <mat-form-field class="fuse-mat-dense min-w-52 mt-4 pr-4" subscriptSizing="dynamic">
+                            <input
+                                matInput
+                                [formControlName]="'descripcion'"
+                                [placeholder]="'Descripción'">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+
+                <!-------------------------------------------------- Fecha ------------------------------------------------------->
+                <ng-container matColumnDef="fecha_historial">
+                    <th
+                        mat-header-cell
+                        mat-sort-header
+                        *matHeaderCellDef>
+                        Fecha
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let historial">
+                        <span class="pr-6">
+                            {{historial.fecha_historial | date:'MMM dd, y'}}
+                        </span>
+                    </td>
+                    <td
+                        mat-footer-cell
+                        *matFooterCellDef>
+                        {{historialForm.get('fecha_historial').value | date:'MMM dd, y'}}
+                    </td>
+                </ng-container>
+
+
+                 <!---------------------------------------- FOOTER ------------------------------------->
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="historialesTableColumns"></tr>
+                <tr
+                    class="order-row h-16"
+                    mat-row
+                    *matRowDef="let row; columns: historialesTableColumns;"></tr>
+                <tr 
+                    mat-footer-row
+                    *matFooterRowDef="historialesTableColumns"></tr>
+            </table>
         </div>
-        <div class="grid grid-cols-6 gap-y-6 mb-6">
-            <mat-form-field
-                class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
-                appearance="outline"
-            >
-                <mat-label>Motivo de corrección</mat-label>
-                <textarea
-                    class="min-h-5 my-0"
-                    [rows]="3"
-                    matInput
-                    [formControlName]="'observacion_diploma'">
-                </textarea>
-            </mat-form-field>
-        </div>
-        <br><br>
-        <!-- ¿Desea aplicar los cambios a todos los trámites siguientes?      -->
-        <!-- <div class="grid grid-cols-6 gap-y-6 mb-6"> -->
-            <!-- <div
-                class="flex items-center h-10 min-h-10 px-4 cursor-pointer hover:bg-hover"
-                (click)="toggleChecking($event)"
-                matRipple>
-                <mat-checkbox
-                    class="flex items-center h-10 min-h-10 pointer-events-none"
-                    [checked]="gradoForm.get('apply').value"
-                    [color]="'primary'"
-                    [disableRipple]="true">
-                </mat-checkbox>
-                <div class="ml-1 w-100">Aplicar a los siguientes trámites</div>
-            </div> -->
-        <!-- </div> -->
-    </form>
-    
-</div>
-<div mat-dialog-actions class="flex justify-end">
-    <button
-        mat-button
-        mat-dialog-close
-        class="bg-red-600 hover:bg-red-700 text-white"
-    >
-        Cerrar
-    </button>
-    <button
-        mat-button
-        class="rounded-full bg-primary-600 hover:bg-primary-500 text-white"
-        cmat-button
-        (click)="save()"
-    >
-        Guardar
-    </button>
-</div>
+    </div>
+
+    <div mat-dialog-actions class="flex justify-end mt-3">
+        <button
+            mat-button
+            mat-dialog-close
+            class="bg-red-600 hover:bg-red-700 text-white pl-10 pr-10"
+        >
+            Cerrar
+        </button>
+
+        <!-- ELSE -->
+        <button 
+            mat-button
+            class="rounded-full bg-primary-600 hover:bg-primary-500 text-white "
+            cmat-button
+            (click)="save()"
+        >
+            Agregar Código
+        </button>
+
+        
+
+
+    </div>
+</form>
+
+<!-- ¿Desea aplicar los cambios a todos los trámites siguientes?      -->
+   <!-- <div class="grid grid-cols-6 gap-y-6 mb-6"> -->
+       <!-- <div
+               class="flex items-center h-10 min-h-10 px-4 cursor-pointer hover:bg-hover"
+               (click)="toggleChecking($event)"
+               matRipple>
+               <mat-checkbox
+                   class="flex items-center h-10 min-h-10 pointer-events-none"
+                   [checked]="gradoForm.get('apply').value"
+                   [color]="'primary'"
+                   [disableRipple]="true">
+               </mat-checkbox>
+               <div class="ml-1 w-100">Aplicar a los siguientes trámites</div>
+           </div> -->
+<!-- </div> -->

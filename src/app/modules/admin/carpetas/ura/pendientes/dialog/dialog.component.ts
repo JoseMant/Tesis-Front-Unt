@@ -1,26 +1,44 @@
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil , finalize} from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CarpetasService } from 'app/modules/admin/carpetas/carpetas.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { FuseAlertType } from '@fuse/components/alert';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, RouterStateSnapshot, Router } from '@angular/router';
+//import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+
+
 
 @Component({
     selector: 'grados-pendientes-dialog',
     templateUrl: './dialog.component.html',
     styles: [
         `
+            .mat-form-field
+            .mat-form-field-appearance-fill
+            .mat-form-field-wrapper {
+                margin-bottom: 0px !important;
+            }
         `
     ]
 })
 export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
     //@Input() isEdite: boolean = false;
     //@Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
+    historialesDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    historialesTableColumns: string[] = ['codigo_diploma_before', 'codigo_diploma_after', 'descripcion','fecha_historial'];
+    
+    fecha_hoy: Date;
+    historial: any;
+   
+    //data
+    
     page: number = 1;
     pdfSource: any;
-    gradoForm: FormGroup;
+    historialForm: FormGroup;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -36,7 +54,9 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _carpetasService: CarpetasService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        public dialog: MatDialog,
+        private _router: Router
     ) {}
 
     openSnack(): void {
@@ -50,91 +70,143 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        console.log(this.data);
-
+        this.historial = this.data.historial;
+        this.historialesDataSource.data = this.data.historial;
+        
+        this.fecha_hoy = new Date(Date.now());
+        
         // Create the selected maduritylevel form
-        this.gradoForm = this._formBuilder.group({
-            idTramite: [''],
-            idTipo_tramite: [''],
-            nro_documento: [''],
-            idColacion: [''],
-            idEstado_tramite: [''],
-            idModalidad_grado: [''],
-            descripcion_estado: [''],
-            codigo: [''],
-            archivo: [''],
-            idMotivo_tramite: [''],
-            comentario: [''],
-            apellidos: [''],
-            nombres: [''],
-            documento: [''],
-            celular: [''],
-            correo: [''],
-            idFacultad: [''],
-            idSecretaria: [''],
-            sede: [''],
-            nro_matricula: [''],
-            tipo_documento: [''],
-            idUnidad: [''],
-            idTipo_tramite_unidad: [''],
-            codigo_diploma: ['', [Validators.required]],
-            observacion_diploma: [''],
-            apply: [false, [Validators.required]]
-        });
 
-        // Patch values to the form
-        this.gradoForm.patchValue(this.data);
+        this.historialForm = this._formBuilder.group({
+
+            idTramite: [this.data.idTramite, [Validators.required]],
+            codigo_diploma_before: [{value: '',disabled: true}, [Validators.required]],
+            codigo_diploma_after: ['', [Validators.required]],
+            descripcion: [{value: '',disabled: !this.historial.length}, [Validators.required]],
+            fecha_historial: [this.fecha_hoy, [Validators.required]]
+            });
+
+        if(this.historial.length>0)
+        {
+           
+            //console.log(this.historial);
+            this.historialForm.patchValue({
+                codigo_diploma_before: this.historial[this.historial.length-1].codigo_diploma_after
+            });
+             
+        }
+        else{
+            this.historialForm.patchValue({
+                codigo_diploma_before: 'NINGUNO',
+                descripcion: 'NUEVO CÓDIGO'
+            });
+            
+        }
+    
         
     }
+
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.complete();
     }
 
-    toggleChecking(event: any): void {
-        const value = this.gradoForm.get('apply').value;
-        this.gradoForm.patchValue({
-            apply: !value
-        });
-    }
+    // toggleChecking(event: any): void {
+    //     const value = this.gradoForm.get('apply').value;
+    //     this.gradoForm.patchValue({
+    //         apply: !value
+    //     });
+    // }
 
+    //METODO PARA GUARDAR ANULACION AGREGADA
     save(): void {
-        const data = this.gradoForm.getRawValue();
+        const data = this.historialForm.getRawValue();
 
         // Disable the form
-        this.gradoForm.disable();
+        
 
-        this._carpetasService.editCodigoDiploma(data, data.apply).subscribe((updatedCertificado) => {
-            
-            // Re-enable the form
-            this.gradoForm.enable();
-            
-            // Reset the form
-            // this.gradoNgForm.resetForm();
+        if(data.codigo_diploma_before && data.codigo_diploma_after && data.descripcion)
+        {
+            if(data.codigo_diploma_before.length<=10 && data.codigo_diploma_after.length<=10)
+            {
+                this._carpetasService.agregarCodigo(data).subscribe((response) => {
+                    
+                    this.historial.push(response);
+                    this.historialesDataSource.data = this.historial;
 
-            // Close the dialog
-            this.matDialogRef.close();
-            
-            this.alert = {
-                type   : 'success',
-                message: 'Código de diploma actualizado correctamente',
-                title: 'Enviado'
-            };
-            this.openSnack();
-            
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        },
-        (response) => {
-            // Re-enable the form
-            this.gradoForm.enable();
-
+                    // Re-enable the form
+                    this.historialForm.enable();
+                    
+                    // Reset the form
+                    // this.gradoNgForm.resetForm();
+        
+                    // Close the dialog
+                    this.matDialogRef.close(response.codigo_diploma_after);
+                    
+                    this.alert = {
+                        type   : 'success',
+                        message: 'Código de diploma agregado correctamente',
+                        title: 'Enviado'
+                    };
+                    this.openSnack();
+                    
+                    this._changeDetectorRef.markForCheck();
+        
+                    //
+                    
+                },
+                (response) => {
+                    // Re-enable the form
+                    //this.historialForm.enable();
+        
+                    this.alert = {
+                        type   : 'warn',
+                        message: response.error.message,
+                        title: 'ERROR'
+                    };
+                    this.openSnack();
+                });
+            }
+            else{
+                //this.historialForm.enable();
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Código de diploma inválido: Debe ser de 10 caracteres o menor',
+                    title: 'Error'
+                 };
+                this.openSnack();
+                this._changeDetectorRef.markForCheck();
+            }
+           
+        }
+        else{
+            //this.historialForm.enable();
             this.alert = {
                 type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
+                message: 'Ingrese Datos en los campos requeridos',
+                title: 'Advertencia'
             };
             this.openSnack();
-        });
+            this._changeDetectorRef.markForCheck();
+   
+        }
+        
+
     }
+
+    
+
+
+      /**
+       * Track by function for ngFor loops
+       *
+       * @param index
+       * @param item
+       */
+      trackByFn(index: number, item: any): any
+      {
+          return item.id || index;
+      }
+
+
 }

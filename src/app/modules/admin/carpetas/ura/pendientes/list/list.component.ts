@@ -319,15 +319,24 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     }
 
     verCodigoDiploma(carpeta): void {
-        const respDial = this.visordialog.open(
-            CarpetaURAPendienteDialogComponent,
+        const respDial = this.visordialog.open(CarpetaURAPendienteDialogComponent,
             {
                 data: carpeta,
                 disableClose: true,
                 minWidth: '50%',
-                maxWidth: '60%'
+                maxWidth: '60%',
+               maxHeight: '90vh'
             }
         );
+        
+        respDial.afterClosed().subscribe( (response) => {
+            // If the confirm button pressed...
+            if ( response )
+            {
+                carpeta.codigo_diploma = response;
+                this._changeDetectorRef.markForCheck();
+            }
+        });
     }
 
     /**
