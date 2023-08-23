@@ -331,7 +331,7 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
         });
     }
 
-    verLibro() {
+    verPadron() {
         const data = this.selectedResolucionForm.getRawValue();
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
@@ -368,6 +368,17 @@ export class CarpetasSecretariaValidadosListComponent implements OnInit, AfterVi
 
         }
         
+    }
+
+    verPendientesImpresion() {
+        const data = this.selectedResolucionForm.getRawValue();
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        // link.setAttribute('href', environment.baseUrl + 'enviados/impresion/' + data.idResolucion);
+        link.setAttribute('href', environment.baseUrl + 'enviados/impresion/' + data.idResolucion);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     }
 
     uploadAprobados(): void{
