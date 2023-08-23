@@ -578,6 +578,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type : 'basic',
                         link : '/reportes/elaboracion_carpeta/libros',
                         permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
+                    },
+                    {
+                        id   : 'reportes.elaboracion_carpeta.carpetas_aptas',
+                        title: 'Carpetas aptas',
+                        type : 'basic',
+                        link : '/reportes/elaboracion_carpeta/carpetas_aptas',
+                        permissions: ['SECRETARIA(O) DE FACULTAD']
                     }
                 ]
 

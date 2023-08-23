@@ -33,6 +33,7 @@ import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/re
 import { ReporteCarpetasExpedientesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/expedientes/list/list.component';
 import { ReporteCarpetasDiplomasListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/diplomas/list.component';
 import { ReporteCarpetasLibrosListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/libros/list/list.component';
+import { ReporteCarpetasAptasTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/carpetas_aptas/list.component';
 
 
 import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
@@ -45,6 +46,7 @@ import { ReporteRoutes } from './reportes.routing';
         // ELABORACIÓN DE CARPETA
         ReporteCarpetasComponent,
         ReporteCarpetasStatusTramitesListComponent,
+        ReporteCarpetasAptasTramitesListComponent,
         ReporteCarpetasExpedientesListComponent,
         ReporteCarpetasDiplomasListComponent,
         ReporteCarpetasLibrosListComponent,

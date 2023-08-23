@@ -7,7 +7,8 @@ import { ReporteCarpetasStatusTramitesListComponent } from 'app/modules/admin/re
 import { ReporteCarpetasExpedientesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/expedientes/list/list.component';
 import { ReporteCarpetasDiplomasListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/diplomas/list.component';
 import { ReporteCarpetasLibrosListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/libros/list/list.component';
-import { ReporteCarpetasStatusTramitesResolver, ReporteCarpetasExpedientesResolver, UnidadesResolver} from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.resolvers';
+import { ReporteCarpetasStatusTramitesResolver, ReporteCarpetasExpedientesResolver, UnidadesResolver,ReporteCarpetasAptasTramitesResolver} from 'app/modules/admin/reportes/elaboracion_carpeta/elaboracion_carpetas.resolvers';
+import { ReporteCarpetasAptasTramitesListComponent } from 'app/modules/admin/reportes/elaboracion_carpeta/carpetas_aptas/list.component';
 
 // -------------
 
@@ -43,6 +44,13 @@ export const ReporteRoutes: Route[] =[
           component: ReporteCarpetasStatusTramitesListComponent,
           resolve  : {
             carpetas  : ReporteCarpetasStatusTramitesResolver,
+          },
+        },
+        {
+          path     : 'carpetas_aptas',
+          component: ReporteCarpetasAptasTramitesListComponent,
+          resolve  : {
+            carpetas  : ReporteCarpetasAptasTramitesResolver,
           },
         },
       ]
