@@ -21,7 +21,8 @@ export class CarpetasService
     private _resolucion: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _padron: BehaviorSubject<CarpetaInterface[] | null> = new BehaviorSubject(null);
     private _tramites: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-
+ 
+    private _historial: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     
     /**
      * Constructor
@@ -90,6 +91,14 @@ export class CarpetasService
     {
         return this._tramites.asObservable();
     }
+
+    get historial$(): Observable<any[]>
+    {
+        return this._historial.asObservable();
+    }
+
+
+ 
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -222,7 +231,7 @@ export class CarpetasService
             sort,
             order,
             search,
-            tramite 
+            tramite
         }
     }).pipe(
         tap((response) => {
@@ -512,5 +521,21 @@ export class CarpetasService
             })
         );
     }
+
+    agregarCodigo(historialForm: any): Observable<any>
+    {
+        return this.historial$.pipe(
+            take(1),
+            switchMap(historialRealized => this._httpClient.post<any[]>(environment.baseUrl + 'historial_codigo_diploma', historialForm).pipe(
+                map((response) => {
+                    //console.log(anulacionCheck);
+
+                    // Return the anulacion_accepted 
+                    return response;
+                })
+            ))
+        );
+    }
+    
 
 }

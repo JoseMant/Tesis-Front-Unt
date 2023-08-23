@@ -16,6 +16,7 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Unidad } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
 import { environment } from 'environments/environment';
+import { AuthService } from 'app/core/auth/auth.service';
 import moment from 'moment';
 
 @Component({
@@ -36,7 +37,7 @@ import moment from 'moment';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px auto 120px 120px 190px 190px 120px 120px 120px;
+                    grid-template-columns: 48px 300px 120px 120px 300px 200px 120px 120px 120px;
                 }
             }
             .fondo_snackbar {
@@ -91,6 +92,7 @@ export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterVie
         private _cronogramasService: CronogramasService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
+        public _authService: AuthService
     )
     {
     }
@@ -257,7 +259,7 @@ export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterVie
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
         const form = this.selectedReporteForm.getRawValue();
-        link.setAttribute('href', environment.baseUrl + 'excel/tesoreria/' + this.formatDate(form.fecha_inicio.toDate()) + "/" + this.formatDate(form.fecha_fin.toDate()));
+        link.setAttribute('href', environment.baseUrl + 'excel/tesoreria/' + this.formatDate(form.fecha_inicio.toDate()) + "/" + this.formatDate(form.fecha_fin.toDate())  + '?access=' + this._authService.accessToken);
         document.body.appendChild(link);
         link.click();
         link.remove();
