@@ -38,6 +38,49 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/tramites/fisicos',
                 permissions: ['ADMINISTRADOR']
             },
+            {
+                id   : 'tramites.secretaria',
+                title: 'Trámite Secretaria',
+                type : 'basic',
+                link : '/tramites/secretaria',
+                permissions: ['ADMINISTRADOR']
+            }
+        ]
+    },
+    {
+        id   : 'docente',
+        title: 'Docentes',
+        type : 'collapsable',
+        icon : 'heroicons_outline:pencil-alt',
+        children: [
+            {
+                id   : 'docente.registrar',
+                title: 'Registro docentes',
+                type : 'basic',
+                link : '/docentes/registrar',
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+            },
+            {
+                id   : 'docente.validar',
+                title: 'Validación docentes',
+                type : 'basic',
+                link : '/docentes/validacion',
+                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
+            },
+            {
+                id   : 'docente.rechazados',
+                title: 'Docentes Rechazados',
+                type : 'basic',
+                link : '/docentes/rechazados',
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+            },
+            {
+                id   : 'docente.finalizados',
+                title: 'Docentes Finalizados',
+                type : 'basic',
+                link : '/docentes/finalizados',
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+            }
         ]
     },
     {
