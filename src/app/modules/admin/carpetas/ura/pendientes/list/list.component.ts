@@ -439,7 +439,7 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
                         // Config the alert
                         this.alert = {
                             type   : 'success',
-                            message: 'Trámites finalizados correctamente',
+                            message: 'Trámites finalizados correctamente. Backup generado!',
                             title: 'Finalizado'
                         };
                         this.finalizando=false;
@@ -453,9 +453,27 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
                 )
                 .subscribe(
                     (response) => {
-                        console.log(response);
-                
-                        this.openSnack();
+                        let a = document.createElement('a')
+                        a.target = '_blanck'
+                        a.href = environment.baseUrl + 'backup/'+ idResolucion
+                        a.click();
+                        
+                        // Set the alert
+                        this.alert = {
+                            type   : 'warning',
+                            message: 'Descargando ZIP...',
+                            title  : 'Advertencia'
+                        };
+        
+                    },
+                    (response) => {
+        
+                        // Set the alert
+                        this.alert = {
+                            type   : 'error',
+                            message: 'Algo salió mal. Por favor, vuelva a intentarlo.',
+                            title  : 'Error'
+                        };
                     }
                 );
             }
