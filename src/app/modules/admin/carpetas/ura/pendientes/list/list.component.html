@@ -25,23 +25,26 @@
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <ng-container *ngIf="(carpetas$ | async)  as carpetas">
-                <!-- <ng-container *ngIf="carpetas.length">
-                    <button
-                        class="ml-4 mr-2"
-                        mat-flat-button
-                        [color]="'primary'"
-                        (click)="finalizarTramites()">
-                        <mat-icon svgIcon="heroicons_outline:check"></mat-icon>
-                        <span class="ml-2 mr-1" *ngIf="!asignando">
-                            Finalizar trámites
-                        </span>
-                        <mat-progress-spinner
-                            *ngIf="asignando"
-                            [diameter]="24"
-                            [mode]="'indeterminate'"></mat-progress-spinner>
-                    </button>
-                </ng-container> -->
+            <ng-container *ngxPermissionsOnly="['ADMINISTRADOR']">
+                <ng-container *ngIf="(carpetas$ | async)  as carpetas">
+                    <ng-container *ngIf="carpetas.length">
+                        <button
+                            class="ml-4 mr-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="!selectedResolucionForm.disabled || finalizando"
+                            (click)="finalizarTramites()">
+                            <mat-icon svgIcon="heroicons_outline:check"  *ngIf="!finalizando"></mat-icon>
+                            <span class="ml-2 mr-1" *ngIf="!finalizando">
+                                Finalizar trámites
+                            </span>
+                            <mat-progress-spinner
+                                *ngIf="finalizando"
+                                [diameter]="24"
+                                [mode]="'indeterminate'"></mat-progress-spinner>
+                        </button>
+                    </ng-container>
+                </ng-container>
             </ng-container>
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-72 mr-2">
                 <mat-icon

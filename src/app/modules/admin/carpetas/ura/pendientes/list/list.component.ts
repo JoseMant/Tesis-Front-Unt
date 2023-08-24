@@ -75,6 +75,7 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
     tagsEditMode: boolean = false;
     tramites: any;
     carpetasCount: number = 0;
+    finalizando: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     
     /**
@@ -425,18 +426,23 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
                 //     message: 'El sistema está cargando...',
                 //     title: 'Advertencia'
                 // };
-                
+                this.finalizando=true;
+                // this.selectedResolucionForm.disable();
+
                 // Delete the tramite on the server
                 const idResolucion=this.selectedResolucionForm.get('idResolucion').value
                 this._carpetasService.finalizarTramites(idResolucion)
                 .pipe(
                     finalize(() => {
+                        // this.selectedResolucionForm.enable();
+
                         // Config the alert
                         this.alert = {
                             type   : 'success',
                             message: 'Trámites finalizados correctamente',
                             title: 'Finalizado'
                         };
+                        this.finalizando=false;
 
                         // Show the alert
                         this.openSnack();
