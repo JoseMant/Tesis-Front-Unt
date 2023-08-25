@@ -244,7 +244,7 @@ export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewIn
                     },
                     {
                         id: 10,
-                        title: 'Resolución de otorgamiento',
+                        title: 'Emisión del diploma',
                         detail: 'O-ORIGINAL'
                     }
                     
