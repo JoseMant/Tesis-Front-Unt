@@ -26,7 +26,7 @@
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- Search -->
-            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64 ml-2">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-100 ml-2">
                 <mat-icon
                     class="icon-size-5"
                     matPrefix
@@ -36,7 +36,7 @@
                     [formControl]="dependenciaSelectControl"
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar certificados'"> -->
-                <mat-select
+                <mat-select class="min-w-100 ml-2"
                     [formControl]="dependenciaSelectControl"
                     [placeholder]="'Seleccionar Dependencia...'">
                     <mat-option [value]="0">Todas las dependencias</mat-option>
