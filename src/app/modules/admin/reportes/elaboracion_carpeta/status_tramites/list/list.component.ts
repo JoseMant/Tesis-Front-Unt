@@ -297,12 +297,23 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         });
     }
 
-    verExcel(){
+    verExcelPendientes(){
         const form = this.selectedReporteForm.getRawValue();
-        console.log(form.idDependencia,form.cronograma);
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/excel/' + form.idDependencia+'/'+form.cronograma);
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/certificados/pendientes/' + form.idDependencia+'/'+form.cronograma);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+
+    }
+
+    verExcelObservados(){
+        const form = this.selectedReporteForm.getRawValue();
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/certificados/observados/' + form.idDependencia+'/'+form.cronograma);
         document.body.appendChild(link);
         link.click();
         link.remove();

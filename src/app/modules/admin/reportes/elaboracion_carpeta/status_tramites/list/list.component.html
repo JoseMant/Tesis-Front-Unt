@@ -102,7 +102,76 @@
                         [placeholder]="'Buscar reportes'">
                 </mat-form-field> -->
                 </form>
+
                 <ng-container *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS', 'SUBUNIDAD DE GRADOS Y TÍTULOS']">
+                    <ng-container *ngIf="(selectedReporteForm.get('idTipo_tramite_unidad').value==15 || selectedReporteForm.get('idTipo_tramite_unidad').value==16) 
+                    && selectedReporteForm.get('cronograma').value">
+                    <!-- <ng-container > -->
+                        <button
+                            class="ml-4"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [matMenuTriggerFor]="reportes">
+                            <mat-icon
+                                [svgIcon]="'heroicons_outline:document-text'">
+                            </mat-icon>
+                            <span class="ml-2 mr-1">
+                                Reportes
+                            </span>
+                            <mat-icon
+                                [svgIcon]="'heroicons_outline:chevron-down'">
+                            </mat-icon>
+                        </button>
+                    </ng-container>
+                </ng-container>
+
+                <!-- <button
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [matMenuTriggerFor]="reportes">
+                    <mat-icon
+                        [svgIcon]="'heroicons_outline:document-text'">
+                    </mat-icon>
+                    <span class="ml-2 mr-1">
+                        Reportes
+                    </span>
+                    <mat-icon
+                        [svgIcon]="'heroicons_outline:chevron-down'">
+                    </mat-icon>
+                </button> -->
+
+                <mat-menu
+                    [xPosition]="'before'"
+                    #reportes="matMenu">
+                    <ng-container *ngIf="selectedReporteForm.get('idTipo_tramite_unidad').value==15 && selectedReporteForm.get('cronograma').value">
+                        <button
+                            mat-menu-item
+                            (click)="verPDF()"
+                            >
+                            <mat-icon svgIcon="mat_solid:picture_as_pdf" color="warn"></mat-icon>
+                            <span class="ml-0 mr-0">Certificados pendientes</span>
+                        </button>
+                        <button
+                            mat-menu-item
+                            (click)="verExcelPendientes()"
+                            >
+                            <mat-icon [svgIcon]="'iconsmind:file_excel'" color="primary"></mat-icon>
+                            <span class="ml-2">Certificados pendientes</span>
+                        </button>
+                    </ng-container>
+                    <button
+                        mat-menu-item
+                        (click)="verExcelObservados()"
+                        >
+                        <mat-icon [svgIcon]="'heroicons_outline:document-text'" color="accent"></mat-icon>
+                        <span class="ml-2">Carpetas observadas</span>
+                    </button>
+                </mat-menu>
+
+
+
+                <!-- <ng-container *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS', 'SUBUNIDAD DE GRADOS Y TÍTULOS']">
                     <button
                         *ngIf="selectedReporteForm.get('idTipo_tramite_unidad').value==15 && selectedReporteForm.get('cronograma').value"
                         class="ml-4"
@@ -121,7 +190,7 @@
                         <mat-icon [svgIcon]="'heroicons_outline:document-text'"></mat-icon>
                         <span class="ml-2 mr-1" > VER</span>
                     </button>
-                </ng-container>
+                </ng-container> -->
             </div>
 
 
