@@ -104,8 +104,8 @@
                 </form>
 
                 <ng-container *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS', 'SUBUNIDAD DE GRADOS Y TÍTULOS']">
-                    <ng-container *ngIf="(selectedReporteForm.get('idTipo_tramite_unidad').value==15 || selectedReporteForm.get('idTipo_tramite_unidad').value==16) 
-                    && selectedReporteForm.get('cronograma').value">
+                    <ng-container *ngIf="(selectedReporteForm.get('idTipo_tramite_unidad').value==15 || selectedReporteForm.get('idTipo_tramite_unidad').value==16||
+                    selectedReporteForm.get('idTipo_tramite_unidad').value==34) && selectedReporteForm.get('cronograma').value">
                     <!-- <ng-container > -->
                         <button
                             class="ml-4"
@@ -144,7 +144,8 @@
                 <mat-menu
                     [xPosition]="'before'"
                     #reportes="matMenu">
-                    <ng-container *ngIf="selectedReporteForm.get('idTipo_tramite_unidad').value==15 && selectedReporteForm.get('cronograma').value">
+                    <ng-container *ngIf="(selectedReporteForm.get('idTipo_tramite_unidad').value==15||selectedReporteForm.get('idTipo_tramite_unidad').value==34) && 
+                                        selectedReporteForm.get('cronograma').value">
                         <button
                             mat-menu-item
                             (click)="verPDF()"
