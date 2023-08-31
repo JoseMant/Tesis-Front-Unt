@@ -43,6 +43,18 @@
                     <mat-option *ngFor="let dependencia of dependencias" [value]="dependencia.idDependencia">{{dependencia.nombre}}</mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <ng-container *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS', 'SUBUNIDAD DE NOTAS Y CERTIFICADOS']">
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    (click)="verPDFPbservados()"
+                    [color]="'primary'">
+                    <mat-icon [svgIcon]="'heroicons_outline:document-text'"></mat-icon>
+                    <span class="ml-2 mr-1" >Certificados observados</span>
+                </button>
+            </ng-container>
+
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64 ml-2">
                 <mat-icon
                     class="icon-size-5"
@@ -54,6 +66,7 @@
                     [autocomplete]="'off'"
                     [placeholder]="'Buscar certificados'">
             </mat-form-field>
+            
         </div>
     </div>
 

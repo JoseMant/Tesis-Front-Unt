@@ -11,7 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { environment } from 'environments/environment';
+import { AuthService } from 'app/core/auth/auth.service';
 @Component({
     selector       : 'certificados-asignados-list',
     templateUrl    : './list.component.html',
@@ -80,6 +81,7 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         private _certificadosService: CertificadosService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
+        private _authService: AuthService,
     )
     {
     }
@@ -286,5 +288,26 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
+    }
+
+    verPDFPbservados(){
+        if (this.dependenciaSelectControl.value){
+            // console.log(this.dependenciaSelectControl.value);
+            const link = document.createElement('a');
+            link.setAttribute('target', '_blank');
+            link.setAttribute('href', environment.baseUrl + 'reporte/certificados/observados?' +
+            '&idDependencia=' + this.dependenciaSelectControl.value +
+            '&accessToken='+ this._authService.accessToken);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }else{
+            this.alert = {
+                type   : 'warning',
+                message: 'Seleccione la dependencia',
+                title: 'Advertencia'
+                };
+                this.openSnack();
+        }
     }
 }
