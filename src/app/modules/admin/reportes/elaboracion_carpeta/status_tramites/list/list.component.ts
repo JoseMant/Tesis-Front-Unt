@@ -132,6 +132,14 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
 
                         this._changeDetectorRef.markForCheck();
                     });
+                } else if (user.idTipoUsuario == 17) {
+                    this.changedUnidad(4);
+                    this.changedDependencia(user.idDependencia);
+                    this.selectedReporteForm.patchValue({
+                        idUnidad: 4,
+                        idDependencia: user.idDependencia
+                    });
+                    this._changeDetectorRef.markForCheck();
                 }
             });
 

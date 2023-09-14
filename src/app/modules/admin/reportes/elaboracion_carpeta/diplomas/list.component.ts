@@ -137,8 +137,8 @@ export class ReporteCarpetasDiplomasListComponent implements OnInit, AfterViewIn
 
 
     limpiarDiploma(){
-        this.searchOptionControl.setValue("");
-        this.searchInputControl.setValue("");
+        // this.searchOptionControl.setValue("");
+        // this.searchInputControl.setValue("");
         this.searchOptionControl.enable();
         this.searchInputControl.enable();
     }
