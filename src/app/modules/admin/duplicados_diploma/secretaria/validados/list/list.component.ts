@@ -5,33 +5,34 @@ import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { CertificadoPagination, CertificadoInterface } from 'app/modules/admin/certificados/certificados.types';
-import { CertificadosService } from 'app/modules/admin/certificados/certificados.service';
+import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
+import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'environments/environment';
-import { AuthService } from 'app/core/auth/auth.service';
+import { DuplicadosDiplomaService } from 'app/modules/admin/duplicados_diploma/duplicados.service';
+import { DuplicadosDiplomasInterface, DuplicadosDiplomasPagination } from '../../../duplicados.types';
+
 @Component({
-    selector       : 'certificados-asignados-list',
+    selector       : 'grados-URA-diplomas-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .certificados-asignados-grid {
+            .grados-escuela-diplomas-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 48px 112px auto 72px;
+                    grid-template-columns: 48px 150px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 112px 190px auto 72px;
+                    grid-template-columns: 48px 150px 230px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px 190px auto 96px 112px 190px 190px 72px;
+                    grid-template-columns: 48px 200px auto 300px 110px;
                 }
             }
             .fondo_snackbar {
@@ -46,12 +47,12 @@ import { AuthService } from 'app/core/auth/auth.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class ValidarDuplicadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    certificados$: Observable<CertificadoInterface[]>;
+    tramitesDuplicados$: Observable<DuplicadosDiplomasInterface[]>;
 
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
@@ -61,14 +62,11 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
 
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: CertificadoPagination;
+    pagination: DuplicadosDiplomasPagination;
     searchInputControl: FormControl = new FormControl('');
-    dependenciaSelectControl: FormControl = new FormControl(0);
-    selectedCertificado: CertificadoInterface | null = null;
-    selectedCertificadoForm: FormGroup;
+    selectedTramitesDuplicadosForm: FormGroup;
     tagsEditMode: boolean = false;
-    certificadosCount: number = 0;
-    dependencias: any;
+    tramitesDuplicadoCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -78,10 +76,10 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _certificadosService: CertificadosService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
-        private _authService: AuthService,
+        private _duplicadosService: DuplicadosDiplomaService,
+
     )
     {
     }
@@ -95,9 +93,8 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
      */
     ngOnInit(): void
     {
-       
-        // Create the selected certificado form
-        this.selectedCertificadoForm = this._formBuilder.group({
+        // Create the selected grado form
+        this.selectedTramitesDuplicadosForm = this._formBuilder.group({
             id               : [''],
             category         : [''],
             name             : ['', [Validators.required]],
@@ -115,16 +112,15 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
             price            : [''],
             weight           : [''],
             thumbnail        : [''],
-            dependencia      : [''],
             images           : [[]],
             currentImageIndex: [0], // Image index that is currently being viewed
             active           : [false]
         });
 
         // Get the pagination
-        this._certificadosService.pagination$
+        this._duplicadosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: CertificadoPagination) => {
+            .subscribe((pagination: DuplicadosDiplomasPagination) => {
 
                 // Update the pagination
                 this.pagination = pagination;
@@ -133,54 +129,19 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the certificados
-        this.certificados$ = this._certificadosService.certificados$;
+        // Get the grados
+        this.tramitesDuplicados$ = this._duplicadosService.tramitesDuplicados$;
 
-        this._certificadosService.certificados$
+        this._duplicadosService.tramitesDuplicados$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response: CertificadoInterface[]) => {
+            .subscribe((response: DuplicadosDiplomasInterface[]) => {
+                
                 // Update the counts
-                this.certificadosCount = response.length;
+                this.tramitesDuplicadoCount = response.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
-        this._certificadosService.dependencias$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response: any[]) => {
-                // Update the counts
-                this.dependencias = response;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-
-        this.dependenciaSelectControl.valueChanges
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-                debounceTime(300),
-                switchMap((query) => {
-                    this.isLoading = true;
-                    if (this._paginator && this._sort) {
-                        if (!this._sort.direction) {
-                            // Set the initial sort
-                            this._sort.sort({
-                                id          : 'dependencia',
-                                start       : 'asc',
-                                disableClear: true
-                            });
-                        }
-                        return this._certificadosService.getCertificadosAsignados(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query, this.searchInputControl.value);
-                    }
-                    else
-                        return this._certificadosService.getCertificadosAsignados(0, 100, 'dependencia', 'asc', query, this.searchInputControl.value);
-                }),
-                map(() => {
-                    this.isLoading = false;
-                })
-            ).subscribe();
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -189,15 +150,13 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    // console.log(this._paginator)
-             
-                    return this._certificadosService.getCertificadosAsignados(0, 100,'dependencia', 'asc', this.dependenciaSelectControl.value, query);
+                    return this._duplicadosService.getSolicitudesDuplicados(0, 100, 'fecha', 'desc', query);
+
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
-            )
-            .subscribe(()=>
+            ).subscribe(()=>
             {
                 this._changeDetectorRef.markForCheck();
             });
@@ -205,13 +164,13 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
 
     cambioPagina(evento): void {
         if(this._sort.active) {
-            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction,this.dependenciaSelectControl.value, this.searchInputControl.value).subscribe();
+            this._duplicadosService.getSolicitudesDuplicados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
         }
         else {
-            this._certificadosService.getCertificadosAsignados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.dependenciaSelectControl.value, this.searchInputControl.value).subscribe();
+            this._duplicadosService.getSolicitudesDuplicados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
         }
     }
-
+    
     openSnack(): void {
         this.snackBar.openFromComponent(AlertaComponent, {
             horizontalPosition: 'right',
@@ -231,8 +190,8 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'dependencia',
-                start       : 'asc',
+                id          : 'fecha',
+                start       : 'desc',
                 disableClear: true
             });
 
@@ -247,12 +206,12 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
                     this._paginator.pageIndex = 0;
                 });
 
-            // Get certificados if sort or page changes
+            // Get grados if sort or page changes
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
+                    return this._duplicadosService.getSolicitudesDuplicados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                     
-                    return this._certificadosService.getCertificadosAsignados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.dependenciaSelectControl.value, this.searchInputControl.value);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -288,26 +247,5 @@ export class CertificadosAsignadosListComponent implements OnInit, AfterViewInit
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
-    }
-
-    verPDFPbservados(){
-        if (this.dependenciaSelectControl.value){
-            // console.log(this.dependenciaSelectControl.value);
-            const link = document.createElement('a');
-            link.setAttribute('target', '_blank');
-            link.setAttribute('href', environment.baseUrl + 'reporte/certificados/observados?' +
-            '&idDependencia=' + this.dependenciaSelectControl.value +
-            '&accessToken='+ this._authService.accessToken);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-        }else{
-            this.alert = {
-                type   : 'warning',
-                message: 'Seleccione la dependencia',
-                title: 'Advertencia'
-                };
-                this.openSnack();
-        }
     }
 }

@@ -421,6 +421,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id   : 'duplicados_diplomas',
+        title: 'Diplomas duplicados',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                id   : 'duplicados_diplomas.validar',
+                title: 'Validados Secretaria',
+                type : 'basic',
+                link : '/duplicados_diplomas/secretaria/validar',
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+            },
+            {
+                id   : 'duplicados_diplomas.aprobar',
+                title: 'Aprobados Secretaria',
+                type : 'basic',
+                link : '/duplicados_diplomas/secretaria/aprobar',
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+            }
+        ]
+    },
+    {
         id   : 'carpetas',
         title: 'Carpetas',
         type : 'collapsable',
