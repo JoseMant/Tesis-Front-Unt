@@ -1,0 +1,158 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <div
+            class="absolute inset-x-0 bottom-0"
+            *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
+        <div>
+            <!-- Title -->
+            <div class="text-4xl font-extrabold tracking-tight">Trámites para registrar docentes</div>
+            <div class="ml-0.5 font-medium text-secondary">
+                <ng-container *ngIf="tramitesDocenteCount > 0">
+                    {{tramitesDocenteCount}}
+                </ng-container>
+                {{tramitesDocenteCount | i18nPlural: {
+                    '=0'   : 'No hay tramites de docente',
+                    '=1'   : 'Tramite de docente',
+                    'other': 'Tramites de docentes'
+                } }}
+            </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input
+                    matInput
+                    [formControl]="searchInputControl"
+                    [autocomplete]="'off'"
+                    [placeholder]="'Buscar tramite'">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+
+        <!-- Vouchers list -->
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container *ngIf="(tramitesDocentes$ | async) as tramitesDocentes" >
+                <ng-container *ngIf="tramitesDocentes.length > 0; else noTramitesDocente">
+                    <div class="grid">
+                        <!-- Header -->
+                        <div
+                            class="grados-escuela-diplomas-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            matSort
+                            matSortDisableClear>
+
+                            <!-- Nro. -->
+                            <div>#</div>
+
+                            <!-- Nro. Trámite -->
+                            <div
+                                class="hidden sm:block"
+                                [mat-sort-header]="'nro_tramite'">
+                                Nro. Trámite
+                            </div>
+                            
+                            <!-- Solicitante-->
+                            <div
+                                [mat-sort-header]="'solicitante'">
+                                Solicitante
+                            </div>
+                            <!-- Código docente-->
+                            <div
+                                [mat-sort-header]="'codigoDocente'">
+                                Código docente
+                            </div>
+                            <!-- Código docente-->
+                            <div
+                                [mat-sort-header]="'departamentoDocente'">
+                                Departamento del docente
+                            </div>
+                            <!-- Fecha-->
+                            <div
+                                [mat-sort-header]="'Fecha'">
+                                Fecha
+                            </div>                            
+
+                            <!-- Opciones -->
+                            <div class="hidden sm:block">Opciones</div>
+                        </div>
+                        <!-- Rows -->
+                        <ng-container *ngIf="(tramitesDocentes$ | async) as tramitesDocentes">
+                            <ng-container *ngFor="let tramitesDocente of tramitesDocentes; trackBy: trackByFn let id=index">
+                                <div class="grados-escuela-diplomas-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+                                    <!-- # -->
+                                    <div >
+                                        {{id+1}}
+                                    </div>
+                                    <!-- Nro. Trámite -->
+                                    <div class="hidden sm:block">
+                                        {{tramitesDocente.nro_tramite}}
+                                    </div>
+                                    <!-- Código solicitante -->
+                                    <div class="truncate">
+                                        {{tramitesDocente.solicitante}}
+                                    </div>
+                                    <!-- Solicitante -->
+                                    <div class="truncate">
+                                        {{tramitesDocente.codigoDocente}}
+                                    </div>
+                                    <!-- Solicitante -->
+                                    <div class="truncate">
+                                        {{tramitesDocente.departamentoDocente.dep_nombre}}
+                                    </div>
+                                    <!-- Fecha -->
+                                    <div class="truncate">
+                                        {{tramitesDocente.fecha}}
+                                    </div>
+
+                                    <div>
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            [routerLink]="['./',tramitesDocente.idTramite]">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:eye'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <mat-paginator
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}"
+                        [length]="pagination.length"
+                        [pageIndex]="pagination.page"
+                        [pageSize]="pagination.size"
+                        (page)="cambioPagina($event)"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        [showFirstLastButtons]="true"></mat-paginator>
+
+                </ng-container>
+            </ng-container>
+
+            <ng-template #noTramitesDocente>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay tramites pendientes!</div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>

@@ -68,13 +68,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
             },
             {
-                id   : 'docente.rechazados',
-                title: 'Docentes Rechazados',
-                type : 'basic',
-                link : '/docentes/rechazados',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
-            },
-            {
                 id   : 'docente.finalizados',
                 title: 'Docentes Finalizados',
                 type : 'basic',

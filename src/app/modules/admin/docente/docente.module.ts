@@ -31,31 +31,36 @@ import { MatListModule} from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { TramiteListComponent } from 'app/modules/admin/tramites/formulario/formulario.component';
-import { tramitesRoutes } from 'app/modules/admin/tramites/tramites.routing';
-import { TramitesComponent } from './tramites.component';
-import { TramiteDetalleComponent } from 'app/modules/admin/tramites/details/details.component';
+import { DocenteComponent } from './docente.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { VisorPdfComponent } from './visorPdf/visorPdf.component';
-import { VisorExoneradoComponent } from './visorExonerado/visorExonerado.component';
-import { VisorImagenComponent } from './visorImagen/visorImagen.component';
-import { TramiteFisicoListComponent } from 'app/modules/admin/tramites/tramites_fisicos/formulario.component';
-import { TramiteOficioListComponent } from 'app/modules/admin/tramites/tramites_secretaria/formulario.component';
 
+import { RegistrarDocenteDetalleComponent } from 'app/modules/admin/docente/registrar/details/details.component';
+import { RegistrarDocenteListComponent } from 'app/modules/admin/docente/registrar/list/list.component';
+
+import { DocenteValidadicionesDetalleComponent } from 'app/modules/admin/docente/validacion/details/details.component';
+import { DocenteValidacionesListComponent } from 'app/modules/admin/docente/validacion/list/list.component';
+
+import { DocenteFinalizadosDetalleComponent } from 'app/modules/admin/docente/finalizados/details/details.component';
+import { DocenteFinalizadosListComponent } from 'app/modules/admin/docente/finalizados/list/list.component';
+
+import { docenteRoutes } from 'app/modules/admin/docente/docente.routing';
+import { VisorPdfDocenteComponent } from 'app/modules/admin/docente/visorPdf/visorPdfDocente.component';
 
 @NgModule({
     declarations: [
-        TramitesComponent,
-        TramiteListComponent,
-        TramiteDetalleComponent,
-        VisorPdfComponent,
-        VisorExoneradoComponent,
-        VisorImagenComponent,
-        TramiteFisicoListComponent,
-        TramiteOficioListComponent,
+        VisorPdfDocenteComponent,
+        
+        DocenteComponent,
+        RegistrarDocenteDetalleComponent,
+        RegistrarDocenteListComponent,
+        DocenteValidadicionesDetalleComponent,
+        DocenteValidacionesListComponent,
+        DocenteFinalizadosDetalleComponent,
+        DocenteFinalizadosListComponent,
+
     ],
     imports     : [
-        RouterModule.forChild(tramitesRoutes),
+        RouterModule.forChild(docenteRoutes),
         MatListModule,
         MatButtonModule,
         FuseAlertModule,
@@ -105,6 +110,6 @@ import { TramiteOficioListComponent } from 'app/modules/admin/tramites/tramites_
         }
     ]
 })
-export class TramitesModule
+export class DocenteModule
 {
 }

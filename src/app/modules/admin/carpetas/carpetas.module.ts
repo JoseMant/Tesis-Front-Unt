@@ -27,7 +27,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { QuillModule } from 'ngx-quill';
 import * as moment from 'moment';
-
+import { FuseAlertModule } from "../../../../@fuse/components/alert/alert.module";
 
 import { CarpetasSecretariaValidadosComponent } from 'app/modules/admin/carpetas/secretaria/validados/validados.component';
 import { CarpetasSecretariaValidadosListComponent } from 'app/modules/admin/carpetas/secretaria/validados/list/list.component';
@@ -106,7 +106,8 @@ import { carpetasRoutes } from 'app/modules/admin/carpetas/carpetas.routing';
         MatDatepickerModule,
         MatDividerModule,
         MatMomentDateModule,
-        QuillModule
+        QuillModule,
+        FuseAlertModule
     ],
     providers   : [
         {
