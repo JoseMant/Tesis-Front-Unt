@@ -69,6 +69,9 @@
 
                             <div [mat-sort-header]="'tramite'">Trámite</div>
 
+                            <div [mat-sort-header]="'tramite'">Celular</div>
+
+                            <div [mat-sort-header]="'tramite'">Correo</div>
                             <!-- Exonerado -->
                             <div
                                 class="hidden md:block"
@@ -113,6 +116,16 @@
                                     <!-- Trámite -->
                                     <div class="truncate">
                                         {{voucher.tramite}}
+                                    </div>
+
+                                    <!-- Celular -->
+                                    <div class="truncate">
+                                        {{voucher.celular}}
+                                    </div>
+
+                                    <!-- Correo -->
+                                    <div class="truncate">
+                                        {{voucher.correo}}
                                     </div>
 
                                     <!-- Exonerado -->
