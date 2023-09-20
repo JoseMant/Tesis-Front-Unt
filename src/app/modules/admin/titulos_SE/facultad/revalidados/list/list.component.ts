@@ -149,7 +149,7 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(0, 100, 'fecha', 'desc', query);
+                    return this._titulosService.getTitulosRevalidadosFacultad(0, 100, 'fecha', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -162,10 +162,10 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
 
     cambioPagina(evento): void {
         if(this._sort.active) {
-            this._titulosService.getTitulosRevalidados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+            this._titulosService.getTitulosRevalidadosFacultad(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
         }
         else {
-            this._titulosService.getTitulosRevalidados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+            this._titulosService.getTitulosRevalidadosFacultad(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
         }
     }
     openSnack(): void {
@@ -240,7 +240,7 @@ export class TitulosFacultadRevalidadosListComponent implements OnInit, AfterVie
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._titulosService.getTitulosRevalidados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    return this._titulosService.getTitulosRevalidadosFacultad(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
 
                 }),
                 map(() => {
