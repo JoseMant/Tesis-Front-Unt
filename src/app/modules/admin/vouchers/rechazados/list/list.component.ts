@@ -33,7 +33,7 @@ import { environment } from 'environments/environment';
                 }
 
                 @screen lg {
-                    grid-template-columns: 96px 190px auto 96px 96px 96px 96px 96px 96px 72px;
+                    grid-template-columns: 96px 190px auto 96px 210px 96px 96px 96px 72px;
                 }
             }
             .fondo_snackbar {
