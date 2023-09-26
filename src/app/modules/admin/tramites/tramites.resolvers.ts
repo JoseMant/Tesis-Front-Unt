@@ -180,6 +180,7 @@ export class TramiteResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TramiteInterface>
     {
+        
         return this._tramiteService.getTramiteById(Number(route.paramMap.get('id')))
                    .pipe(
                        // Error here means the requested tramite is not available

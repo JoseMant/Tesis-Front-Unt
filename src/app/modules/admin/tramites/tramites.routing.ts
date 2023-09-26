@@ -19,7 +19,6 @@ export const tramitesRoutes: Route[] = [
             }
         },
         resolve  : {
-            tramites : TramitesResolver,
             tipo_tramites : TipoTramitesResolver,
             bancos: BancosResolver,
             unidades: UnidadesResolver,

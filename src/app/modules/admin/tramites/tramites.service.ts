@@ -332,13 +332,9 @@ export class TramiteService
      */
     getTramiteById(id: number): Observable<TramiteInterface>
     {
-        return this._tramites.pipe(
-            take(1),
-            map((tramites) => {
-                console.log(tramites);
-
+        return this._httpClient.get<TramiteInterface>(environment.baseUrl + 'tramite/'+id).pipe(
+            tap((tramite) => {
                 // Find the tramite
-                const tramite = tramites.find(item => item.idTramite === id) || null;
                 tramite.fut = environment.baseUrl + tramite.fut;
                 if (tramite.voucher) tramite.voucher = environment.baseUrlStorage + tramite.voucher;
                 if (tramite.exonerado_archivo) tramite.exonerado_archivo = environment.baseUrlStorage + tramite.exonerado_archivo;
@@ -347,24 +343,11 @@ export class TramiteService
                         if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
                     });
                 }
-
+                
                 // Update the tramite
                 this._tramite.next(tramite);
-
-                // Return the tramite
-                return tramite;
-            }),
-            switchMap((tramite) => {
-
-                if ( !tramite )
-                {
-                    return throwError('Could not found tramite with id of ' + id + '!');
-                }
-
-                return of(tramite);
             })
-        );
+        ); 
     }
-
 
 }
