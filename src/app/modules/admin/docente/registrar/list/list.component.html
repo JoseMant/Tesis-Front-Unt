@@ -69,6 +69,11 @@
                                 [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
+                            <!-- Profesor-->
+                             <div
+                                [mat-sort-header]="'Profesor'">
+                                Profesor
+                            </div>
                             <!-- Fecha-->
                             <div
                                 [mat-sort-header]="'Fecha'">
@@ -96,9 +101,17 @@
                                     <div class="truncate">
                                         {{tramitesDocente.solicitante}}
                                     </div>
+                                    <!-- Solicitante -->
+                                    <div class="truncate">
+                                        {{tramitesDocente.apellidos}} {{tramitesDocente.nombres}}
+                                        <div *ngIf="!tramitesDocente.apellidos">
+                                            Pendiente de registro
+                                        </div>
+                                    </div>
+
                                     <!-- Nro. fecha -->
                                     <div class="truncate">
-                                        {{tramitesDocente.fecha}}
+                                        {{tramitesDocente.fecha}}                                 
                                     </div>
 
                                     <div>

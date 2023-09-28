@@ -118,7 +118,7 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             telefono: ['',[Validators.required,Validators.maxLength(9)]],
             celular: ['',[Validators.required,Validators.maxLength(9)]],
             correo: ['',[Validators.required,Validators.email]],
-            correounitru: [' ',[Validators.email]],
+            correounitru: ['',[Validators.email]],
 
             jefe: ['',[Validators.required]],
             idDependencia: ['',[Validators.required]],
@@ -296,6 +296,13 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     createTramite(): void{
+
+        console.log(this.tramiteForm.getRawValue().correounitru);
+        if (this.tramiteForm.getRawValue().correounitru==null) {
+            this.tramiteForm.get('correounitru').setValue("");
+        }
+        console.log(this.tramiteForm.getRawValue().correounitru);
+    
         // If the confirm button pressed...
         if (this.tramiteForm.invalid) {
             this.tramiteForm.markAllAsTouched();
