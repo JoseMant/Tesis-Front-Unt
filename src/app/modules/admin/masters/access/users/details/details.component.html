@@ -158,6 +158,8 @@
         </div>
     </ng-container>
 
+
+
     <!-- Edit mode -->
     <ng-container *ngIf="editMode">
 
@@ -237,7 +239,7 @@
                     <!-- Name -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Nombre</mat-label>
+                            <mat-label>Nombres</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -250,18 +252,34 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Apellidos -->
+                    <!-- Apellido Paterno -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Apellidos</mat-label>
+                            <mat-label>Apellido Paterno</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             <input
                                 matInput
-                                [formControlName]="'apellidos'"
-                                [placeholder]="'Apellidos'"
+                                [formControlName]="'apellido_paterno'"
+                                [placeholder]="'Apellido paterno'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+
+                     <!-- Apellido Materno -->
+                     <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Apellido Materno</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'apellido_materno'"
+                                [placeholder]="'Apellido materno'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
@@ -380,6 +398,22 @@
                         </mat-form-field>
                     </div>
 
+                     <!-- Emails 2 -->
+                     <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Correo alternativo</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'correo2'"
+                                [placeholder]="'Correo alternativo'">
+                        </mat-form-field>
+                    </div>
+
+
                     <!-- Phone numbers -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -398,7 +432,7 @@
                     <!-- Tipo de documento -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Tipo documento</mat-label>
+                            <mat-label>Tipo de Documento</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"

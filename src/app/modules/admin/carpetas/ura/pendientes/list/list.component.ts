@@ -332,8 +332,10 @@ export class CarpetasURAPendientesListComponent implements OnInit, AfterViewInit
         
         respDial.afterClosed().subscribe( (response) => {
             // If the confirm button pressed...
+            console.log(response);
             if ( response )
             {
+               
                 carpeta.codigo_diploma = response;
                 this._changeDetectorRef.markForCheck();
             }

@@ -537,5 +537,28 @@ export class CarpetasService
         );
     }
     
+    editarUltimoCodigo(historialForm: any): Observable<any>
+    {
+        return this.historial$.pipe(
+            take(1),
+            switchMap(historiales => this._httpClient.put<any>(environment.baseUrl + 'edit_ultimo_historial', historialForm).pipe(
+                map((response) => {
+                    console.log(response);
+                    // debugger;
+                    // Update the messages with the new message
+
+                    // });
+        
+                    // Update the carpetas
+                    // this._historial.next(response);
+        
+                    // Return the new message from observable
+                    return response;
+                })
+            ))
+        );
+
+        
+    }
 
 }

@@ -31,7 +31,7 @@
                     <td
                         mat-cell
                         *matCellDef="let historial">
-                        <span class="pr-6">
+                        <span class="pr-6 mr-4">
                             {{historial.codigo_diploma_before}}
                         </span>
                     </td>
@@ -58,11 +58,21 @@
                         Cod. Diploma NUEVO
                     </th>
                     <td
-                        mat-cell
-                        *matCellDef="let historial">
-                        <span class="pr-6">
+                        mat-cell          
+                        *matCellDef="let historial; let i = index">
+
+                        <ng-container class="pr-6 mr-4" *ngIf="i!=historialesDataSource.data.length-1">
                             {{historial.codigo_diploma_after}}
-                        </span>
+                        </ng-container>
+    
+                        <ng-container class="pr-6 mr-4" *ngIf="i==historialesDataSource.data.length-1 && !isUltimoRegistroEditable">
+                            {{historial.codigo_diploma_after}}
+                        </ng-container>
+    
+                        <ng-container  *ngIf="isUltimoRegistroEditable && i==historialesDataSource.data.length-1">
+                            <input [formControlName]="'ultimo_codigo_diploma_after'" class="editable">
+                        </ng-container>
+
                     </td>
                     <td
                         mat-footer-cell
@@ -70,6 +80,7 @@
                         <!-- <mat-form-field class="sm:col-span-2 col-span-6 form-input" style="margin-bottom: inherit;"> -->
                         <mat-form-field class="fuse-mat-dense min-w-52 mt-4 pr-4" subscriptSizing="dynamic">
                             <input
+                
                                 matInput
                                 [formControlName]="'codigo_diploma_after'"
                                 [placeholder]="'Código de diploma Nuevo'">
@@ -79,7 +90,7 @@
 
 
 
-                <!--------------------------------------- Motivo anulación ------------------------------------------------->
+                <!--------------------------------------- Descripción Anulación ------------------------------------------------->
                 <ng-container matColumnDef="descripcion">
                     <th
                         mat-header-cell
@@ -87,19 +98,34 @@
                         *matHeaderCellDef>
                         Descripción
                     </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let historial">
-                        <span class="pr-6">
-                            {{historial.descripcion}}
-                        </span>
+
+                    <td 
+                    mat-cell
+                    *matCellDef="let historial; let i = index">
+
+                    <ng-container class="pr-6 mr-4" *ngIf="i!=historialesDataSource.data.length-1">
+                        {{historial.descripcion}}
+                    </ng-container>
+
+                    <ng-container class="pr-6 mr-4" *ngIf="i==historialesDataSource.data.length-1 && !isUltimoRegistroEditable">
+                        {{historial.descripcion}}
+                    </ng-container>
+
+                    <ng-container  *ngIf="i==historialesDataSource.data.length-1 && isUltimoRegistroEditable">
+                        <input  [formControlName]="'ultimo_descripcion'" class="editable">
+                    </ng-container>
+
+
                     </td>
+
+
                     <td
                         mat-footer-cell
                         *matFooterCellDef>
                         <!-- <mat-form-field class="sm:col-span-2 col-span-6 form-input" style="margin-bottom: inherit;"> -->
                         <mat-form-field class="fuse-mat-dense min-w-52 mt-4 pr-4" subscriptSizing="dynamic">
                             <input
+                                
                                 matInput
                                 [formControlName]="'descripcion'"
                                 [placeholder]="'Descripción'">
@@ -119,7 +145,7 @@
                     <td
                         mat-cell
                         *matCellDef="let historial">
-                        <span class="pr-6">
+                        <span class="pr-6 mr-4">
                             {{historial.fecha_historial | date:'MMM dd, y'}}
                         </span>
                     </td>
@@ -131,6 +157,7 @@
                 </ng-container>
 
 
+
                  <!---------------------------------------- FOOTER ------------------------------------->
                 <tr
                     mat-header-row
@@ -140,14 +167,41 @@
                     mat-row
                     *matRowDef="let row; columns: historialesTableColumns;"></tr>
                 <tr 
+                    [hidden]="isUltimoRegistroEditable"
                     mat-footer-row
                     *matFooterRowDef="historialesTableColumns"></tr>
             </table>
         </div>
     </div>
 
-    <div mat-dialog-actions class="flex justify-end mt-3">
+    <div mat-dialog-actions class="flex mt-3">
+        
+        <!-- EDIT ULTIMO REGISTRO BUTTONS -->
         <button
+            mat-button
+            cmat-button
+            class="bg-amber-500 hover:bg-amber-600 text-white pl-4 pr-4 ml-5 mr-auto"
+            *ngIf="!isUltimoRegistroEditable"
+            (click)="editUltimoRegistro()"
+        >
+            Editar Último
+        </button>
+
+        <button
+            mat-button
+            cmat-button
+            class="bg-lime-500 hover:bg-lime-600 text-white pl-4 pr-4 ml-5 mr-auto"
+            *ngIf="isUltimoRegistroEditable"
+            (click)="backAgregarCodigo()"
+        >
+            Agregar Nuevo
+        </button>
+
+
+
+          <!-- NORMAL BUTTONS -->
+        <button
+         
             mat-button
             mat-dialog-close
             class="bg-red-600 hover:bg-red-700 text-white pl-10 pr-10"
@@ -155,14 +209,15 @@
             Cerrar
         </button>
 
-        <!-- ELSE -->
+      
         <button 
+           
             mat-button
-            class="rounded-full bg-primary-600 hover:bg-primary-500 text-white "
+            class="rounded-full bg-primary-600 hover:bg-primary-500 text-white mr-7"
             cmat-button
             (click)="save()"
         >
-            Agregar Código
+            Guardar Código
         </button>
 
         

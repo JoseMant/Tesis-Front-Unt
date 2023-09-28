@@ -179,6 +179,8 @@ export class UsersListComponent implements OnInit, OnDestroy
         // Go to the new contact
         this._router.navigate(['./', 0], {relativeTo: this._activatedRoute});
 
+
+        this._changeDetectorRef.markForCheck();
         // // Create the user
         // this._usersService.createUser().subscribe((newUser) => {
 
