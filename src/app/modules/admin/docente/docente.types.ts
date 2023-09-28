@@ -35,7 +35,7 @@ export interface TramitesDocenteInterface
     idSede?: number;
     idCategoria?: number;
     idDedicacion?: number;
-
+    idTipo_tramite_unidad?:number;
 
 }
 export interface TramitesDocentePagination

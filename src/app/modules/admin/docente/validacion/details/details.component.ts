@@ -164,7 +164,7 @@ export class DocenteValidadicionesDetalleComponent implements OnInit, OnDestroy
             fecha_nacimiento: ['',[Validators.required]],
             direccion: ['',[Validators.required,Validators.maxLength(200)]],
             dni: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-            telefono: ['',[Validators.required,Validators.maxLength(9)]],
+            telefono: ['',[Validators.maxLength(9)]],
             celular: ['',[Validators.required,Validators.maxLength(9)]],
             correo: ['',[Validators.required,Validators.email]],
             correounitru: [' ',[Validators.email]],

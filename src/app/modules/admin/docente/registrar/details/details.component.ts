@@ -57,6 +57,7 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
     dependenciasSGA:any;
     departamentos:any;
     dedicacionesDocente:any;
+    searchInputControl: FormControl = new FormControl('');
     
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -115,7 +116,7 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             fecha_nacimiento: ['',[Validators.required]],
             direccion: ['',[Validators.required,Validators.maxLength(200)]],
             dni: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]],
-            telefono: ['',[Validators.required,Validators.maxLength(9)]],
+            telefono: ['',[Validators.maxLength(9)]],
             celular: ['',[Validators.required,Validators.maxLength(9)]],
             correo: ['',[Validators.required,Validators.email]],
             correounitru: ['',[Validators.email]],
@@ -289,6 +290,67 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
                 maxWidth: '60%'
             }
         );
+    }
+
+    buscarDocente(){
+        
+        this._docenteService.getDocenteByCodigo(this.searchInputControl.value,this.docente.nro_tramite).subscribe(
+            (docente) => {
+
+                if (docente) {
+                    this._docenteService.docente$
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((docente: TramitesDocenteInterface) => {
+
+                        // Get the grado
+                        this.docente = docente;
+                        this.docente.idPais=Number(this.docente.idPais);
+                        this.requisitos = docente.requisitos;
+                        // Patch values to the form
+                        this.tramiteForm.patchValue(this.docente);
+                        console.log(this.tramiteForm.getRawValue());
+                        this.changedDependencia(docente.idDependencia);
+                        
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
+                    // this.diplomas = response;
+                    // console.log(response.length);
+                                
+                         this.searchInputControl.disable()
+            
+                         // Mark for check
+                         this._changeDetectorRef.markForCheck();
+                         
+            
+                         // Config the alert
+                         this.alert = {
+                             type   : 'success',
+                             message:"Docente encontrado",
+                             title: 'Encontrado'
+                         }
+                         
+                }else{
+                    // Config the alert
+                    this.alert = {
+                        type   : 'error',
+                        message:"Docente no econtrado",
+                        title: 'Error'
+                    }
+                 
+                };
+
+                this.openSnack();
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    limpiarDocente(){
+        this.searchInputControl.setValue("");
+        this.searchInputControl.enable();
     }
 
     // -----------------------------------------------------------------------------------------------------

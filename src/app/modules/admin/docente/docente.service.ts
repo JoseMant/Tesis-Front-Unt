@@ -350,6 +350,29 @@ export class DocenteService
         );
     }
 
+    getDocenteByCodigo(codigo: number,nro_tramite: number): Observable<TramitesDocenteInterface>
+    {
+        return this._httpClient.get<TramitesDocenteInterface>(environment.baseUrl + 'docente/search', {
+            params: {
+                codigo,
+                nro_tramite
+            }
+        }).pipe(
+            tap((docente) => {
+                if (docente) {
+                    if (docente.requisitos) {
+                        docente.requisitos.forEach(element => {
+                            if (element.archivo) element.archivo = environment.baseUrlStorage + element.archivo;
+                        });
+                    }
+                    // if (docente.idDocente) docente.idDocente = environment.baseUrlStorage + docente.idDocente;
+                    
+                }
+                this._docente.next(docente);
+            })
+        );
+    }
+
     /**
      * Create alumno
      */

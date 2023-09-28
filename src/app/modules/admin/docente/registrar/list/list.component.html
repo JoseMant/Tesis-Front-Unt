@@ -69,6 +69,11 @@
                                 [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
+                            <!-- Tipo trámite-->
+                            <div
+                                [mat-sort-header]="'tipo_tramite'">
+                                Tipo de Trámite
+                            </div>
                             <!-- Profesor-->
                              <div
                                 [mat-sort-header]="'Profesor'">
@@ -100,6 +105,10 @@
                                     <!-- Solicitante -->
                                     <div class="truncate">
                                         {{tramitesDocente.solicitante}}
+                                    </div>
+                                    <!-- Tpo trámite -->
+                                    <div class="truncate">
+                                        {{tramitesDocente.tramite}}
                                     </div>
                                     <!-- Solicitante -->
                                     <div class="truncate">

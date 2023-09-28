@@ -105,7 +105,72 @@
                         <mat-card-title><mat-label class="text-base">REGISTRO DE NUEVOS USUARIOS</mat-label></mat-card-title>
                         <mat-card-content>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                
+                                <!-- <div class="grid grid-cols-6 gap-y-6 mb-6" *ngIf="docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41"> -->
+                                    <!-- Search -->             
+                                    <mat-form-field 
+                                        *ngIf="docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41"
+                                        class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3">
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            matPrefix
+                                            [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                                        <input
+                                            matInput
+                                            [formControl]="searchInputControl"
+                                            [autocomplete]="'off'"
+                                            [placeholder]="'Código del Docente'" >
+                                    </mat-form-field>
+                                    <button
+                                        *ngIf="!searchInputControl.disabled &&(docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41)"
+                                        class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3"
+                                        mat-flat-button
+                                        [color]="'primary'"
+                                        (click)="buscarDocente()" > 
+                                        <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                                        <!-- <span class="ml-2 mr-1">Buscar Docente</span> -->
+                                    </button>
+                                    
+                                    <button
+                                        *ngIf="searchInputControl.disabled &&(docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41)"
+                                        class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3"
+                                        mat-flat-button
+                                        [color]="'warn'"
+                                        (click)="limpiarDocente()">
+                                        <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                                        <!-- <span class="ml-2 mr-1">Limpiar</span> -->
+                                    </button>
+                                <!-- </div> -->
                                 <mat-form-field
+                                    *ngIf="docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41"
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">                            
+                                    <mat-label>APELLIDOS</mat-label>
+                                        <input
+                                            oninput="javascript:this.value=this.value.toUpperCase();"
+                                            type="text"
+                                            matInput 
+                                            maxlength="60"
+                                            [formControlName]="'apellidos'"
+                                            (keypress)="validateFormatLetter($event)"
+                                            (paste)="validateFormatLetter($event)"
+                                            />
+                                </mat-form-field>
+                                <mat-form-field
+                                     *ngIf="docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41"
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>NOMBRES</mat-label>
+                                        <input
+                                            oninput="javascript:this.value=this.value.toUpperCase();"
+                                            type="text"
+                                            matInput 
+                                            maxlength="60"
+                                            [formControlName]="'nombres'"
+                                            (keypress)="validateFormatLetter($event)"/>
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="docente.idTipo_tramite_unidad==38 || docente.idTipo_tramite_unidad==39"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline">                            
                                     <mat-label>APELLIDOS</mat-label>
@@ -117,9 +182,10 @@
                                             [formControlName]="'apellidos'"
                                             (keypress)="validateFormatLetter($event)"
                                             (paste)="validateFormatLetter($event)"
-                                        />
+                                            />
                                 </mat-form-field>
                                 <mat-form-field
+                                     *ngIf="docente.idTipo_tramite_unidad==38 || docente.idTipo_tramite_unidad==39"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline">
                                     <mat-label>NOMBRES</mat-label>
@@ -131,6 +197,7 @@
                                             [formControlName]="'nombres'"
                                             (keypress)="validateFormatLetter($event)"/>
                                 </mat-form-field>
+                             
                                 <mat-form-field
                                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline">
