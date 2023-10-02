@@ -29,7 +29,7 @@ import { DocenteService } from 'app/modules/admin/docente/docente.service';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 200px auto 200px 300px 300px 110px;
+                    grid-template-columns: 48px 100px auto 100px 150px 250px 100px 100px;
                 }
             }
             .fondo_snackbar {

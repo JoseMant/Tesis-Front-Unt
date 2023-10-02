@@ -119,7 +119,8 @@
                                             matInput
                                             [formControl]="searchInputControl"
                                             [autocomplete]="'off'"
-                                            [placeholder]="'Código del Docente'" >
+                                            [placeholder]="'Código'"
+                                            (keypress)="validateFormatNumber($event)" >
                                     </mat-form-field>
                                     <button
                                         *ngIf="!searchInputControl.disabled &&(docente.idTipo_tramite_unidad==40 || docente.idTipo_tramite_unidad==41)"
@@ -128,7 +129,7 @@
                                         [color]="'primary'"
                                         (click)="buscarDocente()" > 
                                         <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                                        <!-- <span class="ml-2 mr-1">Buscar Docente</span> -->
+                                        <span class="ml-2 mr-1">Buscar Docente</span>
                                     </button>
                                     
                                     <button
@@ -138,7 +139,7 @@
                                         [color]="'warn'"
                                         (click)="limpiarDocente()">
                                         <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
-                                        <!-- <span class="ml-2 mr-1">Limpiar</span> -->
+                                        <span class="ml-2 mr-1">Limpiar</span>
                                     </button>
                                 <!-- </div> -->
                                 <mat-form-field

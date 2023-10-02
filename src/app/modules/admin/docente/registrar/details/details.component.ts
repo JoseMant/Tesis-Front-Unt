@@ -293,15 +293,16 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
     }
 
     buscarDocente(){
-        
-        this._docenteService.getDocenteByCodigo(this.searchInputControl.value,this.docente.nro_tramite).subscribe(
-            (docente) => {
-
-                if (docente) {
+    
+        if (this.searchInputControl.value) {
+            this._docenteService.getDocenteByCodigo(this.searchInputControl.value,this.docente.nro_tramite).subscribe(
+                (docente) => {
+                         
+                    // console.log(docente)
                     this._docenteService.docente$
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((docente: TramitesDocenteInterface) => {
-
+    
                         // Get the grado
                         this.docente = docente;
                         this.docente.idPais=Number(this.docente.idPais);
@@ -314,41 +315,52 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
                         // Mark for check
                         this._changeDetectorRef.markForCheck();
                     });
-                    // this.diplomas = response;
-                    // console.log(response.length);
-                                
+                         
                          this.searchInputControl.disable()
-            
+                
                          // Mark for check
                          this._changeDetectorRef.markForCheck();
-                         
-            
-                         // Config the alert
-                         this.alert = {
-                             type   : 'success',
-                             message:"Docente encontrado",
-                             title: 'Encontrado'
-                         }
-                         
-                }else{
-                    // Config the alert
-                    this.alert = {
-                        type   : 'error',
-                        message:"Docente no econtrado",
-                        title: 'Error'
-                    }
-                 
-                };
-
-                this.openSnack();
     
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
+                    if(docente.apellidos){
+                        // Config the alert
+                        this.alert = {
+                            type   : 'success',
+                            message:"Docente encontrado",
+                            title: 'Encontrado'
+                        }
+                        this.openSnack();
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    }else{         
+                        // Config the alert
+                        this.alert = {
+                            type   : 'error',
+                            message:"Docente no econtrado",
+                            title: 'Error'
+                        }
+                        this.openSnack();
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    };
+          
+                }
+            );
+        }else{
+            // Config the alert
+            this.alert = {
+                type   : 'error',
+                message:"Ingrese código",
+                title: 'Error'
             }
-        );
+            this.openSnack();
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }
+        
     }
 
     limpiarDocente(){
+        this.tramiteForm.reset();
         this.searchInputControl.setValue("");
         this.searchInputControl.enable();
     }
