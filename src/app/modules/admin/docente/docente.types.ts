@@ -27,7 +27,7 @@ export interface TramitesDocenteInterface
     correo: string;
     correounitru?: string;
     requisitos: any;
-
+    per_login?:any;
     cargo?: string;
     jefe?: number;
     idDependencia?: number;
