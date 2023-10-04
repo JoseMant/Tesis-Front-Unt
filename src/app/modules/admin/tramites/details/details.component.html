@@ -37,12 +37,12 @@
                         </div>
 
                         <!-- Sede -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-2" *ngIf="tramite.voucher">
                             <div class="text-secondary"><b>Sede:</b> {{tramite.sede}}</div>
                         </div>
 
                         <!-- Número de matrícula -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-2" *ngIf="tramite.voucher">
                             <div class="text-secondary"><b>Número de matrícula:</b> {{tramite.nro_matricula}}</div>
                         </div>
 
@@ -52,7 +52,7 @@
                         </div>
 
                         <!-- FUT -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-2" *ngIf="tramite.voucher">
                             <div class="text-secondary">
                                 <b>Formato Único de Trámite (FUT):</b>
                                 <a
@@ -76,7 +76,7 @@
                     <div class="my-10 border-t"></div>
 
                     <!-- Section -->
-                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                    <mat-card class="mt-6" *ngIf="tramite.voucher" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Datos del Pago</mat-label></mat-card-title>
                         <mat-card-content>
                             <div class="grid sm:grid-cols-4 gap-6 w-full mb-4 ml-2 pt-2" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'">
