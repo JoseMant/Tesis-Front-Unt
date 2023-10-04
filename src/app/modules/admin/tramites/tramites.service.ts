@@ -290,11 +290,14 @@ export class TramiteService
                     // Find the index of the updated contact
                     const index = tramites.findIndex(item => item.idTramite === id);
 
-                    // Update the contact
-                    tramites[index] = updateRequisitos;
+                    if (index != -1) {
 
-                    // Update the contacts
-                    this._tramites.next(tramites);
+                        // Update the contact
+                        tramites[index] = updateRequisitos;
+    
+                        // Update the contacts
+                        this._tramites.next(tramites);
+                    }
 
                     // Return the updated contact
                     return updateRequisitos;
