@@ -571,7 +571,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             this._changeDetectorRef.markForCheck();
         },
         (error) => {
-            // console.log(error);
+            console.log(error);
 
             // Re-enable the form
             this.tramiteForm.enable();
