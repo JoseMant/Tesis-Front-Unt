@@ -164,6 +164,8 @@ export class DocenteFinalizadosDetalleComponent implements OnInit, OnDestroy
             celular: ['',[Validators.required,Validators.maxLength(9)]],
             correo: ['',[Validators.required,Validators.email]],
             correounitru: ['',[Validators.email]],
+            per_login: [''],
+
             jefe: ['',[Validators.required]],
             idDependencia: ['',[Validators.required]],
             idDepartamento: ['',[Validators.required]],

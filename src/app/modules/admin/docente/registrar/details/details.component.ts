@@ -120,6 +120,7 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             celular: ['',[Validators.required,Validators.maxLength(9)]],
             correo: ['',[Validators.required,Validators.email]],
             correounitru: ['',[Validators.email]],
+            per_login: [''],
 
             jefe: ['',[Validators.required]],
             idDependencia: ['',[Validators.required]],
@@ -371,12 +372,16 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
 
     createTramite(): void{
 
-        console.log(this.tramiteForm.getRawValue().correounitru);
+
         if (this.tramiteForm.getRawValue().correounitru==null) {
             this.tramiteForm.get('correounitru').setValue("");
         }
-        console.log(this.tramiteForm.getRawValue().correounitru);
-    
+
+        console.log(this.tramiteForm.getRawValue().per_login);
+        if (this.tramiteForm.getRawValue().per_login==null) {
+            this.tramiteForm.get('per_login').setValue(null);
+        }
+        console.log(this.tramiteForm.getRawValue().per_login);
         // If the confirm button pressed...
         if (this.tramiteForm.invalid) {
             this.tramiteForm.markAllAsTouched();
@@ -423,6 +428,7 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
         formData.append('celular', this.tramiteForm.getRawValue().celular);
         formData.append('correo', this.tramiteForm.getRawValue().correo);
         formData.append('correounitru', this.tramiteForm.getRawValue().correounitru);
+        formData.append('per_login', this.tramiteForm.getRawValue().per_login);
         formData.append('jefe', this.tramiteForm.getRawValue().jefe);
         formData.append('idDependencia', this.tramiteForm.getRawValue().idDependencia);
         formData.append('idDepartamento', this.tramiteForm.getRawValue().idDepartamento);

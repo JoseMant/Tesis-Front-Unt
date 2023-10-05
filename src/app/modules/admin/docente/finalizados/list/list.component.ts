@@ -17,7 +17,7 @@ import { DocenteService } from 'app/modules/admin/docente/docente.service';
     styles         : [
         /* language=SCSS */
         `
-            .grados-escuela-diplomas-grid {
+            .docentes-finalizados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -29,7 +29,7 @@ import { DocenteService } from 'app/modules/admin/docente/docente.service';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 100px auto 100px 150px 250px 100px 100px;
+                    grid-template-columns: 48px 100px auto 200px 150px 250px 150px 100px;
                 }
             }
             .fondo_snackbar {

@@ -168,6 +168,7 @@ export class DocenteValidadicionesDetalleComponent implements OnInit, OnDestroy
             celular: ['',[Validators.required,Validators.maxLength(9)]],
             correo: ['',[Validators.required,Validators.email]],
             correounitru: [' ',[Validators.email]],
+            per_login: [''],
 
             jefe: ['',[Validators.required]],
             idDependencia: ['',[Validators.required]],
@@ -383,6 +384,9 @@ export class DocenteValidadicionesDetalleComponent implements OnInit, OnDestroy
         formData.append('correo', tramite.correo);
         if(tramite.correounitru){
         formData.append('correounitru', tramite.correounitru);
+        }
+        if(tramite.per_login){
+            formData.append('per_login', tramite.per_login);
         }
         formData.append('jefe', tramite.jefe);
         formData.append('idDependencia', tramite.idDependencia);
