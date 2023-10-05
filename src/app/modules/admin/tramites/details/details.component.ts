@@ -534,7 +534,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
         data.requisitos.forEach((element) => {
-            console.log(element);
+            // console.log(element);
             formData.append('requisitos[]', JSON.stringify(element));
             if (element.idRequisito && element.extension === 'pdf') {
                 if (element.archivoPdf && element.des_estado_requisito == 'RECHAZADO') {

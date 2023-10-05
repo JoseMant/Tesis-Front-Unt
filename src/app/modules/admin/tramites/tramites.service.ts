@@ -357,15 +357,14 @@ export class TramiteService
             take(1),
             switchMap(tramites => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
                 map((updateRequisitos) => {
-                    console.log(updateRequisitos);
-                    // Find the index of the updated contact
-                    const index = tramites.findIndex(item => item.idTramite === id);
-
-                    if (index != -1) {
-
+                    // console.log(updateRequisitos);
+                    if (tramites) {
+                        // Find the index of the updated contact
+                        const index = tramites.findIndex(item => item.idTramite === id);
+                        
                         // Update the contact
                         tramites[index] = updateRequisitos;
-    
+
                         // Update the contacts
                         this._tramites.next(tramites);
                     }
@@ -377,7 +376,7 @@ export class TramiteService
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
-
+                        console.log(this._tramite);
                         // Update the product if it's selected
                         this._tramite.next(updateRequisitos);
 
