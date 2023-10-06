@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { TramiteInterface } from 'app/modules/admin/tramites/tramites.types';
 import { environment } from 'environments/environment';
+import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { environment } from 'environments/environment';
 export class TramiteService
 {
     // Private
+    private _pagination: BehaviorSubject<HomePagination | null> = new BehaviorSubject(null);
     private _tramite: BehaviorSubject<TramiteInterface | null> = new BehaviorSubject(null);
     private _tramites: BehaviorSubject<TramiteInterface[] | null> = new BehaviorSubject(null);
     private _alumno: BehaviorSubject<any | null> = new BehaviorSubject(null);
@@ -32,6 +34,14 @@ export class TramiteService
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Getter for pagination
+     */
+    get pagination$(): Observable<HomePagination>
+    {
+        return this._pagination.asObservable();
+    }
 
     /**
      * Getter for madurity_model
@@ -79,6 +89,67 @@ export class TramiteService
 
     get cronogramas$(): Observable<any> {
         return this._cronogramas.asObservable();
+    }
+
+    
+    /**
+     * Get tramites
+     *
+     *
+     * @param page
+     * @param size
+     * @param sort
+     * @param order
+     * @param search
+     */
+    getTramites(page: number = 0, size: number = 100, sort: string = 'created_at', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+        Observable<{ pagination: HomePagination; data: TramiteInterface[] }>
+    {
+        return this._httpClient.get<{ pagination: HomePagination; data: TramiteInterface[] }>(environment.baseUrl + 'tramite/usuario', {
+            params: {
+                page: '' + page,
+                size: '' + size,
+                sort,
+                order,
+                search
+            }
+        }).pipe(
+            tap((response) => {
+                this._pagination.next(response.pagination);
+                this._tramites.next(response.data);
+            })
+        );
+    }
+
+    
+    /**
+     * Get tramite by id
+     */
+    getTramite(id: number): Observable<TramiteInterface>
+    {
+        return this._tramites.pipe(
+            take(1),
+            map((tramites) => {
+
+                // Find the tramite
+                const tramite = tramites.find(item => item.idTramite === id) || null;
+
+                // Update the tramite
+                this._tramite.next(tramite);
+
+                // Return the tramite
+                return tramite;
+            }),
+            switchMap((tramite) => {
+
+                if ( !tramite )
+                {
+                    return throwError('Could not found tramite with id of ' + id + '!');
+                }
+
+                return of(tramite);
+            })
+        );
     }
 
     getMotivos(): Observable<any>
@@ -286,15 +357,14 @@ export class TramiteService
             take(1),
             switchMap(tramites => this._httpClient.post<any>(environment.baseUrl + 'requisitos/update/'+ id, requisitos).pipe(
                 map((updateRequisitos) => {
-                    console.log(updateRequisitos);
-                    // Find the index of the updated contact
-                    const index = tramites.findIndex(item => item.idTramite === id);
-
-                    if (index != -1) {
-
+                    // console.log(updateRequisitos);
+                    if (tramites) {
+                        // Find the index of the updated contact
+                        const index = tramites.findIndex(item => item.idTramite === id);
+                        
                         // Update the contact
                         tramites[index] = updateRequisitos;
-    
+
                         // Update the contacts
                         this._tramites.next(tramites);
                     }
@@ -306,7 +376,7 @@ export class TramiteService
                     take(1),
                     filter(item => item && item.idTramite === id),
                     tap(() => {
-
+                        console.log(this._tramite);
                         // Update the product if it's selected
                         this._tramite.next(updateRequisitos);
 
@@ -321,14 +391,14 @@ export class TramiteService
     /**
      * Get tramites
      */
-    getTramites(): Observable<TramiteInterface[]>
-    {
-       return this._httpClient.get<TramiteInterface[]>(environment.baseUrl + 'tramite/usuario/all').pipe(
-            tap((tramites) => {
-                this._tramites.next(tramites);
-            })
-        );
-    }
+    // getTramites(): Observable<TramiteInterface[]>
+    // {
+    //    return this._httpClient.get<TramiteInterface[]>(environment.baseUrl + 'tramite/usuario/all').pipe(
+    //         tap((tramites) => {
+    //             this._tramites.next(tramites);
+    //         })
+    //     );
+    // }
 
     /**
      * Get tramite by id

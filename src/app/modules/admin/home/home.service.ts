@@ -53,64 +53,7 @@ export class HomeService
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Get tramites
-     *
-     *
-     * @param page
-     * @param size
-     * @param sort
-     * @param order
-     * @param search
-     */
-    getTramites(page: number = 0, size: number = 100, sort: string = 'created_at', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
-        Observable<{ pagination: HomePagination; data: HomeTramite[] }>
-    {
-        return this._httpClient.get<{ pagination: HomePagination; data: HomeTramite[] }>(environment.baseUrl + 'tramite/usuario', {
-            params: {
-                page: '' + page,
-                size: '' + size,
-                sort,
-                order,
-                search
-            }
-        }).pipe(
-            tap((response) => {
-                this._pagination.next(response.pagination);
-                this._tramites.next(response.data);
-            })
-        );
-    }
 
-    /**
-     * Get tramite by id
-     */
-    getTramiteById(id: number): Observable<HomeTramite>
-    {
-        return this._tramites.pipe(
-            take(1),
-            map((tramites) => {
-
-                // Find the tramite
-                const tramite = tramites.find(item => item.idTramite === id) || null;
-
-                // Update the tramite
-                this._tramite.next(tramite);
-
-                // Return the tramite
-                return tramite;
-            }),
-            switchMap((tramite) => {
-
-                if ( !tramite )
-                {
-                    return throwError('Could not found tramite with id of ' + id + '!');
-                }
-
-                return of(tramite);
-            })
-        );
-    }
 
     /**
      * Create tramite

@@ -45,4 +45,5 @@ export interface TramiteInterface
     costo_exonerado?: number;
     comentario_voucher?: string;
     fut?: string;
+    historial?: any;
 }

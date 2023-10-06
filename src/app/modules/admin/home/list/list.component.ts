@@ -14,6 +14,8 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TramiteAnuladoDialogComponent } from 'app/modules/admin/home/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TramiteService } from 'app/modules/admin/tramites/tramites.service';
+import { TramiteInterface } from '../../tramites/tramites.types';
 
 @Component({
     selector       : 'home-list',
@@ -79,13 +81,13 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         title: '',
     };
 
-    tramites$: Observable<HomeTramite[]>;
+    tramites$: Observable<TramiteInterface[]>;
 
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: HomePagination;
     searchInputControl: FormControl = new FormControl('');
-    selectedTramite: HomeTramite | null = null;
+    selectedTramite: any | null = null;
     selectedTramiteForm: FormGroup;
     data: any;
     accountBalanceOptions: ApexOptions;
@@ -100,6 +102,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _homeService: HomeService,
+        private _tramiteService: TramiteService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -127,7 +130,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     ngOnInit(): void
     {
         // Get the pagination
-        this._homeService.pagination$
+        this._tramiteService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: HomePagination) => {
 
@@ -139,7 +142,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
             });
 
         // Get the tramites
-        this.tramites$ = this._homeService.tramites$;
+        this.tramites$ = this._tramiteService.tramites$;
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -158,10 +161,10 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                                 disableClear: true
                             });
                         }
-                        return this._homeService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                        return this._tramiteService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                     }
                     else
-                        return this._homeService.getTramites(0, 100, 'created_at', 'desc', query);
+                        return this._tramiteService.getTramites(0, 100, 'created_at', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -204,9 +207,9 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                     this.closeDetails();
                     this.isLoading = true;
                     if(this.searchInputControl.value ){
-                        return this._homeService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                        return this._tramiteService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
                     }else{
-                        return this._homeService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                        return this._tramiteService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                     }
                     
                 }),
@@ -247,7 +250,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         }
 
         // Get the tramite by id
-        this._homeService.getTramiteById(tramiteId)
+        this._tramiteService.getTramite(tramiteId)
             .subscribe((tramite) => {
 
                 // Set the selected tramite
