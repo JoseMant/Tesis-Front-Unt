@@ -15,10 +15,12 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
+
 import moment from 'moment';
 import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 import { VisorExoneradoComponent } from '../visorExonerado/visorExonerado.component';
+import { User } from 'app/core/user/user.types';
 
 @Component({
     selector       : 'tramite-details',
@@ -274,6 +276,12 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             archivoExonerado: [null]
         });
 
+        this._userService.user$
+          .pipe((takeUntil(this._unsubscribeAll)))
+          .subscribe((user: User) => {
+              this.user = user;
+          });
+
         // Get the tramites
         this._tramiteService.tramites$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -506,6 +514,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     updateRequisitos(): void{
+        console.log(this.tramite);
         const data={
             idTramite: this.tramiteForm.getRawValue().idTramite,
             requisitos: this.tramiteForm.getRawValue().requisitos,
