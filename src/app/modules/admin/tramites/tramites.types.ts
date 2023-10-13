@@ -46,4 +46,6 @@ export interface TramiteInterface
     comentario_voucher?: string;
     fut?: string;
     historial?: any;
+    nro_resolucion?:string;
+    fecha_resolucion?:string;
 }

@@ -14,6 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
 import moment from 'moment';
 import { TramitesDocenteInterface } from '../../docente.types';
+import { User } from 'app/core/user/user.types';
+import { UserService } from 'app/core/user/user.service';
 
 
 @Component({
@@ -95,6 +97,7 @@ export class DocenteFinalizadosDetalleComponent implements OnInit, OnDestroy
     requisitos: any;
     requisitosCount: number = 0;
     maxDate: any;
+    user: any;
 
     docente:TramitesDocenteInterface | null = null;
     profesiones:any;
@@ -118,6 +121,8 @@ export class DocenteFinalizadosDetalleComponent implements OnInit, OnDestroy
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
         private _docenteService: DocenteService,
+        private _userService: UserService,
+
     )
     {
     }
@@ -194,7 +199,14 @@ export class DocenteFinalizadosDetalleComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+        
+            this._userService.user$
+            .pipe((takeUntil(this._unsubscribeAll)))
+            .subscribe((user: User) => {
+    
+                this.user = user;
+                console.log(this.user);
+            });
 
         this._docenteService.profesiones$
             .pipe(takeUntil(this._unsubscribeAll))

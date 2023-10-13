@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <ng-container *ngFor="let requisito of docente.requisitos; let id = index">
-                        <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == 5">
+                        <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==22 || user.idTipoUsuario==1">
                                 <div class="col-span-1">{{id+1}}</div>
                                 <div class="col-span-6 ">{{requisito.nombre}}</div>
                                 <div class="col-span-5 text-center">
@@ -418,7 +418,7 @@
                 </form>
             </mat-card-content>
 
-            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'SECRETARIA DE DEPARTAMENTO ACADÉMICO']" class="flex justify-end">
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE MATRÍCULAS']" class="flex justify-end">
                 <button
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"

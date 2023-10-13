@@ -15,6 +15,8 @@ import { FuseAlertType } from '@fuse/components/alert';
 import moment from 'moment';
 import { TramitesDocenteInterface } from '../../docente.types';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'app/core/user/user.types';
+import { UserService } from 'app/core/user/user.service';
 
 
 @Component({
@@ -96,6 +98,7 @@ export class DocenteValidadicionesDetalleComponent implements OnInit, OnDestroy
     requisitos: any;
     requisitosCount: number = 0;
     maxDate: any;
+    user: any;
 
     docente:TramitesDocenteInterface | null = null;
     profesiones:any;
@@ -115,7 +118,7 @@ export class DocenteValidadicionesDetalleComponent implements OnInit, OnDestroy
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
-
+        private _userService: UserService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         public visordialog: MatDialog,
@@ -181,6 +184,13 @@ export class DocenteValidadicionesDetalleComponent implements OnInit, OnDestroy
 
         });
 
+        this._userService.user$
+        .pipe((takeUntil(this._unsubscribeAll)))
+        .subscribe((user: User) => {
+
+            this.user = user;
+            console.log(this.user);
+        });
        
         this._docenteService.docente$
             .pipe(takeUntil(this._unsubscribeAll))
