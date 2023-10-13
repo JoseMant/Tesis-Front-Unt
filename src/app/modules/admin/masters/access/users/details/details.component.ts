@@ -53,6 +53,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     ];
     searchEscuelaControl: FormControl = new FormControl('');
     filteredProgramas: any[];
+    dependencia_usuario: any;
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -85,7 +87,26 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
         });
     }
 
-    
+    getDependenciaUsuario(id, tipo_usuario): void{
+
+        if(tipo_usuario==5){
+            this.facultades.forEach(function (item) {
+                if(item.idDependencia==id){
+                    this.dependencia_usuario = item.nombre;
+                }
+            });
+        }
+        
+        
+        if(tipo_usuario==6 || tipo_usuario==8 || tipo_usuario==17){
+            this.dependencias.forEach(function (item) {
+                if(item.idDependencia==id){
+                    this.dependencia_usuario = item.nombre;
+                }
+            });
+        }
+        
+    }
 
     /**
      * On init
