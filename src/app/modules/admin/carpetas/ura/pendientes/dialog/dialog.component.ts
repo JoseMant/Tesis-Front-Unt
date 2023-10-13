@@ -91,7 +91,8 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
 
         this.historialForm = this._formBuilder.group({
 
-            idHistorial_codigo_diploma: [this.ultimoRegistro.idHistorial_codigo_diploma, [Validators.required]],
+            // idHistorial_codigo_diploma: [this.ultimoRegistro.idHistorial_codigo_diploma, [Validators.required]],
+            idHistorial_codigo_diploma: ['', [Validators.required]],
             idTramite: [this.data.idTramite, [Validators.required]],
             codigo_diploma_before: [{value: '',disabled: true}, [Validators.required]],
             codigo_diploma_after: ['', [Validators.required]],
@@ -103,10 +104,9 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
             ultimo_descripcion: ['', [Validators.required]],
         });
 
+        // console.log(this.historial);
         if(this.historial.length>0)
-        {
-           
-            //console.log(this.historial);
+        {  
             this.historialForm.patchValue({
                 codigo_diploma_before: this.historial[this.historial.length-1].codigo_diploma_after
             });
@@ -217,6 +217,7 @@ export class CarpetaURAPendienteDialogComponent implements OnInit, OnDestroy {
         //Editar ULTIMO HISTORIAL DE CODIGO
         else
         {
+            data.idHistorial_codigo_diploma = this.ultimoRegistro.idHistorial_codigo_diploma;
             if(data.ultimo_codigo_diploma_after && data.ultimo_descripcion)
             {
                 if(data.ultimo_codigo_diploma_after.length<=10)

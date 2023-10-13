@@ -107,11 +107,11 @@
                         {{historial.descripcion}}
                     </ng-container>
 
-                    <ng-container class="pr-6 mr-4" *ngIf="i==historialesDataSource.data.length-1 && !isUltimoRegistroEditable">
+                    <ng-container class="pr-6 mr-4" *ngIf="i==historialesDataSource.data.length-1 && (!isUltimoRegistroEditable || historialesDataSource.data.length == 1)">
                         {{historial.descripcion}}
                     </ng-container>
 
-                    <ng-container  *ngIf="i==historialesDataSource.data.length-1 && isUltimoRegistroEditable">
+                    <ng-container  *ngIf="i==historialesDataSource.data.length-1 && isUltimoRegistroEditable && historialesDataSource.data.length != 1">
                         <input  [formControlName]="'ultimo_descripcion'" class="editable">
                     </ng-container>
 
