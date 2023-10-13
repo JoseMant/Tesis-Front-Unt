@@ -16,7 +16,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:photograph',
         link : '/codigos_pago',
-        permissions: ['ALUMNO']
+        permissions: ['ALUMNO', 'SECRETARIA DE URA']
     },
     {
         id   : 'tramites',
@@ -43,7 +43,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite Secretaria',
                 type : 'basic',
                 link : '/tramites/secretaria',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA']
             }
         ]
     },
