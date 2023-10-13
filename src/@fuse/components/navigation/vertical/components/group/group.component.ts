@@ -82,7 +82,7 @@ export class FuseVerticalNavigationGroupItemComponent implements OnInit, OnDestr
             });
         });
         let value = false;
-        if (this._rolesService.getRole('ADMINISTRADOR') || this._rolesService.getRole('SECRETARIA DE URA')) {
+        if (this._rolesService.getRole('ADMINISTRADOR')) {
             value = true;
         } else {
             req.forEach((requerimiento) => {
