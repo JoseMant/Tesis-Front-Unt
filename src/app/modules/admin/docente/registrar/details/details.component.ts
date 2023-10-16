@@ -139,7 +139,6 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
         .subscribe((user: User) => {
 
             this.user = user;
-            console.log(this.user);
         });
        
         this._docenteService.docente$
@@ -205,7 +204,6 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((_dependenciasSGA: any) => {
                 this.dependenciasSGA = _dependenciasSGA;
-                
                 // this.getUnidadByDependencia(1);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -311,31 +309,15 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
         if (this.searchInputControl.value) {
             this._docenteService.getDocenteByCodigo(this.searchInputControl.value,this.docente.nro_tramite).subscribe(
                 (docente) => {
-                         
-                    // console.log(docente)
-                    this._docenteService.docente$
-                    .pipe(takeUntil(this._unsubscribeAll))
-                    .subscribe((docente: TramitesDocenteInterface) => {
-    
-                        // Get the grado
-                        this.docente = docente;
-                        this.docente.idPais=Number(this.docente.idPais);
-                        this.requisitos = docente.requisitos;
+                    
+                    if(docente){
+                        // console.log(docente);
                         // Patch values to the form
-                        this.tramiteForm.patchValue(this.docente);
-                        console.log(this.tramiteForm.getRawValue());
+                        this.tramiteForm.patchValue(docente);
+                        console.log(docente);
                         this.changedDependencia(docente.idDependencia);
                         
-                        // Mark for check
-                        this._changeDetectorRef.markForCheck();
-                    });
-                         
-                         this.searchInputControl.disable()
-                
-                         // Mark for check
-                         this._changeDetectorRef.markForCheck();
-    
-                    if(docente.apellidos){
+                        this.searchInputControl.disable()
                         // Config the alert
                         this.alert = {
                             type   : 'success',
@@ -400,11 +382,9 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             this.tramiteForm.get('correounitru').setValue("");
         }
 
-        console.log(this.tramiteForm.getRawValue().per_login);
         if (this.tramiteForm.getRawValue().per_login==null) {
             this.tramiteForm.get('per_login').setValue(null);
         }
-        console.log(this.tramiteForm.getRawValue().per_login);
         // If the confirm button pressed...
         if (this.tramiteForm.invalid) {
             this.tramiteForm.markAllAsTouched();
