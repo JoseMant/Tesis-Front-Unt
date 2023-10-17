@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { HomeService } from 'app/modules/admin/home/home.service';
 import { TramiteService } from 'app/modules/admin/tramites/tramites.service';
 import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
 import { TramiteInterface } from '../tramites/tramites.types';
