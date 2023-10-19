@@ -101,7 +101,7 @@
                                             </mat-option>
                                         </ng-container>
                                         <ng-container *ngFor="let tipo of tipoTramites">
-                                            <mat-option [value]="tipo.idTipo_tramite" *ngIf="tipo.responsable == 5">
+                                            <mat-option [value]="tipo.idTipo_tramite" *ngIf="tipo.responsable == user.idTipoUsuario || user.idTipoUsuario==1">
                                                 {{tipo.descripcion}}
                                             </mat-option>
                                         </ng-container>
@@ -164,7 +164,34 @@
                                     </textarea>
                                 </mat-form-field>
                             </div>
-                            
+                            <div *ngIf="data.idTipo_tramite_unidad==42 || data.idTipo_tramite_unidad==43" class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>NRO RESOLUCION:</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput 
+                                            maxlength="100"
+                                            [formControlName]="'nro_resolucion'">
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline" >
+                                    <mat-label >FECHA DE RESOLUCIÓN</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="birthday"
+                                        [formControlName]="'fecha_resolucion'"
+                                        readonly>
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="birthday">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #birthday></mat-datepicker>
+                                </mat-form-field>
+                            </div>
                         </mat-card-content>
                     </mat-card>
                  
@@ -181,7 +208,7 @@
                             </div>
                             <div *ngIf="data.idTipo_tramite_unidad > 0">
                                 <ng-container *ngFor="let req of requisitos">
-                                    <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="req.responsable == 5">
+                                    <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="req.responsable == user.idTipoUsuario || user.idTipoUsuario==1">
                                         <div class="nombre col-span-4 ml-3">
                                             {{req.nombre}}
                                             <div class="nombre col-span-5 ml-3" style="color: rgb(160, 160, 189);font-size: 10px;">
@@ -265,7 +292,7 @@
                     </mat-card>
                 </form>
             </mat-card-content>
-            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO']" class="flex justify-end">
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA' ]" class="flex justify-end">
                 <button
                     class="ml-4"
                     mat-flat-button

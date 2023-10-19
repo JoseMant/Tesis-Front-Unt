@@ -16,7 +16,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:photograph',
         link : '/codigos_pago',
-        permissions: ['ALUMNO']
+        permissions: ['ALUMNO', 'SECRETARIA DE URA']
     },
     {
         id   : 'tramites',
@@ -29,7 +29,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite digital',
                 type : 'basic',
                 link : '/tramites/digitales',
-                permissions: ['ALUMNO']
+                permissions: ['ALUMNO','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
             },
             {
                 id   : 'tramites.fisicos',
@@ -43,7 +43,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite Secretaria',
                 type : 'basic',
                 link : '/tramites/secretaria',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA']
             }
         ]
     },
@@ -58,21 +58,50 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Registro docentes',
                 type : 'basic',
                 link : '/docentes/registrar',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+                permissions: ['ADMINISTRADOR','SECRETARIA DE DEPARTAMENTO ACADÉMICO']
             },
             {
                 id   : 'docente.validar',
                 title: 'Validación docentes',
                 type : 'basic',
                 link : '/docentes/validacion',
-                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
+                permissions: ['ADMINISTRADOR','JEFE DE SUBUNIDAD DE MATRÍCULAS']
             },
             {
                 id   : 'docente.finalizados',
                 title: 'Docentes Finalizados',
                 type : 'basic',
                 link : '/docentes/finalizados',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+                permissions: ['ADMINISTRADOR','SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+            }
+        ]
+    },
+    {
+        id   : 'resoluciones',
+        title: 'Resoluciones',
+        type : 'collapsable',
+        icon : 'heroicons_outline:pencil-alt',
+        children: [
+            {
+                id   : 'resoluciones.validar',
+                title: 'Validación Resoluciones',
+                type : 'basic',
+                link : '/resoluciones/validacion',
+                permissions: ['ADMINISTRADOR','JEFE DE SUBUNIDAD DE MATRÍCULAS']
+            },
+            {
+                id   : 'resoluciones.observados',
+                title: 'Resoluciones Observadas',
+                type : 'basic',
+                link : '/resoluciones/observados',
+                permissions: ['ADMINISTRADOR','JEFE DE SUBUNIDAD DE MATRÍCULAS']
+            },
+            {
+                id   : 'resoluciones.finalizados',
+                title: 'Resoluciones Finalizados',
+                type : 'basic',
+                link : '/resoluciones/finalizados',
+                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE ESCUELA']
             }
         ]
     },
@@ -424,14 +453,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/duplicados_diplomas/secretaria/validar',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+                permissions: []
             },
             {
                 id   : 'duplicados_diplomas.aprobar',
                 title: 'Aprobados Secretaria',
                 type : 'basic',
                 link : '/duplicados_diplomas/secretaria/aprobar',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+                permissions: []
             }
         ]
     },

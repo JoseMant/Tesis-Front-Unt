@@ -20,6 +20,7 @@ import moment from 'moment';
 import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 import { VisorExoneradoComponent } from '../visorExonerado/visorExonerado.component';
+import { User } from 'app/core/user/user.types';
 
 @Component({
     selector       : 'tramites-oficio',
@@ -176,6 +177,9 @@ export class TramiteOficioListComponent implements OnInit, OnDestroy
             documento: [''],
             requisitos: [[]],
             archivoPdf: [''],
+            nro_resolucion: [''],
+            fecha_resolucion: [''],
+
         });
 
         this._tramiteService.bancos$
@@ -533,7 +537,7 @@ export class TramiteOficioListComponent implements OnInit, OnDestroy
             return;
         }
         console.log(this.data.requisitos);
-        const requis = this.data.requisitos.find(element => element.responsable == 5 && ((element.archivoPdf === undefined && element.extension === 'pdf')));
+        const requis = this.data.requisitos.find(element => element.responsable == this.user.idTipoUsuario && ((element.archivoPdf === undefined && element.extension === 'pdf')));
         if (requis) {
             this.alert = {
                 type   : 'warn',
@@ -553,6 +557,28 @@ export class TramiteOficioListComponent implements OnInit, OnDestroy
         //     this.openSnack();
         //     return;
         // }
+
+        if (this.tramiteForm.getRawValue().idTipo_tramite_unidad==42 || this.tramiteForm.getRawValue().idTipo_tramite_unidad==43) {
+            if (!this.tramiteForm.getRawValue().nro_resolucion) {
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Ingrese el número de resolucion',
+                    title: 'Error'
+                };
+                this.openSnack();
+                return; 
+            }
+            if (!this.tramiteForm.getRawValue().fecha_resolucion) {
+                this.alert = {
+                    type   : 'warn',
+                    message: 'Ingrese la fecha de resolución',
+                    title: 'Error'
+                };
+                this.openSnack();
+                return; 
+            }
+           
+        }
         const formData = new FormData();
         // formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
         formData.append('idTipo_tramite_unidad', this.tramiteForm.getRawValue().idTipo_tramite_unidad);

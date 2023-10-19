@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,7 +7,6 @@ import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } f
 import { fuseAnimations } from '@fuse/animations';
 import { ApexOptions } from 'ng-apexcharts';
 import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
-import { HomeService } from 'app/modules/admin/home/home.service';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -101,7 +99,6 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _homeService: HomeService,
         private _tramiteService: TramiteService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
@@ -298,43 +295,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
 
-    createTramite(): void
-    {
-        // Create the tramite
-        this._homeService.createTramite().subscribe((newTramite) => {
-
-            // Go to new tramite
-            this.selectedTramite = newTramite;
-
-            // Fill the form
-            this.selectedTramiteForm.patchValue(newTramite);
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
-    }
-
-    /**
-     * Update the selected tramite using the form data
-     */
-    updateSelectedTramite(): void
-    {
-        // Get the tramite object
-        const tramite = this.selectedTramiteForm.getRawValue();
-
-        // Remove the currentImageIndex field
-        delete tramite.currentImageIndex;
-
-        // Update the tramite on the server
-        this._homeService.updateTramite(tramite.id, tramite).subscribe(() => {
-
-            // Show a success message
-            this.showFlashMessage('success');
-        });
-    }
-
     modalNotification(): void {
-        console.log(this.selectedTramite);
         const respDial = this.visordialog.open(
             TramiteAnuladoDialogComponent,
             {

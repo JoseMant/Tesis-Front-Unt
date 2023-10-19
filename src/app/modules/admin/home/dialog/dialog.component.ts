@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
-import { HomeService } from 'app/modules/admin/home/home.service';
+import { TramiteService } from 'app/modules/admin/tramites/tramites.service';
 
 @Component({
     selector     : 'mailbox-compose',
@@ -42,7 +42,7 @@ export class TramiteAnuladoDialogComponent implements OnInit
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private snackBar: MatSnackBar,
-        private _homeService: HomeService,
+        private _tramiteService: TramiteService,
     )
     {
     }
@@ -147,13 +147,12 @@ export class TramiteAnuladoDialogComponent implements OnInit
                 cancel: {
                     label: 'Cancelar'
                 }
-
             }
         });
 
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
-
+            
             // If the confirm button pressed...
             if ( result === 'confirmed' )
             {
@@ -162,7 +161,7 @@ export class TramiteAnuladoDialogComponent implements OnInit
                 // Disable the form
                 this.composeForm.disable();
         
-                this._homeService.sendNotification(data.idTramite, data).subscribe((updateTramite) => {
+                this._tramiteService.sendNotification(data.idTramite, data).subscribe((updateTramite) => {
                     
                     // Re-enable the form
                     this.composeForm.enable();

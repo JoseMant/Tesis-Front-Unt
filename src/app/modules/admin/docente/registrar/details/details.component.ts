@@ -20,6 +20,7 @@ import { TramitesDocenteInterface } from '../../docente.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VisorPdfDocenteComponent } from 'app/modules/admin/docente/visorPdf/visorPdfDocente.component';
 import { isUndefined } from 'lodash';
+import { User } from 'app/core/user/user.types';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
     requisitos: any;
     requisitosCount: number = 0;
     maxDate: any;
+    user: any;
 
     docente:TramitesDocenteInterface | null = null;
     profesiones:any;
@@ -132,6 +134,12 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             requisitos: ['']
         });
 
+        this._userService.user$
+        .pipe((takeUntil(this._unsubscribeAll)))
+        .subscribe((user: User) => {
+
+            this.user = user;
+        });
        
         this._docenteService.docente$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -143,7 +151,11 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
                     this.docente.idPais=51;
                 }
                 this.requisitos = docente.requisitos;
-                
+                if (docente.per_login) {
+                    this.searchInputControl.setValue(docente.per_login);
+                    this.searchInputControl.disable();
+                  
+                }
                 // Patch values to the form
                 this.tramiteForm.patchValue(this.docente);
                 this.changedDependencia(docente.idDependencia);
@@ -192,7 +204,6 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((_dependenciasSGA: any) => {
                 this.dependenciasSGA = _dependenciasSGA;
-                
                 // this.getUnidadByDependencia(1);
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -298,31 +309,15 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
         if (this.searchInputControl.value) {
             this._docenteService.getDocenteByCodigo(this.searchInputControl.value,this.docente.nro_tramite).subscribe(
                 (docente) => {
-                         
-                    // console.log(docente)
-                    this._docenteService.docente$
-                    .pipe(takeUntil(this._unsubscribeAll))
-                    .subscribe((docente: TramitesDocenteInterface) => {
-    
-                        // Get the grado
-                        this.docente = docente;
-                        this.docente.idPais=Number(this.docente.idPais);
-                        this.requisitos = docente.requisitos;
+                    
+                    if(docente){
+                        // console.log(docente);
                         // Patch values to the form
-                        this.tramiteForm.patchValue(this.docente);
-                        console.log(this.tramiteForm.getRawValue());
+                        this.tramiteForm.patchValue(docente);
+                        console.log(docente);
                         this.changedDependencia(docente.idDependencia);
                         
-                        // Mark for check
-                        this._changeDetectorRef.markForCheck();
-                    });
-                         
-                         this.searchInputControl.disable()
-                
-                         // Mark for check
-                         this._changeDetectorRef.markForCheck();
-    
-                    if(docente.apellidos){
+                        this.searchInputControl.disable()
                         // Config the alert
                         this.alert = {
                             type   : 'success',
@@ -372,16 +367,24 @@ export class RegistrarDocenteDetalleComponent implements OnInit, OnDestroy
 
     createTramite(): void{
 
+        const requis = this.tramiteForm.getRawValue().requisitos.find(element => element.responsable == 21 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
+        if (requis) {
+            this.alert = {
+                type   : 'warn',
+                message: 'Cargar el archivo en el requisito: ' + requis.nombre,
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
 
         if (this.tramiteForm.getRawValue().correounitru==null) {
             this.tramiteForm.get('correounitru').setValue("");
         }
 
-        console.log(this.tramiteForm.getRawValue().per_login);
         if (this.tramiteForm.getRawValue().per_login==null) {
             this.tramiteForm.get('per_login').setValue(null);
         }
-        console.log(this.tramiteForm.getRawValue().per_login);
         // If the confirm button pressed...
         if (this.tramiteForm.invalid) {
             this.tramiteForm.markAllAsTouched();
