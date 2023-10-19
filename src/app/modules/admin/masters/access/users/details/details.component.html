@@ -82,31 +82,12 @@
                         
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:academic-cap'"></mat-icon>
-                            <ng-container *ngFor="let dependencia of dependencias">
-                                <span *ngIf='dependencia.idDependencia==user.idFacultad' class="ml-6 leading-6">{{dependencia.nombre}}</span>
+                            <ng-container *ngFor="let dependencia2 of dependencias">
+                                <span *ngIf='dependencia2.idDependencia==user.idFacultad' class="ml-6 leading-6">{{dependencia2.nombre}}</span>
                             </ng-container>
                         </div>
                     </ng-container>
 
-                     <!-- Facultad -->
-                    <ng-container *ngIf="user.idFacultad && user.idTipo_usuario==5">
-                        
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:academic-cap'"></mat-icon>
-                            <ng-container *ngFor="let dependencia of facultades">
-                                <span *ngIf='dependencia.idDependencia==user.idFacultad' class="ml-6 leading-6">{{dependencia.nombre}}</span>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="user.idFacultad && (user.idTipo_usuario==6 || user.idTipo_usuario==8 || user.idTipo_usuario==17)">
-                        
-                        <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_outline:academic-cap'"></mat-icon>
-                            <ng-container *ngFor="let dependencia of dependencias">
-                                <span *ngIf='dependencia.idDependencia==user.idFacultad' class="ml-6 leading-6">{{dependencia.nombre}}</span>
-                            </ng-container>
-                        </div>
-                    </ng-container>
 
 
                      <!-- Facultad -->
