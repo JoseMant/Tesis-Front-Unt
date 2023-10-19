@@ -130,9 +130,8 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div *ngIf="data.idTipo_tramite" class="grid grid-cols-6 gap-y-6 mb-6">
+                            <div *ngIf="data.idTipo_tramite && data.idUnidad > 0" class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
-                                    *ngIf="dependencias"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline">
                                     <mat-label>TIPOS DE TRÁMITES</mat-label>
@@ -164,7 +163,7 @@
                                     </textarea>
                                 </mat-form-field>
                             </div>
-                            <div *ngIf="data.idTipo_tramite_unidad==42 || data.idTipo_tramite_unidad==43" class="grid grid-cols-6 gap-y-6 mb-6">
+                            <div *ngIf="data.idTipo_tramite_unidad==45 || data.idTipo_tramite_unidad==46" class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
                                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline">

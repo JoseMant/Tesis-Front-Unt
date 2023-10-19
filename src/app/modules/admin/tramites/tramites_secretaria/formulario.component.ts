@@ -342,38 +342,7 @@ export class TramiteOficioListComponent implements OnInit, OnDestroy
             this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
             this._changeDetectorRef.markForCheck();
         });
-
-        this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
-            if (resp.dependencias.length) {
-                this.dependencias = resp.dependencias;
-                const dependencia = this.dependencias[0];
-                if (dependencia) {
-                    this.data.idDependencia = dependencia.idDependencia;
-                    this.tramiteForm.patchValue({idDependencia: dependencia.idDependencia});
-                    this.subdependencias = dependencia.subdependencias;
-                    this.selectedEscuela(dependencia.subdependencias[0].idPrograma);
-                }
-            }else{
-                this.dependencias = null;
-                this.data.idDependencia = null;
-                this.data.idSubdependencia = null;
-                this.alert = {
-                    type   : 'warn',
-                    message: 'Alumno no encontrado para la unidad seleccionada',
-                    title: 'Error'
-                };
-                this.openSnack();
-            }
-            this._changeDetectorRef.markForCheck();
-        },
-        (response) => {
-            this.alert = {
-                type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
-            };
-            this.openSnack();
-        });
+        
         this._changeDetectorRef.markForCheck();
     }
 
