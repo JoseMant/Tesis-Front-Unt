@@ -346,7 +346,9 @@
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
                                     <b>{{requisito.nombre}}:</b> <span style="color: rgb(223, 14, 14)"> {{requisito.des_estado_requisito}} - {{requisito.comentario}}</span>
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="(requisito.des_estado_requisito === 'RECHAZADO' || (requisito.des_estado_requisito === 'PENDIENTE' && tramite.idEstado_tramite==57)) 
+                                <div class="nombre col-span-2 ml-3" *ngIf="(requisito.des_estado_requisito === 'RECHAZADO' 
+                                || (requisito.des_estado_requisito === 'PENDIENTE' && tramite.idEstado_tramite==57 && (requisito.idRequisito==89||
+                                requisito.idRequisito==90||requisito.idRequisito==91||requisito.idRequisito==102||requisito.idRequisito==108||requisito.idRequisito==114))) 
                                 && requisito.extension === 'pdf' && (requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1)">
                                     <button
                                         matTooltip="Agregar documento en pdf"
@@ -377,8 +379,10 @@
                                             [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                     </button>
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="(requisito.des_estado_requisito === 'RECHAZADO' || (requisito.des_estado_requisito === 'PENDIENTE' && tramite.idEstado_tramite==57)) 
-                                && requisito.extension === 'pdf' && (requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1)">
+                                <div class="nombre col-span-2 ml-3" *ngIf="(requisito.des_estado_requisito === 'RECHAZADO' 
+                                || (requisito.des_estado_requisito === 'PENDIENTE' && tramite.idEstado_tramite==57 && (requisito.idRequisito==89||
+                                requisito.idRequisito==90||requisito.idRequisito==91||requisito.idRequisito==102||requisito.idRequisito==108||requisito.idRequisito==114))) 
+                                && requisito.extension === 'jpg' && (requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1)">
                                     <button
                                         matTooltip="Agregar documento en jpg"
                                         (click)="fileInput.click()">
