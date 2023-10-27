@@ -117,7 +117,7 @@
                                         </mat-option>
                                     </ng-container>
                                     <ng-container *ngFor="let tipo of tipoTramites">
-                                        <mat-option [value]="tipo.idTipo_tramite"*ngIf="tipo.responsable == 4">
+                                        <mat-option [value]="tipo.idTipo_tramite"*ngIf="tipo.responsable == user.idTipoUsuario ||  user.idTipoUsuario==1">
                                             {{tipo.descripcion}}
                                         </mat-option>
                                     </ng-container>
@@ -140,7 +140,7 @@
                                         </mat-option>
                                     </ng-container>
                                     <ng-container *ngFor="let uni of unidades">
-                                        <mat-option [value]="uni.idUnidad">
+                                        <mat-option [value]="uni.idUnidad" >
                                             {{uni.descripcion}}
                                         </mat-option>
                                     </ng-container>
@@ -245,7 +245,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="dependencias"
+                                    *ngIf="dependencias && data.sede"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -257,7 +257,7 @@
                                     />
                                 </mat-form-field>
                                 <mat-form-field
-                                    *ngIf="dependencias"
+                                    *ngIf="dependencias && data.nro_matricula"
                                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                                     appearance="outline"
                                 >
@@ -322,7 +322,7 @@
                                 </mat-form-field>
                             </div>
                             <div
-                                *ngIf="dependencias"
+                                *ngIf="dependencias && user.idTipoUsuario==4"
                                 class="grid grid-cols-6 gap-2 w-full items-center py-2">
                                 <div class="nombre col-span-4 ml-3">
                                     FIRMA
@@ -364,9 +364,53 @@
                                     </svg>
                                 </div>
                             </div>
+                            
                         </mat-card-content>
+                        
                     </mat-card>
-                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                    <mat-card class="mt-6" *ngIf="data.idTipo_tramite_unidad==45 || data.idTipo_tramite_unidad==46" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">Datos de la resolución</mat-label></mat-card-title>
+                        <div  class="grid grid-cols-6 gap-y-6 mb-6">
+                            <mat-form-field
+                                class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                appearance="outline">
+                                <mat-label>NRO RESOLUCION:</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput 
+                                        maxlength="100"
+                                        [formControlName]="'nro_resolucion'">
+                            </mat-form-field>
+                            <mat-form-field
+                                class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                appearance="outline" >
+                                <mat-label >FECHA DE RESOLUCIÓN</mat-label>
+                                <input
+                                    matInput
+                                    [max]="maxDate"
+                                    [matDatepicker]="birthday"
+                                    [formControlName]="'fecha_resolucion'"
+                                    readonly>
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="birthday">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #birthday></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field
+                                class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
+                                <mat-label>MOTIVO</mat-label>
+                                <textarea
+                                    class="text-justify"
+                                    matInput
+                                    [formControlName]="'motivo'"
+                                    [placeholder]="'Indicar el motivo'">
+                                </textarea>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+
+                    <mat-card *ngIf="tramiteForm.get('requiere_voucher').value" class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Datos del Pago</mat-label></mat-card-title>
                         <mat-card-content>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
@@ -573,7 +617,7 @@
                             </div>
                             <div *ngIf="data.idTipo_tramite_unidad > 0">
                                 <ng-container *ngFor="let req of requisitos">
-                                    <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="req.responsable == 4">
+                                    <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="req.responsable ==  user.idTipoUsuario ||  user.idTipoUsuario==1">
                                         <div class="nombre col-span-4 ml-3">
                                             {{req.nombre}} 
                                             <div class="nombre col-span-5 ml-3" style="color: rgb(160, 160, 189);font-size: 10px;">
@@ -661,7 +705,7 @@
                     <mat-label class="text-lg font-bold">(*) Todas las solicitudes serán recepecionadas y trabajadas de Lunes a Viernes de 08:00hrs. a 14:00hrs, excepto días declarados como feriado público. Todos los trámites fuera del horario en mención serán considerados el próximo día hábil.</mat-label>
                 </form>
             </mat-card-content>
-            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO']" class="flex justify-end">
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']" class="flex justify-end">
                 <button
                     class="ml-4"
                     mat-flat-button

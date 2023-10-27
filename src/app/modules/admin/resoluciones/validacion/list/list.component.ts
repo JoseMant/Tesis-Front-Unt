@@ -8,8 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TramitesDocenteInterface, TramitesDocentePagination } from '../../docente.types';
-import { DocenteService } from 'app/modules/admin/docente/docente.service';
+import { TramitesResolucionesInterface, TramitesResolucionesPagination } from '../../resoluciones.types';
+import { ResolucionesService } from 'app/modules/admin/resoluciones/resoluciones.service';
 
 @Component({
     selector       : 'grados-URA-diplomas-list',
@@ -17,7 +17,7 @@ import { DocenteService } from 'app/modules/admin/docente/docente.service';
     styles         : [
         /* language=SCSS */
         `
-            .docentes-validados-grid {
+            .resoluciones-validar-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -29,7 +29,7 @@ import { DocenteService } from 'app/modules/admin/docente/docente.service';
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 200px auto 300px 200px 200px 110px;
+                    grid-template-columns: 48px auto 350px 200px 150px 300px 200px 100px;
                 }
             }
             .fondo_snackbar {
@@ -44,12 +44,12 @@ import { DocenteService } from 'app/modules/admin/docente/docente.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, OnDestroy
+export class ResolucionesValidarListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    tramitesDocentes$: Observable<TramitesDocenteInterface[]>;
+    tramitesResoluciones$: Observable<TramitesResolucionesInterface[]>;
 
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
@@ -59,11 +59,11 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
 
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: TramitesDocentePagination;
+    pagination: TramitesResolucionesPagination;
     searchInputControl: FormControl = new FormControl('');
-    selectedTramitesDocenteForm: FormGroup;
+    selectedTramitesResolucionForm: FormGroup;
     tagsEditMode: boolean = false;
-    tramitesDocenteCount: number = 0;
+    tramitesResolucionesCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -74,7 +74,7 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
         private _formBuilder: FormBuilder,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
-        private _docenteService: DocenteService,
+        private _resolucionService: ResolucionesService,
 
     )
     {
@@ -90,7 +90,7 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
     ngOnInit(): void
     {
         // Create the selected grado form
-        this.selectedTramitesDocenteForm = this._formBuilder.group({
+        this.selectedTramitesResolucionForm = this._formBuilder.group({
             id               : [''],
             category         : [''],
             name             : ['', [Validators.required]],
@@ -114,9 +114,9 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
         });
 
         // Get the pagination
-        this._docenteService.pagination$
+        this._resolucionService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: TramitesDocentePagination) => {
+            .subscribe((pagination: TramitesResolucionesPagination) => {
 
                 // Update the pagination
                 this.pagination = pagination;
@@ -126,14 +126,14 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
             });
 
         // Get the grados
-        this.tramitesDocentes$ = this._docenteService.tramitesDocente$;
+        this.tramitesResoluciones$ = this._resolucionService.tramites$;
 
-        this._docenteService.tramitesDocente$
+        this._resolucionService.tramites$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response: TramitesDocenteInterface[]) => {
+            .subscribe((response: TramitesResolucionesInterface[]) => {
                 
                 // Update the counts
-                this.tramitesDocenteCount = response.length;
+                this.tramitesResolucionesCount = response.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -146,7 +146,7 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._docenteService.getDocentesValidados(0, 100, 'fecha', 'desc', query);
+                    return this._resolucionService.getResolucionesValidar(0, 100, 'fecha', 'desc', query);
 
                 }),
                 map(() => {
@@ -160,10 +160,10 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
 
     cambioPagina(evento): void {
         if(this._sort.active) {
-            this._docenteService.getDocentesValidados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+            this._resolucionService.getResolucionesValidar(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
         }
         else {
-            this._docenteService.getDocentesValidados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+            this._resolucionService.getResolucionesValidar(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
         }
     }
     
@@ -206,7 +206,7 @@ export class DocenteValidacionesListComponent implements OnInit, AfterViewInit, 
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._docenteService.getDocentesValidados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    return this._resolucionService.getResolucionesValidar(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                     
                 }),
                 map(() => {

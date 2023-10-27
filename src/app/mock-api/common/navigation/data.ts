@@ -101,7 +101,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Resoluciones Finalizados',
                 type : 'basic',
                 link : '/resoluciones/finalizados',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD','JEFE DE SUBUNIDAD DE MATRÍCULAS']
             }
         ]
     },
