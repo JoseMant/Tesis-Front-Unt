@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'resoluciones',
-    templateUrl    : './resoluciones.component.html',
+    selector       : 'duplicados-datos-diploma',
+    templateUrl    : './diplomas.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResolucionesComponent
+export class DuplicadosDatosDiplomaComponent
 {
     /**
      * Constructor

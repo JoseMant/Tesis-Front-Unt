@@ -134,7 +134,9 @@
                             </div>
                         </div>
                         <ng-container *ngFor="let requisito of duplicado.requisitos; let id = index">
-                            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == 4">
+                            <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == 4 && requisito.idRequisito!==89 && 
+                                requisito.idRequisito!==90 && requisito.idRequisito!==91 && requisito.idRequisito!==102 && requisito.idRequisito!==108 && 
+                                requisito.idRequisito!==114">
                                 <div class="col-span-1">{{id+3}}</div>
                                 <div class="col-span-5">{{requisito.nombre}}</div>
                                 <div class="col-span-4 text-center">
@@ -173,22 +175,22 @@
                     mat-button
                     class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
                     cmat-button
-                    [routerLink]="['/duplicados_diplomas/validar']"
+                    [routerLink]="['/duplicados_diplomas/secretaria/validar']"
                     >
                     Regresar
                 </button>
                 <button
-                    *ngIf="duplicado.idEstado_tramite==20"
+                    *ngIf="duplicado.idEstado_tramite==53"
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="tituloForm.disabled"
+                    [disabled]="duplicadoForm.disabled"
                     (click)="updateRequisitos()">
-                    <span *ngIf="!tituloForm.disabled">
+                    <span *ngIf="!duplicadoForm.disabled">
                         Guardar
                     </span>
                     <mat-progress-spinner
-                        *ngIf="tituloForm.disabled"
+                        *ngIf="duplicadoForm.disabled"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>

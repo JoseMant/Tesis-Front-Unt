@@ -8,7 +8,7 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Cronograma } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
-import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.service';
+import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/graduados/graduados.service';
 import { Subject, takeUntil } from 'rxjs';
 import { forEach } from 'lodash';
 
@@ -17,7 +17,7 @@ import { forEach } from 'lodash';
     templateUrl  : './dialog.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class ResolucionCronogramasDialogComponent implements OnInit
+export class ResolucionesGraduadoCronogramasDialogComponent implements OnInit
 {
     @ViewChild('selectedResolucionNgForm') selectedResolucionNgForm: NgForm;
     @ViewChild('cronogramasTable', {read: MatSort}) cronogramasTableMatSort: MatSort;
@@ -39,7 +39,7 @@ export class ResolucionCronogramasDialogComponent implements OnInit
      */
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        public matDialogRef: MatDialogRef<ResolucionCronogramasDialogComponent>,
+        public matDialogRef: MatDialogRef<ResolucionesGraduadoCronogramasDialogComponent>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _resolucionesService: ResolucionesService,

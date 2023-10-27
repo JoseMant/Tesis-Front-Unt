@@ -8,7 +8,9 @@ export interface Resolucion
     archivo:any;
     archivoPdf?:any;
     estado: boolean;
-    cronogramas?: any
+    cronogramas?: any;
+    tramites?: any;
+    idTipo_resolucion: number
 }
 
 export interface Role
@@ -19,6 +21,12 @@ export interface Role
 }
 
 export interface Unidad
+{
+    id?: string;
+    title?: string;
+}
+
+export interface Tipo_Resolucion
 {
     id?: string;
     title?: string;

@@ -15,24 +15,24 @@ import { DuplicadosDiplomaService } from 'app/modules/admin/duplicados_diploma/d
 import { DuplicadosDiplomasInterface, DuplicadosDiplomasPagination } from '../../../duplicados.types';
 
 @Component({
-    selector       : 'grados-URA-diplomas-list',
+    selector       : 'duplicados-aprobados-secretaria-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .grados-escuela-diplomas-grid {
+            .duplicados-validados-secretaria-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 48px 150px auto 72px;
+                    grid-template-columns: 48px 112px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 150px 230px auto 72px;
+                    grid-template-columns: 48px 112px 190px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 200px auto 300px 110px;
+                    grid-template-columns: 48px 112px 190px auto 96px 190px 112px 190px 72px;
                 }
             }
             .fondo_snackbar {
@@ -150,7 +150,7 @@ export class ValidarDuplicadosListComponent implements OnInit, AfterViewInit, On
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._duplicadosService.getSolicitudesDuplicados(0, 100, 'fecha', 'desc', query);
+                    return this._duplicadosService.getDuplicadosValidados(0, 100, 'fecha', 'desc', query);
 
                 }),
                 map(() => {
@@ -164,10 +164,10 @@ export class ValidarDuplicadosListComponent implements OnInit, AfterViewInit, On
 
     cambioPagina(evento): void {
         if(this._sort.active) {
-            this._duplicadosService.getSolicitudesDuplicados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+            this._duplicadosService.getDuplicadosValidados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
         }
         else {
-            this._duplicadosService.getSolicitudesDuplicados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+            this._duplicadosService.getDuplicadosValidados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
         }
     }
     
@@ -210,7 +210,7 @@ export class ValidarDuplicadosListComponent implements OnInit, AfterViewInit, On
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._duplicadosService.getSolicitudesDuplicados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    return this._duplicadosService.getDuplicadosValidados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
                     
                 }),
                 map(() => {

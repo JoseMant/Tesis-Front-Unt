@@ -11,20 +11,32 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Trámites duplicados aprobados</div>
+            <div class="text-4xl font-extrabold tracking-tight">Trámites duplicados datos de diploma</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="tramitesDuplicadoCount > 0">
                     {{tramitesDuplicadoCount}}
                 </ng-container>
                 {{tramitesDuplicadoCount | i18nPlural: {
-                    '=0'   : 'No hay diplomas duplicados',
-                    '=1'   : 'Diploma duplicado aprobado',
-                    'other': 'Diplomas duplicados'
+                    '=0'   : 'No hay tramites de diplomas duplicados',
+                    '=1'   : 'Tramite de diploma duplicado',
+                    'other': 'Tramites de diplomas duplicados'
                 } }}
             </div>
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-120 mr-2">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <mat-select
+                    [formControl]="tramiteSelectControl"
+                    [placeholder]="'Seleccionar Trámite...'">
+                    <mat-option [value]="0">Todos los trámites ...</mat-option>
+                    <mat-option *ngFor="let tramite of tipos_tramites" [value]="tramite.idTipo_tramite_unidad">{{tramite.descripcion}}</mat-option>
+                </mat-select>
+            </mat-form-field>
             <!-- Search -->
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
                 <mat-icon
@@ -35,7 +47,7 @@
                     matInput
                     [formControl]="searchInputControl"
                     [autocomplete]="'off'"
-                    [placeholder]="'Buscar diplomas duplicados'">
+                    [placeholder]="'Buscar tramite'">
             </mat-form-field>
         </div>
     </div>
@@ -46,11 +58,11 @@
         <!-- Vouchers list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
             <ng-container *ngIf="(tramitesDuplicados$ | async) as tramitesDuplicados" >
-                <ng-container *ngIf="tramitesDuplicados.length > 0; else noVouchers">
+                <ng-container *ngIf="tramitesDuplicados.length > 0; else noTtramitesDuplicado">
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="duplicados-aprobados-secretaria-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="duplicados-validados-ura-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -60,7 +72,7 @@
                             <!-- Nro. Trámite -->
                             <div
                                 class="hidden sm:block"
-                                [mat-sort-header]="'codigo'">
+                                [mat-sort-header]="'nro_tramite'">
                                 Nro. Trámite
                             </div>
 
@@ -111,7 +123,12 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(tramitesDuplicados$ | async) as tramitesDuplicados">
                             <ng-container *ngFor="let tramiteDuplicado of tramitesDuplicados; trackBy: trackByFn let id=index">
-                                <div class="duplicados-aprobados-secretaria-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="duplicados-validados-ura-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b"
+                                [ngClass]="{
+                                    'bg-lime-200' : tramiteDuplicado.idTipo_tramite_unidad == 42||tramiteDuplicado.idTipo_tramite_unidad == 47,
+                                    'bg-cyan-200' : tramiteDuplicado.idTipo_tramite_unidad == 43||tramiteDuplicado.idTipo_tramite_unidad == 48,
+                                    'bg-indigo-200' : tramiteDuplicado.idTipo_tramite_unidad == 44||tramiteDuplicado.idTipo_tramite_unidad == 49
+                                }">
 
                                     <!-- Nro. Trámite -->
                                     <div >
@@ -182,8 +199,8 @@
                 </ng-container>
             </ng-container>
 
-            <ng-template #noVouchers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay grados aprobados!</div>
+            <ng-template #noTtramitesDuplicado>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay tramites pendientes!</div>
             </ng-template>
 
         </div>

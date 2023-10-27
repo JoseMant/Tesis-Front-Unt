@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -9,20 +8,19 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { GradoPagination, GradoInterface } from 'app/modules/admin/grados/grados.types';
 import { GradosService } from 'app/modules/admin/grados/grados.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { VisorPdfGradoComponent } from '../visorPdf/visorPdfGrado.component';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DuplicadosDiplomasInterface } from '../../../duplicados.types';
-import { DuplicadosDiplomaService } from '../../../duplicados.service';
+import { DuplicadosDiplomaService } from 'app/modules/admin/duplicados_diploma/duplicados.service';
+import { DuplicadosDiplomasInterface, DuplicadosDiplomasPagination } from '../../../duplicados.types';
 
 @Component({
-    selector       : 'duplicados-aprobados-secretaria-list',
+    selector       : 'duplicados-ura-list',
     templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
-            .duplicados-aprobados-secretaria-grid {
+            .duplicados-validados-ura-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -49,7 +47,7 @@ import { DuplicadosDiplomaService } from '../../../duplicados.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class DuplicadosDatosDiplomaListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -64,13 +62,14 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
 
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: GradoPagination;
+    pagination: DuplicadosDiplomasPagination;
     searchInputControl: FormControl = new FormControl('');
-    selectedGrado: GradoInterface | null = null;
-    selectedGradoForm: FormGroup;
+    selectedTramitesDuplicadosForm: FormGroup;
     tagsEditMode: boolean = false;
     tramitesDuplicadoCount: number = 0;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    tipos_tramites: any;
+    tramiteSelectControl: FormControl = new FormControl(0);
 
     /**
      * Constructor
@@ -79,9 +78,10 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _duplicadosService: DuplicadosDiplomaService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar,
+        private _duplicadosService: DuplicadosDiplomaService,
+
     )
     {
     }
@@ -96,7 +96,7 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
     ngOnInit(): void
     {
         // Create the selected grado form
-        this.selectedGradoForm = this._formBuilder.group({
+        this.selectedTramitesDuplicadosForm = this._formBuilder.group({
             id               : [''],
             category         : [''],
             name             : ['', [Validators.required]],
@@ -122,7 +122,7 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
         // Get the pagination
         this._duplicadosService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: GradoPagination) => {
+            .subscribe((pagination: DuplicadosDiplomasPagination) => {
 
                 // Update the pagination
                 this.pagination = pagination;
@@ -136,14 +136,50 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
 
         this._duplicadosService.tramitesDuplicados$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((response: GradoInterface[]) => {
-             
+            .subscribe((response: DuplicadosDiplomasInterface[]) => {
+                
                 // Update the counts
                 this.tramitesDuplicadoCount = response.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+
+        // FILTRO POR TRAMITE
+        this._duplicadosService.tiposTramites$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: any[]) => { 
+                // Update the counts
+                this.tipos_tramites = response;
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+
+            this.tramiteSelectControl.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                switchMap((query) => {
+                    this.isLoading = true;
+                    if (this._paginator && this._sort) {
+                        if (!this._sort.direction) {
+                            // Set the initial sort
+                            this._sort.sort({
+                                id          : 'nro_tramite',
+                                start       : 'asc',
+                                disableClear: true
+                            });
+                        }
+                        return this._duplicadosService.getDuplicadosDatosDiploma(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query, this.searchInputControl.value);
+                    }
+                    else
+                        return this._duplicadosService.getDuplicadosDatosDiploma( 0, 100, 'nro_tramite', 'asc', query, this.searchInputControl.value);
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -152,28 +188,26 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
                 debounceTime(300),
                 switchMap((query) => {
                     this.isLoading = true;
-                    return this._duplicadosService.getDuplicadosAprobados(0, 100, 'fecha', 'desc', query);
+                    return this._duplicadosService.getDuplicadosDatosDiploma(0, this._paginator.pageSize, this._sort.active, this._sort.direction, this.tramiteSelectControl.value, query);
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
             ).subscribe(()=>
-                {
+            {
                 this._changeDetectorRef.markForCheck();
-            }
-            );
+            });
     }
 
     cambioPagina(evento): void {
         if(this._sort.active) {
-            this._duplicadosService.getDuplicadosAprobados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value).subscribe();
+            this._duplicadosService.getDuplicadosDatosDiploma(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction,this.tramiteSelectControl.value.value, this.searchInputControl.value).subscribe();
         }
         else {
-            this._duplicadosService.getDuplicadosAprobados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value).subscribe();
+            this._duplicadosService.getDuplicadosDatosDiploma(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.tramiteSelectControl.value.value, this.searchInputControl.value).subscribe();
         }
     }
-
-
+    
     openSnack(): void {
         this.snackBar.openFromComponent(AlertaComponent, {
             horizontalPosition: 'right',
@@ -193,8 +227,8 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
         {
             // Set the initial sort
             this._sort.sort({
-                id          : 'nro_tramite',
-                start       : 'asc',
+                id          : 'fecha',
+                start       : 'desc',
                 disableClear: true
             });
 
@@ -213,16 +247,17 @@ export class DuplicadosAprobadosListComponent implements OnInit, AfterViewInit, 
             merge(this._sort.sortChange).pipe(
                 switchMap(() => {
                     this.isLoading = true;
-                    return this._duplicadosService.getDuplicadosAprobados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    return this._duplicadosService.getDuplicadosDatosDiploma(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value);
+                    
                 }),
                 map(() => {
                     this.isLoading = false;
                 })
             ).subscribe(()=>
-                {
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+            {
+            this._changeDetectorRef.markForCheck();
+        }
+        );
         }
     }
 

@@ -521,6 +521,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+        // Validar requisito de feto para carnet
         const requis2 = this.tramiteForm.getRawValue().requisitos.find(element => element.idRequisito == 33 || element.idRequisito == 35 || element.idRequisito == 37 || element.idRequisito == 39);
         if (requis2 && !this.fileSizeValidator(requis2.archivoImagen)) {
             this.alert = {
@@ -531,13 +532,29 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             this.openSnack();
             return;
         }
+        // Validar que subí el requisito de diarios oficiales para duplicados de diplomas
+        const requis3 = this.tramiteForm.getRawValue().requisitos.find(element => this.tramite.idEstado_tramite==57 && (element.idRequisito==89 || element.idRequisito==90 ||
+            element.idRequisito==91 || element.idRequisito==102 || element.idRequisito==108 || element.idRequisito==114) && element.responsable == 4 
+            && element.des_estado_requisito == 'PENDIENTE' && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && 
+            element.extension === 'jpg')));
+        if (requis3) {
+            this.alert = {
+                type   : 'warn',
+                message: 'Cargar el archivo en el requisito: ' + requis3.nombre,
+                title: 'Error'
+            };
+            this.openSnack();
+            return;
+        }
+
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
         data.requisitos.forEach((element) => {
-            console.log(element);
             formData.append('requisitos[]', JSON.stringify(element));
             if (element.idRequisito && element.extension === 'pdf') {
-                if (element.archivoPdf && element.des_estado_requisito == 'RECHAZADO') {
+                if ((element.archivoPdf && element.des_estado_requisito == 'RECHAZADO')||
+                    (element.archivoPdf && element.des_estado_requisito == 'PENDIENTE' && (element.idRequisito==89 || element.idRequisito==90 || element.idRequisito==91 || 
+                        element.idRequisito==102 || element.idRequisito==108 || element.idRequisito==114))) {
                     formData.append('files[]', element.archivoPdf);
                 } else {
                     formData.append('files[]', new File([""], "vacio.kj"));
@@ -551,7 +568,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
                 }
             }
         });
-        // console.log(formData.getAll('files[]'));
+        console.log(formData.getAll('files[]'));
         
         this.tramiteForm.disable();
         this._tramiteService.updateRequisitos(data.idTramite,formData).subscribe((response) => {

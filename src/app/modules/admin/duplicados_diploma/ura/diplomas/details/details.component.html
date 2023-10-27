@@ -1,0 +1,157 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+                CODIGO TRÁMITE: {{duplicado.nro_tramite}}
+            </mat-card-title>
+            <mat-card-content>
+                <!-- Section -->
+                <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+  
+                    <!-- SOLICITANTE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>SOLICITANTE:</b> {{duplicado.solicitante}}</div>
+                    </div>
+                    
+                    <!-- FECHA DE REGISTRO -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{duplicado.fecha | date: 'dd-MM-yyyy'}}</div>
+                    </div>
+                    
+                    <!-- PROGRAMA-->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>PROGRAMA:</b> {{duplicado.programa}}</div>
+                    </div>
+
+                    <!-- NUMERO DE DOCUMENTO -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>NÚMERO DE DOCUMENTO:</b> {{duplicado.nro_documento}}</div>
+                    </div>
+                    
+                    <!-- TRÁMITE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>TRÁMITE:</b> {{duplicado.tramite}}</div>
+                    </div>
+
+                    <!-- NRO MATRICULA -->
+                    <div class="sm:col-span-2">
+                      <div class="text-secondary"><b>NRO DE MATRÍCULA:</b> {{duplicado.nro_matricula}}</div>
+                    </div>
+
+                    <!-- SEDE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>SEDE :</b> {{duplicado.sede}}</div>
+                    </div>
+
+
+                </div>
+                
+                <!-- Divider -->
+                <div class="my-10 border-t"></div>
+
+                
+                <!-- Section -->
+                <form [formGroup]="duplicadoForm" #gradoNgForm="ngForm">
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-xl">DATOS DEL DIPLOMA</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Acto académico</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idModalidad_carpeta'">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <ng-container *ngFor="let modalidad of modalidades_sustentacion">
+                                            <mat-option [value]="modalidad.idModalidad_carpeta">
+                                                {{modalidad.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                
+                                <mat-form-field class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Fecha colación</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="fecha_colacion"
+                                        [formControlName]="'fecha_colacion'"
+                                        readonly>
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="fecha_colacion">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #fecha_colacion></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Procedencia de bachiller</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idUniversidad'">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <ng-container *ngFor="let universidad of universidades">
+                                            <mat-option [value]="universidad.idUniversidad">
+                                                {{universidad.nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline"
+                                >
+                                    <mat-label>Diploma</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idDiploma_carpeta'">
+                                        <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                        <ng-container *ngFor="let diploma of diplomas">
+                                            <mat-option [value]="diploma.idDiploma_carpeta">
+                                                {{diploma.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </form>
+                
+            </mat-card-content>
+            <mat-card-actions class="flex justify-end">
+                <button
+                    mat-button
+                    class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                    cmat-button
+                    [routerLink]="['/duplicados_diplomas/ura/datos/diploma']"
+                    >
+                    Regresar
+                </button>
+                <button
+                    *ngIf="duplicado.idEstado_tramite==58"
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="duplicadoForm.disabled"
+                    (click)="enviarDatos()">
+                    <span *ngIf="!duplicadoForm.disabled">
+                        Enviar a secretaría
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="duplicadoForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card>
+</div>

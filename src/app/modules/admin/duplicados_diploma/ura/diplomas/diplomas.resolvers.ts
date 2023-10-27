@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.service';
-import { Resolucion, Role, Unidad } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
-import { Cronograma } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import { DuplicadosDiplomaService } from 'app/modules/admin/duplicados_diploma/duplicados.service';
+import { DuplicadosDiplomasInterface,DuplicadosDiplomasPagination } from 'app/modules/admin/duplicados_diploma/duplicados.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ResolucionesResolver implements Resolve<any>
+export class DuplicadosDatosDiplomaResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _resolucionesService: ResolucionesService)
+    constructor(private _duplicadosService: DuplicadosDiplomaService)
     {
     }
 
@@ -27,22 +26,22 @@ export class ResolucionesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Resolucion[]>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomasInterface[] }>
     {
-        return this._resolucionesService.getResoluciones();
+        return this._duplicadosService.getDuplicadosDatosDiploma();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class ResolucionResolver implements Resolve<any>
+export class DuplicadoDatosDiplomaResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
     constructor(
-        private _resolucionesService: ResolucionesService,
+        private _duplicadosService: DuplicadosDiplomaService,
         private _router: Router
     )
     {
@@ -58,11 +57,11 @@ export class ResolucionResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Resolucion>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DuplicadosDiplomasInterface>
     {
-        return this._resolucionesService.getResolucionById(Number(route.paramMap.get('id')))
+        return this._duplicadosService.getDuplicadoByid(Number(route.paramMap.get('idTramite')))
                    .pipe(
-                       // Error here means the requested user is not available
+                       // Error here means the requested madurity_level is not available
                        catchError((error) => {
 
                            // Log the error
@@ -81,15 +80,17 @@ export class ResolucionResolver implements Resolve<any>
     }
 }
 
+
 @Injectable({
     providedIn: 'root'
 })
-export class ResolucionesRolesResolver implements Resolve<any>
+export class TiposTramitesResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _resolucionesService: ResolucionesService)
+    constructor(private _duplicadosService: DuplicadosDiplomaService,
+        private _router: Router)
     {
     }
 
@@ -103,21 +104,22 @@ export class ResolucionesRolesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Role[]>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
     {
-        return this._resolucionesService.getRoles();
+        return this._duplicadosService.getTipoTramitesDuplicados();
     }
 }
 
+
 @Injectable({
     providedIn: 'root'
 })
-export class ResolucionesUnidadesResolver implements Resolve<any>
+export class ProgramasEstudiosResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _resolucionesService: ResolucionesService)
+    constructor(private _duplicadosService: DuplicadosDiplomaService)
     {
     }
 
@@ -131,36 +133,8 @@ export class ResolucionesUnidadesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Unidad[]>
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomaService[] }>
     {
-        return this._resolucionesService.getUnidades();
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class ResolucionCronogramasResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _resolucionesService: ResolucionesService)
-    {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Cronograma[]>
-    {
-        return this._resolucionesService.getCronogramas(Number(route.paramMap.get('id')));
+        return this._duplicadosService.getProgramasEstudios();
     }
 }

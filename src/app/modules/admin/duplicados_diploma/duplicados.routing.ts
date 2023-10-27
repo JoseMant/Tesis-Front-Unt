@@ -10,7 +10,17 @@ import { ValidarDuplicadoDetalleComponent } from './secretaria/validados/details
 import { DuplicadosAprobadosComponent } from './secretaria/aprobados/aprobados.component';
 import { DuplicadosAprobadosListComponent } from './secretaria/aprobados/list/list.component';
 import { DuplicadoAprobadoDetalleComponent } from './secretaria/aprobados/details/details.component';
-import { DuplicadoAprobadoResolver, DuplicadosAprobadosValidadosResolver } from './secretaria/aprobados/aprobados.resolvers';
+import { DuplicadoAprobadoResolver, DuplicadosAprobadosResolver } from './secretaria/aprobados/aprobados.resolvers';
+import { DuplicadosValidadosUraComponent } from './ura/validados/validados.component';
+import { DuplicadosValidadosUraResolver, DuplicadoValidadoUraResolver,TiposTramitesResolver } from './ura/validados/validados.resolvers';
+import { DuplicadosValidacionUraListComponent } from './ura/validados/list/list.component';
+import { DuplicadoUraDetalleComponent } from './ura/validados/details/details.component';
+// ------------------------
+import { DuplicadosDatosDiplomaComponent } from './ura/diplomas/diplomas.component';
+import { DuplicadosDatosDiplomaResolver, DuplicadoDatosDiplomaResolver, ProgramasEstudiosResolver} from './ura/diplomas/diplomas.resolvers';
+import { DuplicadosDatosDiplomaListComponent } from './ura/diplomas/list/list.component';
+import { DuplicadoDatosDiplomaDetalleComponent } from './ura/diplomas/details/details.component';
+import { UniversidadesResolver } from 'app/shared/universidades/universidades.resolvers';
 
 
 export const duplicadosRoutes: Route[] = [
@@ -40,7 +50,7 @@ export const duplicadosRoutes: Route[] = [
         path     : 'secretaria/aprobar',
         component: DuplicadosAprobadosComponent,
         resolve  : {
-            tramites : DuplicadosAprobadosValidadosResolver,
+            tramites : DuplicadosAprobadosResolver,
         },
         children : [
             {
@@ -57,5 +67,53 @@ export const duplicadosRoutes: Route[] = [
             }          
            
         ]
-    }
+    },
+    {
+        path     : 'ura/validar',
+        component: DuplicadosValidadosUraComponent,
+        resolve  : {
+            tramites : DuplicadosValidadosUraResolver,
+            tipos_tramites: TiposTramitesResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: DuplicadosValidacionUraListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : DuplicadoUraDetalleComponent,
+                resolve      : {
+                    duplicado      : DuplicadoValidadoUraResolver,
+                  },
+                
+            }          
+           
+        ]
+    },
+    {
+        path     : 'ura/datos/diploma',
+        component: DuplicadosDatosDiplomaComponent,
+        resolve  : {
+            tramites : DuplicadosDatosDiplomaResolver,
+            tipos_tramites: TiposTramitesResolver,
+        },
+        children : [
+            {
+                path     : '',
+                component: DuplicadosDatosDiplomaListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : DuplicadoDatosDiplomaDetalleComponent,
+                resolve      : {
+                    duplicado      : DuplicadoDatosDiplomaResolver,
+                    programas_estudios: ProgramasEstudiosResolver,
+                    universidades: UniversidadesResolver
+                  },
+                
+            }          
+           
+        ]
+    },
 ];

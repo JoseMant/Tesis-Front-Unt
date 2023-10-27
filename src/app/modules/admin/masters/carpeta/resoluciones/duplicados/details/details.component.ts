@@ -6,13 +6,13 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Resolucion, Role, Unidad } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
-import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/list/list.component';
-import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.service';
+import { ResolucionesDuplicadosListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/list/list.component';
+import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/duplicados.service';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/dialog/dialog.component';
+import { ResolucionDuplicadoTramitesDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/dialog/dialog.component';
 @Component({
     selector       : 'resoluciones-details',
     templateUrl    : './details.component.html',
@@ -76,7 +76,7 @@ import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResolucionesDetailsComponent implements OnInit, OnDestroy
+export class ResolucionesDuplicadosDetailsComponent implements OnInit, OnDestroy
 {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
 
@@ -90,11 +90,19 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     resolucionForm: FormGroup;
     resoluciones: Resolucion[];
     unidades: Unidad[];
-    cronogramas: any;
-    cronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    cronogramasTableColumns: string[] = ['ID', 'unidad', 'dependencia', 'fecha_colacion'];
-    recentCronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    recentCronogramasTableColumns: string[] = ['ID', 'unidad', 'dependencia', 'fecha_colacion'];
+    tipos_resolucion: any;
+    
+    // cronogramas: any;
+    // cronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    // cronogramasTableColumns: string[] = ['ID', 'unidad', 'dependencia', 'fecha_colacion'];
+    // recentCronogramasDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    // recentCronogramasTableColumns: string[] = ['ID', 'unidad', 'dependencia', 'fecha_colacion'];
+    
+    tramites: any;
+    tramitesDuplicadosDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    tramitesDuplicadosTableColumns: string[] = ['ID', 'solicitante','tramite','programa', 'dependencia'];
+    recentTramitesDuplicadosDataSource: MatTableDataSource<any> = new MatTableDataSource();
+    recentTramitesDuplicadosTableColumns: string[] = ['ID', 'solicitante','tramite','programa', 'dependencia'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -103,7 +111,7 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _resolucionesListComponent: ResolucionesListComponent,
+        private _resolucionesListComponent: ResolucionesDuplicadosListComponent,
         private _resolucionesService: ResolucionesService,
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
@@ -145,6 +153,9 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             archivoPdf        : [''],
             estado        : [null, [Validators.required]],
             cronogramas : [[]],
+            tramites : [[]],
+            idTipo_resolucion : [[]],
+            tipo_emision:'D',
             avatar      : [null]
         });
 
@@ -169,12 +180,13 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
                 // Get the resolucion
                 this.resolucion = resolucion;
                 this.resolucion.background = "assets/images/cards/"+ "14" +"-640x480.jpg";
+                console.log(this.resolucion);
 
                 // Patch values to the form
                 this.resolucionForm.patchValue(resolucion);
 
                 // Store the table data
-                this.cronogramasDataSource.data = resolucion.cronogramas;
+                this.tramitesDuplicadosDataSource.data = resolucion.tramites;
 
                 // Toggle the edit mode off
                 if (!resolucion.idResolucion) {
@@ -191,6 +203,15 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: Unidad[]) => {
                 this.unidades = unidades;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        this._resolucionesService.tipos_resolucion$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((tipos_resolucion: any) => {
+                this.tipos_resolucion = tipos_resolucion;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -213,10 +234,10 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
     //     );
     // }
 
-    dialogCronogramas(): void {
-        console.log(this.resolucionForm.getRawValue())
+
+    dialogTramitesDuplicados(): void {
         const dialogRef = this._matDialog.open(
-            ResolucionCronogramasDialogComponent,
+            ResolucionDuplicadoTramitesDialogComponent,
             {
                 data: this.resolucionForm.getRawValue(),
                 disableClose: true,
@@ -226,14 +247,16 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
         );
 
         dialogRef.afterClosed().subscribe(result => {
+            console.log(this.recentTramitesDuplicadosDataSource.data)
             if (result.seleccionados.length) {
-                let cronogramasSeleccionados = []
+                let tramitesDuplicadosSeleccionados = []
                 result.seleccionados.forEach(element => {
-                    const cronograma = result.cronogramas.find((item) => item.idCronograma_carpeta == element)
-                    cronogramasSeleccionados.push(cronograma)
+                    const tramiteDuplicado = result.tramites.find((item) => item.idTramite == element)
+                    tramitesDuplicadosSeleccionados.push(tramiteDuplicado)
                 });
-                this.resolucionForm.get('cronogramas').patchValue(cronogramasSeleccionados);
-                this.recentCronogramasDataSource.data = cronogramasSeleccionados;
+                this.resolucionForm.get('tramites').setValue(tramitesDuplicadosSeleccionados);
+                console.log(tramitesDuplicadosSeleccionados);
+                this.recentTramitesDuplicadosDataSource.data = tramitesDuplicadosSeleccionados;
                 // console.log(this.recentCronogramasDataSource);
                 
                 // Mark for check
@@ -280,7 +303,7 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
             this.editMode = editMode;
         }
         if(this.editMode) {
-            this.recentCronogramasDataSource.data = this.resolucionForm.get('cronogramas').value;
+            this.recentTramitesDuplicadosDataSource.data = this.resolucionForm.get('tramites').value;
         }
 
         // Mark for check
@@ -314,6 +337,8 @@ export class ResolucionesDetailsComponent implements OnInit, OnDestroy
 
         // Create the resolucion on the server
         this._resolucionesService.createResolucion(resolucion).subscribe((newResolucion) => {
+
+            // this.resolucion = newResolucion;
 
             this.resolucionForm.enable();
 

@@ -431,14 +431,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validados Secretaria',
                 type : 'basic',
                 link : '/duplicados_diplomas/secretaria/validar',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 id   : 'duplicados_diplomas.aprobar',
                 title: 'Aprobados Secretaria',
                 type : 'basic',
                 link : '/duplicados_diplomas/secretaria/aprobar',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'duplicados_diplomas.validar.ura',
+                title: 'Validados Ura',
+                type : 'basic',
+                link : '/duplicados_diplomas/ura/validar',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'duplicados_diplomas.ura.datos.diploma',
+                title: 'Datos Diplomas en Ura',
+                type : 'basic',
+                link : '/duplicados_diplomas/ura/datos/diploma',
+                permissions: ['ADMINISTRADOR']
             }
         ]
     },
@@ -495,38 +509,38 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     },
-    // {
-    //     id   : 'constancias',
-    //     title: 'Constancias',
-    //     type : 'collapsable',
-    //     icon : 'heroicons_outline:document-text',
-    //     children: [
-    //         {
-    //             // Se muestran al usuario para ser asignados después de validación en tesorería
-    //             id   : 'constancias.validadas',
-    //             title: 'Validadas',
-    //             type : 'basic',
-    //             link : '/constancias/validadas',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //         {
-    //             // Se muestran al usuario para validar requisitos
-    //             id   : 'constancias.asignadas',
-    //             title: 'Asignadas',
-    //             type : 'basic',
-    //             link : '/constancias/asignadas',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //         {
-    //             // Se muestran para la firma del jefe de RT
-    //             id   : 'constancias.firma_uraa',
-    //             title: 'Firma URA-a',
-    //             type : 'basic',
-    //             link : '/constancias/firma_uraa',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //     ]
-    // },
+    {
+        id   : 'constancias',
+        title: 'Constancias',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                // Se muestran al usuario para ser asignados después de validación en tesorería
+                id   : 'constancias.validadas',
+                title: 'Validadas',
+                type : 'basic',
+                link : '/constancias/validadas',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                // Se muestran al usuario para validar requisitos
+                id   : 'constancias.asignadas',
+                title: 'Asignadas',
+                type : 'basic',
+                link : '/constancias/asignadas',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                // Se muestran para la firma del jefe de RT
+                id   : 'constancias.firma_uraa',
+                title: 'Firma URA-a',
+                type : 'basic',
+                link : '/constancias/firma_uraa',
+                permissions: ['ADMINISTRADOR']
+            },
+        ]
+    },
     {
         id   : 'carnets',
         title: 'Carnets',
@@ -704,9 +718,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     {
                         id   : 'masters.carpeta.resoluciones',
                         title: 'Resoluciones',
-                        type : 'basic',
-                        link : '/masters/carpeta/resoluciones',
-                        permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
+                        type : 'collapsable',
+                        permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL'],
+                        children: [
+                            {
+                                id   : 'masters.carpeta.resoluciones.graduados',
+                                title: 'Graduados',
+                                type : 'basic',
+                                link : '/masters/carpeta/resoluciones/graduados',
+                                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
+                            },
+                            {
+                                id   : 'masters.carpeta.resoluciones.duplicados',
+                                title: 'Duplicados',
+                                type : 'basic',
+                                link : '/masters/carpeta/resoluciones/duplicados',
+                                permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
+                            },
+                        ]
                     },
                     {
                         id   : 'masters.carpeta.oficios',

@@ -66,7 +66,44 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(tramites$ | async) as tramites">
                             <ng-container *ngFor="let tramite of tramites; trackBy: trackByFn">
-                                <div class="home-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div *ngIf="tramite.idEstado_tramite==57" class="bg-lime-200 home-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+                                    <!-- SKU -->
+                                    <div>
+                                        <!-- {{tramite.sku}} -->
+                                        {{tramite.nro_tramite}}
+                                    </div>
+
+                                    <!-- Name -->
+                                    <div class="truncate">
+                                        <!-- {{tramite.name}} -->
+                                        {{tramite.tramite}}
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div class="hidden sm:block">
+                                        <!-- {{tramite.price | currency:'USD':'symbol':'1.2-2'}} -->
+                                        {{tramite.created_at | date:'MMM dd, y'}}
+                                    </div>
+
+                                    <!-- Stock -->
+                                    <div class="hidden md:block truncate">
+                                        {{tramite.estado}}
+                                    </div>
+
+                                    <!-- Details button -->
+                                    <div>
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            (click)="toggleDetails(tramite.idTramite)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="selectedTramite?.id === tramite.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div *ngIf="tramite.idEstado_tramite!==57"  class="home-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- SKU -->
                                     <div>

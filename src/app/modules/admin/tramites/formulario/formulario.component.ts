@@ -407,6 +407,13 @@ export class TramiteListComponent implements OnInit, OnDestroy
             }
             this.subdependencias = first.subdependencias;
         }
+
+        // Reinicio de cronogramas para cuando se cambie de dependencia
+        this._tramiteService.getCronogramasByTipoTramiteUnidad(this.data.idTipo_tramite_unidad, this.data.idDependencia).subscribe((response)=>{
+            this.cronogramas = response;
+            
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     selectedEscuela(id): void {
@@ -591,7 +598,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.tramiteForm.markAllAsTouched();
             return;
         }
-        const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
+        const requis = this.data.requisitos.find(element => element.responsable == 4 && element.idRequisito !== 89 && element.idRequisito !== 90 && element.idRequisito !== 91 && 
+            element.idRequisito !== 102 && element.idRequisito !== 108 && element.idRequisito !== 114 &&  ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
         if (requis) {
             this.alert = {
                 type   : 'warn',

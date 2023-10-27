@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { Resolucion, Role, Unidad } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
+import { Resolucion, Role, Unidad, Tipo_Resolucion} from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
 import { environment } from 'environments/environment';
-import { Cronograma } from '../cronogramas/cronogramas.types';
+import { Cronograma } from 'app/modules/admin/masters/carpeta/cronogramas/cronogramas.types';
+import { TramiteInterface } from 'app/modules/admin/tramites/tramites.types';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,8 @@ export class ResolucionesService
     private _unidades: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     private _dependencias: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _cronogramas: BehaviorSubject<Cronograma[] | null> = new BehaviorSubject(null);
+    private _tramites: BehaviorSubject<TramiteInterface[] | null> = new BehaviorSubject(null);
+    private _tipos_resolucion: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -69,6 +72,11 @@ export class ResolucionesService
         return this._cronogramas.asObservable();
     }
 
+    get tramites$(): Observable<TramiteInterface[]>
+    {
+        return this._tramites.asObservable();
+    }
+
     /**
      * Getter for dependencias
      */
@@ -77,6 +85,9 @@ export class ResolucionesService
         return this._dependencias.asObservable();
     }
 
+    get tipos_resolucion$(): Observable<any> {
+        return this._tipos_resolucion.asObservable();
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -86,7 +97,9 @@ export class ResolucionesService
      */
     getResoluciones(): Observable<Resolucion[]>
     {
-        return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/all').pipe(
+        return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/all',{
+            params: {tipo_emision:'D'}
+        }).pipe(
             tap((resoluciones) => {
                 this._resoluciones.next(resoluciones);
             })
@@ -101,7 +114,7 @@ export class ResolucionesService
     searchResoluciones(search: string): Observable<Resolucion[]>
     {
         return this._httpClient.get<Resolucion[]>(environment.baseUrl + 'resoluciones/all', {
-            params: {search}
+            params: {search,idTipo_resolucion:2}
         }).pipe(
             tap((resoluciones) => {
                 this._resoluciones.next(resoluciones);
@@ -128,7 +141,9 @@ export class ResolucionesService
                         fecha: '',
                         archivo: '',
                         estado: true,
-                        cronogramas: []
+                        cronogramas: [],
+                        idTipo_resolucion: 2,
+                        tramites: []
                     };
                 } else {
                     if (resolucion.archivo) resolucion.archivo = environment.baseUrlStorage + resolucion.archivo;
@@ -161,7 +176,7 @@ export class ResolucionesService
             take(1),
             switchMap(resoluciones => this._httpClient.post<Resolucion>(environment.baseUrl + 'resoluciones/create', resolucion).pipe(
                 map((newResolucion) => {
-
+                    console.log(newResolucion);
                     // Update the resoluciones with the new resolucion
                     this._resoluciones.next([newResolucion, ...resoluciones]);
 
@@ -294,6 +309,24 @@ export class ResolucionesService
         );
     }
 
+    getTramitesDuplicados(resolucion: number): Observable<TramiteInterface[]>
+    {
+        return this._httpClient.get(environment.baseUrl + 'resolucion/tramites/duplicados/' + resolucion).pipe(
+            tap((response: TramiteInterface[]) => {
+                console.log(response);
+                this._tramites.next(response);
+            })
+        );
+    }
+
+    getTipos_Resolucion(){
+        return this._httpClient.get<Tipo_Resolucion[]>(environment.baseUrl + 'tipos/resoluciones').pipe(
+            tap((response) => {
+                this._tipos_resolucion.next(response);
+                console.log(response);
+            })
+        );
+    }
     /**
      * Update the avatar of the given resolucion
      *

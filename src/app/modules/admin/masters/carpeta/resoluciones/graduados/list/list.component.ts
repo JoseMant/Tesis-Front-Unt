@@ -6,7 +6,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { filter, fromEvent, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Resolucion, Role } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.types';
-import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.service';
+import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resoluciones/graduados/graduados.service';
 
 @Component({
     selector       : 'resoluciones-list',
@@ -14,7 +14,7 @@ import { ResolucionesService } from 'app/modules/admin/masters/carpeta/resolucio
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResolucionesListComponent implements OnInit, OnDestroy
+export class ResolucionesGraduadosListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
 

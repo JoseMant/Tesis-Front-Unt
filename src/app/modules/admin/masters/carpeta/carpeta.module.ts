@@ -32,10 +32,15 @@ import { CronogramasComponent } from 'app/modules/admin/masters/carpeta/cronogra
 import { CronogramasListComponent } from 'app/modules/admin/masters/carpeta/cronogramas/list/list.component';
 import { CronogramasDetailsComponent } from 'app/modules/admin/masters/carpeta/cronogramas/details/details.component';
 
-import { ResolucionesComponent } from 'app/modules/admin/masters/carpeta/resoluciones/resoluciones.component';
-import { ResolucionesListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/list/list.component';
-import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
-import { ResolucionCronogramasDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/dialog/dialog.component';
+import { ResolucionesGraduadosComponent } from 'app/modules/admin/masters/carpeta/resoluciones/graduados/graduados.component';
+import { ResolucionesGraduadosListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/graduados/list/list.component';
+import { ResolucionesGraduadosDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/graduados/details/details.component';
+import { ResolucionesGraduadoCronogramasDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/graduados/dialog/dialog.component';
+
+import { ResolucionesDuplicadosComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/duplicados.component';
+import { ResolucionesDuplicadosListComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/list/list.component';
+import { ResolucionesDuplicadosDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/details/details.component';
+import { ResolucionDuplicadoTramitesDialogComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/dialog/dialog.component';
 
 import { OficiosComponent } from 'app/modules/admin/masters/carpeta/oficios/oficios.component';
 import { OficiosListComponent } from 'app/modules/admin/masters/carpeta/oficios/list/list.component';
@@ -50,15 +55,21 @@ import { carpetaRoutes } from 'app/modules/admin/masters/carpeta/carpeta.routing
         CronogramasListComponent,
         CronogramasDetailsComponent,
         
-        ResolucionesComponent,
-        ResolucionesListComponent,
-        ResolucionesDetailsComponent,
-        ResolucionCronogramasDialogComponent,
+        ResolucionesGraduadosComponent,
+        ResolucionesGraduadosListComponent,
+        ResolucionesGraduadosDetailsComponent,
+        ResolucionesGraduadoCronogramasDialogComponent,
+        ResolucionDuplicadoTramitesDialogComponent,
 
         OficiosComponent,
         OficiosListComponent,
         OficiosDetailsComponent,
-        OficioResolucionesDialogComponent
+        OficioResolucionesDialogComponent,
+
+        ResolucionesDuplicadosComponent,
+        ResolucionesDuplicadosListComponent,
+        ResolucionesDuplicadosDetailsComponent,
+        ResolucionDuplicadoTramitesDialogComponent,
     ],
     imports     : [
         RouterModule.forChild(carpetaRoutes),

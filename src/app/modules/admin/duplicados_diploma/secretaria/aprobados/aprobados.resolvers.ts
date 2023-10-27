@@ -7,7 +7,7 @@ import { DuplicadosDiplomasInterface, DuplicadosDiplomasPagination } from '../..
 @Injectable({
     providedIn: 'root'
 })
-export class DuplicadosAprobadosValidadosResolver implements Resolve<any>
+export class DuplicadosAprobadosResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -28,7 +28,7 @@ export class DuplicadosAprobadosValidadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomasInterface[] }>
     {
-        return this._duplicadosService.getSolicitudesDuplicados();
+        return this._duplicadosService.getDuplicadosAprobados();
     }
 }
 

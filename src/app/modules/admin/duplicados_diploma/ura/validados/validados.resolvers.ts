@@ -7,7 +7,7 @@ import { DuplicadosDiplomasInterface,DuplicadosDiplomasPagination } from 'app/mo
 @Injectable({
     providedIn: 'root'
 })
-export class DuplicadosValidadosResolver implements Resolve<any>
+export class DuplicadosValidadosUraResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -28,14 +28,14 @@ export class DuplicadosValidadosResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomasInterface[] }>
     {
-        return this._duplicadosService.getDuplicadosValidados();
+        return this._duplicadosService.getDuplicadosValidadosUra();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class DuplicadoValidadoResolver implements Resolve<any>
+export class DuplicadoValidadoUraResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -77,5 +77,35 @@ export class DuplicadoValidadoResolver implements Resolve<any>
                            return throwError(error);
                        })
                    );
+    }
+}
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class TiposTramitesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _duplicadosService: DuplicadosDiplomaService,
+        private _router: Router)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
+    {
+        return this._duplicadosService.getTipoTramitesDuplicados();
     }
 }

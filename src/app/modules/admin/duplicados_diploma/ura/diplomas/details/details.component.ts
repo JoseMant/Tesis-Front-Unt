@@ -1,25 +1,22 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
+import { DuplicadosDiplomaService } from '../../../duplicados.service';
+import { DuplicadosDiplomasInterface } from '../../../duplicados.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-import { RequisitosDialogComponent } from 'app/modules/admin/titulos_SE/dialogReq/dialogReq.component';
-import { DuplicadosDiplomasInterface } from '../../../duplicados.types';
-import { DuplicadosDiplomaService } from '../../../duplicados.service';
-
+import moment from 'moment';
+import { UniversidadInterface } from 'app/shared/universidades/universidades.types';
+import { UniversidadesService } from 'app/shared/universidades/universidades.service';
 
 @Component({
-    selector       : 'titulo-details',
+    selector       : 'duplicado-datos-diploma-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -82,12 +79,10 @@ import { DuplicadosDiplomaService } from '../../../duplicados.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class ValidarDuplicadoDetalleComponent implements OnInit, OnDestroy
+export class DuplicadoDatosDiplomaDetalleComponent implements OnInit, OnDestroy
 {
-    @ViewChild(MatPaginator) private _paginator: MatPaginator;
-    @ViewChild(MatAccordion) private _accordion: MatAccordion;
-    @ViewChild(MatSort) private _sort: MatSort;
-
+    @ViewChild('duplicadoNgForm') duplicadoNgForm: NgForm;
+    @ViewChild('corregirNgForm') corregirNgForm: NgForm;
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
         message: '',
@@ -95,7 +90,14 @@ export class ValidarDuplicadoDetalleComponent implements OnInit, OnDestroy
     };
     duplicado: DuplicadosDiplomasInterface | null = null;
     duplicadoForm: FormGroup;
+    corregirForm: FormGroup;
     contador: number = 4;
+    maxDate: any;
+    modalidades_sustentacion: any;
+    programas_estudios: any;
+    diplomas: any;
+    universidades: UniversidadInterface[];
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -103,7 +105,8 @@ export class ValidarDuplicadoDetalleComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _duplicadosService: DuplicadosDiplomaService,
+        private _duplicadoService: DuplicadosDiplomaService,
+        private _universidadesService: UniversidadesService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -124,62 +127,96 @@ export class ValidarDuplicadoDetalleComponent implements OnInit, OnDestroy
         });
     }
 
+    limiteFecha(): void {
+        const now = moment();
+        this.maxDate = now;
+    }
+
     /**
      * On init
      */
     ngOnInit(): void
     {
-        // Create the selected maduritylevel form
+        this.limiteFecha();
+
+        // Create the selected duplicado form
         this.duplicadoForm = this._formBuilder.group({
             idTramite: [''],
-            idTipo_tramite: [''],
-            nro_documento: [''],
-            idColacion: [''],
-            idEstado_tramite: [''],
-            idModalidad_titulo: [''],
-            descripcion_estado: [''],
-            codigo: [''],
-            entidad: ['', Validators.required],
-            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
-            fecha_operacion: ['', Validators.required],
-            archivo: [''],
-            idMotivo_tramite: [''],
-            comentario: [''],
-            apellidos: [''],
-            nombres: [''],
-            documento: [''],
-            celular: [''],
-            correo: [''],
-            idFacultad: [''],
-            idEscuela: [''],
-            sede: [''],
-            nro_matricula: [''],
-            tipo_documento: [''],
-            sexoNombre: [''],
+            // idPrograma: [''],
             idUnidad: [''],
             idTipo_tramite_unidad: [''],
-            archivo_firma: [''],
-            archivoImagen: [''],
-            requisitos: [''],
 
-            fecha_cierre_decanato: ['']
+            idModalidad_carpeta: ['', Validators.required],
+            fecha_colacion: ['', Validators.required],
+            
+            idDiploma_carpeta: ['', Validators.required],
+            
+            idUniversidad: ['', Validators.required],
+
+            
         });
 
         // Get the duplicado
-        this._duplicadosService.duplicado$
+        this._duplicadoService.duplicado$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((duplicado: DuplicadosDiplomasInterface) => {
+
                 // Get the duplicado
                 this.duplicado = duplicado;
 
                 // Patch values to the form
                 this.duplicadoForm.patchValue(duplicado);
 
+                let idTipo_tramite_unidad=duplicado.idTipo_tramite_unidad;
+                if (idTipo_tramite_unidad==42||idTipo_tramite_unidad==47) {
+                    idTipo_tramite_unidad=15;
+                }else if (idTipo_tramite_unidad==43||idTipo_tramite_unidad==48) {
+                    idTipo_tramite_unidad=16;
+                } else if (idTipo_tramite_unidad==44||idTipo_tramite_unidad==49) {
+                    idTipo_tramite_unidad=34;
+                }
+
+                this._duplicadoService.getDiplomasByTipoTramiteUnidad(duplicado.idUnidad, idTipo_tramite_unidad, duplicado.idPrograma)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((diplomas: any) => {
+                        this.diplomas = diplomas;
+            
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
+
+                this._duplicadoService.getModalidadesSustentacion(idTipo_tramite_unidad)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((modalidades_sustentacion: any) => {
+                        this.modalidades_sustentacion = modalidades_sustentacion;
+            
+                        // Mark for check
+                        this._changeDetectorRef.markForCheck();
+                    });
+
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
+        this._duplicadoService.programas_estudios$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((programas_estudios: any) => {
+                this.programas_estudios = programas_estudios;
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });   
+        
+        this._universidadesService.universidades$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((universidades: UniversidadInterface[]) => {
+                this.universidades = universidades;
+    
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
     }
+
 
     /**
      * On destroy
@@ -200,75 +237,45 @@ export class ValidarDuplicadoDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-    validarRequisito(requisito, lectura, index): void {
-        requisito['lectura'] = lectura;
-        const dialogRef = this.visordialog.open(RequisitosDialogComponent, {
-            autoFocus: false,
-            disableClose: true,
-            data: JSON.parse( JSON.stringify(requisito) )
-        });
-        //--------- desde aquí falta 
-        dialogRef.afterClosed().subscribe( (response) => {
-            // If the confirm button pressed...
-            if ( response )
-            {
-                this.duplicado.requisitos[index].des_estado_requisito = response.getRawValue().des_estado_requisito;
-                if (requisito.des_estado_requisito == 'APROBADO') {
-                    this.duplicado.requisitos[index].validado = 1;
-                } else if (requisito.des_estado_requisito == 'RECHAZADO') {
-                    this.duplicado.requisitos[index].validado = 0;
-                    this.duplicado.requisitos[index].comentario = response.getRawValue().comentario;
-                }
-                this.duplicadoForm.patchValue({ requisitos: this.duplicado.requisitos});
-                
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            }
-        });
-    }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    
-    updateRequisitos(): void
-    {
-        
+
+    enviarDatos(): void {
+        if (this.duplicadoForm.invalid) {
+            this.duplicadoForm.markAllAsTouched();
+            return;
+        }
+
         // Get the contact object
         const duplicado = this.duplicadoForm.getRawValue();
+        if (duplicado.fecha_colacion) duplicado.fecha_colacion = new Date(duplicado.fecha_colacion).toISOString().substring(0,10);
+        else duplicado.fecha_colacion = null;
+        
+        
         // Disable the form
         this.duplicadoForm.disable();
         
         // Update the contact on the server
-        this._duplicadosService.updateDuplicado(duplicado.idTramite, duplicado).subscribe(() => {
+        this._duplicadoService.sendDatos(duplicado.idTramite, duplicado).subscribe(() => {
 
             // Re-enable the form
-            this.duplicadoForm.enable();
+            // this.duplicadoForm.enable();
 
             // Show a success message
             this.alert = {
                 type   : 'success',
-                message: 'Trámite actualizado correctamente',
+                message: 'Trámite enviado correctamente',
                 title: 'Guardado'
             };
             this.openSnack();
             
             // Mark for check
             this._changeDetectorRef.markForCheck();
-        },
-        (response) => {
-
-            // Re-enable the form
-            this.duplicadoForm.enable();
-
-            this.alert = {
-                type   : 'warn',
-                message: response.error.message,
-                title: 'Error'
-            };
-            this.openSnack();
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
         });
     }
+    
+    
 }

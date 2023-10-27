@@ -460,10 +460,6 @@ export class CarpetasService
             take(1),
             switchMap(carpetas => this._httpClient.post<any[]>(environment.baseUrl + 'carpetas/finalizar', {"idResolucion":resolucion}).pipe(
                 map((updatedGrados) => {
-                    console.log(updatedGrados);
-                    // debugger;
-                    // Update the messages with the new message
-                    // this._carpetasService.getGradosValidados(0, 10, 'fecha', 'desc', query);
                     updatedGrados.forEach(element => {
                         // Find the index of the deleted product
                         const index = carpetas.findIndex(item => item.idTramite === element.idTramite);

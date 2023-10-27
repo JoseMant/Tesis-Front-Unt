@@ -253,7 +253,6 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                 // Set the selected tramite
                 this.selectedTramite = tramite;
                 this.historial.data = tramite.historial;
-
                 // Fill the form
                 // this.selectedTramiteForm.patchValue(tramite);
 

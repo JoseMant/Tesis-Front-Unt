@@ -31,12 +31,22 @@ import { duplicadosRoutes } from 'app/modules/admin/duplicados_diploma/duplicado
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+// -----------------------------------------------------------------------------------------
 import { DuplicadosValidadosComponent } from './secretaria/validados/validados.component';
 import { ValidarDuplicadosListComponent } from './secretaria/validados/list/list.component';
 import { ValidarDuplicadoDetalleComponent } from './secretaria/validados/details/details.component';
+// ----------------------------------------------------------------------------------------------
 import { DuplicadosAprobadosListComponent } from './secretaria/aprobados/list/list.component';
 import { DuplicadosAprobadosComponent } from './secretaria/aprobados/aprobados.component';
 import { DuplicadoAprobadoDetalleComponent } from './secretaria/aprobados/details/details.component';
+// ------------------------------------------------------------------------------------------
+import { DuplicadosValidadosUraComponent } from './ura/validados/validados.component';
+import { DuplicadosValidacionUraListComponent } from './ura/validados/list/list.component';
+import { DuplicadoUraDetalleComponent } from './ura/validados/details/details.component';
+// ------------------------------------------------------------------------------------------
+import { DuplicadosDatosDiplomaComponent } from './ura/diplomas/diplomas.component';
+import { DuplicadosDatosDiplomaListComponent } from './ura/diplomas/list/list.component';
+import { DuplicadoDatosDiplomaDetalleComponent } from './ura/diplomas/details/details.component';
 
 
 @NgModule({
@@ -45,10 +55,17 @@ import { DuplicadoAprobadoDetalleComponent } from './secretaria/aprobados/detail
         ValidarDuplicadosListComponent,
         ValidarDuplicadoDetalleComponent,
         
-
         DuplicadosAprobadosComponent,
         DuplicadosAprobadosListComponent,
-        DuplicadoAprobadoDetalleComponent
+        DuplicadoAprobadoDetalleComponent,
+
+        DuplicadosValidadosUraComponent,
+        DuplicadosValidacionUraListComponent,
+        DuplicadoUraDetalleComponent,
+
+        DuplicadosDatosDiplomaComponent,
+        DuplicadosDatosDiplomaListComponent,
+        DuplicadoDatosDiplomaDetalleComponent,
     ],
     imports     : [
         RouterModule.forChild(duplicadosRoutes),

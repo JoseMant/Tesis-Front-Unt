@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ResolucionesDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/details/details.component';
+import { ResolucionesDuplicadosDetailsComponent } from 'app/modules/admin/masters/carpeta/resoluciones/duplicados/details/details.component';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class CanDeactivateResolucionesDetails implements CanDeactivate<ResolucionesDetailsComponent>
+export class CanDeactivateResolucionesDuplicadosDetails implements CanDeactivate<ResolucionesDuplicadosDetailsComponent>
 {
     canDeactivate(
-        component: ResolucionesDetailsComponent,
+        component: ResolucionesDuplicadosDetailsComponent,
         currentRoute: ActivatedRouteSnapshot,
         currentState: RouterStateSnapshot,
         nextState: RouterStateSnapshot
@@ -26,7 +26,7 @@ export class CanDeactivateResolucionesDetails implements CanDeactivate<Resolucio
         // If the next state doesn't contain '/resoluciones'
         // it means we are navigating away from the
         // resoluciones app
-        if ( !nextState.url.includes('/resoluciones') )
+        if ( !nextState.url.includes('/resoluciones/duplicados') )
         {
             // Let it navigate
             return true;

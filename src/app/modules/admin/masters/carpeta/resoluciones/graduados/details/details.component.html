@@ -1,0 +1,472 @@
+<div class="flex flex-col w-full">
+
+    <!-- View mode -->
+    <ng-container *ngIf="!editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="resolucion.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="resolucion.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Cerrar'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Resolucion -->
+        <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+
+                <!-- Avatar and actions -->
+                <div class="flex flex-auto items-end -mt-16">
+                    <!-- Avatar -->
+                    <div class="flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                        <img
+                            class="object-cover w-full h-full"
+                            *ngIf="resolucion.avatar"
+                            [src]="resolucion.avatar">
+                        <div
+                            class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!resolucion.avatar">
+                            {{resolucion.idResolucion}}
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center ml-auto mb-1">
+                        <button
+                            mat-stroked-button
+                            (click)="toggleEditMode(true)">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Editar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Name -->
+                <div class="mt-3 text-4xl font-bold truncate">{{resolucion.nro_resolucion}}</div>
+
+                <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
+
+                    <!-- Fecha Resolución -->
+                    <ng-container *ngIf="resolucion.fecha">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                            <div class="ml-6 leading-6">{{resolucion.fecha}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Estado -->
+                    <ng-container *ngIf="resolucion.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                            <div class="ml-6 leading-6">Activo</div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="!resolucion.estado">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:ban'"></mat-icon>
+                            <div class="ml-6 leading-6">Inactivo</div>
+                        </div>
+                    </ng-container>
+                    
+                    <!-- Fecha Cronogramas -->
+                    <ng-container *ngIf="resolucion.cronogramas.length">
+                        <!-- table -->
+                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="p-6">
+                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Colaciones</div>
+                                <div class="text-secondary font-medium">{{resolucionForm.get('cronogramas').value.length}} seleccionada(s)</div>
+                            </div>
+                            <div class="overflow-x-auto mx-6">
+                                <table
+                                    class="w-full bg-transparent"
+                                    mat-table
+                                    matSort
+                                    [dataSource]="cronogramasDataSource"
+                                    [trackBy]="trackByFn"
+                                    #cronogramasTable>
+
+                                    <!-- ID -->
+                                    <ng-container matColumnDef="ID">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            #
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6 font-medium text-sm text-secondary">
+                                                {{cronograma.idCronograma_carpeta}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Unidad -->
+                                    <ng-container matColumnDef="unidad">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Unidad
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.unidad}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Dependencia -->
+                                    <ng-container matColumnDef="dependencia">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Dependencia
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.dependencia}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Fecha de Colación -->
+                                    <ng-container matColumnDef="fecha_colacion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Fecha de Colación
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.fecha_colacion | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="cronogramasTableColumns"></tr>
+                                    <tr
+                                        class="order-row h-16"
+                                        mat-row
+                                        *matRowDef="let row; columns: cronogramasTableColumns;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Edit mode -->
+    <ng-container *ngIf="editMode">
+
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48 px-8 sm:px-12 bg-accent-100 dark:bg-accent-700">
+            <!-- Background -->
+            <ng-container *ngIf="resolucion.background">
+                <img
+                    class="absolute inset-0 object-cover w-full h-full"
+                    [src]="resolucion.background">
+            </ng-container>
+            <!-- Close button -->
+            <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <button
+                    mat-icon-button
+                    [matTooltip]="'Close'"
+                    [routerLink]="['../']">
+                    <mat-icon
+                        class="text-white"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Resolucion form -->
+        <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+                <form [formGroup]="resolucionForm">
+
+                    <!-- Avatar -->
+                    <div class="flex flex-auto items-end -mt-16">
+                        <div class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                            <!-- Image/Letter -->
+                            <img
+                                class="object-cover w-full h-full"
+                                *ngIf="resolucion.avatar"
+                                [src]="resolucion.avatar">
+                            <div
+                                class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                                *ngIf="!resolucion.avatar">
+                                {{resolucion.idResolucion}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resolución -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Resolución</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'nro_resolucion'"
+                                [placeholder]="'Resolución'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha de resolución -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Fecha de resolución</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                            <input
+                                matInput
+                                [max]="maxDate"
+                                [matDatepicker]="fecha_resolucionDatepicker"
+                                [formControlName]="'fecha'"
+                                [placeholder]="'Seleccionar fecha de Resolución'"
+                                readonly>
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="fecha_resolucionDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #fecha_resolucionDatepicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tipo Resolución -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Tipo de Resolución</mat-label>
+                            <mat-select
+                                [formControlName]="'idTipo_resolucion'">
+                                <mat-option [value]="''" disabled>Seleccionar una opción...</mat-option>
+                                <ng-container *ngFor="let tipo of tipos_resolucion">
+                                    <mat-option [value]="tipo.idTipo_resolucion">
+                                        {{tipo.nombre}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fecha Cronogramas -->
+                    <div class="flex flex-col mt-8" *ngIf="resolucionForm.get('cronogramas').value.length">                        
+                        <!-- table -->
+                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="p-6">
+                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Colaciones</div>
+                                <div class="text-secondary font-medium">{{resolucionForm.get('cronogramas').value.length}} seleccionada(s)</div>
+                            </div>
+                            <div class="overflow-x-auto mx-6">
+                                <table
+                                    class="w-full bg-transparent"
+                                    mat-table
+                                    matSort
+                                    [dataSource]="recentCronogramasDataSource"
+                                    [trackBy]="trackByFn"
+                                    #recentCronogramasTable>
+
+                                    <!-- ID -->
+                                    <ng-container matColumnDef="ID">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            #
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6 font-medium text-sm text-secondary">
+                                                {{cronograma.idCronograma_carpeta}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Unidad -->
+                                    <ng-container matColumnDef="unidad">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Unidad
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.unidad}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Dependencia -->
+                                    <ng-container matColumnDef="dependencia">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Dependencia
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.dependencia}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Fecha de Colación -->
+                                    <ng-container matColumnDef="fecha_colacion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Fecha de Colación
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let cronograma">
+                                            <span class="pr-6">
+                                                {{cronograma.fecha_colacion | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="recentCronogramasTableColumns"></tr>
+                                    <tr
+                                        class="order-row h-16"
+                                        mat-row
+                                        *matRowDef="let row; columns: recentCronogramasTableColumns;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="flex flex-col mt-8" *ngIf="resolucion.idResolucion">
+                        <span class="font-semibold mb-2">Estado</span>
+                        <mat-slide-toggle
+                            [formControlName]="'estado'"
+                            [color]="'primary'">
+                            {{resolucionForm.get('estado').value == true? 'Activo' : 'Inactivo'}}
+                        </mat-slide-toggle>
+                    </div>
+
+                    <div class="flex flex-col mt-8 items-center">
+                        <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [matTooltip]="'Gestionar cronogramas'"
+                            (click)="dialogCronogramas()">
+                            Cronogramas
+                        </button>
+                    </div>
+
+
+                    <!-- Actions -->
+                    <div class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t bg-gray-50 dark:bg-transparent">
+                        <!-- Eliminar -->
+                        <!-- <button
+                            mat-button
+                            [color]="'warn'"
+                            [matTooltip]="'Eliminar'"
+                            (click)="deleteResolucion()">
+                            Eliminar
+                        </button> -->
+                        <!-- Cancel -->
+                        <button
+                            class="ml-auto"
+                            mat-button
+                            [matTooltip]="'Cancel'"
+                            (click)="toggleEditMode(false)">
+                            Cancelar
+                        </button>
+                        <!-- Guardar -->
+                        <!-- <button
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="resolucionForm.invalid"
+                            [matTooltip]="'Guardar'"
+                            (click)="saveResolucion()">
+                            Guardar
+                        </button> -->
+                        <button 
+                            class="ml-2"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="resolucionForm.disabled"
+                            [matTooltip]="'Guardar'"
+                            (click)="saveResolucion()">
+                            <span *ngIf="!resolucionForm.disabled">
+                                Guardar
+                            </span>
+                            <mat-progress-spinner
+                                *ngIf="resolucionForm.disabled"
+                                [diameter]="24"
+                                [mode]="'indeterminate'">
+                            </mat-progress-spinner>
+                        </button>
+
+                        <!-- <button *ngIf="grado.idEstado_tramite == 30"
+                            class="ml-4"
+                            mat-flat-button
+                            [color]="'primary'"
+                            [disabled]="gradoForm.disabled"                    
+                            (click)="UpdateRequisitosEscuela()">
+                            <span *ngIf="!gradoForm.disabled">
+                                Guardar
+                            </span>
+                            <mat-progress-spinner
+                                *ngIf="gradoForm.disabled"
+                                [diameter]="24"
+                                [mode]="'indeterminate'"></mat-progress-spinner>
+                        </button> -->
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>
