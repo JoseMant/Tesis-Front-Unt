@@ -29,7 +29,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite digital',
                 type : 'basic',
                 link : '/tramites/digitales',
-                permissions: ['ALUMNO']
+                permissions: ['ALUMNO','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
             },
             {
                 id   : 'tramites.fisicos',
@@ -87,14 +87,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validación Resoluciones',
                 type : 'basic',
                 link : '/resoluciones/validacion',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
             },
             {
                 id   : 'resoluciones.observados',
                 title: 'Resoluciones Observadas',
                 type : 'basic',
                 link : '/resoluciones/observados',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
             },
             {
                 id   : 'resoluciones.finalizados',
