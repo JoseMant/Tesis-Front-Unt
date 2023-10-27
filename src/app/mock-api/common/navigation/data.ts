@@ -29,7 +29,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite digital',
                 type : 'basic',
                 link : '/tramites/digitales',
-                permissions: ['ALUMNO','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+                permissions: ['ALUMNO']
             },
             {
                 id   : 'tramites.fisicos',
@@ -43,7 +43,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite Secretaria',
                 type : 'basic',
                 link : '/tramites/secretaria',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA']
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
             }
         ]
     },
@@ -87,21 +87,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validación Resoluciones',
                 type : 'basic',
                 link : '/resoluciones/validacion',
-                permissions: ['ADMINISTRADOR','JEFE DE SUBUNIDAD DE MATRÍCULAS']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 id   : 'resoluciones.observados',
                 title: 'Resoluciones Observadas',
                 type : 'basic',
                 link : '/resoluciones/observados',
-                permissions: ['ADMINISTRADOR','JEFE DE SUBUNIDAD DE MATRÍCULAS']
+                permissions: ['ADMINISTRADOR']
             },
             {
                 id   : 'resoluciones.finalizados',
                 title: 'Resoluciones Finalizados',
                 type : 'basic',
                 link : '/resoluciones/finalizados',
-                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE ESCUELA']
+                permissions: ['ADMINISTRADOR']
             }
         ]
     },
@@ -593,7 +593,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Recibidos',
                 type : 'basic',
                 link : '/carnets/recibidos',
-                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'SECRETARIA(O) DE ESCUELA']
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'JEFE DE SUBUNIDAD DE MATRÍCULAS', 'SECRETARIA(O) DE ESCUELA']
             },
         ]
     },
