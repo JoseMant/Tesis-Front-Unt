@@ -1,6 +1,6 @@
 <div class="flex flex-col w-full">
 
-    <!-- View mode -->
+    <!-- NOT Edit mode -->
     <ng-container *ngIf="!editMode">
 
         <!-- Header -->
@@ -68,7 +68,40 @@
                         </div>
                     </ng-container>
 
-                    <!-- Emails -->
+                    <!-- Facultad -->
+                    <ng-container *ngIf="user.idFacultad && user.idTipo_usuario==5">
+                        
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:academic-cap'"></mat-icon>
+                            <ng-container *ngFor="let dependencia of facultades">
+                                <span *ngIf='dependencia.idDependencia==user.idFacultad' class="ml-6 leading-6">{{dependencia.nombre}}</span>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="user.idFacultad && (user.idTipo_usuario==6 || user.idTipo_usuario==8 || user.idTipo_usuario==17)">
+                        
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:academic-cap'"></mat-icon>
+                            <ng-container *ngFor="let dependencia2 of dependencias">
+                                <span *ngIf='dependencia2.idDependencia==user.idFacultad' class="ml-6 leading-6">{{dependencia2.nombre}}</span>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+
+
+
+                     <!-- Facultad -->
+                     <!-- <ng-container *ngIf="user.idFacultad">
+                        
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:academic-cap'"></mat-icon>
+                            <span [(ngModel)]="dependencia_usuario" (ngChange)="getDependenciaUsuario(user.idFacultad, user.idTipo_usuario)" class="ml-6 leading-6"></span>
+                        </div>
+                    </ng-container>
+                     -->
+                  
+
+                    <!-- Email -->
                     <ng-container *ngIf="user.correo">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
@@ -87,6 +120,25 @@
                         </div>
                     </ng-container>
 
+                    <!-- Email 2 -->
+                    <ng-container *ngIf="user.correo2">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                            <a
+                                class="ml-6 leading-6 hover:underline text-primary-500"
+                                [href]="'mailto:' + user.correo2"
+                                target="_blank">
+                                {{user.correo2}}
+                            </a>
+                            <!-- <div
+                                class="text-md truncate text-secondary">
+                                <span class="mx-2">&bull;</span>
+                                <span *ngIf="user.confirmed" class="font-medium">Validado correctamente</span>
+                                <span *ngIf="!user.confirmed" class="font-medium">Pendiente de validación</span>
+                            </div> -->
+                        </div>
+                    </ng-container>
+
                     <!-- Phone -->
                     <ng-container *ngIf="user.celular">
                         <div class="flex sm:items-center">
@@ -100,14 +152,13 @@
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:credit-card'"></mat-icon>
                             <div class="ml-6 leading-6">{{user.nro_documento}}</div>
-                            <div
-                                class="text-md truncate text-secondary" *ngIf="user.tipo_documento">
+                            <div class="text-md truncate text-secondary" *ngIf="user.tipo_documento">
                                 <span class="mx-2">&bull;</span>
-                                <span class="font-medium">{{user.tipo_documento | i18nPlural: {
-                                    '=0'   : 'No identificado',
-                                    '=1'   : 'DNI',
-                                    'other': 'No identificado'
-                                } }}</span>
+
+                                <ng-container *ngFor="let tipo_documento of tipos_documentos">
+                                    <span *ngIf='tipo_documento.idTipo_documento==user.tipo_documento' class="font-medium">{{tipo_documento.abreviatura}}</span>
+                                </ng-container>
+                                
                             </div>
                         </div>
                     </ng-container>
@@ -157,6 +208,8 @@
             </div>
         </div>
     </ng-container>
+
+
 
     <!-- Edit mode -->
     <ng-container *ngIf="editMode">
@@ -237,7 +290,7 @@
                     <!-- Name -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Nombre</mat-label>
+                            <mat-label>Nombres</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -250,18 +303,34 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Apellidos -->
+                    <!-- Apellido Paterno -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Apellidos</mat-label>
+                            <mat-label>Apellido Paterno</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             <input
                                 matInput
-                                [formControlName]="'apellidos'"
-                                [placeholder]="'Apellidos'"
+                                [formControlName]="'apellido_paterno'"
+                                [placeholder]="'Apellido paterno'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+
+                     <!-- Apellido Materno -->
+                     <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Apellido Materno</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'apellido_materno'"
+                                [placeholder]="'Apellido materno'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
@@ -380,6 +449,22 @@
                         </mat-form-field>
                     </div>
 
+                     <!-- Emails 2 -->
+                     <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Correo alternativo</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'correo2'"
+                                [placeholder]="'Correo alternativo'">
+                        </mat-form-field>
+                    </div>
+
+
                     <!-- Phone numbers -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -398,7 +483,7 @@
                     <!-- Tipo de documento -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Tipo documento</mat-label>
+                            <mat-label>Tipo de Documento</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"

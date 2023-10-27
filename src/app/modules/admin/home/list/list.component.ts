@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,12 +7,13 @@ import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } f
 import { fuseAnimations } from '@fuse/animations';
 import { ApexOptions } from 'ng-apexcharts';
 import { HomePagination, HomeTramite } from 'app/modules/admin/home/home.types';
-import { HomeService } from 'app/modules/admin/home/home.service';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TramiteAnuladoDialogComponent } from 'app/modules/admin/home/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TramiteService } from 'app/modules/admin/tramites/tramites.service';
+import { TramiteInterface } from '../../tramites/tramites.types';
 
 @Component({
     selector       : 'home-list',
@@ -79,13 +79,13 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         title: '',
     };
 
-    tramites$: Observable<HomeTramite[]>;
+    tramites$: Observable<TramiteInterface[]>;
 
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: HomePagination;
     searchInputControl: FormControl = new FormControl('');
-    selectedTramite: HomeTramite | null = null;
+    selectedTramite: any | null = null;
     selectedTramiteForm: FormGroup;
     data: any;
     accountBalanceOptions: ApexOptions;
@@ -99,7 +99,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _homeService: HomeService,
+        private _tramiteService: TramiteService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -127,7 +127,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
     ngOnInit(): void
     {
         // Get the pagination
-        this._homeService.pagination$
+        this._tramiteService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: HomePagination) => {
 
@@ -139,7 +139,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
             });
 
         // Get the tramites
-        this.tramites$ = this._homeService.tramites$;
+        this.tramites$ = this._tramiteService.tramites$;
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -158,10 +158,10 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                                 disableClear: true
                             });
                         }
-                        return this._homeService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
+                        return this._tramiteService.getTramites(0, this._paginator.pageSize, this._sort.active, this._sort.direction, query);
                     }
                     else
-                        return this._homeService.getTramites(0, 100, 'created_at', 'desc', query);
+                        return this._tramiteService.getTramites(0, 100, 'created_at', 'desc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -204,9 +204,9 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
                     this.closeDetails();
                     this.isLoading = true;
                     if(this.searchInputControl.value ){
-                        return this._homeService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
+                        return this._tramiteService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value);
                     }else{
-                        return this._homeService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                        return this._tramiteService.getTramites(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                     }
                     
                 }),
@@ -247,7 +247,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         }
 
         // Get the tramite by id
-        this._homeService.getTramiteById(tramiteId)
+        this._tramiteService.getTramite(tramiteId)
             .subscribe((tramite) => {
 
                 // Set the selected tramite
@@ -294,43 +294,7 @@ export class HomeListComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
 
-    createTramite(): void
-    {
-        // Create the tramite
-        this._homeService.createTramite().subscribe((newTramite) => {
-
-            // Go to new tramite
-            this.selectedTramite = newTramite;
-
-            // Fill the form
-            this.selectedTramiteForm.patchValue(newTramite);
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
-    }
-
-    /**
-     * Update the selected tramite using the form data
-     */
-    updateSelectedTramite(): void
-    {
-        // Get the tramite object
-        const tramite = this.selectedTramiteForm.getRawValue();
-
-        // Remove the currentImageIndex field
-        delete tramite.currentImageIndex;
-
-        // Update the tramite on the server
-        this._homeService.updateTramite(tramite.id, tramite).subscribe(() => {
-
-            // Show a success message
-            this.showFlashMessage('success');
-        });
-    }
-
     modalNotification(): void {
-        console.log(this.selectedTramite);
         const respDial = this.visordialog.open(
             TramiteAnuladoDialogComponent,
             {

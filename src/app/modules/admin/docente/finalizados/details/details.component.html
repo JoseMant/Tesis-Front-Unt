@@ -1,0 +1,438 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+                CODIGO TRÁMITE: {{docente.nro_tramite}}
+            </mat-card-title>
+            <!-- Section -->
+            <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+  
+                <!-- SOLICITANTE -->
+                <div class="sm:col-span-2">
+                    <div class="text-secondary"><b>SOLICITANTE:</b> {{docente.solicitante}}</div>
+                </div>
+                <!-- FECHA DE REGISTRO -->
+                <div class="sm:col-span-2">
+                    <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{docente.fecha}}</div>
+                </div>
+                <!-- TRÁMITE -->
+                <div class="sm:col-span-2">
+                    <div class="text-secondary"><b>TRÁMITE:</b> {{docente.tramite}}</div>
+                </div>
+                
+            </div>
+            
+            <!-- Divider -->
+            <div class="my-5 border-t"></div>
+            <!-- Section -->
+            <mat-card class="mt-3" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                <mat-card-title><mat-label class="text-xl">REQUISITOS</mat-label></mat-card-title>
+                <mat-card-content>
+                    <div class="z-10 sticky top-0 grid grid-cols-12 gap-y-6 py-3 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5">
+                        <div class="col-span-1">
+                            N°
+                        </div>
+                        <div class="col-span-6">
+                            REQUISITO
+                        </div>
+                        <div class="col-span-5 text-center">
+                            DOCUMENTO
+                        </div>
+                    </div>
+                    <ng-container *ngFor="let requisito of docente.requisitos; let id = index">
+                        <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1">
+                                <div class="col-span-1">{{id+1}}</div>
+                                <div class="col-span-6 ">{{requisito.nombre}}</div>
+                                <div class="col-span-5 text-center">
+                                    <a
+                                        *ngIf="requisito.archivo"
+                                        mat-button
+                                        class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-lime-500 hover:bg-lime-400 text-white"
+                                        cmat-button
+                                        [href]="requisito.archivo"
+                                        [target]="'_blank'">
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            style="color: white;"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                        <span class="hidden sm:block ml-2">VER</span>
+                                    </a>
+                                    <button
+                                        *ngIf="requisito.archivoPdf"
+                                        mat-button
+                                        class="min-w-10 min-h-7 h-7 px-2 rounded-full bg-red-500 hover:bg-red-400 text-white"
+                                        cmat-button
+                                        (click)="verReqDocumento(requisito)">
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            style="color: white;"
+                                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                        <span class="hidden sm:block ml-2">VER</span>
+                                    </button>
+                                </div>
+                        </div>
+                    </ng-container>
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card-content>
+                <form class="mt-6" id="tramiteForm" autocomplete="off" [formGroup]="tramiteForm">
+                    <mat-card style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">REGISTRO DE NUEVOS USUARIOS</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                    <mat-form-field
+                                        class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                    
+                                        <mat-label>APELLIDOS</mat-label>
+                                            <input
+                                                oninput="javascript:this.value=this.value.toUpperCase();"
+                                                type="text"
+                                                matInput 
+                                                maxlength="60"
+                                                [formControlName]="'apellidos'"
+                                                (keypress)="validateFormatLetter($event)"
+                                            />
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>NOMBRES</mat-label>
+                                            <input
+                                                oninput="javascript:this.value=this.value.toUpperCase();"
+                                                type="text"
+                                                matInput 
+                                                maxlength="60"
+                                                [formControlName]="'nombres'"
+                                                (keypress)="validateFormatLetter($event)"
+                                            />
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>PROFESIÓN</mat-label>
+                                            <mat-select
+                                                [formControlName]="'idProfesion'">
+                                                <ng-container>
+                                                    <mat-option [value]="0" disabled>
+                                                        Seleccionar profesion...
+                                                    </mat-option>
+                                                </ng-container>
+                                                <ng-container *ngFor="let profesion of profesiones">
+                                                    <mat-option [value]="profesion.pon_id" >
+                                                        {{profesion.pon_nombre}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                            <mat-label>Selecione sexo</mat-label>
+                                            <mat-select
+                                                [formControlName]="'sexo'" placeholder="Seleccionar sexo...">
+                                                <ng-container>
+                                                    <mat-option [value]="" disabled>
+                                                        Seleccionar sexo...
+                                                    </mat-option>                                      
+                                                </ng-container>
+                                                <ng-container>
+                                                    <mat-option [value]="'F'">
+                                                        FEMENINO
+                                                    </mat-option>
+                                                    <mat-option [value]="'M'">
+                                                        MASCULINO
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label >FECHA DE NACIMIENTO</mat-label>
+                                        <input
+                                            matInput
+                                            [max]="maxDate"
+                                            [matDatepicker]="birthday"
+                                            [formControlName]="'fecha_nacimiento'"
+                                            readonly>
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="birthday">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #birthday></mat-datepicker>
+                                    </mat-form-field>
+
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>DIRECCION</mat-label>
+                                            <input
+                                                type="text"
+                                                matInput 
+                                                maxlength="200"
+                                                [formControlName]="'direccion'"
+                                            />
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                            <mat-label>Selecione País</mat-label>
+                                            <mat-select
+                                                [formControlName]="'idPais'" placeholder="Seleccionar pais...">
+                                                <ng-container>
+                                                    <mat-option [value]="" disabled>
+                                                        Seleccionar pais...
+                                                    </mat-option>                                      
+                                                </ng-container>
+                                                <ng-container *ngFor="let pais of paises">
+                                                    <mat-option [value]="pais.pais_cod">
+                                                        {{pais.pais_nombre}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>DNI</mat-label>
+                                            <input
+                                                type="text"
+                                                matInput 
+                                                maxlength="8"
+                                                [formControlName]="'dni'"
+                                            (keypress)="validateFormatNumber($event)"
+                                            />
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>TELEFONO</mat-label>
+                                            <input
+                                                type="text"
+                                                matInput 
+                                                maxlength="9"
+                                                [formControlName]="'telefono'"
+                                            (keypress)="validateFormatNumber($event)"
+                                            />
+                                    </mat-form-field>
+
+                                    <mat-form-field
+                                        class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>CELULAR</mat-label>
+                                            <input
+                                                type="text"
+                                                matInput 
+                                                valueAsNumber
+                                                maxlength="9"
+                                                [formControlName]="'celular'"
+                                                (keypress)="validateFormatNumber($event)"
+                                            />
+                                    </mat-form-field>
+
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>CORREO ELECTRÓNICO</mat-label>
+                                            <input
+                                                type="text"
+                                                matInput 
+                                                maxlength="200"
+                                                [formControlName]="'correo'"
+                                            />
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                        appearance="outline">
+                                        <mat-label>CORREO INSTITUCIONAL </mat-label>
+                                            <input
+                                                type="text"
+                                                matInput 
+                                                maxlength="200"
+                                                [formControlName]="'correounitru'"
+                                            />
+                                    </mat-form-field> 
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">DATOS DEL PERFIL</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-9 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-1 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>JEFE</mat-label>
+                                    <mat-select
+                                        [formControlName]="'jefe'">
+                                        <ng-container>
+                                            <mat-option [value]="" disabled>
+                                                ¿Es jefe?
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container>
+                                            <mat-option [value]="0" >
+                                                NO
+                                            </mat-option>
+                                            <mat-option [value]="1" >
+                                                SI
+                                            </mat-option>
+                                        </ng-container> 
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field
+                                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline" >
+                                    <mat-label>FACULTAD</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idDependencia'" 
+                                        (selectionChange)="changedDependencia($event.value)">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar facultad...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let dependenciaSGA of dependenciasSGA">
+                                            <mat-option [value]="dependenciaSGA.dep_id">
+                                                {{dependenciaSGA.dep_abrev}}
+                                            </mat-option>
+                                        </ng-container>
+                                        
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field
+                                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>DEPARTAMENTO ACADÉMICO</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idDepartamento'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar departamento académico...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let departamento of departamentos">
+                                            <mat-option [value]="departamento.dep_id">
+                                                {{departamento.dep_nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                        
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                            <div  class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>SEDE</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idSede'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar sede...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let sede of sedes">
+                                            <mat-option [value]="sede.sed_id">
+                                                {{sede.sed_nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>CONDICION</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idCondicion'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar condición...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container >
+                                            <mat-option [value]="'C'">
+                                                Contratado
+                                            </mat-option>
+                                            <mat-option [value]="'N'">
+                                                Nombrado
+                                            </mat-option>
+                                            <mat-option [value]="'CA'">
+                                                CAS
+                                            </mat-option>
+                                            <mat-option [value]="'RH'">
+                                                Recibo honorarios
+                                            </mat-option>
+                                            <mat-option [value]="'SN'">
+                                                Serv. No Persn.
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>CATEGORÍA</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idCategoria'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar categoría...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let categoria of categorias">
+                                            <mat-option [value]="categoria.cia_id">
+                                                {{categoria.cia_nombre}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>DEDICACIÓN</mat-label>
+                                    <mat-select
+                                        [formControlName]="'idDedicacion'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar dedicación...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let dedicacionDocente of dedicacionesDocente">
+                                            <mat-option [value]="dedicacionDocente.ded_id">
+                                                {{dedicacionDocente.ded_nombre}}
+
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                        </mat-card-content>
+                    </mat-card>
+                 
+                    
+                </form>
+            </mat-card-content>
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'SECRETARIA DE DEPARTAMENTO ACADÉMICO']" class="flex justify-end">
+                <button
+                    mat-button
+                    class="rounded-full bg-blue-900 hover:bg-blue-800 text-white"
+                    cmat-button
+                    [routerLink]="['/docentes/validacion']"
+                    >
+                    Regresar
+                </button>
+                
+            </mat-card-actions>
+        </div>
+    </mat-card>
+</div>

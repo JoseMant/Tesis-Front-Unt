@@ -15,10 +15,12 @@ import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
 import { UserService } from 'app/core/user/user.service';
+
 import moment from 'moment';
 import { VisorPdfComponent } from '../visorPdf/visorPdf.component';
 import { VisorImagenComponent } from '../visorImagen/visorImagen.component';
 import { VisorExoneradoComponent } from '../visorExonerado/visorExonerado.component';
+import { User } from 'app/core/user/user.types';
 
 @Component({
     selector       : 'tramite-details',
@@ -271,8 +273,37 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             requisitos: [[]],
             idUsuario: [0],
             des_estado_voucher: [''],
-            archivoExonerado: [null]
+            archivoExonerado: [null],
+            nro_resolucion:[''],
+            fecha_resolucion:[''],
+            motivo:['']
         });
+
+        this._userService.user$
+          .pipe((takeUntil(this._unsubscribeAll)))
+          .subscribe((user: User) => {
+
+              this.user = user;
+              console.log(this.user);
+
+              if(this.user.idTipoUsuario==5){
+                    this.tramiteForm.controls['entidad'].clearValidators();
+                    this.tramiteForm.controls['nro_operacion'].clearValidators();
+                    this.tramiteForm.controls['fecha_operacion'].clearValidators();
+
+                    this.tramiteForm.controls['nro_resolucion'].setValidators(Validators.required);
+                    this.tramiteForm.controls['fecha_resolucion'].setValidators(Validators.required);
+                    this.tramiteForm.controls['motivo'].setValidators(Validators.required);
+
+                    this.tramiteForm.controls['entidad'].updateValueAndValidity();
+                    this.tramiteForm.controls['nro_operacion'].updateValueAndValidity();
+                    this.tramiteForm.controls['fecha_operacion'].updateValueAndValidity();
+                    this.tramiteForm.controls['nro_resolucion'].updateValueAndValidity();
+                    this.tramiteForm.controls['fecha_resolucion'].updateValueAndValidity();
+                    this.tramiteForm.controls['motivo'].updateValueAndValidity();
+                } 
+              
+          });
 
         // Get the tramites
         this._tramiteService.tramites$
@@ -299,7 +330,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
         this._tramiteService.tramite$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((tramite: TramiteInterface) => {
-
+                console.log(tramite);
                 // Get the tramite
                 this.tramite = tramite;
                 this.requisitos = tramite.requisitos;
@@ -506,12 +537,13 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
     }
 
     updateRequisitos(): void{
+        console.log(this.tramite);
         const data={
             idTramite: this.tramiteForm.getRawValue().idTramite,
             requisitos: this.tramiteForm.getRawValue().requisitos,
         };
         //Validar que subí todos los requisitos rechazados
-        const requis = this.tramiteForm.getRawValue().requisitos.find(element => element.responsable == 4 && element.des_estado_requisito == 'RECHAZADO' && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
+        const requis = this.tramiteForm.getRawValue().requisitos.find(element => element.responsable == this.user.idTipoUsuario && element.des_estado_requisito == 'RECHAZADO' && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
         if (requis) {
             this.alert = {
                 type   : 'warn',
@@ -549,6 +581,11 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
 
         const formData = new FormData();
         formData.append('idTramite', data.idTramite);
+        if(this.tramiteForm.getRawValue().idTipo_tramite==7||this.tramiteForm.getRawValue().idTipo_tramite==8){
+            formData.append('nro_resolucion', this.tramiteForm.getRawValue().nro_resolucion);
+            formData.append('fecha_resolucion', (new Date(this.tramiteForm.getRawValue().fecha_resolucion)).toISOString().substring(0,10));
+            formData.append('motivo', this.tramiteForm.getRawValue().motivo);
+        }
         data.requisitos.forEach((element) => {
             formData.append('requisitos[]', JSON.stringify(element));
             if (element.idRequisito && element.extension === 'pdf') {
@@ -588,7 +625,7 @@ export class TramiteDetalleComponent implements OnInit, OnDestroy
             this._changeDetectorRef.markForCheck();
         },
         (error) => {
-            // console.log(error);
+            console.log(error);
 
             // Re-enable the form
             this.tramiteForm.enable();

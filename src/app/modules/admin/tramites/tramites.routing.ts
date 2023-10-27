@@ -5,6 +5,7 @@ import { TramiteDetalleComponent } from 'app/modules/admin/tramites/details/deta
 import { BancosResolver, MotivosResolver, TipoTramitesResolver, TramitesResolver, UnidadesResolver, TramiteResolver  } from 'app/modules/admin/tramites/tramites.resolvers';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { TramiteFisicoListComponent } from 'app/modules/admin/tramites/tramites_fisicos/formulario.component';
+import { TramiteOficioListComponent } from 'app/modules/admin/tramites/tramites_secretaria/formulario.component';
 
 export const tramitesRoutes: Route[] = [
     {
@@ -13,18 +14,22 @@ export const tramitesRoutes: Route[] = [
         canActivate: [NgxPermissionsGuard],
         data: {
             permissions: {
-                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'ALUMNO'],
+                only: ['ADMINISTRADOR', 'SECRETARIA DE URA', 'ALUMNO','SECRETARIA DE DEPARTAMENTO ACADÉMICO', 'SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD'],
                 redirectTo: 'home'
             }
         },
         resolve  : {
-            tramites : TramitesResolver,
             tipo_tramites : TipoTramitesResolver,
             bancos: BancosResolver,
             unidades: UnidadesResolver,
             motivos: MotivosResolver
         },
         children : [
+            {
+                path         : 'secretaria',
+                component    : TramiteOficioListComponent,
+                
+            },
             {
                 path     : 'digitales',
                 component: TramiteListComponent,
@@ -40,7 +45,8 @@ export const tramitesRoutes: Route[] = [
                     tramite  : TramiteResolver
                     // countries: ContactsCountriesResolver
                 },
-            }
+            },
+           
         ]
     }
 ];

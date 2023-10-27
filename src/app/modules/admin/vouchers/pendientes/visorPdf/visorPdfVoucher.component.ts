@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { merge, Observable, Subject } from 'rxjs';
+import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { VouchersService } from 'app/modules/admin/vouchers/vouchers.service';
+import { AlertaComponent } from 'app/shared/alerta/alerta.component';
+import { FuseAlertType } from '@fuse/components/alert';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
@@ -23,15 +28,37 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
     //@Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
     page: number = 1;
     pdfSource: any;
+    entidadSelected: any;
+    bancos: any;
     formulario2: FormGroup;
     // Private
     //pdfSource  = "Voucher.pdf";
+    alert: { type: FuseAlertType; message: string; title: string} = {
+        type   : 'success',
+        message: '',
+        title: '',
+    };
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialogRef: MatDialogRef<VisorPdfVoucherComponent>,
+        private snackBar: MatSnackBar,
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _voucherService: VouchersService,
         private fb: FormBuilder
     ) {}
+
+    openSnack(): void {
+        this.snackBar.openFromComponent(AlertaComponent, {
+            horizontalPosition: 'right',
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: ['fondo_snackbar'],
+            data: this.alert,
+        });
+    }
 
     ngOnInit(): void {
         this.cargarFormulario2();
@@ -40,6 +67,36 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.complete();
+    }
+
+    validarDatosVoucher(): void{
+
+        const data = this.formulario2.getRawValue();
+
+        this._voucherService.validarDatosVoucher(data, data.idTramite).subscribe((response) => 
+        {
+         
+            this.alert = {
+                type   : 'success',
+                message: 'Datos agregados y validados correctamente',
+                title: 'Enviado'
+            };
+            this.openSnack();
+        
+            this._changeDetectorRef.markForCheck();
+        
+        },
+        (response) => {
+   
+            this.alert = {
+             //
+                type   : 'warn',
+                message: response.error.message,
+                title: 'ERROR'
+            };
+            this.openSnack();
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     cargarFormulario2(): void {
@@ -61,7 +118,18 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
             idTramite: [''],
             lectura: [''],
         });
+
+        this._voucherService.bancos$
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((bancos: any) => {
+            this.bancos = bancos;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+
         this.llenarDialog(this.data);
+        
     }
     
     llenarDialog(data: any): void {
@@ -91,6 +159,9 @@ export class VisorPdfVoucherComponent implements OnInit, OnDestroy {
                 exonerado: "NO",
             });
         }
+
+        this.entidadSelected = data.entidad;
+       
     }
 
     verArchivo(): void {

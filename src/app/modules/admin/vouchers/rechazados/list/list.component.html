@@ -69,12 +69,10 @@
 
                             <div [mat-sort-header]="'tramite'">Trámite</div>
 
-                            <!-- Exonerado -->
-                            <div
-                                class="hidden md:block"
-                                [mat-sort-header]="'exonerado'">
-                                Exonerado
-                            </div>
+                            <div [mat-sort-header]="'celular'">Celular</div>
+
+                            <div class="hidden lg:block"
+                                [mat-sort-header]="'correo'">Correo</div>
 
                             <div
                                 class="hidden lg:block"
@@ -82,12 +80,12 @@
                                 Banco
                             </div>
 
-
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'nro_operacion'">
                                 Nro. Oper.
                             </div>
+                            
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'fecha_operacion'">
@@ -115,9 +113,14 @@
                                         {{voucher.tramite}}
                                     </div>
 
-                                    <!-- Exonerado -->
-                                    <div class="hidden md:block truncate">
-                                        {{voucher.exonerado}}
+                                    <!-- Celular -->
+                                    <div class="truncate">
+                                        {{voucher.celular}}
+                                    </div>
+
+                                    <!-- Correo -->
+                                    <div class="truncate">
+                                        {{voucher.correo}}
                                     </div>
 
                                     <!-- Stock -->

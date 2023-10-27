@@ -10,6 +10,9 @@ export interface VoucherInterface
     idUsuario_aprobador: number;
     validado: boolean;
     estado: boolean;
+    celular: string;
+    correo: string;
+
 }
 export interface VoucherPagination
 {

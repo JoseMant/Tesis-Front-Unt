@@ -108,7 +108,7 @@ export class ReportesTesoreriaAprobadosListComponent implements OnInit, AfterVie
     {
         // Create the selected reporte form
         this.selectedReporteForm = this._formBuilder.group({
-            fecha_inicio         : [moment('2023-01-01'), Validators.required],
+            fecha_inicio         : [moment().startOf('month'), Validators.required],
             fecha_fin    : [moment(), Validators.required],
         });
 

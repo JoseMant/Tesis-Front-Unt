@@ -1,0 +1,313 @@
+<div class="flex flex-col flex-auto min-w-0 m-4">
+
+    <mat-card class="w-full">
+        <div class="flex flex-col mx-5">
+            <mat-card-title class="mb-3 my-3 md:text-2xl lg:text-3xl text-xl font-bold tracking-wider text-blue-900">
+              REGISTRO DE TRÁMITE SECRETARIA
+            </mat-card-title>
+            <mat-card-content>
+                <form id="tramiteForm" autocomplete="off" [formGroup]="tramiteForm">
+                    <mat-card style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">Datos</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>APELLIDOS</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'apellidos'"
+                                        />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>NOMBRES</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'nombres'"
+                                        />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>TIPO DE DOCUMENTO</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'documento'"
+                                        />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>NÚMERO DE DOCUMENTO</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'nro_documento'"
+                                        />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>CELULAR</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'celular'"
+                                        />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>CORREO ELECTRÓNICO</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'correo'"
+                                        />
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline" >
+                                    <mat-label>GÉNERO</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput readonly
+                                            [formControlName]="'sexoNombre'"
+                                        />
+                                </mat-form-field>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">Datos del Trámite</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>TRÁMITES</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedTipoTramite($event.value)"
+                                        [formControlName]="'idTipo_tramite'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar trámite...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let tipo of tipoTramites">
+                                            <mat-option [value]="tipo.idTipo_tramite" *ngIf="tipo.responsable == user.idTipoUsuario || user.idTipoUsuario==1">
+                                                {{tipo.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    *ngIf="data.idTipo_tramite"
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>UNIDADES</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedUnidad($event.value)"
+                                        [formControlName]="'idUnidad'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar unidad...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let unidad of unidades">
+                                            <mat-option [value]="unidad.idUnidad">
+                                                {{unidad.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="data.idTipo_tramite && data.idUnidad > 0" class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>TIPOS DE TRÁMITES</mat-label>
+                                    <mat-select
+                                        (selectionChange)="selectedTipoTramiteUnidades($event.value)"
+                                        [formControlName]="'idTipo_tramite_unidad'">
+                                        <ng-container>
+                                            <mat-option [value]="0" disabled>
+                                                Seleccionar tipo de trámite...
+                                            </mat-option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let tipouni of tipoTramiteUnidades">
+                                            <mat-option [value]="tipouni.idTipo_tramite_unidad">
+                                                {{tipouni.descripcion}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    
+                                </mat-form-field>
+                                <mat-form-field
+                                    *ngIf="dependencias"
+                                    class="sm:col-span-6 col-span-6 ml-3 h-9 mb-6" appearance="outline">
+                                    <mat-label>COMENTARIOS</mat-label>
+                                    <textarea
+                                        class="text-justify"
+                                        matInput
+                                        [formControlName]="'comentario'"
+                                        [placeholder]="'Indicar algún comentario adicional que debamos tomar en cuenta'">
+                                    </textarea>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="data.idTipo_tramite_unidad==45 || data.idTipo_tramite_unidad==46" class="grid grid-cols-6 gap-y-6 mb-6">
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline">
+                                    <mat-label>NRO RESOLUCION:</mat-label>
+                                        <input
+                                            type="text"
+                                            matInput 
+                                            maxlength="100"
+                                            [formControlName]="'nro_resolucion'">
+                                </mat-form-field>
+                                <mat-form-field
+                                    class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                    appearance="outline" >
+                                    <mat-label >FECHA DE RESOLUCIÓN</mat-label>
+                                    <input
+                                        matInput
+                                        [max]="maxDate"
+                                        [matDatepicker]="birthday"
+                                        [formControlName]="'fecha_resolucion'"
+                                        readonly>
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="birthday">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #birthday></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                 
+                    <mat-card class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;" *ngIf="data.idTipo_tramite_unidad > 0 && requisitosCount > 0">
+                        <mat-card-title><mat-label class="text-base">Requisitos</mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="data.idTipo_tramite_unidad > 0">
+                                <div class="nombre col-span-4 ml-3">
+                                    <b>Nombre del requisito</b>
+                                </div>
+                                <div class="nombre col-span-2 ml-3">
+                                    <b>Acciones</b>
+                                </div>
+                            </div>
+                            <div *ngIf="data.idTipo_tramite_unidad > 0">
+                                <ng-container *ngFor="let req of requisitos">
+                                    <div class="grid grid-cols-6 gap-2 w-full items-center py-2" *ngIf="req.responsable == user.idTipoUsuario || user.idTipoUsuario==1">
+                                        <div class="nombre col-span-4 ml-3">
+                                            {{req.nombre}}
+                                            <div class="nombre col-span-5 ml-3" style="color: rgb(160, 160, 189);font-size: 10px;">
+                                                ({{req.descripcion}}) 
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'pdf'">
+                                            <div>
+                                                <button
+                                                    matTooltip="Agregar documento"
+                                                    (click)="fileInput.click()">
+                                                    <mat-icon
+                                                        class="h-6 w-6 mr-3 ml-3"
+                                                        style="color: rgb(6, 11, 88)"
+                                                        [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                                </button>
+                                                <input #fileInput type="file" accept=".pdf" hidden (change)="selectReqDocumento($event,req)"/>
+                                            </div>
+                                            <svg
+                                                *ngIf="req.archivoPdf"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6 mr-3 ml-3"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                style="cursor: pointer; color: rgb(6, 11, 88)"
+                                                (click)="verReqDocumento(req)"
+                                                stroke-width="2"
+                                                matTooltip="Ver documento">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <div class="flex flex-row items-center justify-start col-span-2" *ngIf="req.extension === 'jpg'">
+                                            <div>
+                                                <button
+                                                    matTooltip="Agregar imagen"
+                                                    (click)="fileInput.click()">
+                                                    <mat-icon
+                                                        class="h-6 w-6 mr-3 ml-3"
+                                                        style="color: rgb(6, 11, 88)"
+                                                        [svgIcon]="'heroicons_solid:upload'"></mat-icon>
+                                                </button>
+                                                <input #fileInput type="file" accept=".jpg" hidden (change)="selectReqImagen($event,req)"/>
+                                            </div>
+                                            <svg
+                                                *ngIf="req.archivoImagen"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6 mr-3 ml-3"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                style="cursor: pointer; color: rgb(6, 11, 88)"
+                                                (click)="verReqImagen(req)"
+                                                stroke-width="2"
+                                                matTooltip="Ver Imagen">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </form>
+            </mat-card-content>
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA' ]" class="flex justify-end">
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="tramiteForm.disabled"
+                    (click)="createTramite()">
+                    <span *ngIf="!tramiteForm.disabled">
+                        Registrar Trámite
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="tramiteForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card>
+</div>

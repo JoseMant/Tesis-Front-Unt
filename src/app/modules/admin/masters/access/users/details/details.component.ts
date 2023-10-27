@@ -53,6 +53,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     ];
     searchEscuelaControl: FormControl = new FormControl('');
     filteredProgramas: any[];
+    dependencia_usuario: any;
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -85,6 +87,27 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
         });
     }
 
+    getDependenciaUsuario(id, tipo_usuario): void{
+
+        if(tipo_usuario==5){
+            this.facultades.forEach(function (item) {
+                if(item.idDependencia==id){
+                    this.dependencia_usuario = item.nombre;
+                }
+            });
+        }
+        
+        
+        if(tipo_usuario==6 || tipo_usuario==8 || tipo_usuario==17){
+            this.dependencias.forEach(function (item) {
+                if(item.idDependencia==id){
+                    this.dependencia_usuario = item.nombre;
+                }
+            });
+        }
+        
+    }
+
     /**
      * On init
      */
@@ -99,10 +122,13 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
             idTipo_usuario    : [null, [Validators.required]],
             username       : ['', [Validators.required]],
             nombres        : ['', [Validators.required]],
-            apellidos        : ['', [Validators.required]],
+            apellido_paterno   : ['', [Validators.required]],
+            apellido_materno  : [''],
+            apellidos : [''],
             tipo_documento     : [null, [Validators.required]],
             nro_documento     : ['', [Validators.required]],
             correo        : ['', [Validators.required]],
+            correo2        : [''],
             celular        : [''],
             sexo        : ['', [Validators.required]],
             estado        : [null, [Validators.required]],
@@ -368,14 +394,20 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
     createUser(): void
     {
         // Get the user object
+        this.userForm.patchValue({
+            apellidos: this.userForm.get('apellido_paterno').value+' '+this.userForm.get('apellido_materno').value
+        });
+
+        console.log(this.userForm.get('apellidos').value);
+
         const user = this.userForm.getRawValue();
-      //  console.log(user);
-      //  return;
+
         // Create the user on the server
+
         this._usersService.createUser(user).subscribe((newUser) => {
             // Toggle the edit mode off
             this.toggleEditMode(false);
-
+            
             this._router.navigate(['./..'], {relativeTo: this._activatedRoute});
             
             this.alert = {
@@ -384,6 +416,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
                 title: 'Guardado'
             };
             this.openSnack();
+                    
+            this._changeDetectorRef.markForCheck();
         },
         (response) => {
             this.alert = {
@@ -392,6 +426,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy
                 title: 'Error'
             };
             this.openSnack();
+            this._changeDetectorRef.markForCheck();
         });
     }
 
