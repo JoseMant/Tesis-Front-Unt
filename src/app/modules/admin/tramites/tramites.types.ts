@@ -48,4 +48,5 @@ export interface TramiteInterface
     historial?: any;
     nro_resolucion?:string;
     fecha_resolucion?:string;
+    motivo?:string;
 }

@@ -346,6 +346,40 @@ export class TramiteService
         );
     }
 
+    updateResolucion(id: number, tramite: any): Observable<any> {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(tramites => this._httpClient.post<any>(environment.baseUrl + 'resoluciones/update/'+ id, tramite).pipe(
+                map((updateResolucion) => {
+
+                    // Find the index of the updated contact
+                    const index = tramites.findIndex(item => item.idTramite === id);
+
+                    // Update the contact
+                    tramites[index] = updateResolucion;
+
+                    // Update the contacts
+                    this._tramites.next(tramites);
+
+                    // Return the updated contact
+                    return updateResolucion;
+                }),
+                switchMap(updateResolucion => this.tramite$.pipe(
+                    take(1),
+                    filter(item => item && item.idTramite === id),
+                    tap(() => {
+
+                        // Update the product if it's selected
+                        this._tramite.next(updateResolucion);
+
+                        // Return the updated product
+                        return updateResolucion;
+                    })
+                ))
+            ))
+        );
+    }
+
     /**
      * Update product
      *

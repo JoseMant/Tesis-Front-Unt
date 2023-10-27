@@ -43,7 +43,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Trámite Secretaria',
                 type : 'basic',
                 link : '/tramites/secretaria',
-                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA']
+                permissions: ['SECRETARIA DE DEPARTAMENTO ACADÉMICO']
             }
         ]
     },
@@ -101,7 +101,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Resoluciones Finalizados',
                 type : 'basic',
                 link : '/resoluciones/finalizados',
-                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE ESCUELA']
+                permissions: ['ADMINISTRADOR','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD','JEFE DE SUBUNIDAD DE MATRÍCULAS']
             }
         ]
     },

@@ -27,32 +27,32 @@
                         </div>
 
                         <!-- Dependencia -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-2" *ngIf="tramite.dependencia">
                             <div class="text-secondary"><b>Dependencia:</b> {{tramite.dependencia}}</div>
                         </div>
 
                         <!-- Programa -->
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-2" *ngIf="tramite.programa">
                             <div class="text-secondary"><b>Programa:</b> {{tramite.programa}}</div>
                         </div>
 
                         <!-- Sede -->
-                        <div class="sm:col-span-2" *ngIf="tramite.voucher">
+                        <div class="sm:col-span-2" *ngIf="tramite.sede!=' '">
                             <div class="text-secondary"><b>Sede:</b> {{tramite.sede}}</div>
                         </div>
 
                         <!-- Número de matrícula -->
-                        <div class="sm:col-span-2" *ngIf="tramite.voucher">
+                        <div class="sm:col-span-2" *ngIf="tramite.nro_matricula!='0'">
                             <div class="text-secondary"><b>Número de matrícula:</b> {{tramite.nro_matricula}}</div>
                         </div>
 
                         <!-- Comentario -->
                         <div class="sm:col-span-2">
-                            <div class="text-secondary" *ngIf="tramite.comentario_tramite"><b>Comentarios:</b> {{tramite.comentario_tramite}}</div>
+                            <div class="text-secondary" *ngIf="tramite.comentario_tramite"><b>Comentario:</b> {{tramite.comentario_tramite}}</div>
                         </div>
 
                         <!-- FUT -->
-                        <div class="sm:col-span-2" *ngIf="tramite.voucher">
+                        <div class="sm:col-span-2" *ngIf="tramite.nro_matricula!='0'">
                             <div class="text-secondary">
                                 <b>Formato Único de Trámite (FUT):</b>
                                 <a
@@ -76,7 +76,7 @@
                     <div class="my-10 border-t"></div>
 
                     <!-- Section -->
-                    <mat-card class="mt-6" *ngIf="tramite.voucher" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                    <mat-card class="mt-6" *ngIf="tramite.nro_matricula!='0'" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Datos del Pago</mat-label></mat-card-title>
                         <mat-card-content>
                             <div class="grid sm:grid-cols-4 gap-6 w-full mb-4 ml-2 pt-2" *ngIf="tramite.des_estado_voucher !== 'RECHAZADO'">
@@ -267,6 +267,71 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
+
+                    <mat-card class="mt-6" *ngIf="tramite.idTipo_tramite_unidad==45||tramite.idTipo_tramite_unidad==46" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                        <mat-card-title><mat-label class="text-base">Datos de la Resolución </mat-label></mat-card-title>
+                        <mat-card-content>
+                            <div class="grid sm:grid-cols-4 gap-6 w-full mb-4 ml-2 pt-2" *ngIf="tramite.idEstado_tramite!=9">
+                                <!-- Tipo de trámite -->
+                                <div class="sm:col-span-1">
+                                    <div class="text-secondary"><b>Número de resolución</b> {{tramite.nro_resolucion}}</div>
+                                </div>
+
+                                <!-- Trámite -->
+                                <div class="sm:col-span-1">
+                                    <div class="text-secondary"><b>Fecha de resolución </b> {{tramite.fecha_resolucion | date:'longDate'}}</div>
+                                </div>
+
+                                <!-- Unidad -->
+                                <div class="sm:col-span-1">
+                                    <div class="text-secondary"><b>Motivo</b> {{tramite.motivo}}</div>
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-4 gap-6 w-full mb-4 ml-2 pt-2" *ngIf="tramite.idEstado_tramite==9 " [formGroup]="tramiteForm">
+                                
+                                <mat-form-field
+                                class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                appearance="outline">
+                                <mat-label>NRO RESOLUCION:</mat-label>
+                                    <input
+                                        type="text"
+                                        matInput 
+                                        maxlength="100"
+                                        [placeholder]="tramite.nro_resolucion"
+                                        [formControlName]="'nro_resolucion'">
+                                </mat-form-field>
+
+                                <mat-form-field
+                                class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
+                                appearance="outline" >
+                                <mat-label >FECHA DE RESOLUCIÓN</mat-label>
+                                <input
+                                    matInput
+                                    [max]="maxDate"
+                                    [matDatepicker]="birthday"
+                                    [formControlName]="'fecha_resolucion'"
+                                    readonly>
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="birthday">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #birthday></mat-datepicker>
+                                </mat-form-field>
+
+                                <mat-form-field
+                                class="sm:col-span-4 col-span-6 ml-3 h-9 mb-6" 
+                                appearance="outline">
+                                <mat-label>MOTIVO</mat-label>
+                                <textarea
+                                    class="text-justify"
+                                    matInput
+                                    [formControlName]="'motivo'"
+                                    [placeholder]="tramite.motivo">
+                                </textarea>
+                                </mat-form-field>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
                     <!-- Divider -->
                     <!-- <div *ngIf="requisitosCount>0" class="my-10 border-t"></div> -->
 
@@ -281,7 +346,7 @@
                                 <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO'">
                                     <b>{{requisito.nombre}}:</b> <span style="color: rgb(223, 14, 14)"> {{requisito.des_estado_requisito}} - {{requisito.comentario}}</span>
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf' && requisito.responsable == 4">
+                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'pdf' && (requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1 )">
                                     <button
                                         matTooltip="Agregar documento en pdf"
                                         (click)="fileInput.click()">
@@ -311,7 +376,7 @@
                                             [svgIcon]="'heroicons_solid:eye'"></mat-icon>
                                     </button>
                                 </div>
-                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'jpg' && requisito.responsable == 4">
+                                <div class="nombre col-span-2 ml-3" *ngIf="requisito.des_estado_requisito === 'RECHAZADO' && requisito.extension === 'jpg' && (requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1 )">
                                     <button
                                         matTooltip="Agregar documento en jpg"
                                         (click)="fileInput.click()">
@@ -345,7 +410,7 @@
                         </mat-card-content>
                     </mat-card>
             </mat-card-content>
-            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO']" class="flex justify-end">
+            <mat-card-actions *ngxPermissionsOnly="['ADMINISTRADOR', 'ALUMNO','SECRETARIA DE DEPARTAMENTO ACADÉMICO','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']" class="flex justify-end">
                 <button
                     *ngIf="tramite.idEstado_tramite === 4"
                     class="ml-4"

@@ -166,6 +166,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             idEstado_tramite: [0],
             idModalidad_grado: [0],
             descripcion_estado: [''],
+
             entidad: ['', Validators.required],
             nro_operacion: ['', Validators.required],
             fecha_operacion: ['', Validators.required],
@@ -190,8 +191,50 @@ export class TramiteListComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [[]],
-            exonerado: [false]
+            exonerado: [false],
+            requiere_voucher: [0],
+            nro_resolucion: [''],
+            fecha_resolucion: [''],
+            motivo: ['']
+
         });
+
+        // Subscribe to user changes
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.user = user;
+                
+                if (this.user.sexo === 'M') {
+                    this.user['sexoNombre'] = 'MASCULINO';
+                }
+                if (this.user.sexo === 'F') {
+                    this.user['sexoNombre'] = 'FEMENINO';
+                }
+
+                if(this.user.idTipoUsuario==5||this.user.idTipoUsuario==17){
+                    this.tramiteForm.controls['entidad'].clearValidators();
+                    this.tramiteForm.controls['nro_operacion'].clearValidators();
+                    this.tramiteForm.controls['fecha_operacion'].clearValidators();
+
+                    this.tramiteForm.controls['nro_resolucion'].setValidators(Validators.required);
+                    this.tramiteForm.controls['fecha_resolucion'].setValidators(Validators.required);
+                    this.tramiteForm.controls['motivo'].setValidators(Validators.required);
+
+                    this.tramiteForm.controls['entidad'].updateValueAndValidity();
+                    this.tramiteForm.controls['nro_operacion'].updateValueAndValidity();
+                    this.tramiteForm.controls['fecha_operacion'].updateValueAndValidity();
+                    this.tramiteForm.controls['nro_resolucion'].updateValueAndValidity();
+                    this.tramiteForm.controls['fecha_resolucion'].updateValueAndValidity();
+                    this.tramiteForm.controls['motivo'].updateValueAndValidity();
+                } 
+                
+
+                this.createFormulario(this.user);
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         this._tramiteService.bancos$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -206,7 +249,14 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._tramiteService.unidades$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: any) => {
-                this.unidades = unidades;
+                console.log(this.user)
+                if (this.user.idTipoUsuario == 5) {
+                    this.unidades = unidades.filter(unidad => unidad.idUnidad == 1);
+                } else if (this.user.idTipoUsuario == 17) {
+                    this.unidades = unidades.filter(unidad => unidad.idUnidad == 4);
+                } else {
+                    this.unidades = unidades;
+                }
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -232,23 +282,23 @@ export class TramiteListComponent implements OnInit, OnDestroy
             });
             
         // Subscribe to user changes
-        this._userService.user$
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((user: any) => {
-            this.user = user;
-            
-            if (this.user.sexo === 'M') {
-                this.user['sexoNombre'] = 'MASCULINO';
-            }
-            if (this.user.sexo === 'F') {
-                this.user['sexoNombre'] = 'FEMENINO';
-            }
+        // this._userService.user$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((user: any) => {
+        //         this.user = user;
+                
+        //         if (this.user.sexo === 'M') {
+        //             this.user['sexoNombre'] = 'MASCULINO';
+        //         }
+        //         if (this.user.sexo === 'F') {
+        //             this.user['sexoNombre'] = 'FEMENINO';
+        //         }
 
-            this.createFormulario(this.user);
+        //         this.createFormulario(this.user);
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
+        //         // Mark for check
+        //         this._changeDetectorRef.markForCheck();
+        //     });
     }
 
     /**
@@ -314,7 +364,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
             archivoImagen: '',
             requisitos: '',
             comentario_tramite: '',
-            exonerado: false
+            exonerado: false,
+            
         };
         this.tramiteForm.patchValue(newTramite);
         this.data = newTramite;
@@ -325,7 +376,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.data.idTipo_tramite = id;
         this.data.idTipo_tramite_unidad = 0;
         
-        if(this.data.idUnidad) {
+        if(this.data.idUnidad>0) {
             this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
                 this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
                 this._changeDetectorRef.markForCheck();
@@ -348,11 +399,12 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.data.idSubdependencia = 0;
         this.data.idTipo_tramite_unidad = 0;
         this.data.archivoPdf = null;
-        
-        this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
-            this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
-            this._changeDetectorRef.markForCheck();
-        });
+        if (this.data.idTipo_tramite) {
+            this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
+                this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
+                this._changeDetectorRef.markForCheck();
+            });
+        }
 
         this._tramiteService.getFacultadesEscuelas(this.data.idUnidad).subscribe((resp)=>{
             if (resp.dependencias.length) {
@@ -415,11 +467,18 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.data.idSubdependencia = id;
         this.data.nro_matricula = programa.nro_matricula;
         this.data.sede = programa.sede;
-        this.tramiteForm.patchValue({
-            idSubdependencia: id, 
-            nro_matricula: programa.nro_matricula, 
-            sede: programa.sede
-        });
+        if (this.user.idTipoUsuario==5||this.user.idTipoUsuario==17) {
+            this.tramiteForm.patchValue({
+                idSubdependencia: id, 
+            }); 
+        }else{
+            this.tramiteForm.patchValue({
+                idSubdependencia: id, 
+                nro_matricula: programa.nro_matricula, 
+                sede: programa.sede
+            });
+        }
+        
             
         this._changeDetectorRef.markForCheck();
     }
@@ -432,6 +491,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         }
         const idDependencia=this.tramiteForm.getRawValue().idDependencia;
         const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
+        console.log(tipo)
         if (id==34) {
             if(idDependencia==17) this.costo=624.20
             if(idDependencia==18) this.costo=450
@@ -445,7 +505,10 @@ export class TramiteListComponent implements OnInit, OnDestroy
         }
         
         this.costo_exonerado = tipo.costo_exonerado;
-        this.tramiteForm.patchValue({ idTipo_tramite_unidad: id});
+        this.tramiteForm.patchValue({ 
+            idTipo_tramite_unidad: id,
+            requiere_voucher: tipo.requiere_voucher
+        });
         this.data.idTipo_tramite_unidad = id;
         
         this._tramiteService.getCronogramasByTipoTramiteUnidad(id, this.data.idDependencia).subscribe((response)=>{
@@ -591,7 +654,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.tramiteForm.markAllAsTouched();
             return;
         }
-        const requis = this.data.requisitos.find(element => element.responsable == 4 && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
+        const requis = this.data.requisitos.find(element => element.responsable == this.user.idTipoUsuario && ((element.archivoPdf === undefined && element.extension === 'pdf') || (element.archivoImagen === undefined && element.extension === 'jpg')));
         if (requis) {
             this.alert = {
                 type   : 'warn',
@@ -613,7 +676,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
         }
         let validation_requisitos = false;
         this.data.requisitos.forEach((item) => {
-            if (item.archivoImagen && item.responsable == 4) {
+            if (item.archivoImagen && item.responsable == this.user.idTipoUsuario) {
                 if (!this.fileSizeValidator(item.archivoImagen, 1, 2048)) {
                     this.alert = {
                         type   : 'warn',
@@ -625,7 +688,7 @@ export class TramiteListComponent implements OnInit, OnDestroy
                     return;
                 }
             }
-            else if (item.archivoPdf && item.responsable == 4) {
+            else if (item.archivoPdf && item.responsable == this.user.idTipoUsuario) {
                 if (!this.fileSizeValidator(item.archivoPdf, 1, 2048)) {
                     this.alert = {
                         type   : 'warn',
@@ -643,7 +706,9 @@ export class TramiteListComponent implements OnInit, OnDestroy
         const formData = new FormData();
         formData.append('entidad', this.tramiteForm.getRawValue().entidad);
         formData.append('nro_operacion', this.tramiteForm.getRawValue().nro_operacion);
-        formData.append('fecha_operacion', (new Date(this.tramiteForm.getRawValue().fecha_operacion)).toISOString().substring(0,10));
+        if (this.tramiteForm.getRawValue().fecha_operacion) {
+            formData.append('fecha_operacion', (new Date(this.tramiteForm.getRawValue().fecha_operacion)).toISOString().substring(0,10));  
+        }
         formData.append('archivo', this.tramiteForm.getRawValue().archivoPdf);
         formData.append('archivo_exonerado', this.tramiteForm.getRawValue().archivoExonerado);
         formData.append('idTipo_tramite_unidad', this.tramiteForm.getRawValue().idTipo_tramite_unidad);
@@ -656,6 +721,11 @@ export class TramiteListComponent implements OnInit, OnDestroy
         formData.append('idMotivo_certificado', this.tramiteForm.getRawValue().idMotivo_certificado);
         formData.append('idCronograma_carpeta', this.tramiteForm.getRawValue().idCronograma_carpeta);
         formData.append('comentario', this.tramiteForm.getRawValue().comentario);
+        formData.append('nro_resolucion', this.tramiteForm.getRawValue().nro_resolucion);
+        if (this.tramiteForm.getRawValue().fecha_resolucion) {
+            formData.append('fecha_resolucion', (new Date(this.tramiteForm.getRawValue().fecha_resolucion)).toISOString().substring(0,10));  
+        }
+        formData.append('motivo', this.tramiteForm.getRawValue().motivo);
         this.tramiteForm.getRawValue().requisitos.forEach((element) => {
             formData.append('requisitos[]', JSON.stringify(element));
             if (element.idRequisito && element.extension === 'pdf') {
