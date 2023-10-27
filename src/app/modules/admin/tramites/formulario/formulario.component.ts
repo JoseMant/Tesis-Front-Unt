@@ -441,10 +441,8 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     selectedFacultad(id): void{
-        //falta probar si funciona ya q solo hay una sola facultad
         this.data.idDependencia = id;
         let first = this.dependencias.find(item => item.idDependencia === this.data.idDependencia);
-        // console.log(first);
         if (first) {
             const subdependencia = first.subdependencias[0];
             if (subdependencia) {
@@ -454,10 +452,18 @@ export class TramiteListComponent implements OnInit, OnDestroy
                 this.tramiteForm.patchValue({
                     idSubdependencia: subdependencia.idPrograma, 
                     nro_matricula: subdependencia.nro_matricula, 
-                    sede: subdependencia.sede
+                    sede: subdependencia.sede,
+                    idCronograma_carpeta: ''
                 });
             }
             this.subdependencias = first.subdependencias;
+
+            // Reinicio de cronogramas para cuando se cambie de dependencia
+            this._tramiteService.getCronogramasByTipoTramiteUnidad(this.data.idTipo_tramite_unidad, this.data.idDependencia).subscribe((response)=>{
+                this.cronogramas = response;
+                
+                this._changeDetectorRef.markForCheck();
+            });
         }
     }
 

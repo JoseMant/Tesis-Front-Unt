@@ -457,4 +457,27 @@ export class TramiteService
         ); 
     }
 
+    sendNotification(id: number, data: any): Observable<any>
+    {
+        return this.tramites$.pipe(
+            take(1),
+            switchMap(tramites => this._httpClient.post<any>(environment.baseUrl + 'tramites/anular', data).pipe(
+                map((isSent: boolean) => {
+                    
+                    // Find the index of the updated tramite
+                    const index = tramites.findIndex(item => item.idTramite === id);
+                    
+                    // Delete the tramite
+                    tramites.splice(index, 1);
+
+                    // Update the tramites
+                    this._tramites.next(tramites);
+
+                    // Return the updated tramite
+                    return isSent;
+                }),
+            ))
+        );
+    }
+
 }

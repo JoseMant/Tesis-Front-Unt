@@ -12,8 +12,10 @@ export class VouchersService
     // Private
     private _pagination: BehaviorSubject<VoucherPagination | null> = new BehaviorSubject(null);
     private _voucher: BehaviorSubject<VoucherInterface | null> = new BehaviorSubject(null);
+    private _bancos: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _vouchers: BehaviorSubject<VoucherInterface[] | null> = new BehaviorSubject(null);
 
+    private _validacion: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
     /**
      * Constructor
      */
@@ -32,6 +34,16 @@ export class VouchersService
     {
         return this._pagination.asObservable();
     }
+
+    get bancos$(): Observable<any> {
+        return this._bancos.asObservable();
+    }
+
+    get validacion$(): Observable<any[]>
+    {
+        return this._validacion.asObservable();
+    }
+
 
     /**
      * Getter for voucher
@@ -171,4 +183,39 @@ export class VouchersService
             ))
         );
     }
+
+    getBancos(): Observable<any>
+    {
+        return this._httpClient.get(environment.baseUrl + 'bancos').pipe(
+            tap((response: any) => {
+                // console.log(response);
+                this._bancos.next(response);
+            })
+        );
+    }
+
+    validarDatosVoucher(historialForm: any, idTramite: any): Observable<any>
+    {
+        return this.validacion$.pipe(
+            take(1),
+            switchMap(validaciones => this._httpClient.put<any>(environment.baseUrl + 'vouchers/pendientes/validarVoucher/' + idTramite, historialForm).pipe(
+                map((response) => {
+                    console.log(response);
+                    // debugger;
+                    // Update the messages with the new message
+
+                    // });
+        
+                    // Update the carpetas
+                    // this._historial.next(response);
+        
+                    // Return the new message from observable
+                    return response;
+                })
+            ))
+        );
+
+        
+    }
+
 }

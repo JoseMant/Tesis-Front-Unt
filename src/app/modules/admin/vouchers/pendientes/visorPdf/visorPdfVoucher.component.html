@@ -1,12 +1,12 @@
 <div
     mat-dialog-title
-    class="text text-white text-2x1 text-center justify-center flex flex-col -mx-6 -mt-6 py-4 bg-blue-900"
+    class="text text-white text-2x1 text-center justify-center flex flex-col -mx-6 -mt-6 py-2 bg-blue-900"
 >
     <span class="mx-3" *ngIf="!data.lectura; else block">Verificar voucher
     </span>
     <ng-template #block>Datos voucher</ng-template>
 </div>
-<div mat-dialog-content class="pb-4">
+<div mat-dialog-content class="pb-2">
     <!-- <div class="example-action-buttons">
         <button mat-button (click)="accordion.openAll()">Expandir todo</button>
         <button mat-button (click)="accordion.closeAll()">Contraer todo</button>
@@ -24,7 +24,7 @@
                     class="sm:col-span-6 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>ALUMNO</mat-label>
+                    <mat-label>ALUMNO</mat-label>
                     <input
                         type="text"
                         matInput readonly
@@ -36,7 +36,7 @@
                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>DNI</mat-label>
+                    <mat-label>DNI</mat-label>
                     <input
                         type="text"
                         matInput readonly
@@ -47,7 +47,7 @@
                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>NRO MATRÍCULA</mat-label>
+                    <mat-label>NRO MATRÍCULA</mat-label>
                     <input
                         type="text"
                         matInput readonly
@@ -59,7 +59,7 @@
                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>NUMERO DE TRÁMITE</mat-label>
+                    <mat-label>NUMERO DE TRÁMITE</mat-label>
                     <input
                         type="text"
                         matInput readonly
@@ -70,7 +70,7 @@
                     class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>TRAMITE</mat-label>
+                    <mat-label>TRAMITE</mat-label>
                     <input
                         type="text"
                         matInput readonly
@@ -81,7 +81,7 @@
                     class="sm:col-span-2 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>EXONERADO DE PAGO</mat-label>
+                    <mat-label>EXONERADO DE PAGO</mat-label>
                     <input
                         type="text"
                         matInput readonly
@@ -92,21 +92,31 @@
                     class="sm:col-span-4 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>ENTIDAD</mat-label>
-                    <input
-                        type="text"
-                        matInput readonly
-                        formControlName="entidad"
-                    />
+                    <mat-label>ENTIDAD</mat-label>
+                    <mat-select
+                        [formControlName]="'entidad'"
+                        [(value)]="entidadSelected">
+                        <ng-container>
+                           <mat-option [value]="0" disabled>
+                              Seleccionar entidad...
+                           </mat-option>
+                        </ng-container>
+                        <ng-container *ngFor="let bank of bancos">
+                            <mat-option [value]="bank.ban_descripcion">
+                              {{bank.ban_descripcion}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                    
                 </mat-form-field>
                 <mat-form-field
                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>NRO DE OPERACIÓN / NRO DE RESOLUCIÓN DE EXONERADO</mat-label>
+                    <mat-label>NRO DE OPERACIÓN / NRO DE RESOLUCIÓN DE EXONERADO</mat-label>
                     <input
                         type="text"
-                        matInput readonly
+                        matInput 
                         formControlName="nro_operacion"
                     />
                 </mat-form-field>
@@ -114,14 +124,25 @@
                     class="sm:col-span-3 col-span-6 ml-3 h-9 mb-3"
                     appearance="outline"
                 >
-                <mat-label>FECHA DE OPERACIÓN / FECHA DE RESOLUCIÓN DE EXONERADO</mat-label>
+                    <mat-label>FECHA DE OPERACIÓN / FECHA DE RESOLUCIÓN DE EXONERADO</mat-label>
                     <input
-                        type="text"
-                        matInput readonly
+                        type="date"
+                        matInput 
                         formControlName="fecha_operacion"
                     />
                 </mat-form-field>
+               
+               
             </div>
+
+            <button
+                mat-button
+                class="rounded-full bg-lime-500 hover:bg-lime-600 text-white ml-auto justify-end flex mt-6 mr-2"
+                cmat-button
+                (click)="validarDatosVoucher()"
+            >
+                Validar voucher
+            </button>
 
             </mat-expansion-panel>
             

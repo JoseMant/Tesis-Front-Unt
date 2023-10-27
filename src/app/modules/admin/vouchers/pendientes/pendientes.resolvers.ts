@@ -52,6 +52,36 @@ export class VoucherPendienteResolver implements Resolve<any>
     }
 }
 
+
+@Injectable({
+    providedIn: 'root'
+})
+export class BancosResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _vouchersService: VouchersService,
+        private _router: Router)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
+    {
+        return this._vouchersService.getBancos();
+    }
+}
+
 @Injectable({
     providedIn: 'root'
 })

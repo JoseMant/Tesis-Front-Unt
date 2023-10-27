@@ -412,18 +412,7 @@
 
                     <mat-card *ngIf="tramiteForm.get('requiere_voucher').value" class="mt-6" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Datos del Pago</mat-label></mat-card-title>
-                        <mat-card-content >
-                            <div class="flex flex-col w-full">
-                                <!-- Alert -->
-                                <fuse-alert
-                                    *ngIf="tramiteForm.get('entidad').value == 'TESORERÍA'"
-                                    class="ml-3 mb-4"
-                                    [appearance]="'outline'"
-                                    [showIcon]="false"
-                                    [type]="'warn'">
-                                    Recuerda, al pagar en Tesorería UNT debes entregar tu voucher en físico a tu Secretaría de Escuela o Secretaría de Especialidad para validar cualquier tipo de trámite
-                                </fuse-alert>
-                            </div>
+                        <mat-card-content>
                             <div class="grid grid-cols-6 gap-y-6 mb-6">
                                 <mat-form-field
                                     *ngIf="!data.exonerado || (data.exonerado && costo_exonerado > 0)"
