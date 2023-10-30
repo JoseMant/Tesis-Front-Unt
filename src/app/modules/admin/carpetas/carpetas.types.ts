@@ -25,9 +25,11 @@ export interface CarpetaInterface
     idResolucion?: number;
     idEstado_tramite?: number;
     idTipo_tramite_unidad?: number;
+    idTipo_tramite?: number;
     fecha_primera_matricula?: number;
     fecha_ultima_matricula?: number;
     certificado_final?: string;
+    sede?: string;
 }
 export interface CarpetasPagination
 {

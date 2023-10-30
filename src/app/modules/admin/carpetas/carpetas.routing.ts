@@ -149,8 +149,6 @@ export const carpetasRoutes: Route[] = [
           component    : CarpetasFinalizadasDetalleComponent,
           resolve      : {
             carpetas  : CarpetaFinalizadaResolver,
-            modalidades: ModalidadesSustentacionResolver,
-            programas_estudios: ProgramasEstudiosResolver,
           },
         }
       ]

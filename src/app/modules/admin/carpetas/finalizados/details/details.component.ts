@@ -1,20 +1,24 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { fuseAnimations } from '@fuse/animations';
 import { CarpetasService } from 'app/modules/admin/carpetas/carpetas.service';
 import { CarpetaInterface } from 'app/modules/admin/carpetas/carpetas.types';
 import { AlertaComponent } from 'app/shared/alerta/alerta.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseAlertType } from '@fuse/components/alert';
-// import { CarpetaSecretariaValidadosDialogComponent } from 'app/modules/admin/carpetas/secretaria/validados/dialog/dialog.component';
-import moment from 'moment';
+import { RequisitosDialogComponent } from 'app/modules/admin/grados/dialogReq/dialogReq.component';
 
 @Component({
-    selector       : 'carpeta-finalizadas-details',
+    selector       : 'carpeta-details',
     templateUrl    : './details.component.html',
     styles         : [
         /* language=SCSS */
@@ -79,29 +83,28 @@ import moment from 'moment';
 })
 export class CarpetasFinalizadasDetalleComponent implements OnInit, OnDestroy
 {
-    @ViewChild('carpetaNgForm') carpetaNgForm: NgForm;
-    @ViewChild('corregirNgForm') corregirNgForm: NgForm;
+    @ViewChild(MatPaginator) private _paginator: MatPaginator;
+    @ViewChild(MatAccordion) private _accordion: MatAccordion;
+    @ViewChild(MatSort) private _sort: MatSort;
+
     alert: { type: FuseAlertType; message: string; title: string} = {
         type   : 'success',
         message: '',
         title: '',
     };
     carpeta: CarpetaInterface | null = null;
-    carpetaForm: FormGroup;
-    corregirForm: FormGroup;
-    contador: number = 4;
-    maxDate: any;
-    modalidades_sustentacion: any;
-    programas_estudios: any;
-    diplomas: any;
+    allgrados: CarpetaInterface[];
+    gradoForm: FormGroup;
+    contador: number;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    newGrado: boolean = false;
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _carpetaService: CarpetasService,
+        private _carpetasService: CarpetasService,
         public visordialog: MatDialog,
         private snackBar: MatSnackBar
     )
@@ -122,30 +125,24 @@ export class CarpetasFinalizadasDetalleComponent implements OnInit, OnDestroy
         });
     }
 
-    limiteFecha(): void {
-        const now = moment();
-        this.maxDate = now;
-    }
-
     /**
      * On init
      */
     ngOnInit(): void
     {
-        this.limiteFecha();
-
-        // Create the selected carpeta form
-        this.carpetaForm = this._formBuilder.group({
+        // Create the selected maduritylevel form
+        this.gradoForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
             nro_documento: [''],
             idColacion: [''],
             idEstado_tramite: [''],
+            idModalidad_grado: [''],
             descripcion_estado: [''],
             codigo: [''],
-            entidad: [''],
-            nro_operacion: [''],
-            fecha_operacion: [''],
+            entidad: ['', Validators.required],
+            nro_operacion: ['', [Validators.maxLength(6), Validators.pattern(/^[0-9]+$/),Validators.required]],
+            fecha_operacion: ['', Validators.required],
             archivo: [''],
             idMotivo_tramite: [''],
             comentario: [''],
@@ -165,87 +162,27 @@ export class CarpetasFinalizadasDetalleComponent implements OnInit, OnDestroy
             archivo_firma: [''],
             archivoImagen: [''],
             requisitos: [''],
-
-            idModalidad_carpeta: [{value: '', disabled: true}, Validators.required],
-            fecha_inicio_acto_academico: [{value: '', disabled: true}, Validators.required],
-            fecha_sustentacion_carpeta: [{value: '', disabled: true}, Validators.required],
-            nombre_trabajo_carpeta: [{value: '', disabled: true}],
-            url_trabajo_carpeta: [{value: '', disabled: true}],
-            nro_creditos_carpeta: [{value: '', disabled: true}, Validators.required],
-            idPrograma_estudios_carpeta: [{value: '', disabled: true}, Validators.required],
-            fecha_primera_matricula: [{value: '', disabled: true}, Validators.required],
-            fecha_ultima_matricula: [{value: '', disabled: true}, Validators.required],
-            idDiploma_carpeta: [{value: '', disabled: true}, Validators.required],
-            anios_estudios: [{value: '', disabled: true}],
-
-            idAcreditacion: [{value: '', disabled: true}],
-            dependencia_acreditado: [{value: '', disabled: true}],
-            fecha_inicio: [{value: '', disabled: true}],
-            fecha_fin: [{value: '', disabled: true}],
+            certificado_final: ['', Validators.required]
         });
 
         // Get the carpeta
-        this._carpetaService.carpeta$
+        this._carpetasService.carpeta$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((carpeta: CarpetaInterface) => {
-
                 // Get the carpeta
                 this.carpeta = carpeta;
-
+                if(this.carpeta.idTipo_tramite==2){
+                    this.contador=4;
+                }else{
+                    this.contador=3;
+                }
                 // Patch values to the form
-                this.carpetaForm.patchValue(carpeta);
-                console.log(this.carpeta);
-                this.calcularTiempo();
-
-                this._carpetaService.getModalidadesSustentacion(carpeta.idTipo_tramite_unidad)
-                    .pipe(takeUntil(this._unsubscribeAll))
-                    .subscribe((modalidades: any) => {
-                        this.modalidades_sustentacion = modalidades;
-            
-                        // Mark for check
-                        this._changeDetectorRef.markForCheck();
-                    });
-
-                this._carpetaService.getDiplomasByTipoTramiteUnidad(carpeta.idUnidad, carpeta.idTipo_tramite_unidad, carpeta.idPrograma)
-                    .pipe(takeUntil(this._unsubscribeAll))
-                    .subscribe((diplomas: any) => {
-                        this.diplomas = diplomas;
-            
-                        // Mark for check
-                        this._changeDetectorRef.markForCheck();
-                    });
+                this.gradoForm.patchValue(carpeta);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        this._carpetaService.programas_estudios$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((programas_estudios: any) => {
-                this.programas_estudios = programas_estudios;
-    
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });       
-    }
-    
-    calcularTiempo(): void {
-        let tiempo = moment(this.carpetaForm.get('fecha_primera_matricula').value).from(this.carpetaForm.get('fecha_ultima_matricula').value);
-        let tiempo_parcial = tiempo.split(" ");
-        this.carpetaForm.patchValue({anios_estudios: (Number(tiempo_parcial[0])+1) + " años"});
-    }
-
-    modalNotification(): void {
-        // console.log(this.carpetaForm.getRawValue());
-        // const respDial = this.visordialog.open(
-        //     CarpetaSecretariaValidadosDialogComponent,
-        //     {
-        //         data: this.carpetaForm.getRawValue(),
-        //         disableClose: true,
-        //         minWidth: '50%',
-        //         maxWidth: '60%'
-        //     }
-        // );
     }
 
     /**
@@ -267,12 +204,12 @@ export class CarpetasFinalizadasDetalleComponent implements OnInit, OnDestroy
         return item.id || index;
     }
 
-
+    
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
     
+
     
 }

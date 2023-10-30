@@ -33,7 +33,7 @@ import { Resolucion } from 'app/modules/admin/masters/carpeta/cronogramas/cronog
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px auto 190px 96px 190px 112px 72px;
+                    grid-template-columns: 48px 112px 350px 300px 180px 250px 112px 72px;
                 }
             }
             .fondo_snackbar {
