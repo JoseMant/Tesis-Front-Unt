@@ -19,6 +19,7 @@ export interface DuplicadosDiplomasInterface
     nro_matricula: string;
     requisitos: any;
     solicitante: string;
+    tipo_tramite: string;
     tramite: string;
     unidad: string;
     voucher: string;

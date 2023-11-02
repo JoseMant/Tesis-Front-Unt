@@ -95,8 +95,7 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
         title: '',
     };
     duplicado: DuplicadosDiplomasInterface | null = null;
-    allgrados: GradoInterface[];
-    gradoForm: FormGroup;
+    duplicadoForm: FormGroup;
     data: GradoInterface;
     contador: number = 4;
     requisitos: any;
@@ -133,7 +132,7 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.gradoForm = this._formBuilder.group({
+        this.duplicadoForm = this._formBuilder.group({
             idTramite: [''],
             idTipo_tramite: [''],
             nro_documento: [''],
@@ -171,14 +170,14 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
         // Get the grado
         this._duplicadosService.duplicado$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((duplicado: GradoInterface) => {
+            .subscribe((duplicado: DuplicadosDiplomasInterface) => {
                 console.log(duplicado);
                 // Get the grado
                 this.duplicado = duplicado;
                 this.requisitos = duplicado.requisitos;
 
                 // Patch values to the form
-                this.gradoForm.patchValue(duplicado);
+                this.duplicadoForm.patchValue(duplicado);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -213,13 +212,13 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     selectGrado(event): void {
         const files = event.target.files[0];
-        this.gradoForm.patchValue({archivo: files});
-        console.log(this.gradoForm);
+        this.duplicadoForm.patchValue({archivo: files});
+        console.log(this.duplicadoForm);
         this.newGrado = true;
     }
     
     selectReqDocumento(event, req): void {
-        const requisito = this.gradoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
+        const requisito = this.duplicadoForm.getRawValue().requisitos.find(item => item.idRequisito === req.idRequisito);
         requisito['archivoPdf'] = event.target.files[0];
     }
 
@@ -238,12 +237,12 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
     UpdateRequisitosSecGeneral(): void{
         
         const data={
-            idTramite: this.gradoForm.getRawValue().idTramite,
-            requisitos: this.gradoForm.getRawValue().requisitos,
+            idTramite: this.duplicadoForm.getRawValue().idTramite,
+            requisitos: this.duplicadoForm.getRawValue().requisitos,
         };
 
         //Validar que subí todos los requisitos rechazados/pendientes
-        const requis = this.gradoForm.getRawValue().requisitos.find(element => element.responsable == 23 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
+        const requis = this.duplicadoForm.getRawValue().requisitos.find(element => element.responsable == 23 && ((element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'RECHAZADO') || (!element.archivo && element.archivoPdf === undefined && element.extension === 'pdf' && element.des_estado_requisito == 'PENDIENTE')));
         if (requis) {
             this.alert = {
                 type   : 'warn',
@@ -272,14 +271,14 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
         });
 
         //faltaba desabilitar gradoform para que el ngif del spinner funcionara
-        this.gradoForm.disable();
+        this.duplicadoForm.disable();
 
         // console.log(formData.getAll('files[]'));
         
         this._duplicadosService.updateRequisitos(data.idTramite, formData).subscribe((response) => {
             
             // Re-enable the form
-            this.gradoForm.enable();
+            this.duplicadoForm.enable();
 
             this.alert = {
                 type   : 'success',
@@ -294,7 +293,7 @@ export class DuplicadoAprobadoDetalleComponent implements OnInit, OnDestroy
         (response) => {
 
             // Re-enable the form
-            this.gradoForm.enable();
+            this.duplicadoForm.enable();
 
             this.alert = {
                 type   : 'warn',

@@ -23,6 +23,10 @@
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>FECHA DE REGISTRO:</b> {{duplicado.fecha | date: 'dd-MM-yyyy'}}</div>
                     </div>
+                    <!-- TIPO DE TRÁMITE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>TIPO DE TRÁMITE:</b> {{duplicado.tipo_tramite}}</div>
+                    </div>
                     <!-- TRÁMITE -->
                     <div class="sm:col-span-2">
                         <div class="text-secondary"><b>TRÁMITE:</b> {{duplicado.tramite}}</div>
@@ -31,7 +35,10 @@
                     <div class="sm:col-span-2">
                       <div class="text-secondary"><b>NRO DE MATRÍCULA:</b> {{duplicado.nro_matricula}}</div>
                     </div>
-  
+                    <!-- SEDE -->
+                    <div class="sm:col-span-2">
+                        <div class="text-secondary"><b>SEDE :</b> {{duplicado.sede}}</div>
+                    </div>
                 </div>
                 
                 <!-- Divider -->
@@ -200,13 +207,13 @@
                     class="ml-4"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="gradoForm.disabled"                    
+                    [disabled]="duplicadoForm.disabled"                    
                     (click)="UpdateRequisitosSecGeneral()">
-                    <span *ngIf="!gradoForm.disabled">
+                    <span *ngIf="!duplicadoForm.disabled">
                         Guardar
                     </span>
                     <mat-progress-spinner
-                        *ngIf="gradoForm.disabled"
+                        *ngIf="duplicadoForm.disabled"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
