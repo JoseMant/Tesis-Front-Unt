@@ -29,7 +29,7 @@ import { ResolucionesService } from 'app/modules/admin/resoluciones/resoluciones
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px auto 350px 200px 150px 300px 200px 100px;
+                    grid-template-columns: 48px auto 300px 200px 200px 300px 200px 100px;
                 }
             }
             .fondo_snackbar {

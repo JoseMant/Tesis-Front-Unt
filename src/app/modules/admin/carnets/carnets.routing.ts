@@ -29,6 +29,12 @@ import { CarnetRecibidoResolver, CarnetsRecibidosResolver,SedesCarnetsResolver }
 import { CarnetRecibidoDetalleComponent } from './recibidos/detalle/details.component';
 
 // -------------
+
+import { CarnetsFinalizadosComponent } from 'app/modules/admin/carnets/finalizados/finalizados.component';
+import { CarnetsFinalizadosListComponent } from 'app/modules/admin/carnets/finalizados/list/list.component';
+import { CarnetFinalizadoResolver,CarnetsFinalizadosResolver,SedesCarnetsRecibidosResolver } from 'app/modules/admin/carnets/finalizados/finalizados.resolvers';
+import { CarnetFinalizadoDetalleComponent } from './finalizados/detalle/details.component';
+
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const carnetsRoutes: Route[] = [
@@ -166,6 +172,35 @@ export const carnetsRoutes: Route[] = [
                 component    : CarnetRecibidoDetalleComponent,
                 resolve      : {
                     carnet  : CarnetRecibidoResolver,
+                },
+            }
+        ]
+    },
+    {
+        path     : 'finalizados',
+        component: CarnetsFinalizadosComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMINISTRADOR', 'SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'SECRETARIA(O) DE ESCUELA'],
+                redirectTo: 'home'
+            }
+        },
+        resolve  : {
+            carnets  : CarnetsFinalizadosResolver,
+            sedes:SedesCarnetsRecibidosResolver,
+           
+        },
+        children : [
+            {
+                path     : '',
+                component: CarnetsFinalizadosListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : CarnetFinalizadoDetalleComponent,
+                resolve      : {
+                    carnet  : CarnetFinalizadoResolver,
                 },
             }
         ]

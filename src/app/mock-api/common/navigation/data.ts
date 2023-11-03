@@ -609,6 +609,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carnets/recibidos',
                 permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'JEFE DE SUBUNIDAD DE MATRÍCULAS', 'SECRETARIA(O) DE ESCUELA']
             },
+            {
+                // Se muestran los trámites de carnets recibidos por el Alumno
+                id   : 'carnets.finalizados',
+                title: 'Finalizados',
+                type : 'basic',
+                link : '/carnets/finalizados',
+                permissions: ['SUBUNIDAD DE MATRÍCULAS-CARNÉS', 'JEFE DE SUBUNIDAD DE MATRÍCULAS', 'SECRETARIA(O) DE ESCUELA']
+            },
         ]
     },
     {

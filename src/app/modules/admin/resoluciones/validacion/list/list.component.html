@@ -69,15 +69,15 @@
                                 [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
+                            <!-- Motivo-->
+                            <div
+                                [mat-sort-header]="'motivo'">
+                                Motivo
+                            </div>
                             <!-- Nro resolucion-->
                             <div
                                 [mat-sort-header]="'nro_resolucion'">
                                 Nro. Resolución
-                            </div>
-                            <!-- fecha resolucion-->
-                            <div
-                                [mat-sort-header]="'fecha_resolucion'">
-                                Fecha Resolucion
                             </div>
                             <!-- Tipo trámite-->
                             <div
@@ -111,13 +111,13 @@
                                     <div class="truncate">
                                         {{tramiteResolucion.solicitante}}
                                     </div>
+                                    <!-- Motivo -->
+                                    <div class="truncate">
+                                        {{tramiteResolucion.motivo}}
+                                    </div>
                                     <!-- Nro resolucion -->
                                     <div class="truncate">
                                         {{tramiteResolucion.nro_resolucion}}
-                                    </div>
-                                    <!-- Fecha resolucion -->
-                                    <div class="truncate">
-                                        {{tramiteResolucion.fecha_resolucion | date:'mediumDate' }}
                                     </div>
                                     <!-- Tipo trámite -->
                                     <div class="truncate">

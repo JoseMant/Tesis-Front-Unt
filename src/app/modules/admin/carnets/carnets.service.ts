@@ -226,7 +226,25 @@ export class CarnetsService
         })
       );
     }
-
+    getCarnetsFinalizados(page: number = 0, size: number = 10, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = '', sede: string = ''):
+    Observable<{ pagination: CarnetPagination; data: CarnetInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: CarnetPagination; data: CarnetInterface[] }>(environment.baseUrl + 'tramite/carnets/finalizados', {
+        params: {
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search,
+            sede
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._carnets.next(response.data);
+        })
+      );
+    }
     /**
      * Get carnet by id
      */

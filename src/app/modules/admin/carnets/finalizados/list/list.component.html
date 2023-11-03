@@ -11,15 +11,15 @@
 
         <div>
             <!-- Title -->
-            <div class="text-4xl font-extrabold tracking-tight">Carnets recibidos</div>
+            <div class="text-4xl font-extrabold tracking-tight">Carnets finalizados</div>
             <div class="ml-0.5 font-medium text-secondary">
                 <ng-container *ngIf="carnetsCount > 0">
                     {{pagination.length}}
                 </ng-container>
                 {{carnetsCount | i18nPlural: {
-                    '=0'   : 'No hay carnets recibidos',
-                    '=1'   : 'Carnet recibido',
-                    'other': 'Carnets recibidos'
+                    '=0'   : 'No hay carnets finalizados',
+                    '=1'   : 'Carnet finaliado',
+                    'other': 'Carnets finalizados'
                 } }}
             </div>
         </div>
@@ -63,7 +63,7 @@
             <button
                 mat-flat-button
                 [color]="'primary'"
-                (click)="verCarnetsRecibidosSecretaria()">
+                (click)="verCarnetsFinalizadosSecretaria()">
                 <mat-icon [svgIcon]="'heroicons_outline:eye'"></mat-icon>
                 <span class="ml-2">Reporte</span>
             </button>
@@ -81,7 +81,7 @@
                     <div class="grid">
                         <!-- Header -->
                         <div
-                            class="carnets-recibidos-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            class="carnets-finalizados-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
 
@@ -149,7 +149,7 @@
                         <!-- Rows -->
                         <ng-container *ngIf="(carnets$ | async) as carnets">
                             <ng-container *ngFor="let carnet of carnets; trackBy: trackByFn let id=index">
-                                <div class="carnets-recibidos-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+                                <div class="carnets-finalizados-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- Nro. Trámite -->
                                     <div >
