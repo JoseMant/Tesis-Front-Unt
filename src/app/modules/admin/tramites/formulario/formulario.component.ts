@@ -249,7 +249,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._tramiteService.unidades$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: any) => {
-                console.log(this.user)
                 if (this.user.idTipoUsuario == 5) {
                     this.unidades = unidades.filter(unidad => unidad.idUnidad == 1);
                 } else if (this.user.idTipoUsuario == 17) {

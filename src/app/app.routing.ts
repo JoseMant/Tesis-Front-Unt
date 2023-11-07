@@ -96,6 +96,7 @@ export const appRoutes: Route[] = [
             {path: 'carnets', loadChildren: () => import('app/modules/admin/carnets/carnets.module').then(m => m.CarnetsModule)},
             {path: 'constancias', loadChildren: () => import('app/modules/admin/constancias/constancias.module').then(m => m.ConstanciasModule)},
             {path: 'reportes', loadChildren: () => import('app/modules/admin/reportes/reportes.module').then(m => m.ReporteModule)},
+            {path: 'indicadores', loadChildren: () => import('app/modules/admin/indicadores/indicadores.module').then(m => m.IndicadoresModule)},
             // Ajustes
             {path: 'settings', loadChildren: () => import('app/modules/admin/settings/settings.module').then(m => m.SettingsModule)},
             // Masters

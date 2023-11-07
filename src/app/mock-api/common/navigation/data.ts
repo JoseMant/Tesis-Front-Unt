@@ -6,7 +6,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'home',
         title: 'Inicio',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:home',
         link : '/home',
         permissions: []
     },
@@ -531,38 +531,38 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     },
-    {
-        id   : 'constancias',
-        title: 'Constancias',
-        type : 'collapsable',
-        icon : 'heroicons_outline:document-text',
-        children: [
-            {
-                // Se muestran al usuario para ser asignados después de validación en tesorería
-                id   : 'constancias.validadas',
-                title: 'Validadas',
-                type : 'basic',
-                link : '/constancias/validadas',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                // Se muestran al usuario para validar requisitos
-                id   : 'constancias.asignadas',
-                title: 'Asignadas',
-                type : 'basic',
-                link : '/constancias/asignadas',
-                permissions: ['ADMINISTRADOR']
-            },
-            {
-                // Se muestran para la firma del jefe de RT
-                id   : 'constancias.firma_uraa',
-                title: 'Firma URA-a',
-                type : 'basic',
-                link : '/constancias/firma_uraa',
-                permissions: ['ADMINISTRADOR']
-            },
-        ]
-    },
+    // {
+    //     id   : 'constancias',
+    //     title: 'Constancias',
+    //     type : 'collapsable',
+    //     icon : 'heroicons_outline:document-text',
+    //     children: [
+    //         {
+    //             // Se muestran al usuario para ser asignados después de validación en tesorería
+    //             id   : 'constancias.validadas',
+    //             title: 'Validadas',
+    //             type : 'basic',
+    //             link : '/constancias/validadas',
+    //             permissions: ['ADMINISTRADOR']
+    //         },
+    //         {
+    //             // Se muestran al usuario para validar requisitos
+    //             id   : 'constancias.asignadas',
+    //             title: 'Asignadas',
+    //             type : 'basic',
+    //             link : '/constancias/asignadas',
+    //             permissions: ['ADMINISTRADOR']
+    //         },
+    //         {
+    //             // Se muestran para la firma del jefe de RT
+    //             id   : 'constancias.firma_uraa',
+    //             title: 'Firma URA-a',
+    //             type : 'basic',
+    //             link : '/constancias/firma_uraa',
+    //             permissions: ['ADMINISTRADOR']
+    //         },
+    //     ]
+    // },
     {
         id   : 'carnets',
         title: 'Carnets',
@@ -707,6 +707,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
             }
         ]
+    },
+    {
+        id   : 'indicadores',
+        title: 'Indicadores',
+        type : 'basic',
+        icon : 'heroicons_outline:chart-pie',
+        link : '/indicadores',
+        permissions: ['ADMINISTRADOR']
     },
 
     {
