@@ -21,15 +21,15 @@ import { ResolucionesService } from 'app/modules/admin/resoluciones/resoluciones
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 48px 150px auto 72px;
+                    grid-template-columns: 48px 200px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 150px 230px auto 72px;
+                    grid-template-columns: 48px 200px 200px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px auto 300px 200px 200px 300px 200px 100px;
+                    grid-template-columns: 48px 150px 200px 300px 200px auto 72px;
                 }
             }
             .fondo_snackbar {
