@@ -59,37 +59,33 @@
 
                             <!-- Nro. Trámite -->
                             <div
-                                class="hidden sm:block"
+                                class="hidden lg:block"
                                 [mat-sort-header]="'nro_tramite'">
                                 Nro. Trámite
                             </div>
-
-                            <!-- Solicitante-->
+                            <!-- Tipo trámite-->
                             <div
-                                [mat-sort-header]="'solicitante'">
-                                Solicitante
+                                class="hidden sm:block"
+                                [mat-sort-header]="'tipo_tramite'">
+                                Tipo de Trámite
                             </div>
-                            <!-- Motivo-->
+                            <!-- Programa-->
                             <div
-                                [mat-sort-header]="'motivo'">
-                                Motivo
+                                class="hidden lg:block"
+                                [mat-sort-header]="'programa'">
+                                Programa
                             </div>
                             <!-- Nro resolucion-->
                             <div
                                 [mat-sort-header]="'nro_resolucion'">
                                 Nro. Resolución
                             </div>
-                            <!-- Tipo trámite-->
+                            <!-- Motivo-->
                             <div
-                                [mat-sort-header]="'tipo_tramite'">
-                                Tipo de Trámite
-                            </div>
-                            <!-- Fecha-->
-                            <div
-                                [mat-sort-header]="'Fecha'">
-                                Fecha
-                            </div>                            
-
+                                class="hidden md:block"
+                                [mat-sort-header]="'motivo'">
+                                Motivo
+                            </div>                          
                             <!-- Opciones -->
                             <div class="hidden sm:block">Opciones</div>
                         </div>
@@ -103,30 +99,25 @@
                                         {{id+1}}
                                     </div>
                                     <!-- Nro. Trámite -->
-                                    <div class="hidden sm:block">
+                                    <div class="hidden lg:block">
                                         {{tramiteResolucion.nro_tramite}}
                                     </div>
 
                                     <!-- Solicitante -->
-                                    <div class="truncate">
-                                        {{tramiteResolucion.solicitante}}
+                                    <div  class="hidden sm:block">
+                                        {{tramiteResolucion.tramite}}
                                     </div>
                                     <!-- Motivo -->
-                                    <div class="truncate">
-                                        {{tramiteResolucion.motivo}}
+                                    <div  class="hidden lg:block">
+                                        {{tramiteResolucion.programa}}
                                     </div>
                                     <!-- Nro resolucion -->
-                                    <div class="truncate">
+                                    <div>
                                         {{tramiteResolucion.nro_resolucion}}
                                     </div>
                                     <!-- Tipo trámite -->
-                                    <div class="truncate">
-                                        {{tramiteResolucion.tramite}}
-                                    </div>
-                                    
-                                    <!-- Fecha -->
-                                    <div class="truncate">
-                                        {{tramiteResolucion.fecha| date:'medium'}}
+                                    <div  class="hidden md:block">
+                                        {{tramiteResolucion.motivo}}
                                     </div>
 
                                     <div>
