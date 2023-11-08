@@ -45,6 +45,7 @@
                     <!-- Actions -->
                     <div class="flex items-center ml-auto mb-1">
                         <button
+                            *ngxPermissionsOnly="['ADMINISTRADOR']"
                             mat-stroked-button
                             (click)="toggleEditMode(true)">
                             <mat-icon
