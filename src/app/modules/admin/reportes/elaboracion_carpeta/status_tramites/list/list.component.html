@@ -168,6 +168,20 @@
                         <mat-icon [svgIcon]="'heroicons_outline:document-text'" color="accent"></mat-icon>
                         <span class="ml-2">Carpetas observadas</span>
                     </button>
+                    <button
+                        mat-menu-item
+                        (click)="verExcelCarpetasAptas()"
+                        >
+                        <mat-icon [svgIcon]="'heroicons_outline:document-text'" color="accent"></mat-icon>
+                        <span class="ml-2">Carpetas aptas</span>
+                    </button>
+                    <button
+                        mat-menu-item
+                        (click)="verExcelGeneral()"
+                        >
+                        <mat-icon [svgIcon]="'heroicons_outline:document-text'" color="accent"></mat-icon>
+                        <span class="ml-2">Reporte general</span>
+                    </button>
                 </mat-menu>
 
 
@@ -226,7 +240,7 @@
                                 [mat-sort-header]="'solicitante'">
                                 Solicitante
                             </div>
-
+                            
                             <!-- Trámite-->
                             <div
                                 class="hidden md:block md: w-40"
