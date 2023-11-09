@@ -29,6 +29,8 @@ export interface TituloInterface
     fecha_primera_matricula?: number;
     fecha_ultima_matricula?: number;
     certificado_final?: string;
+    condicion?: string;
+
 }
 export interface TituloPagination
 {
