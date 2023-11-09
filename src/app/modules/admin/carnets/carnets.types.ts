@@ -23,6 +23,7 @@ export interface CarnetInterface
     unidad: string;
     voucher: string;
     idEstado_tramite?: number;
+    fecha_entrega: string;
 }
 export interface CarnetPagination
 {

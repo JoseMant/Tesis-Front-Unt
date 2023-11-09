@@ -212,24 +212,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
                     this.user['sexoNombre'] = 'FEMENINO';
                 }
 
-                if(this.user.idTipoUsuario==5||this.user.idTipoUsuario==17){
-                    this.tramiteForm.controls['entidad'].clearValidators();
-                    this.tramiteForm.controls['nro_operacion'].clearValidators();
-                    this.tramiteForm.controls['fecha_operacion'].clearValidators();
-
-                    this.tramiteForm.controls['nro_resolucion'].setValidators(Validators.required);
-                    this.tramiteForm.controls['fecha_resolucion'].setValidators(Validators.required);
-                    this.tramiteForm.controls['motivo'].setValidators(Validators.required);
-
-                    this.tramiteForm.controls['entidad'].updateValueAndValidity();
-                    this.tramiteForm.controls['nro_operacion'].updateValueAndValidity();
-                    this.tramiteForm.controls['fecha_operacion'].updateValueAndValidity();
-                    this.tramiteForm.controls['nro_resolucion'].updateValueAndValidity();
-                    this.tramiteForm.controls['fecha_resolucion'].updateValueAndValidity();
-                    this.tramiteForm.controls['motivo'].updateValueAndValidity();
-                } 
-                
-
                 this.createFormulario(this.user);
 
                 // Mark for check
@@ -249,7 +231,6 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this._tramiteService.unidades$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((unidades: any) => {
-                console.log(this.user)
                 if (this.user.idTipoUsuario == 5) {
                     this.unidades = unidades.filter(unidad => unidad.idUnidad == 1);
                 } else if (this.user.idTipoUsuario == 17) {
@@ -375,7 +356,20 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.tramiteForm.patchValue({idTipo_tramite: id,idTipo_tramite_unidad: 0});
         this.data.idTipo_tramite = id;
         this.data.idTipo_tramite_unidad = 0;
-        
+        if(this.data.idTipo_tramite==7||this.data.idTipo_tramite==8){
+            console.log(this.data.idTipo_tramite);
+            this.tramiteForm.controls['nro_resolucion'].setValidators(Validators.required);
+            this.tramiteForm.controls['fecha_resolucion'].setValidators(Validators.required);
+            this.tramiteForm.controls['motivo'].setValidators(Validators.required);
+        }else{
+            this.tramiteForm.controls['nro_resolucion'].clearValidators();
+            this.tramiteForm.controls['fecha_resolucion'].clearValidators();
+            this.tramiteForm.controls['motivo'].clearValidators();
+        } 
+        this.tramiteForm.controls['nro_resolucion'].updateValueAndValidity();
+        this.tramiteForm.controls['fecha_resolucion'].updateValueAndValidity();
+        this.tramiteForm.controls['motivo'].updateValueAndValidity();
+
         if(this.data.idUnidad>0) {
             this._tramiteService.getTipoTramiteUnidades(this.data.idTipo_tramite, this.data.idUnidad).subscribe((resp)=>{
                 this.tipoTramiteUnidades = resp.tipo_tramite_unidad;
@@ -523,6 +517,19 @@ export class TramiteListComponent implements OnInit, OnDestroy
             requiere_voucher: tipo.requiere_voucher
         });
         this.data.idTipo_tramite_unidad = id;
+        if(tipo.requiere_voucher==1){
+                this.tramiteForm.controls['entidad'].setValidators(Validators.required);
+                this.tramiteForm.controls['nro_operacion'].setValidators(Validators.required);
+                this.tramiteForm.controls['fecha_operacion'].setValidators(Validators.required);
+
+        }else{
+                this.tramiteForm.controls['entidad'].clearValidators();
+                this.tramiteForm.controls['nro_operacion'].clearValidators();
+                this.tramiteForm.controls['fecha_operacion'].clearValidators();
+        } 
+        this.tramiteForm.controls['entidad'].updateValueAndValidity();
+        this.tramiteForm.controls['nro_operacion'].updateValueAndValidity();
+        this.tramiteForm.controls['fecha_operacion'].updateValueAndValidity();
         
         this._tramiteService.getCronogramasByTipoTramiteUnidad(id, this.data.idDependencia).subscribe((response)=>{
             this.cronogramas = response;

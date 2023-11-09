@@ -268,7 +268,7 @@
                         </mat-card-content>
                     </mat-card>
 
-                    <mat-card class="mt-6" *ngIf="tramite.idTipo_tramite_unidad==45||tramite.idTipo_tramite_unidad==46" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                    <mat-card class="mt-6" *ngIf="tramiteForm.get('idTipo_tramite').value==7||tramiteForm.get('idTipo_tramite').value==8" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Datos de la Resolución </mat-label></mat-card-title>
                         <mat-card-content>
                             <div class="grid sm:grid-cols-4 gap-6 w-full mb-4 ml-2 pt-2" *ngIf="tramite.idEstado_tramite!=9">

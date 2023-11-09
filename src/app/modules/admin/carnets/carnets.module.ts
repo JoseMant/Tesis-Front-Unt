@@ -52,7 +52,10 @@ import { CarnetsSolicitadosListComponent } from 'app/modules/admin/carnets/solic
 import { CarnetSolicitadoDetalleComponent } from './solicitados/detalle/details.component';
 import { CarnetsRecibidosComponent } from 'app/modules/admin/carnets/recibidos/recibidos.component';
 import { CarnetsRecibidosListComponent } from 'app/modules/admin/carnets/recibidos/list/list.component';
+import { CarnetsFinalizadosComponent } from 'app/modules/admin/carnets/finalizados/finalizados.component';
 import { CarnetRecibidoDetalleComponent } from './recibidos/detalle/details.component';
+import { CarnetsFinalizadosListComponent } from './finalizados/list/list.component';
+import { CarnetFinalizadoDetalleComponent } from './finalizados/detalle/details.component';
 
 @NgModule({
     declarations: [
@@ -74,7 +77,12 @@ import { CarnetRecibidoDetalleComponent } from './recibidos/detalle/details.comp
         //---
         CarnetsRecibidosComponent,
         CarnetsRecibidosListComponent,
-        CarnetRecibidoDetalleComponent
+        CarnetRecibidoDetalleComponent,
+        //---
+        CarnetsFinalizadosComponent,
+        CarnetsFinalizadosListComponent,
+        CarnetFinalizadoDetalleComponent
+    
     ],
     imports     : [
         RouterModule.forChild(carnetsRoutes),

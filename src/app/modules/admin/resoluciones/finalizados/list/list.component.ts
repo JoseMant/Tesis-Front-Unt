@@ -21,16 +21,16 @@ import { ResolucionesService } from '../../resoluciones.service';
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 48px 150px auto 72px;
+                    grid-template-columns: 48px 200px auto 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: 48px 150px 230px auto 72px;
+                    grid-template-columns: 48px 200px 200px auto 72px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px auto 350px 200px 150px 300px 200px 100px;
-                }                           
+                    grid-template-columns: 48px 150px 200px 300px 200px auto 72px;
+                }                          
             }
             .fondo_snackbar {
                 background-color:transparent !important;

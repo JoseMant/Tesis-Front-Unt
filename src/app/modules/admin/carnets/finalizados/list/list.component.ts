@@ -19,7 +19,7 @@ import { AuthService } from 'app/core/auth/auth.service';
     styles         : [
         /* language=SCSS */
         `
-            .carnets-recibidos-grid {
+            .carnets-finalizados-grid {
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
@@ -98,7 +98,7 @@ import { AuthService } from 'app/core/auth/auth.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnDestroy
+export class CarnetsFinalizadosListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -200,7 +200,7 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
                 switchMap((query) => {
                     this.isLoading = true;
                     const form = this.selectedCarnetForm.getRawValue();
-                    return this._carnetsService.getCarnetsRecibidos(0, 100, 'fecha', 'desc', query,form.sede);
+                    return this._carnetsService.getCarnetsFinalizados(0, 100, 'fecha', 'desc', query,form.sede);
 
                 }),
                 map(() => {
@@ -217,7 +217,7 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedCarnetForm.getRawValue();
-                    return this._carnetsService.getCarnetsRecibidos(0, 100, 'fecha', 'desc','',form.sede)
+                    return this._carnetsService.getCarnetsFinalizados(0, 100, 'fecha', 'desc','',form.sede)
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -228,20 +228,20 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
     cambioPagina(evento): void {
         const form = this.selectedCarnetForm.getRawValue();
         if(this._sort.active) {
-            this._carnetsService.getCarnetsRecibidos(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value,form.sede).subscribe();
+            this._carnetsService.getCarnetsFinalizados(evento.pageIndex, evento.pageSize, this._sort.active, this._sort.direction, this.searchInputControl.value,form.sede).subscribe();
         }
         else {
-            this._carnetsService.getCarnetsRecibidos(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value,form.sede).subscribe();
+            this._carnetsService.getCarnetsFinalizados(evento.pageIndex, evento.pageSize, 'nro_tramite', 'asc', this.searchInputControl.value,form.sede).subscribe();
         }
     }
 
-    verCarnetsRecibidosSecretaria() {
+    verCarnetsFinalizadosSecretaria() {
 
         /* const data = this.selectedResolucionForm.getRawValue(); */
         const form = this.selectedCarnetForm.getRawValue();
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'carnets/recibidos?access='+ this._authService.accessToken+'&sede='+form.sede);
+        link.setAttribute('href', environment.baseUrl + 'carnets/finalizados?access='+ this._authService.accessToken+'&sede='+form.sede);
         /* link.setAttribute('href', environment.baseUrl + 'padron_sunedu/' + data.idResolucion); */
         document.body.appendChild(link);
         link.click();
@@ -288,7 +288,7 @@ export class CarnetsRecibidosListComponent implements OnInit, AfterViewInit, OnD
                 switchMap(() => {
                     this.isLoading = true;
                     const form = this.selectedCarnetForm.getRawValue();
-                    return this._carnetsService.getCarnetsRecibidos(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value,form.sede);
+                    return this._carnetsService.getCarnetsFinalizados(Number(this.pagination.page), Number(this.pagination.size), this._sort.active, this._sort.direction, this.searchInputControl.value,form.sede);
 
                 }),
                 map(() => {

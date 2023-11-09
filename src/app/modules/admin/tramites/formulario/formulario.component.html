@@ -368,7 +368,7 @@
                         </mat-card-content>
                         
                     </mat-card>
-                    <mat-card class="mt-6" *ngIf="data.idTipo_tramite_unidad==45 || data.idTipo_tramite_unidad==46" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
+                    <mat-card class="mt-6" *ngIf="(data.idTipo_tramite==7 || data.idTipo_tramite==8) && tramiteForm.get('idTipo_tramite_unidad').value" style="border-width: 0.5px;border-radius: 6px;border-color: #12084b;">
                         <mat-card-title><mat-label class="text-base">Datos de la resolución</mat-label></mat-card-title>
                         <div  class="grid grid-cols-6 gap-y-6 mb-6">
                             <mat-form-field
