@@ -637,21 +637,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Pendientes',
                 type : 'basic',
                 link : '/vouchers/pendientes',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.aprobados',
                 title: 'Aprobados',
                 type : 'basic',
                 link : '/vouchers/aprobados',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             },
             {
                 id   : 'vouchers.rechazados',
                 title: 'Rechazados',
                 type : 'basic',
                 link : '/vouchers/rechazados',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
             }
         ]
     },
@@ -710,7 +710,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Tesorería',
                 type : 'basic',
                 link : '/reportes/tesoreria/aprobados',
-                permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+                permissions: ['DIRECCIÓN DE TESORERÍA']
 
             }
             // ,
@@ -767,7 +767,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Cronogramas',
                         type : 'basic',
                         link : '/masters/carpeta/cronogramas',
-                        permissions: ['SECRETARIA(O) DE FACULTAD']
+                        permissions: ['SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE FACULTAD']
                     },
                     {
                         id   : 'masters.carpeta.resoluciones',
