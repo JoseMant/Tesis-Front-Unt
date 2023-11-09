@@ -713,6 +713,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
 
             }
+            // ,
+            // {
+            //     id   : 'reportes.tramites',
+            //     title: 'Tramites',
+            //     type : 'basic',
+            //     link : '/reportes/tramites/espera',
+            //     permissions: ['DIRECCIÓN DE TESORERÍA','SECRETARIA(O) DE ESCUELA', 'SECRETARIA(O) DE SEGUNDA ESPECIALIDAD']
+
+            // }
         ]
     },
     {
