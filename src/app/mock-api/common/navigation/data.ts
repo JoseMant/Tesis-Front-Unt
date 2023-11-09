@@ -463,6 +463,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 permissions: ['ADMINISTRADOR']
             },
             {
+                id   : 'duplicados_diplomas.revalidar',
+                title: 'Revalidados Secretaria',
+                type : 'basic',
+                link : '/duplicados_diplomas/secretaria/revalidar',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
                 id   : 'duplicados_diplomas.validar.ura',
                 title: 'Validados Ura',
                 type : 'basic',
