@@ -62,7 +62,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         message: '',
         title: '',
     };
-
+    user: any;
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: ReportePagination;
@@ -118,6 +118,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))
             .subscribe((user: User) => {
+                this.user=user;
                 if (user.idTipoUsuario == 5) {
                     this._reportesService.getDependenciaByDependenciaDetalle(user.idDependencia).subscribe((dependencia)=>{
 
@@ -318,6 +319,26 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
     }
 
     verExcelObservados(){
+        const form = this.selectedReporteForm.getRawValue();
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/certificados/observados/' + form.idDependencia+'/'+form.cronograma);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+
+    }
+    verExcelCarpetasAptas(){
+        const form = this.selectedReporteForm.getRawValue();
+        const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/carpetas/aptas/'+ form.idUnidad+'/'+form.idDependencia+'/'+form.idPrograma+'/'+form.idTipo_tramite_unidad+'/'+form.cronograma+'/'+this.user.idTipoUsuario);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }
+    verExcelGeneral(){
         const form = this.selectedReporteForm.getRawValue();
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
