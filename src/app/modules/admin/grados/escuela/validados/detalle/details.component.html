@@ -33,7 +33,7 @@
                     </div>
                     <!-- CONDICION -->
                     <div class="sm:col-span-2">
-                        <div class="text-secondary"><b>CONDICIÓN:</b> {{grado.condicion}}</div>
+                        <div class="text-secondary" [ngClass]="grado.condicion != 'REGULAR' ? 'text-red-500' : ''"><b>CONDICIÓN:</b> {{grado.condicion}}</div>
                       </div>
     
   

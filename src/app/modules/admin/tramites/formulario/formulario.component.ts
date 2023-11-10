@@ -491,14 +491,13 @@ export class TramiteListComponent implements OnInit, OnDestroy
     }
 
     selectedTipoTramiteUnidades(id): void{
-        if (id==15) {
+        if (id==15||id==16) {
             this.exoneracion=true;
         } else {
             this.exoneracion=false;
         }
         const idDependencia=this.tramiteForm.getRawValue().idDependencia;
         const tipo = this.tipoTramiteUnidades.find(element => element.idTipo_tramite_unidad === id);
-        console.log(tipo)
         if (id==34) {
             if(idDependencia==17) this.costo=624.20
             if(idDependencia==18) this.costo=450
