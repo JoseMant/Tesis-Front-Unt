@@ -170,6 +170,25 @@ export class DuplicadosDiplomaService
         );
     }
 
+    getDuplicadosRevalidados(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomasInterface[] }>
+    {
+        return this._httpClient.get<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomasInterface[] }>(environment.baseUrl + 'diplomas/duplicados/revalidar/', {
+            params: {
+                page: '' + page,
+                size: '' + size,
+                sort,
+                order,
+                search
+            }
+        }).pipe(
+            tap((response) => {
+            this._pagination.next(response.pagination);
+            this._tramitesDuplicados.next(response.data);
+            })
+        );
+    }
+
     getDuplicadosValidadosUra(page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', idTipo_tramite_unidad: number = 0, search: string = ''):
     Observable<{ pagination: DuplicadosDiplomasPagination; data: DuplicadosDiplomasInterface[] }>
     {
