@@ -87,21 +87,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Validación Resoluciones',
                 type : 'basic',
                 link : '/resoluciones/validacion',
-                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
+                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS','SUBUNIDAD DE MATRÍCULAS']
             },
             {
                 id   : 'resoluciones.observados',
                 title: 'Resoluciones Observadas',
                 type : 'basic',
                 link : '/resoluciones/observados',
-                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS']
+                permissions: ['JEFE DE SUBUNIDAD DE MATRÍCULAS','SUBUNIDAD DE MATRÍCULAS']
             },
             {
                 id   : 'resoluciones.finalizados',
                 title: 'Resoluciones Finalizados',
                 type : 'basic',
                 link : '/resoluciones/finalizados',
-                permissions: ['SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD','JEFE DE SUBUNIDAD DE MATRÍCULAS']
+                permissions: ['SECRETARIA(O) DE ESCUELA','SECRETARIA(O) DE SEGUNDA ESPECIALIDAD','JEFE DE SUBUNIDAD DE MATRÍCULAS','SUBUNIDAD DE MATRÍCULAS']
             }
         ]
     },
