@@ -22,7 +22,7 @@ export class OficioResolucionesDialogComponent implements OnInit
     @ViewChild('selectedOficioNgForm') selectedOficioNgForm: NgForm;
     @ViewChild('resolucionesTable', {read: MatSort}) resolucionesTableMatSort: MatSort;
     resolucionesDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    resolucionesTableColumns: string[] = ['checkbox', 'nro_resolucion', 'fecha'];
+    resolucionesTableColumns: string[] = ['checkbox', 'nro_resolucion', 'fecha','nombre'];
     composeForm: FormGroup;
     resoluciones: Resolucion[];
     selectedResoluciones = [];
@@ -82,9 +82,7 @@ export class OficioResolucionesDialogComponent implements OnInit
                 this.resolucionesDataSource.data = resoluciones;
                 if (this.data.resoluciones.length) {
                     this.data.resoluciones.forEach((element) => {
-                        console.log(element)
                         const resolucion = resoluciones.find(item => item.idResolucion == element.idResolucion)
-                        console.log(resolucion)
                         this.addResolucionToForm(resolucion)
                     });
                 }
@@ -132,7 +130,6 @@ export class OficioResolucionesDialogComponent implements OnInit
         this.selectedResoluciones.splice(this.selectedResoluciones.findIndex(item => item === tramite.idResolucion), 1);
         // Update the selected product form
         this.selectedOficioForm.get('resoluciones').patchValue(this.selectedResoluciones);
-        console.log( this.selectedOficioForm.getRawValue())
 
         // Mark for check
         this._changeDetectorRef.markForCheck();

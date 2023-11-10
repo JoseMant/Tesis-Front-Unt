@@ -151,6 +151,23 @@
                                         </td>
                                     </ng-container>
 
+                                    <!-- Tipo de resolución -->
+                                    <ng-container matColumnDef="tipo_resolucion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Tipo de Resolución
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6">
+                                                {{resolucion.nombre}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+                                    
                                     <tr
                                         mat-header-row
                                         *matHeaderRowDef="resolucionesTableColumns"></tr>
@@ -297,13 +314,13 @@
                                         </td>
                                     </ng-container>
 
-                                    <!-- Nro. Oficio -->
+                                    <!-- Resolución. Oficio -->
                                     <ng-container matColumnDef="nro_resolucion">
                                         <th
                                             mat-header-cell
                                             mat-sort-header
                                             *matHeaderCellDef>
-                                            Nro. Oficio
+                                            Nro. Resolución
                                         </th>
                                         <td
                                             mat-cell
@@ -314,19 +331,36 @@
                                         </td>
                                     </ng-container>
 
-                                    <!-- Fecha de Oficio -->
+                                    <!-- Resolución de Oficio -->
                                     <ng-container matColumnDef="fecha">
                                         <th
                                             mat-header-cell
                                             mat-sort-header
                                             *matHeaderCellDef>
-                                            Fecha de Oficio
+                                            Fecha de Resolución
                                         </th>
                                         <td
                                             mat-cell
                                             *matCellDef="let resolucion">
                                             <span class="pr-6">
                                                 {{resolucion.fecha | date:'MMM dd, y'}}
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Tipo de resolución -->
+                                    <ng-container matColumnDef="tipo_resolucion">
+                                        <th
+                                            mat-header-cell
+                                            mat-sort-header
+                                            *matHeaderCellDef>
+                                            Tipo de Resolución
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let resolucion">
+                                            <span class="pr-6">
+                                                {{resolucion.nombre}}
                                             </span>
                                         </td>
                                     </ng-container>

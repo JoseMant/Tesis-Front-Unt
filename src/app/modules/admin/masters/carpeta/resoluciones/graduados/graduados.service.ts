@@ -134,6 +134,7 @@ export class ResolucionesService
                         nro_resolucion: '',
                         fecha: '',
                         archivo: '',
+                        nombre: '',
                         estado: true,
                         cronogramas: []
                     };

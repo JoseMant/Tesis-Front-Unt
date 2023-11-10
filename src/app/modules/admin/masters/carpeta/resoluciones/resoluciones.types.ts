@@ -4,6 +4,7 @@ export interface Resolucion
     background?: string | null;
     idResolucion: number;
     nro_resolucion: string;
+    nombre: string;
     fecha:string;
     archivo:any;
     archivoPdf?:any;
