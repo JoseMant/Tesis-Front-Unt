@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <ng-container *ngFor="let requisito of resolucion.requisitos; let id = index">
-                        <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b" *ngIf="requisito.responsable == user.idTipoUsuario || user.idTipoUsuario==1 || user.idTipoUsuario==22">
+                        <div class="grid grid-cols-12 gap-y-6 items-center py-2 px-6 md:px-8 border-b">
                                 <div class="col-span-1">{{id+1}}</div>
                                 <div class="col-span-6 ">{{requisito.nombre}}</div>
                                 <div class="col-span-5 text-center">
