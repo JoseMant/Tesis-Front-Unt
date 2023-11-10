@@ -47,6 +47,10 @@ import { DuplicadoUraDetalleComponent } from './ura/validados/details/details.co
 import { DuplicadosDatosDiplomaComponent } from './ura/diplomas/diplomas.component';
 import { DuplicadosDatosDiplomaListComponent } from './ura/diplomas/list/list.component';
 import { DuplicadoDatosDiplomaDetalleComponent } from './ura/diplomas/details/details.component';
+// ------------------------------------------------------------------------------------------
+import { DuplicadosRevalidadosComponent } from './secretaria/revalidados/revalidados.component';
+import { DuplicadosRevalidadosListComponent } from './secretaria/revalidados/list/list.component';
+import { DuplicadoRevalidadosDetalleComponent } from './secretaria/revalidados/details/details.component';
 
 
 @NgModule({
@@ -66,6 +70,10 @@ import { DuplicadoDatosDiplomaDetalleComponent } from './ura/diplomas/details/de
         DuplicadosDatosDiplomaComponent,
         DuplicadosDatosDiplomaListComponent,
         DuplicadoDatosDiplomaDetalleComponent,
+
+        DuplicadosRevalidadosComponent,
+        DuplicadosRevalidadosListComponent,
+        DuplicadoRevalidadosDetalleComponent,
     ],
     imports     : [
         RouterModule.forChild(duplicadosRoutes),

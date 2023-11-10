@@ -333,7 +333,7 @@ export class ReporteCarpetasStatusTramitesListComponent implements OnInit, After
         const form = this.selectedReporteForm.getRawValue();
         const link = document.createElement('a');
         link.setAttribute('target', '_blank');
-        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/carpetas/aptas/'+ form.idUnidad+'/'+form.idDependencia+'/'+form.idPrograma+'/'+form.idTipo_tramite_unidad+'/'+form.cronograma+'/'+this.user.idTipoUsuario);
+        link.setAttribute('href', environment.baseUrl + 'reporte/status_tramites/carpetas/aptas/'+form.idDependencia+'/'+form.idTipo_tramite_unidad+'/'+form.cronograma);
         document.body.appendChild(link);
         link.click();
         link.remove();

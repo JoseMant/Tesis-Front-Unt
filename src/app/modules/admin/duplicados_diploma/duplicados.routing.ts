@@ -21,7 +21,11 @@ import { DuplicadosDatosDiplomaResolver, DuplicadoDatosDiplomaResolver, Programa
 import { DuplicadosDatosDiplomaListComponent } from './ura/diplomas/list/list.component';
 import { DuplicadoDatosDiplomaDetalleComponent } from './ura/diplomas/details/details.component';
 import { UniversidadesResolver } from 'app/shared/universidades/universidades.resolvers';
-
+//--------------------------
+import { DuplicadosRevalidadosComponent } from './secretaria/revalidados/revalidados.component';
+import { DuplicadosRevalidadosResolver, DuplicadoRevalidadoResolver } from './secretaria/revalidados/revalidados.resolvers';
+import { DuplicadosRevalidadosListComponent } from './secretaria/revalidados/list/list.component';
+import { DuplicadoRevalidadosDetalleComponent } from './secretaria/revalidados/details/details.component';
 
 export const duplicadosRoutes: Route[] = [
     {
@@ -110,6 +114,28 @@ export const duplicadosRoutes: Route[] = [
                     duplicado      : DuplicadoDatosDiplomaResolver,
                     programas_estudios: ProgramasEstudiosResolver,
                     universidades: UniversidadesResolver
+                  },
+                
+            }          
+           
+        ]
+    },
+    {
+        path     : 'secretaria/revalidar',
+        component: DuplicadosRevalidadosComponent,
+        resolve  : {
+            tramites : DuplicadosRevalidadosResolver
+        },
+        children : [
+            {
+                path     : '',
+                component: DuplicadosRevalidadosListComponent,
+            },
+            {
+                path         : ':idTramite',
+                component    : DuplicadoRevalidadosDetalleComponent,
+                resolve      : {
+                    duplicado      : DuplicadoRevalidadoResolver,
                   },
                 
             }          

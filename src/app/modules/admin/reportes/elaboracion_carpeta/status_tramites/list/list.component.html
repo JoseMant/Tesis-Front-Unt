@@ -89,18 +89,6 @@
                         </ng-container>
                     </mat-select>
                 </mat-form-field>
-                <!-- Search -->
-                <!-- <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-50">
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                    <input
-                        matInput
-                        [formControl]="searchInputControl"
-                        [autocomplete]="'off'"
-                        [placeholder]="'Buscar reportes'">
-                </mat-form-field> -->
                 </form>
 
                 <ng-container *ngxPermissionsOnly="['ADMINISTRADOR', 'JEFE DE SUBUNIDAD DE NOTAS Y CERTIFICADOS', 'SUBUNIDAD DE GRADOS Y TÍTULOS']">
@@ -124,22 +112,6 @@
                         </button>
                     </ng-container>
                 </ng-container>
-
-                <!-- <button
-                    class="ml-4"
-                    mat-flat-button
-                    [color]="'primary'"
-                    [matMenuTriggerFor]="reportes">
-                    <mat-icon
-                        [svgIcon]="'heroicons_outline:document-text'">
-                    </mat-icon>
-                    <span class="ml-2 mr-1">
-                        Reportes
-                    </span>
-                    <mat-icon
-                        [svgIcon]="'heroicons_outline:chevron-down'">
-                    </mat-icon>
-                </button> -->
 
                 <mat-menu
                     [xPosition]="'before'"
@@ -167,7 +139,7 @@
                         >
                         <mat-icon [svgIcon]="'heroicons_outline:document-text'" color="accent"></mat-icon>
                         <span class="ml-2">Carpetas observadas</span>
-                    </button>
+                    </button>    
                     <button
                         mat-menu-item
                         (click)="verExcelCarpetasAptas()"
