@@ -39,6 +39,9 @@ import { ReporteCarpetasAptasTramitesListComponent } from 'app/modules/admin/rep
 import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.component';
 import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
 
+import { ReporteTramiteEsperaComponent } from 'app/modules/admin/reportes/tramites/espera/espera.component';
+import { ReportesTramitesEsperaListComponent } from 'app/modules/admin/reportes/tramites/espera/list/list.component';
+
 import { ReporteRoutes } from './reportes.routing';
 
 @NgModule({
@@ -54,6 +57,10 @@ import { ReporteRoutes } from './reportes.routing';
         // TESORERÍA
         ReportesTesoreriaAprobadosComponent,
         ReportesTesoreriaAprobadosListComponent,
+
+        //TRAMITES
+        ReporteTramiteEsperaComponent,
+        ReportesTramitesEsperaListComponent,
 
     ],
     imports     : [

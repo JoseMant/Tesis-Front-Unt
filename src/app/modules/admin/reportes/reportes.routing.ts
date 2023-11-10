@@ -16,6 +16,12 @@ import { ReportesTesoreriaAprobadosComponent } from 'app/modules/admin/reportes/
 import { ReportesTesoreriaAprobadosListComponent } from 'app/modules/admin/reportes/tesoreria/aprobados/list/list.component';
 import { ReportesTesoreriaAprobadosResolver } from 'app/modules/admin/reportes/tesoreria/aprobados/aprobados.resolvers';
 
+//--------------
+
+import { ReporteTramiteEsperaComponent } from 'app/modules/admin/reportes/tramites/espera/espera.component';
+import { ReportesTramitesEsperaListComponent } from 'app/modules/admin/reportes/tramites/espera/list/list.component';
+import { ReportesTramitesEsperaResolver } from 'app/modules/admin/reportes/tramites/espera/espera.resolvers';
+
 export const ReporteRoutes: Route[] =[
     {
       path     : 'elaboracion_carpeta',
@@ -65,6 +71,19 @@ export const ReporteRoutes: Route[] =[
         {
           path     : '',
           component: ReportesTesoreriaAprobadosListComponent,
+        }
+      ]
+    },
+    {
+      path     : 'tramites/espera',
+      component: ReporteTramiteEsperaComponent,
+      resolve  : {
+        reportes  : ReportesTramitesEsperaResolver,
+      },
+      children : [
+        {
+          path     : '',
+          component: ReportesTramitesEsperaListComponent,
         }
       ]
     },

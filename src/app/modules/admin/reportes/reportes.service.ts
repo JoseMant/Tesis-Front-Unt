@@ -243,6 +243,26 @@ export class ReportesService
       );
     }
 
+    getReporteTramitesEspera(idPrograma: number = 0,page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
+    Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
+    {
+      return this._httpClient.get<{ pagination: ReportePagination; data: ReporteInterface[] }>(environment.baseUrl + 'reporte/tramites/espera', {
+        params: {
+            idPrograma,
+            page: '' + page,
+            size: '' + size,
+            sort,
+            order,
+            search
+        }
+    }).pipe(
+        tap((response) => {
+          this._pagination.next(response.pagination);
+          this._reportes.next(response.data);
+        })
+      );
+    }
+    
     getReporteCarpetasAptas(idUnidad: number = 0, idDependencia: number = 0, idPrograma: number = 0, idTipo_tramite_unidad: number = 0, cronograma: number = 0, 
         page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: ReportePagination; data: ReporteInterface[] }>
