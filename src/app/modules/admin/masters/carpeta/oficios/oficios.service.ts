@@ -235,7 +235,7 @@ export class OficiosService
 
     getResoluciones(oficio: number): Observable<Resolucion[]>
     {
-        return this._httpClient.get(environment.baseUrl + 'oficio/resoluciones/graduados/' + oficio).pipe(
+        return this._httpClient.get(environment.baseUrl + 'oficio/resoluciones/' + oficio).pipe(
             tap((response: Resolucion[]) => {
                 console.log(response)
                 this._resoluciones.next(response);

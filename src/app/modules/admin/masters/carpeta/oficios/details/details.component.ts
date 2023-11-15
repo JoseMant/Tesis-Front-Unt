@@ -46,9 +46,9 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
     oficios: Oficio[];
     resoluciones: any;
     resolucionesDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    resolucionesTableColumns: string[] = ['ID', 'nro_resolucion', 'fecha'];
+    resolucionesTableColumns: string[] = ['ID', 'nro_resolucion', 'fecha','tipo_resolucion'];
     recentResolucionesDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    recentResolucionesTableColumns: string[] = ['ID', 'nro_resolucion', 'fecha'];
+    recentResolucionesTableColumns: string[] = ['ID', 'nro_resolucion', 'fecha','tipo_resolucion'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -179,8 +179,6 @@ export class OficiosDetailsComponent implements OnInit, OnDestroy
                 });
                 this.oficioForm.get('resoluciones').patchValue(resolucionesSeleccionados);
                 this.recentResolucionesDataSource.data = resolucionesSeleccionados;
-                console.log(this.recentResolucionesDataSource);
-                
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             } else {
