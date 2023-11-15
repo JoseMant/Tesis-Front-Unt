@@ -453,23 +453,53 @@ export class TramiteListComponent implements OnInit, OnDestroy
             this.subdependencias = first.subdependencias;
 
             // Reinicio de cronogramas para cuando se cambie de dependencia
-            this._tramiteService.getCronogramasByTipoTramiteUnidad(this.data.idTipo_tramite_unidad, this.data.idDependencia).subscribe((response)=>{
-                this.cronogramas = response;
-                
-                this._changeDetectorRef.markForCheck();
-            });
+            this._tramiteService.getCronogramasByTipoTramiteUnidad(this.data.idTipo_tramite_unidad, this.data.idDependencia)
+            .subscribe(
+                (response)=>{
+                    this.cronogramas = response;
+                    
+                    this._changeDetectorRef.markForCheck();
+                },
+                (response) => {
+        
+                    // Re-enable the form
+                    this.tramiteForm.enable();
+        
+                    this.alert = {
+                        type   : 'warn',
+                        message: response.error.message,
+                        title: 'Error'
+                    };
+                    this.openSnack();
+                }
+            );
         }
 
         // Reinicio de cronogramas para cuando se cambie de dependencia
-        this._tramiteService.getCronogramasByTipoTramiteUnidad(this.data.idTipo_tramite_unidad, this.data.idDependencia).subscribe((response)=>{
-            this.cronogramas = response;
-            
-            this._changeDetectorRef.markForCheck();
-        });
+        this._tramiteService.getCronogramasByTipoTramiteUnidad(this.data.idTipo_tramite_unidad, this.data.idDependencia)
+        .subscribe(
+            (response)=>{
+                this.cronogramas = response;
+                
+                this._changeDetectorRef.markForCheck();
+            },
+            (response) => {
+    
+                // Re-enable the form
+                this.tramiteForm.enable();
+    
+                this.alert = {
+                    type   : 'warn',
+                    message: response.error.message,
+                    title: 'Error'
+                };
+                this.openSnack();
+            }
+        );
     }
 
     selectedEscuela(id): void {
-        console.log(this.subdependencias);
+        // console.log(this.subdependencias);
         const programa = this.subdependencias.find(programa => programa.idPrograma == id);
         this.data.idSubdependencia = id;
         this.data.nro_matricula = programa.nro_matricula;
@@ -530,11 +560,26 @@ export class TramiteListComponent implements OnInit, OnDestroy
         this.tramiteForm.controls['nro_operacion'].updateValueAndValidity();
         this.tramiteForm.controls['fecha_operacion'].updateValueAndValidity();
         
-        this._tramiteService.getCronogramasByTipoTramiteUnidad(id, this.data.idDependencia).subscribe((response)=>{
-            this.cronogramas = response;
-            
-            this._changeDetectorRef.markForCheck();
-        });
+        this._tramiteService.getCronogramasByTipoTramiteUnidad(id, this.data.idDependencia)
+        .subscribe(
+            (response)=>{
+                this.cronogramas = response;
+                
+                this._changeDetectorRef.markForCheck();
+            },
+            (response) => {
+    
+                // Re-enable the form
+                this.tramiteForm.enable();
+    
+                this.alert = {
+                    type   : 'warn',
+                    message: response.error.message,
+                    title: 'Error'
+                };
+                this.openSnack();
+            }
+        );
 
         this._tramiteService.getRequisitos(id).subscribe((resp)=>{
           this.requisitos = resp.requisitos;
