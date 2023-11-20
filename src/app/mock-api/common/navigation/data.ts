@@ -534,7 +534,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Finalizadas',
                 type : 'basic',
                 link : '/carpetas/finalizadas',
-                permissions: ['ADMINISTRADOR']
+                permissions: ['ADMINISTRADOR', 'SUBUNIDAD DE GRADOS Y TÍTULOS']
             }
         ]
     },
