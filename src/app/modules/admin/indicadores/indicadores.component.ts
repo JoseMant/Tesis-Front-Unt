@@ -14,6 +14,11 @@ export class IndicadorComponent implements OnInit, OnDestroy
 {
     chartCertificadosInd1: ApexOptions = {};
     chartCertificadosInd2: ApexOptions = {};
+    chartGradosInd1_1: ApexOptions = {};
+    chartGradosInd1_2: ApexOptions = {};
+    chartGradosInd1_3: ApexOptions = {};
+    chartGithubIssues: ApexOptions = {};
+    chartTaskDistribution: ApexOptions = {};
     chartBudgetDistribution: ApexOptions = {};
     chartWeeklyExpenses: ApexOptions = {};
     chartMonthlyExpenses: ApexOptions = {};
@@ -165,6 +170,82 @@ export class IndicadorComponent implements OnInit, OnDestroy
                 }
             },
             series     : this.data.certificadosIndicador1.series,
+            states     : {
+                hover: {
+                    filter: {
+                        type : 'darken',
+                        value: 0.75
+                    }
+                }
+            },
+            stroke     : {
+                width: [3, 0]
+            },
+            tooltip    : {
+                followCursor: true,
+                theme       : 'dark'
+            },
+            xaxis      : {
+                axisBorder: {
+                    show: false
+                },
+                axisTicks : {
+                    color: 'var(--fuse-border)'
+                },
+                labels    : {
+                    style: {
+                        colors: 'var(--fuse-text-secondary)'
+                    }
+                },
+                tooltip   : {
+                    enabled: false
+                }
+            },
+            yaxis      : {
+                labels: {
+                    offsetX: -16,
+                    style  : {
+                        colors: 'var(--fuse-text-secondary)'
+                    }
+                }
+            }
+        };
+
+        // Grados - Indicador 1
+        this.chartGradosInd1_1 = {
+            chart      : {
+                fontFamily: 'inherit',
+                foreColor : 'inherit',
+                height    : '100%',
+                type      : 'line',
+                toolbar   : {
+                    show: false
+                },
+                zoom      : {
+                    enabled: false
+                }
+            },
+            colors     : ['#9d174d', '#075985'],
+            dataLabels : {
+                enabled        : true,
+                enabledOnSeries: [0],
+                background     : {
+                    borderWidth: 0
+                }
+            },
+            grid       : {
+                borderColor: 'var(--fuse-border)'
+            },
+            labels     : this.data.gradosIndicador1.labels,
+            legend     : {
+                show: false
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%'
+                }
+            },
+            series     : this.data.gradosIndicador1.series,
             states     : {
                 hover: {
                     filter: {

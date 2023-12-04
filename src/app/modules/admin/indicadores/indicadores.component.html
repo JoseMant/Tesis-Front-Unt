@@ -58,14 +58,14 @@
     <!-- Main -->
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
         <div class="w-full max-w-screen-xl mx-auto">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+            <div *ngIf="selectedIndicador=='Certificados'" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <!-- Indicador 1 -->
-                <div *ngIf="selectedIndicador=='Certificados'" class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Certificados digitales emitidos dentro del plazo. Plazo máximo: 5 días hábiles</div>
                         <div class="mt-3 sm:mt-0 sm:ml-2">
                             <mat-button-toggle-group
-                                value="trimestre-1"
+                                value="trimestre-4"
                                 #certificadosInd1RangeSelector="matButtonToggleGroup">
                                 <mat-button-toggle value="trimestre-1">1er Trimestre</mat-button-toggle>
                                 <mat-button-toggle value="trimestre-2">2do Trimestre</mat-button-toggle>
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <!-- Indicador 2 -->
-                <div *ngIf="selectedIndicador=='Certificados' && false" class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div *ngIf="false" class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Certificados físicos emitidos después del plazo. Plazo máximo: 15 días hábiles</div>
                         <div class="mt-3 sm:mt-0 sm:ml-2">
@@ -234,6 +234,66 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="selectedIndicador=='Grados'" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <!-- Indicador 1 -->
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Cantidad de estudiantes que terminaron los estudios de pregrado por promoción o cohorte.</div>
+                        <div class="mt-3 sm:mt-0 sm:ml-2">
+                            <mat-button-toggle-group
+                                value="2018"
+                                #gradosInd1RangeSelector="matButtonToggleGroup">
+                                <mat-button-toggle value="2016" >Ingresantes 2016</mat-button-toggle>
+                                <mat-button-toggle value="2017" >Ingresantes 2017</mat-button-toggle>
+                                <mat-button-toggle value="2018" >Ingresantes 2018</mat-button-toggle>
+                                <mat-button-toggle value="2018" >Ingresantes 2019</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
+                    <div class="flex-auto grid grid-cols-1 gap-4 mt-6">
+                        <div class="flex flex-col flex-auto">
+                            <div class="font-medium text-secondary">Ingresantes vs Egresados</div>
+                            <div class="flex flex-col flex-auto">
+                                <apx-chart
+                                    class="flex-auto w-full h-80"
+                                    [chart]="chartGradosInd1_1.chart"
+                                    [colors]="chartGradosInd1_1.colors"
+                                    [dataLabels]="chartGradosInd1_1.dataLabels"
+                                    [grid]="chartGradosInd1_1.grid"
+                                    [labels]="chartGradosInd1_1.labels"
+                                    [legend]="chartGradosInd1_1.legend"
+                                    [plotOptions]="chartGradosInd1_1.plotOptions"
+                                    [series]="chartGradosInd1_1.series[gradosInd1RangeSelector.value]"
+                                    [states]="chartGradosInd1_1.states"
+                                    [stroke]="chartGradosInd1_1.stroke"
+                                    [tooltip]="chartGradosInd1_1.tooltip"
+                                    [xaxis]="chartGradosInd1_1.xaxis"
+                                    [yaxis]="chartGradosInd1_1.yaxis"></apx-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 border-t divide-x -m-6 mt-4 bg-gray-50 dark:bg-transparent">
+                        <div class="flex flex-col items-center justify-center p-6 sm:p-8">
+                            <div class="text-5xl font-semibold leading-none tracking-tighter">
+                                {{data.gradosIndicador1.overview[gradosInd1RangeSelector.value].ingresantes}}
+                            </div>
+                            <div class="mt-1 text-center text-secondary">Ingresantes</div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 sm:p-8">
+                            <div class="text-5xl font-semibold leading-none tracking-tighter">
+                                {{data.gradosIndicador1.overview[gradosInd1RangeSelector.value].egresados}}
+                            </div>
+                            <div class="mt-1 text-center text-secondary">Egresados</div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 sm:p-8">
+                            <div class="text-5xl font-semibold leading-none tracking-tighter">
+                                {{data.gradosIndicador1.overview[gradosInd1RangeSelector.value].indicador}}%
+                            </div>
+                            <div class="mt-1 text-center text-secondary">Indicador</div>
+                        </div>
+                    </div>
+                </div>
+            </div>     
         </div>
     </div>
 
