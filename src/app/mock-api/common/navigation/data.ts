@@ -442,49 +442,49 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     },
-    // {
-    //     id   : 'duplicados_diplomas',
-    //     title: 'Diplomas duplicados',
-    //     type : 'collapsable',
-    //     icon : 'heroicons_outline:document-text',
-    //     children: [
-    //         {
-    //             id   : 'duplicados_diplomas.validar',
-    //             title: 'Validados Secretaria',
-    //             type : 'basic',
-    //             link : '/duplicados_diplomas/secretaria/validar',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //         {
-    //             id   : 'duplicados_diplomas.aprobar',
-    //             title: 'Aprobados Secretaria',
-    //             type : 'basic',
-    //             link : '/duplicados_diplomas/secretaria/aprobar',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //         {
-    //             id   : 'duplicados_diplomas.revalidar',
-    //             title: 'Revalidados Secretaria',
-    //             type : 'basic',
-    //             link : '/duplicados_diplomas/secretaria/revalidar',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //         {
-    //             id   : 'duplicados_diplomas.validar.ura',
-    //             title: 'Validados Ura',
-    //             type : 'basic',
-    //             link : '/duplicados_diplomas/ura/validar',
-    //             permissions: ['ADMINISTRADOR']
-    //         },
-    //         {
-    //             id   : 'duplicados_diplomas.ura.datos.diploma',
-    //             title: 'Datos Diplomas en Ura',
-    //             type : 'basic',
-    //             link : '/duplicados_diplomas/ura/datos/diploma',
-    //             permissions: ['ADMINISTRADOR']
-    //         }
-    //     ]
-    // },
+    {
+        id   : 'duplicados_diplomas',
+        title: 'Diplomas duplicados',
+        type : 'collapsable',
+        icon : 'heroicons_outline:document-text',
+        children: [
+            {
+                id   : 'duplicados_diplomas.validar',
+                title: 'Validados Secretaria',
+                type : 'basic',
+                link : '/duplicados_diplomas/secretaria/validar',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'duplicados_diplomas.aprobar',
+                title: 'Aprobados Secretaria',
+                type : 'basic',
+                link : '/duplicados_diplomas/secretaria/aprobar',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'duplicados_diplomas.revalidar',
+                title: 'Revalidados Secretaria',
+                type : 'basic',
+                link : '/duplicados_diplomas/secretaria/revalidar',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'duplicados_diplomas.validar.ura',
+                title: 'Validados Ura',
+                type : 'basic',
+                link : '/duplicados_diplomas/ura/validar',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'duplicados_diplomas.ura.datos.diploma',
+                title: 'Datos Diplomas en Ura',
+                type : 'basic',
+                link : '/duplicados_diplomas/ura/datos/diploma',
+                permissions: ['ADMINISTRADOR']
+            }
+        ]
+    },
     {
         id   : 'carpetas',
         title: 'Carpetas',
@@ -499,27 +499,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/carpetas/secretaria/validados',
                 permissions: ['SECRETARÍA GENERAL', 'SECRETARIA DE SECRETARÍA GENERAL']
             },
-            // {
-            //     id   : 'carpetas.firmas.decano',
-            //     title: 'Firma Decano',
-            //     type : 'basic',
-            //     link : '/carpetas/firmas/decano',
-            //     permissions: ['ADMINISTRADOR']
-            // },
-            // {
-            //     id   : 'carpetas.firmas.rector',
-            //     title: 'Firma Rector',
-            //     type : 'basic',
-            //     link : '/carpetas/firmas/rector',
-            //     permissions: ['ADMINISTRADOR']
-            // },
-            // {
-            //     id   : 'carpetas.firmas.secretaria_general',
-            //     title: 'Firma Secretaria General',
-            //     type : 'basic',
-            //     link : '/carpetas/firmas/secretaria_general',
-            //     permissions: ['ADMINISTRADOR']
-            // },
+            {
+                id   : 'carpetas.firmas.decano',
+                title: 'Firma Decano',
+                type : 'basic',
+                link : '/carpetas/firmas/decano',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'carpetas.firmas.rector',
+                title: 'Firma Rector',
+                type : 'basic',
+                link : '/carpetas/firmas/rector',
+                permissions: ['ADMINISTRADOR']
+            },
+            {
+                id   : 'carpetas.firmas.secretaria_general',
+                title: 'Firma Secretaria General',
+                type : 'basic',
+                link : '/carpetas/firmas/secretaria_general',
+                permissions: ['ADMINISTRADOR']
+            },
             {
                 // Se muestran al usuario para ser asignados después de validación en tesorería
                 id   : 'carpetas.ura.pendientes',

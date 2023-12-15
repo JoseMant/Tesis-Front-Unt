@@ -164,7 +164,7 @@ export class CarpetasService
     getCarpetasFirmaDecano(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
     {
-        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/firma/decano/' + resolucion, {
+        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'carpetas/firma/decano/' + resolucion, {
             params: {
                 page: '' + page,
                 size: '' + size,
@@ -184,7 +184,7 @@ export class CarpetasService
     getCarpetasFirmasRector(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
     {
-        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/firma/rector/' + resolucion, {
+        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'carpetas/firma/rector/' + resolucion, {
             params: {
                 page: '' + page,
                 size: '' + size,
@@ -204,7 +204,7 @@ export class CarpetasService
     getCarpetasFirmasSecretaria(resolucion: number, page: number = 0, size: number = 100, sort: string = 'fecha', order: 'asc' | 'desc' | '' = 'desc', search: string = ''):
     Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
     {
-        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/firma/secretaria/' + resolucion, {
+        return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'carpetas/firma/secretaria/' + resolucion, {
             params: {
                 page: '' + page,
                 size: '' + size,
@@ -224,7 +224,7 @@ export class CarpetasService
     getCarpetasPendientesImpresion(resolucion: number, page: number = 0, size: number = 100, sort: string = 'tramite', order: 'asc' | 'desc' | '' = 'asc', tramite: number = 0, search: string = ''):
     Observable<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>
     {
-      return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'grados/pendientes/impresion/' + resolucion, {
+      return this._httpClient.get<{ pagination: CarpetasPagination; data: CarpetaInterface[]; resolucion: Resolucion }>(environment.baseUrl + 'carpetas/pendientes/impresion/' + resolucion, {
         params: {
             page: '' + page,
             size: '' + size,
@@ -312,7 +312,7 @@ export class CarpetasService
     {
         return this.carpetas$.pipe(
             take(1),
-            switchMap(carpetas => this._httpClient.put<any[]>(environment.baseUrl + 'grados/registrar/libro', {"idResolucion":resolucion}).pipe(
+            switchMap(carpetas => this._httpClient.put<any[]>(environment.baseUrl + 'registrar/libro', {"idResolucion":resolucion}).pipe(
                 map((updatedGrados) => {
                     console.log(updatedGrados);
                     // debugger;
